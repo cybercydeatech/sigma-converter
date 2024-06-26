@@ -1,0 +1,26 @@
+author: Nasreddine Bencherchali (Nextron Systems)
+date: 2023/06/16
+description: Detects the creation of a new named pipe using the "mkfifo" utility in
+  a potentially suspicious location
+detection:
+  condition: selection
+  selection:
+    CommandLine|contains: ' /tmp/'
+    Image|endswith: /mkfifo
+falsepositives:
+- Unknown
+id: 999c3b12-0a8c-40b6-8e13-dd7d62b75c7a
+level: medium
+logsource:
+  category: process_creation
+  product: linux
+references:
+- https://dev.to/0xbf/use-mkfifo-to-create-named-pipe-linux-tips-5bbk
+- https://www.mandiant.com/resources/blog/barracuda-esg-exploited-globally
+related:
+- id: 9d779ce8-5256-4b13-8b6f-b91c602b43f4
+  type: derived
+status: test
+tags:
+- attack.execution
+title: Potentially Suspicious Named Pipe Created Via Mkfifo

@@ -1,0 +1,30 @@
+author: frack113
+date: 2022/05/02
+description: 'Detects the execution of the "jsc.exe" (JScript Compiler).
+
+  Attacker might abuse this in order to compile JScript files on the fly and bypassing
+  application whitelisting.
+
+  '
+detection:
+  condition: selection
+  selection:
+  - Image|endswith: \jsc.exe
+  - OriginalFileName: jsc.exe
+falsepositives:
+- Legitimate use to compile JScript by developers.
+id: 52788a70-f1da-40dd-8fbd-73b5865d6568
+level: low
+logsource:
+  category: process_creation
+  product: windows
+modified: 2024/04/24
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Jsc/
+- https://www.phpied.com/make-your-javascript-a-windows-exe/
+- https://twitter.com/DissectMalware/status/998797808907046913
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1127
+title: JScript Compiler Execution

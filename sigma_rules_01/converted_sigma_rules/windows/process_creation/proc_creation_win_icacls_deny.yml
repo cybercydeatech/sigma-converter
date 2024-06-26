@@ -1,0 +1,28 @@
+author: frack113
+date: 2022/07/18
+description: Detect use of icacls to deny access for everyone in Users folder sometimes
+  used to hide malicious files
+detection:
+  condition: all of selection_*
+  selection_cmd:
+    CommandLine|contains|all:
+    - /deny
+    - '*S-1-1-0:'
+  selection_icacls:
+  - OriginalFileName: iCACLS.EXE
+  - Image|endswith: \icacls.exe
+falsepositives:
+- Unknown
+id: 4ae81040-fc1c-4249-bfa3-938d260214d9
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2024/04/29
+references:
+- https://app.any.run/tasks/1df999e6-1cb8-45e3-8b61-499d1b7d5a9b/
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1564.001
+title: Use Icacls to Hide File to Everyone

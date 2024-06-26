@@ -1,0 +1,67 @@
+author: Florian Roth (Nextron Systems), Arnim Rupp
+date: 2021/08/16
+description: Detects a highly relevant Antivirus alert that reports a hack tool or
+  other attack tool
+detection:
+  condition: selection
+  selection:
+  - Signature|startswith:
+    - HTOOL
+    - HKTL
+    - SecurityTool
+    - Adfind
+    - ATK/
+    - Exploit.Script.CVE
+    - PWS.
+    - PWSX
+  - Signature|contains:
+    - Hacktool
+    - ATK/
+    - Potato
+    - Rozena
+    - Sbelt
+    - Seatbelt
+    - SecurityTool
+    - SharpDump
+    - Sliver
+    - Splinter
+    - Swrort
+    - Impacket
+    - Koadic
+    - Lazagne
+    - Metasploit
+    - Meterpreter
+    - MeteTool
+    - Mimikatz
+    - mikatz
+    - Mpreter
+    - Nighthawk
+    - PentestPowerShell
+    - PowerSploit
+    - PowerSSH
+    - PshlSpy
+    - PSWTool
+    - PWCrack
+    - Brutel
+    - BruteR
+    - Cobalt
+    - COBEACON
+    - Cometer
+    - DumpCreds
+    - FastReverseProxy
+    - PWDump
+falsepositives:
+- Unlikely
+id: fa0c05b6-8ad3-468d-8231-c1cbccb64fba
+level: high
+logsource:
+  category: antivirus
+modified: 2024/06/05
+references:
+- https://www.nextron-systems.com/2021/08/16/antivirus-event-analysis-cheat-sheet-v1-8-2/
+- https://www.nextron-systems.com/?s=antivirus
+status: stable
+tags:
+- attack.execution
+- attack.t1204
+title: Antivirus Hacktool Detection

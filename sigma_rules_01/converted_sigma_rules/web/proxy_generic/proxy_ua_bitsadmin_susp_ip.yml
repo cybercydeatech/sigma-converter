@@ -1,0 +1,35 @@
+author: Florian Roth (Nextron Systems)
+date: 2022/06/10
+description: Detects Bitsadmin connections to IP addresses instead of FQDN names
+detection:
+  condition: selection
+  selection:
+    c-useragent|startswith: Microsoft BITS/
+    cs-host|endswith:
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '6'
+    - '7'
+    - '8'
+    - '9'
+falsepositives:
+- Unknown
+id: 8ccd35a2-1c7c-468b-b568-ac6cdf80eec3
+level: high
+logsource:
+  category: proxy
+modified: 2022/08/24
+references:
+- https://isc.sans.edu/diary/Microsoft+BITS+Used+to+Download+Payloads/21027
+status: test
+tags:
+- attack.command_and_control
+- attack.t1071.001
+- attack.defense_evasion
+- attack.persistence
+- attack.t1197
+- attack.s0190
+title: Bitsadmin to Uncommon IP Server Address

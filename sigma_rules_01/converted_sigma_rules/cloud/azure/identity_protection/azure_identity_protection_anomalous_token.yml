@@ -1,0 +1,24 @@
+author: Mark Morowczynski '@markmorow'
+date: 2023/08/07
+description: Indicates that there are abnormal characteristics in the token such as
+  an unusual token lifetime or a token that is played from an unfamiliar location.
+detection:
+  condition: selection
+  selection:
+    riskEventType: anomalousToken
+falsepositives:
+- We recommend investigating the sessions flagged by this detection in the context
+  of other sign-ins from the user.
+id: 6555754e-5e7f-4a67-ad1c-4041c413a007
+level: high
+logsource:
+  product: azure
+  service: riskdetection
+references:
+- https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/concept-identity-protection-risks#anomalous-token
+- https://learn.microsoft.com/en-us/azure/active-directory/architecture/security-operations-user-accounts#unusual-sign-ins
+status: experimental
+tags:
+- attack.t1528
+- attack.credential_access
+title: Anomalous Token

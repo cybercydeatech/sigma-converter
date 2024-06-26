@@ -1,0 +1,23 @@
+author: kelnage
+date: 2023/09/07
+description: Detects when an Okta end-user reports activity by their account as being
+  potentially suspicious.
+detection:
+  condition: selection
+  selection:
+    eventtype: user.account.report_suspicious_activity_by_enduser
+falsepositives:
+- If an end-user incorrectly identifies normal activity as suspicious.
+id: 07e97cc6-aed1-43ae-9081-b3470d2367f1
+level: high
+logsource:
+  product: okta
+  service: okta
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://github.com/okta/workflows-templates/blob/master/workflows/suspicious_activity_reported/readme.md
+status: experimental
+tags:
+- attack.resource_development
+- attack.t1586.003
+title: Okta Suspicious Activity Reported by End-user

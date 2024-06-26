@@ -1,0 +1,41 @@
+author: IAI
+date: 2023/03/06
+description: 'Detects the removal of system firewall rules. Adversaries may only delete
+  or modify a specific system firewall rule to bypass controls limiting network usage
+  or access.
+
+  Detection rules that match only on the disabling of firewalls will miss this.
+
+  '
+detection:
+  condition: 1 of selection*
+  selection1:
+    a0: iptables
+    a1|contains: DROP
+    type: EXECVE
+  selection2:
+    a0: firewall-cmd
+    a1|contains: remove
+    type: EXECVE
+  selection3:
+    a0: ufw
+    a1|contains: delete
+    type: EXECVE
+falsepositives:
+- Legitimate admin activity
+id: 323ff3f5-0013-4847-bbd4-250b5edb62cc
+level: medium
+logsource:
+  product: linux
+  service: auditd
+references:
+- https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
+- https://blog.aquasec.com/container-security-tnt-container-attack
+related:
+- id: 53059bc0-1472-438b-956a-7508a94a91f0
+  type: similar
+status: test
+tags:
+- attack.t1562.004
+- attack.defense_evasion
+title: Modify System Firewall

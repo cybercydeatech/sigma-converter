@@ -1,0 +1,34 @@
+author: Nasreddine Bencherchali (Nextron Systems)
+date: 2022/10/24
+description: Detects the use of Inveigh a cross-platform .NET IPv4/IPv6 machine-in-the-middle
+  tool
+detection:
+  condition: selection
+  selection:
+  - Image|endswith: \Inveigh.exe
+  - OriginalFileName:
+    - \Inveigh.exe
+    - \Inveigh.dll
+  - Description: Inveigh
+  - CommandLine|contains:
+    - ' -SpooferIP'
+    - ' -ReplyToIPs '
+    - ' -ReplyToDomains '
+    - ' -ReplyToMACs '
+    - ' -SnifferIP'
+falsepositives:
+- Very unlikely
+id: b99a1518-1ad5-4f65-bc95-1ffff97a8fd0
+level: critical
+logsource:
+  category: process_creation
+  product: windows
+modified: 2023/02/04
+references:
+- https://github.com/Kevin-Robertson/Inveigh
+- https://thedfirreport.com/2020/11/23/pysa-mespinoza-ransomware/
+status: test
+tags:
+- attack.credential_access
+- attack.t1003.001
+title: HackTool - Inveigh Execution

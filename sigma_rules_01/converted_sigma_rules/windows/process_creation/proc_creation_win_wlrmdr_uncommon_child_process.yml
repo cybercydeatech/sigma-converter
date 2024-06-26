@@ -1,0 +1,49 @@
+author: frack113, manasmbellani
+date: 2022/02/16
+description: 'Detects the execution of "Wlrmdr.exe" with the "-u" command line flag
+  which allows anything passed to it to be an argument of the ShellExecute API, which
+  would allow an attacker to execute arbitrary binaries.
+
+  This detection also focuses on any uncommon child processes spawned from "Wlrmdr.exe"
+  as a supplement for those that posses "ParentImage" telemetry.
+
+  '
+detection:
+  condition: selection_parent or (all of selection_child_* and not 1 of filter_main_*)
+  filter_main_empty:
+    ParentImage:
+    - ''
+    - '-'
+  filter_main_null:
+    ParentImage: null
+  filter_main_winlogon:
+    ParentImage: C:\Windows\System32\winlogon.exe
+  selection_child_cli:
+    CommandLine|contains|all|windash:
+    - '-s '
+    - '-f '
+    - '-t '
+    - '-m '
+    - '-a '
+    - '-u '
+  selection_child_img:
+  - Image|endswith: \wlrmdr.exe
+  - OriginalFileName: WLRMNDR.EXE
+  selection_parent:
+    ParentImage|endswith: \wlrmdr.exe
+falsepositives:
+- Unknown
+id: 9cfc00b6-bfb7-49ce-9781-ef78503154bb
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2024/03/06
+references:
+- https://twitter.com/0gtweet/status/1493963591745220608?s=20&t=xUg9DsZhJy1q9bPTUWgeIQ
+- https://lolbas-project.github.io/lolbas/Binaries/Wlrmdr/
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1218
+title: Wlrmdr.EXE Uncommon Argument Or Child Process

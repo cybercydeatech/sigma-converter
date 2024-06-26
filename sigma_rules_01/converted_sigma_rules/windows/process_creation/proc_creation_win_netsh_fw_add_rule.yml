@@ -1,0 +1,35 @@
+author: Markus Neis, Sander Wiebing
+date: 2019/01/29
+description: Detects the addition of a new rule to the Windows firewall via netsh
+detection:
+  condition: all of selection_* and not 1 of filter_optional_*
+  filter_optional_dropbox:
+    CommandLine|contains:
+    - advfirewall firewall add rule name=Dropbox dir=in action=allow "program=?:\Program
+      Files (x86)\Dropbox\Client\Dropbox.exe" enable=yes profile=Any
+    - advfirewall firewall add rule name=Dropbox dir=in action=allow "program=?:\Program
+      Files\Dropbox\Client\Dropbox.exe" enable=yes profile=Any
+  selection_cli:
+    CommandLine|contains|all:
+    - ' firewall '
+    - ' add '
+  selection_img:
+  - Image|endswith: \netsh.exe
+  - OriginalFileName: netsh.exe
+falsepositives:
+- Legitimate administration activity
+- Software installations
+id: cd5cfd80-aa5f-44c0-9c20-108c4ae12e3c
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2023/02/10
+references:
+- https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-RAT-and-Staging-Report.pdf
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1562.004
+- attack.s0246
+title: New Firewall Rule Added Via Netsh.EXE

@@ -1,0 +1,30 @@
+author: Nasreddine Bencherchali (Nextron Systems)
+date: 2022/09/19
+description: Detects execution of renamed Remote Utilities (RURAT) via Product PE
+  header field
+detection:
+  condition: selection and not filter
+  filter:
+    Image|endswith:
+    - \rutserv.exe
+    - \rfusclient.exe
+  selection:
+    Product: Remote Utilities
+falsepositives:
+- Unknown
+id: 9ef27c24-4903-4192-881a-3adde7ff92a5
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2023/02/03
+references:
+- https://redcanary.com/blog/misbehaving-rats/
+status: test
+tags:
+- attack.defense_evasion
+- attack.collection
+- attack.command_and_control
+- attack.discovery
+- attack.s0592
+title: Renamed Remote Utilities RAT (RURAT) Execution

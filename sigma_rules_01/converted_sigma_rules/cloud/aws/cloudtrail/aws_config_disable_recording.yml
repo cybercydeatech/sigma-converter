@@ -1,0 +1,25 @@
+author: vitaliy0x1
+date: 2020/01/21
+description: Detects AWS Config Service disabling
+detection:
+  condition: selection
+  selection:
+    eventName:
+    - DeleteDeliveryChannel
+    - StopConfigurationRecorder
+    eventSource: config.amazonaws.com
+falsepositives:
+- Valid change in AWS Config Service
+id: 07330162-dba1-4746-8121-a9647d49d297
+level: high
+logsource:
+  product: aws
+  service: cloudtrail
+modified: 2022/10/09
+references:
+- https://docs.aws.amazon.com/config/latest/developerguide/cloudtrail-log-files-for-aws-config.html
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+title: AWS Config Disabling Channel/Recorder

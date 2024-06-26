@@ -1,0 +1,38 @@
+author: Florian Roth (Nextron Systems)
+date: 2022/03/21
+description: Detects installation or execution of services
+detection:
+  condition: selection_eid and 1 of selection_service_*
+  selection_eid:
+    EventID:
+    - 7045
+    - 7036
+    Provider_Name: Service Control Manager
+  selection_service_image:
+    ImagePath|contains: bypass
+  selection_service_name:
+    ServiceName|contains:
+    - cachedump
+    - DumpSvc
+    - gsecdump
+    - pwdump
+    - UACBypassedService
+    - WCE SERVICE
+    - WCESERVICE
+    - winexesvc
+falsepositives:
+- Unknown
+id: d26ce60c-2151-403c-9a42-49420d87b5e4
+level: high
+logsource:
+  product: windows
+  service: system
+modified: 2023/08/07
+references:
+- Internal Research
+status: test
+tags:
+- attack.execution
+- attack.t1569.002
+- attack.s0029
+title: HackTool Service Registration or Execution

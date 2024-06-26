@@ -1,0 +1,41 @@
+author: Roberto Rodriguez @Cyb3rWard0g
+date: 2019/08/15
+description: Detects WmiPrvSE spawning a process
+detection:
+  condition: selection and not 1 of filter_*
+  filter_logonid:
+    LogonId:
+    - '0x3e7'
+    - 'null'
+  filter_null:
+    LogonId: null
+  filter_system_user:
+    User|contains:
+    - AUTHORI
+    - AUTORI
+  filter_werfault:
+    Image|endswith: \WerFault.exe
+  filter_wmiprvse:
+    Image|endswith: \WmiPrvSE.exe
+  selection:
+    ParentImage|endswith: \WmiPrvSe.exe
+falsepositives:
+- False positives are expected (e.g. in environments where WinRM is used legitimately)
+id: d21374ff-f574-44a7-9998-4a8c8bf33d7d
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2023/03/23
+references:
+- https://threathunterplaybook.com/hunts/windows/190815-RemoteServiceInstallation/notebook.html
+related:
+- id: 8a582fe2-0882-4b89-a82a-da6b2dc32937
+  type: similar
+- id: 692f0bec-83ba-4d04-af7e-e884a96059b6
+  type: similar
+status: stable
+tags:
+- attack.execution
+- attack.t1047
+title: WmiPrvSE Spawned A Process

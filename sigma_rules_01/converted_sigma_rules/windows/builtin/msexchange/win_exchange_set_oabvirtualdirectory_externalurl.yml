@@ -1,0 +1,27 @@
+author: Jose Rodriguez @Cyb3rPandaH
+date: 2021/03/15
+description: Rule to detect an adversary setting OabVirtualDirectory External URL
+  property to a script in Exchange Management log
+detection:
+  condition: keywords
+  keywords:
+    '|all':
+    - Set-OabVirtualDirectory
+    - ExternalUrl
+    - Page_Load
+    - script
+falsepositives:
+- Unknown
+id: 9db37458-4df2-46a5-95ab-307e7f29e675
+level: high
+logsource:
+  product: windows
+  service: msexchange-management
+modified: 2023/01/23
+references:
+- https://twitter.com/OTR_Community/status/1371053369071132675
+status: test
+tags:
+- attack.persistence
+- attack.t1505.003
+title: Exchange Set OabVirtualDirectory ExternalUrl Property

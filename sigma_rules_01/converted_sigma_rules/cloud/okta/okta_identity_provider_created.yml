@@ -1,0 +1,22 @@
+author: kelnage
+date: 2023/09/07
+description: Detects when a new identity provider is created for Okta.
+detection:
+  condition: selection
+  selection:
+    eventtype: system.idp.lifecycle.create
+falsepositives:
+- When an admin creates a new, authorised identity provider.
+id: 969c7590-8c19-4797-8c1b-23155de6e7ac
+level: medium
+logsource:
+  product: okta
+  service: okta
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://sec.okta.com/articles/2023/08/cross-tenant-impersonation-prevention-and-detection
+status: experimental
+tags:
+- attack.persistence
+- attack.t1098.001
+title: Okta Identity Provider Created

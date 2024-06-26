@@ -1,0 +1,31 @@
+author: Ilyas Ochkov, oscd.community
+date: 2019/10/25
+description: Detects the addition of a key 'MiniNt' to the registry. Upon a reboot,
+  Windows Event Log service will stopped write events.
+detection:
+  condition: selection
+  selection:
+  - EventType: CreateKey
+    TargetObject: HKLM\SYSTEM\CurrentControlSet\Control\MiniNt
+  - NewName: HKLM\SYSTEM\CurrentControlSet\Control\MiniNt
+falsepositives:
+- Unknown
+fields:
+- EventID
+- Image
+- TargetObject
+- NewName
+id: 919f2ef0-be2d-4a7a-b635-eb2b41fde044
+level: high
+logsource:
+  category: registry_event
+  product: windows
+modified: 2021/11/27
+references:
+- https://twitter.com/0gtweet/status/1182516740955226112
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1562.001
+- attack.t1112
+title: Disable Security Events Logging Adding Reg Key MiniNt

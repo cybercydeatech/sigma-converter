@@ -1,0 +1,29 @@
+author: frack113, Nasreddine Bencherchali (Nextron Systems)
+date: 2022/05/07
+description: Detects the use of "Ilasm.EXE" in order to compile C# intermediate (IL)
+  code to EXE or DLL.
+detection:
+  condition: all of selection_*
+  selection_cli:
+    CommandLine|contains:
+    - ' /dll'
+    - ' /exe'
+  selection_img:
+  - Image|endswith: \ilasm.exe
+  - OriginalFileName: ilasm.exe
+falsepositives:
+- Unknown
+id: 850d55f9-6eeb-4492-ad69-a72338f65ba4
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2022/05/16
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Ilasm/
+- https://www.echotrail.io/insights/search/ilasm.exe
+status: test
+tags:
+- attack.defense_evasion
+- attack.t1127
+title: C# IL Code Compilation Via Ilasm.EXE

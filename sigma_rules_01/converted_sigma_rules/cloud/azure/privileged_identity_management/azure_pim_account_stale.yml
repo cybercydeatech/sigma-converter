@@ -1,0 +1,23 @@
+author: Mark Morowczynski '@markmorow', Gloria Lee, '@gleeiamglo'
+date: 2023/09/14
+description: Identifies when an account hasn't signed in during the past n number
+  of days.
+detection:
+  condition: selection
+  selection:
+    riskEventType: staleSignInAlertIncident
+falsepositives:
+- Investigate if potential generic account that cannot be removed.
+id: e402c26a-267a-45bd-9615-bd9ceda6da85
+level: high
+logsource:
+  product: azure
+  service: pim
+references:
+- https://learn.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-how-to-configure-security-alerts#potential-stale-accounts-in-a-privileged-role
+status: experimental
+tags:
+- attack.t1078
+- attack.persistence
+- attack.privilege_escalation
+title: Stale Accounts In A Privileged Role

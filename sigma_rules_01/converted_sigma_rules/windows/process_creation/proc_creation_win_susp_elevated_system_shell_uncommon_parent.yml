@@ -1,0 +1,62 @@
+author: frack113, Tim Shelton (update fp)
+date: 2022/12/05
+description: Detects when a shell program such as the Windows command prompt or PowerShell
+  is launched with system privileges from a uncommon parent location.
+detection:
+  condition: all of selection_* and not 1 of filter_main_* and not 1 of filter_optional_*
+  filter_main_generic:
+    ParentImage|contains:
+    - :\Program Files (x86)\
+    - :\Program Files\
+    - :\ProgramData\
+    - :\Windows\System32\
+    - :\Windows\SysWOW64\
+    - :\Windows\Temp\
+    - :\Windows\WinSxS\
+  filter_main_parent_empty:
+    ParentImage: ''
+  filter_main_parent_null:
+    ParentImage: null
+  filter_optional_asgard:
+    CommandLine|contains: :\WINDOWS\system32\cmd.exe /c "
+    CurrentDirectory|contains: :\WINDOWS\Temp\asgard2-agent\
+  filter_optional_ibm_spectrumprotect:
+    CommandLine|contains: :\IBM\SpectrumProtect\webserver\scripts\
+    ParentImage|contains: :\IBM\SpectrumProtect\webserver\scripts\
+  filter_optional_manageengine:
+    Image|endswith: \cmd.exe
+    ParentImage|endswith: :\ManageEngine\ADManager Plus\pgsql\bin\postgres.exe
+  selection_shell:
+  - Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+    - \cmd.exe
+  - OriginalFileName:
+    - PowerShell.EXE
+    - pwsh.dll
+    - Cmd.Exe
+  selection_user:
+    LogonId: '0x3e7'
+    User|contains:
+    - AUTHORI
+    - AUTORI
+falsepositives:
+- Unknown
+id: 178e615d-e666-498b-9630-9ed363038101
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2023/11/23
+references:
+- https://github.com/Wh04m1001/SysmonEoP
+related:
+- id: 61065c72-5d7d-44ef-bf41-6a36684b545f
+  type: similar
+status: experimental
+tags:
+- attack.privilege_escalation
+- attack.defense_evasion
+- attack.execution
+- attack.t1059
+title: Elevated System Shell Spawned From Uncommon Parent Location

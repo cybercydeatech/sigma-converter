@@ -1,0 +1,37 @@
+author: Joseph Kamau
+date: 2024/05/27
+description: 'Detects the creation of files with scripting or executable extensions
+  by Mysql daemon.
+
+  Which could be an indicator of "User Defined Functions" abuse to download malware.
+
+  '
+detection:
+  condition: selection
+  selection:
+    Image|endswith:
+    - \mysqld.exe
+    - \mysqld-nt.exe
+    TargetFilename|endswith:
+    - .bat
+    - .dat
+    - .dll
+    - .exe
+    - .ps1
+    - .psm1
+    - .vbe
+    - .vbs
+falsepositives:
+- Unknown
+id: c61daa90-3c1e-4f18-af62-8f288b5c9aaf
+level: high
+logsource:
+  category: file_event
+  product: windows
+references:
+- https://asec.ahnlab.com/en/58878/
+- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/honeypot-recon-mysql-malware-infection-via-user-defined-functions-udf/
+status: experimental
+tags:
+- attack.defense_evasion
+title: Uncommon File Creation By Mysql Daemon Process

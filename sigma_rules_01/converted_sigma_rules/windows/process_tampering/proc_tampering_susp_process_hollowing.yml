@@ -1,0 +1,36 @@
+author: Christopher Peacock '@securepeacock', SCYTHE '@scythe_io', Sittikorn S
+date: 2022/01/25
+description: Detects when a memory process image does not match the disk image, indicative
+  of process hollowing.
+detection:
+  condition: selection and not 1 of filter_main_* and not 1 of filter_optional_*
+  filter_main_generic:
+    Image|contains:
+    - :\Program Files (x86)
+    - :\Program Files\
+    - :\Windows\System32\wbem\WMIADAP.exe
+    - :\Windows\SysWOW64\wbem\WMIADAP.exe
+  filter_optional_edge:
+    Image|endswith: \WindowsApps\MicrosoftEdge.exe
+  filter_optional_opera:
+    Image|contains: \AppData\Local\Programs\Opera\
+    Image|endswith: \opera.exe
+  selection:
+    Type: Image is replaced
+falsepositives:
+- Unknown
+id: c4b890e5-8d8c-4496-8c66-c805753817cd
+level: medium
+logsource:
+  category: process_tampering
+  product: windows
+modified: 2023/11/28
+references:
+- https://twitter.com/SecurePeacock/status/1486054048390332423?s=20
+- https://www.bleepingcomputer.com/news/microsoft/microsoft-sysmon-now-detects-malware-process-tampering-attempts/
+status: experimental
+tags:
+- attack.defense_evasion
+- attack.privilege_escalation
+- attack.t1055.012
+title: Potential Process Hollowing Activity

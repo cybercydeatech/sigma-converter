@@ -1,0 +1,24 @@
+author: Roberto Rodriguez (Cyb3rWard0g), OTR (Open Threat Research)
+date: 2021/04/12
+description: Detects Azure Hybrid Connection Manager services querying the Azure service
+  bus service
+detection:
+  condition: selection
+  selection:
+    Image|contains: HybridConnectionManager
+    QueryName|contains: servicebus.windows.net
+falsepositives:
+- Legitimate use of Azure Hybrid Connection Manager and the Azure Service Bus service
+id: 7bd3902d-8b8b-4dd4-838a-c6862d40150d
+level: high
+logsource:
+  category: dns_query
+  product: windows
+modified: 2023/01/16
+references:
+- https://twitter.com/Cyb3rWard0g/status/1381642789369286662
+status: test
+tags:
+- attack.persistence
+- attack.t1554
+title: DNS HybridConnectionManager Service Bus

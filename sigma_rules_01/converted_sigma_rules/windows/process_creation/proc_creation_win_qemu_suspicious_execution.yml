@@ -1,0 +1,42 @@
+author: Muhammad Faisal (@faisalusuf), Hunter Juhan (@threatHNTR)
+date: 2024/06/03
+description: 'Detects potentially suspicious execution of the Qemu utility in a Windows
+  environment.
+
+  Threat actors have leveraged this utility and this technique for achieving network
+  access as reported by Kaspersky.
+
+  '
+detection:
+  condition: selection and not 1 of filter_main_*
+  filter_main_normal_usecase:
+    CommandLine|contains:
+    - ' -cdrom '
+    - ' type=virt '
+    - ' -blockdev '
+  selection:
+    CommandLine|contains:
+    - -m 1M
+    - -m 2M
+    - -m 3M
+    CommandLine|contains|all:
+    - restrict=off
+    - '-netdev '
+    - connect=
+    - -nographic
+falsepositives:
+- Unknown
+id: 5fc297ae-25b6-488a-8f25-cc12ac29b744
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+references:
+- https://securelist.com/network-tunneling-with-qemu/111803/
+- https://www.qemu.org/docs/master/system/invocation.html#hxtool-5
+status: experimental
+tags:
+- attack.command_and_control
+- attack.t1090
+- attack.t1572
+title: Potentially Suspicious Usage Of Qemu

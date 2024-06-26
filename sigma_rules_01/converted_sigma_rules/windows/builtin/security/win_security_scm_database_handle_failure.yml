@@ -1,0 +1,27 @@
+author: Roberto Rodriguez @Cyb3rWard0g
+date: 2019/08/12
+description: Detects non-system users failing to get a handle of the SCM database.
+detection:
+  condition: selection and not filter
+  filter:
+    SubjectLogonId: '0x3e4'
+  selection:
+    AccessMask: '0xf003f'
+    EventID: 4656
+    ObjectName: ServicesActive
+    ObjectType: SC_MANAGER OBJECT
+falsepositives:
+- Unknown
+id: 13addce7-47b2-4ca0-a98f-1de964d1d669
+level: medium
+logsource:
+  product: windows
+  service: security
+modified: 2022/07/11
+references:
+- https://threathunterplaybook.com/hunts/windows/190826-RemoteSCMHandle/notebook.html
+status: test
+tags:
+- attack.discovery
+- attack.t1010
+title: SCM Database Handle Failure

@@ -1,0 +1,23 @@
+author: Austin Songer @austinsonger
+date: 2021/09/12
+description: Detects when an user account is locked out.
+detection:
+  condition: selection
+  selection:
+    displaymessage: Max sign in attempts exceeded
+falsepositives:
+- Unknown
+id: 14701da0-4b0f-4ee6-9c95-2ffb4e73bb9a
+level: medium
+logsource:
+  product: okta
+  service: okta
+modified: 2022/10/09
+references:
+- https://developer.okta.com/docs/reference/api/system-log/
+- https://developer.okta.com/docs/reference/api/event-types/
+status: test
+tags:
+- attack.impact
+- attack.t1531
+title: Okta User Account Locked Out

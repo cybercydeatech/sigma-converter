@@ -1,0 +1,35 @@
+author: Florian Roth (Nextron Systems)
+date: 2022/08/29
+description: Detects SharpLdapWhoami, a whoami alternative that queries the LDAP service
+  on a domain controller
+detection:
+  condition: 1 of selection*
+  selection_flags1:
+    CommandLine|endswith:
+    - ' /method:ntlm'
+    - ' /method:kerb'
+    - ' /method:nego'
+    - ' /m:nego'
+    - ' /m:ntlm'
+    - ' /m:kerb'
+  selection_name:
+    Image|endswith: \SharpLdapWhoami.exe
+  selection_pe:
+  - OriginalFileName|contains: SharpLdapWhoami
+  - Product: SharpLdapWhoami
+falsepositives:
+- Programs that use the same command line flags
+id: d9367cbb-c2e0-47ce-bdc0-128cb6da898d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2023/02/04
+references:
+- https://github.com/bugch3ck/SharpLdapWhoami
+status: test
+tags:
+- attack.discovery
+- attack.t1033
+- car.2016-03-001
+title: HackTool - SharpLdapWhoami Execution

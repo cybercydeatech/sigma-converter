@@ -1,0 +1,28 @@
+author: Florian Roth (Nextron Systems)
+date: 2017/10/25
+description: Detects a flashplayer update from an unofficial location
+detection:
+  condition: selection and not filter
+  filter:
+    cs-host|endswith: .adobe.com
+  selection:
+  - c-uri|contains: /flash_install.php
+  - c-uri|endswith: /install_flash_player.exe
+falsepositives:
+- Unknown flash download locations
+id: 4922a5dd-6743-4fc2-8e81-144374280997
+level: high
+logsource:
+  category: proxy
+modified: 2022/08/08
+references:
+- https://gist.github.com/roycewilliams/a723aaf8a6ac3ba4f817847610935cfb
+status: test
+tags:
+- attack.initial_access
+- attack.t1189
+- attack.execution
+- attack.t1204.002
+- attack.defense_evasion
+- attack.t1036.005
+title: Flash Player Update from Suspicious Location

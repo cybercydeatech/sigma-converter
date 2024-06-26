@@ -1,0 +1,25 @@
+author: Security Onion Solutions
+date: 2024/03/08
+description: 'Detects instances where an HTTP service on an OpenCanary node has had
+  login attempt via Form POST.
+
+  '
+detection:
+  condition: selection
+  selection:
+    logtype: 3001
+falsepositives:
+- Unlikely
+id: af1ac430-df6b-4b38-b976-0b52f07a0252
+level: high
+logsource:
+  category: application
+  product: opencanary
+references:
+- https://opencanary.readthedocs.io/en/latest/starting/configuration.html#services-configuration
+- https://github.com/thinkst/opencanary/blob/a0896adfcaf0328cfd5829fe10d2878c7445138e/opencanary/logger.py#L52
+status: experimental
+tags:
+- attack.initial_access
+- attack.t1190
+title: OpenCanary - HTTP POST Login Attempt

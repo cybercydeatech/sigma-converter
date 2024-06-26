@@ -1,0 +1,36 @@
+author: Tim Brown
+date: 2023/01/09
+description: Detects BGP failures which may be indicative of brute force attacks to
+  manipulate routing
+detection:
+  condition: keywords_bgp_cisco
+  keywords_bgp_cisco:
+    '|all':
+    - :179
+    - IP-TCP-3-BADAUTH
+falsepositives:
+- Unlikely. Except due to misconfigurations
+fields:
+- tcpConnLocalAddress
+- tcpConnRemAddress
+id: 56fa3cd6-f8d6-4520-a8c7-607292971886
+level: low
+logsource:
+  definition: 'Requirements: cisco bgp logs need to be enabled and ingested'
+  product: cisco
+  service: bgp
+modified: 2023/01/23
+references:
+- https://www.blackhat.com/presentations/bh-usa-03/bh-us-03-convery-franz-v3.pdf
+status: test
+tags:
+- attack.initial_access
+- attack.persistence
+- attack.privilege_escalation
+- attack.defense_evasion
+- attack.credential_access
+- attack.collection
+- attack.t1078
+- attack.t1110
+- attack.t1557
+title: Cisco BGP Authentication Failures

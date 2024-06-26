@@ -1,0 +1,49 @@
+author: Nasreddine Bencherchali (Nextron Systems)
+date: 2022/12/20
+description: Detects the execution of a renamed office binary
+detection:
+  condition: selection and not 1 of filter_main_*
+  filter_main_legit_names:
+    Image|endswith:
+    - \EXCEL.exe
+    - \excelcnv.exe
+    - \MSACCESS.exe
+    - \MSPUB.EXE
+    - \ONENOTE.EXE
+    - \ONENOTEM.EXE
+    - \OUTLOOK.EXE
+    - \POWERPNT.EXE
+    - \WINWORD.exe
+  selection:
+  - OriginalFileName:
+    - Excel.exe
+    - MSACCESS.EXE
+    - MSPUB.EXE
+    - OneNote.exe
+    - OneNoteM.exe
+    - OUTLOOK.EXE
+    - POWERPNT.EXE
+    - WinWord.exe
+  - Description:
+    - Microsoft Access
+    - Microsoft Excel
+    - Microsoft OneNote
+    - Microsoft Outlook
+    - Microsoft PowerPoint
+    - Microsoft Publisher
+    - Microsoft Word
+    - Sent to OneNote Tool
+falsepositives:
+- Unknown
+id: 0b0cd537-fc77-4e6e-a973-e53495c1083d
+level: high
+logsource:
+  category: process_creation
+  product: windows
+modified: 2023/11/13
+references:
+- https://infosec.exchange/@sbousseaden/109542254124022664
+status: test
+tags:
+- attack.defense_evasion
+title: Renamed Office Binary Execution

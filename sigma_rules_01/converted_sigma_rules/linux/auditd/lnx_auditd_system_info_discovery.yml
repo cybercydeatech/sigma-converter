@@ -1,0 +1,47 @@
+author: Pawel Mazur
+date: 2021/09/03
+description: Detects System Information Discovery commands
+detection:
+  condition: 1 of selection_*
+  selection_1:
+    name:
+    - /etc/lsb-release
+    - /etc/redhat-release
+    - /etc/issue
+    type: PATH
+  selection_2:
+    a0:
+    - uname
+    - uptime
+    - lsmod
+    - hostname
+    - env
+    type: EXECVE
+  selection_3:
+    a0: grep
+    a1|contains:
+    - vbox
+    - vm
+    - xen
+    - virtio
+    - hv
+    type: EXECVE
+  selection_4:
+    a0: kmod
+    a1: list
+    type: EXECVE
+falsepositives:
+- Likely
+id: f34047d9-20d3-4e8b-8672-0a35cc50dc71
+level: low
+logsource:
+  product: linux
+  service: auditd
+modified: 2023/03/06
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/f296668303c29d3f4c07e42bdd2b28d8dd6625f9/atomics/T1082/T1082.md
+status: test
+tags:
+- attack.discovery
+- attack.t1082
+title: System Information Discovery - Auditd

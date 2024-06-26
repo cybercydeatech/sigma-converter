@@ -1,0 +1,28 @@
+author: Florian Roth (Nextron Systems)
+date: 2021/02/11
+description: Detects ScreenConnect program starts that establish a remote access to
+  a system.
+detection:
+  condition: selection
+  selection:
+    CommandLine|contains|all:
+    - e=Access&
+    - y=Guest&
+    - '&p='
+    - '&c='
+    - '&k='
+falsepositives:
+- Legitimate use by administrative staff
+id: 75bfe6e6-cd8e-429e-91d3-03921e1d7962
+level: medium
+logsource:
+  category: process_creation
+  product: windows
+modified: 2024/02/26
+references:
+- https://www.anomali.com/blog/probable-iranian-cyber-actors-static-kitten-conducting-cyberespionage-campaign-targeting-uae-and-kuwait-government-agencies
+status: test
+tags:
+- attack.initial_access
+- attack.t1133
+title: Remote Access Tool - ScreenConnect Installation Execution
