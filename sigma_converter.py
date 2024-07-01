@@ -5,6 +5,7 @@ import shutil
 import time
 from datetime import datetime
 import ruamel.yaml
+import yaml
 
 # Configuration
 SIGMA_REPO_URL = 'https://github.com/SigmaHQ/sigma.git'
@@ -108,6 +109,7 @@ def modify_elastalert_rules():
                 # Update the "name" field
                 rule_name = os.path.splitext(file)[0]
                 data['name'] = rule_name
+                data['is_enabled'] = False
                 
                 # Determine the relative path of the file from the ELASTALERT_RULES_DIR
                 relative_path = os.path.relpath(elastalert_rule, ELASTALERT_RULES_DIR)
