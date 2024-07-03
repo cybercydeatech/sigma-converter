@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects execution of the "del" builtin command to remove files using
+  greedy/wildcard expression. This is often used by malware to delete content of folders
+  that perhaps contains the initial malware infection or to delete evidence.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\cmd.exe OR file_name_original:"Cmd.Exe") AND
+        process_command_line.keyword:(*del\ * OR *erase\ *) AND process_command_line.keyword:(*\\\*.au3*
+        OR *\\\*.dll* OR *\\\*.exe* OR *\\\*.js*))
+index: wazuh-alerts*
+name: proc_creation_win_cmd_del_greedy_deletion
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

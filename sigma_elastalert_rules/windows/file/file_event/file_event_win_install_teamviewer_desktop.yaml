@@ -1,0 +1,15 @@
+alert:
+- debug
+description: TeamViewer_Desktop.exe is create during install
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\TeamViewer_Desktop.exe
+index: wazuh-alerts*
+name: file_event_win_install_teamviewer_desktop
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

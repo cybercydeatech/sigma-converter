@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a DNS server error in which a specified plugin DLL (in registry)
+  could not be loaded
+filter:
+- query:
+    query_string:
+      query: event_id:("150" OR "770" OR "771")
+index: wazuh-alerts*
+name: win_dns_server_susp_server_level_plugin_dll
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

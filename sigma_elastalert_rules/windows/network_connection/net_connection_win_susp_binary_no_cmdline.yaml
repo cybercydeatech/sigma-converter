@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects suspicious network connections made by a well-known Windows binary
+  run with no command line parameters
+filter:
+- query:
+    query_string:
+      query: ((Initiated:"true" AND process_path.keyword:(*\\regsvr32.exe OR *\\rundll32.exe
+        OR *\\dllhost.exe) AND process_command_line.keyword:(*\\regsvr32.exe OR *\\rundll32.exe
+        OR *\\dllhost.exe)) AND (NOT ((process_command_line:"") OR (NOT _exists_:process_command_line))))
+index: wazuh-alerts*
+name: net_connection_win_susp_binary_no_cmdline
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: "Detects suspicious use of 'calc.exe' with command line parameters or
+  in a suspicious directory, which is likely caused by some PoC or detection evasion.\n"
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*\\calc.exe\ * OR (process_path.keyword:*\\calc.exe
+        AND (NOT (process_path.keyword:(*\:\\Windows\\System32\\* OR *\:\\Windows\\SysWOW64\\*
+        OR *\:\\Windows\\WinSxS\\*)))))
+index: wazuh-alerts*
+name: proc_creation_win_calc_uncommon_exec
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

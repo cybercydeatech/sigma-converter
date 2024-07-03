@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects loading of a DLL by the VMware Xfer utility from the non-default
+  directory which may be an attempt to sideload arbitrary DLL
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\VMwareXferlogs.exe AND ImageLoaded.keyword:*\\glib\-2.0.dll)
+        AND (NOT (ImageLoaded.keyword:C\:\\Program\ Files\\VMware\\*)))
+index: wazuh-alerts*
+name: image_load_side_load_vmware_xfer
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

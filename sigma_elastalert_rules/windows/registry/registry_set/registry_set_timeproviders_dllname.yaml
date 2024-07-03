@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects processes setting a new DLL in DllName in under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProvider.
+  Adversaries may abuse time providers to execute DLLs when the system boots.
+  The Windows Time service (W32Time) enables time synchronization across and within domains.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*\\Services\\W32Time\\TimeProviders* AND
+        registry_key_path.keyword:*\\DllName) AND (NOT ((Details:("%SystemRoot%\\System32\\vmictimeprovider.dll"
+        OR "%systemroot%\\system32\\w32time.dll" OR "C\:\\Windows\\SYSTEM32\\w32time.DLL")))))
+index: wazuh-alerts*
+name: registry_set_timeproviders_dllname
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

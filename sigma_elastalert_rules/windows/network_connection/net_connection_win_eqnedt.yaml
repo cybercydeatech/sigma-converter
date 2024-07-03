@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects network connections from the Equation Editor process "eqnedt32.exe".
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\\eqnedt32.exe
+index: wazuh-alerts*
+name: net_connection_win_eqnedt
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

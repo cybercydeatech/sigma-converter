@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of NPPSpy hacktool that stores cleartext passwords of
+  users that logged in to a local file
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:(*\\NPPSpy.txt OR *\\NPPSpy.dll)
+index: wazuh-alerts*
+name: file_event_win_hktl_nppspy
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

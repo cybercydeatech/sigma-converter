@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when sign-ins increased by 10% or greater.
+filter:
+- query:
+    query_string:
+      query: (event_status:"failure" AND Count:"<10%")
+index: wazuh-alerts*
+name: azure_ad_auth_failure_increase
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

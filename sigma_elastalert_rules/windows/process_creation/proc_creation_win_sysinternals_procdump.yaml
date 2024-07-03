@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects usage of the SysInternals Procdump utility
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:(*\\procdump.exe OR *\\procdump64.exe)
+index: wazuh-alerts*
+name: proc_creation_win_sysinternals_procdump
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

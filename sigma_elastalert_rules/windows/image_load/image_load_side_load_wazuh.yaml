@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential DLL side loading of DLLs that are part of the Wazuh
+  security platform
+filter:
+- query:
+    query_string:
+      query: ((ImageLoaded.keyword:(*\\libwazuhshared.dll OR *\\libwinpthread\-1.dll)
+        AND (NOT ((ImageLoaded.keyword:(C\:\\Program\ Files\\* OR C\:\\Program\ Files\
+        \(x86\)\\*))))) AND (NOT ((ImageLoaded.keyword:(*\\AppData\\Local\\* OR *\\ProgramData\\*)
+        AND ImageLoaded.keyword:*\\mingw64\\bin\\libwinpthread\-1.dll))))
+index: wazuh-alerts*
+name: image_load_side_load_wazuh
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

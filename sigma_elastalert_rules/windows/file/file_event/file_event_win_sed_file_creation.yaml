@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects the creation of Self Extraction Directive files (.sed) in a potentially suspicious location.
+  These files are used by the "iexpress.exe" utility in order to create self extracting packages.
+  Attackers were seen abusing this utility and creating PE files with embedded ".sed" entries.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\:\\ProgramData\\* OR *\:\\Temp\\* OR *\:\\Windows\\System32\\Tasks\\*
+        OR *\:\\Windows\\Tasks\\* OR *\:\\Windows\\Temp\\* OR *\\AppData\\Local\\Temp\\*)
+        AND file_name.keyword:*.sed)
+index: wazuh-alerts*
+name: file_event_win_sed_file_creation
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Get the processes that are running on the local computer.
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:*Get\-Process*
+index: wazuh-alerts*
+name: posh_ps_susp_get_process
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

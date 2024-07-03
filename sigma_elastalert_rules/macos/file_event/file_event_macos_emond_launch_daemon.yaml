@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects additions to the Emond Launch Daemon that adversaries may use
+  to gain persistence and elevate privileges.
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:*\/etc\/emond.d\/rules\/* AND file_name.keyword:*.plist)
+        OR file_name.keyword:*\/private\/var\/db\/emondClients\/*)
+index: wazuh-alerts*
+name: file_event_macos_emond_launch_daemon
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

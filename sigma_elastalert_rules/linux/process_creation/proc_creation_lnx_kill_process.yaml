@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of command line tools such as "kill", "pkill" or "killall"
+  to terminate or signal a running process.
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:(*\/kill OR *\/pkill OR *\/killall)
+index: wazuh-alerts*
+name: proc_creation_lnx_kill_process
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

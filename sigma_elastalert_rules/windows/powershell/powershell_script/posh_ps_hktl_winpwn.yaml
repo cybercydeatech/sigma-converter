@@ -1,0 +1,17 @@
+alert:
+- debug
+description: "Detects scriptblock text keywords indicative of potential usge of the
+  tool WinPwn. A tool for Windows and Active Directory reconnaissance and exploitation.\n"
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*Offline_Winpwn* OR *WinPwn\ * OR *WinPwn.exe*
+        OR *WinPwn.ps1*)
+index: wazuh-alerts*
+name: posh_ps_hktl_winpwn
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

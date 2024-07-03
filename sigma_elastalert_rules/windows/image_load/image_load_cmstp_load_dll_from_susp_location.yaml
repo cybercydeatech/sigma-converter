@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects cmstp loading "dll" or "ocx" files from suspicious locations
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\cmstp.exe AND ImageLoaded.keyword:(*\\PerfLogs\\*
+        OR *\\ProgramData\\* OR *\\Users\\* OR *\\Windows\\Temp\\* OR *C\:\\Temp\\*)
+        AND ImageLoaded.keyword:(*.dll OR *.ocx))
+index: wazuh-alerts*
+name: image_load_cmstp_load_dll_from_susp_location
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

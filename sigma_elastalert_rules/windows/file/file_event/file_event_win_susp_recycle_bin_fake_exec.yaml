@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects file write event from/to a fake recycle bin folder that is often
+  used as a staging directory for malware
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*RECYCLERS.BIN\\* OR *RECYCLER.BIN\\*) OR file_name.keyword:(*RECYCLERS.BIN\\*
+        OR *RECYCLER.BIN\\*))
+index: wazuh-alerts*
+name: file_event_win_susp_recycle_bin_fake_exec
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

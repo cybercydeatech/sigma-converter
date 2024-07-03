@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects possible search for office tokens via CLI by looking for the
+  string "eyJ0eX". This string is used as an anchor to look for the start of the JWT
+  token used by office and similar apps.
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*eyJ0eXAiOi* OR *\ eyJ0eX* OR *\ \"eyJ0eX\"*
+        OR *\ 'eyJ0eX'*)
+index: wazuh-alerts*
+name: proc_creation_win_susp_office_token_search
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

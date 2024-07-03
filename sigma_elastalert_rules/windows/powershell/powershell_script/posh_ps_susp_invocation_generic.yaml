@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects suspicious PowerShell invocation command parameters
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:(*\ \-enc\ * OR *\ \-EncodedCommand\ * OR *\
+        \-ec\ *) AND ScriptBlockText.keyword:(*\ \-w\ hidden\ * OR *\ \-window\ hidden\
+        * OR *\ \-windowstyle\ hidden\ * OR *\ \-w\ 1\ *) AND ScriptBlockText.keyword:(*\
+        \-noni\ * OR *\ \-noninteractive\ *))
+index: wazuh-alerts*
+name: posh_ps_susp_invocation_generic
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

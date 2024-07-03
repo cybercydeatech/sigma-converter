@@ -1,0 +1,17 @@
+alert:
+- debug
+description: |
+  Detects the removal of a deployment from a Kubernetes cluster.
+  This could indicate disruptive activity aiming to impact business operations.
+filter:
+- query:
+    query_string:
+      query: (verb:"delete" AND objectRef.resource:"deployments")
+index: wazuh-alerts*
+name: kubernetes_audit_deployment_deleted
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

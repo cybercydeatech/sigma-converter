@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a Microsoft Cloud App Security reported when a user signs
+  into your sanctioned apps from a risky IP address.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"SecurityComplianceCenter" AND eventName:"Log\ on\ from\
+        a\ risky\ IP\ address" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_logon_from_risky_ip_address
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

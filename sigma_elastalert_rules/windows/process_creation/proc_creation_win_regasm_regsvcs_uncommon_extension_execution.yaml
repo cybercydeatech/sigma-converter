@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects potentially suspicious execution of the Regasm/Regsvcs utilities
+  with an uncommon extension.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\Regsvcs.exe OR *\\Regasm.exe) OR file_name_original:("RegSvcs.exe"
+        OR "RegAsm.exe")) AND process_command_line.keyword:(*.dat* OR *.gif* OR *.jpeg*
+        OR *.jpg* OR *.png* OR *.txt*))
+index: wazuh-alerts*
+name: proc_creation_win_regasm_regsvcs_uncommon_extension_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

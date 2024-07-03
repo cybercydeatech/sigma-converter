@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the use of the Microsoft signed script "CL_mutexverifiers" to
+  proxy the execution of additional PowerShell script commands
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) AND process_path.keyword:*\\powershell.exe
+        AND process_command_line.keyword:*\ \-nologo\ \-windowstyle\ minimized\ \-file\
+        * AND process_command_line.keyword:(*\\AppData\\Local\\Temp\\* OR *\\Windows\\Temp\\*))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_cl_mutexverifiers
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

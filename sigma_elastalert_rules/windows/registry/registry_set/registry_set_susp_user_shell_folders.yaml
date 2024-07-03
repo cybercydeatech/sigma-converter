@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detect modification of the startup key to a path where a payload could
+  be stored to be launched during startup
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User\
+        Shell\ Folders* AND registry_key_path.keyword:*Startup)
+index: wazuh-alerts*
+name: registry_set_susp_user_shell_folders
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

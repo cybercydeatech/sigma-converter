@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects sign-ins from new countries. The detection considers past activity
+  locations to determine new and infrequent locations.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"newCountry"
+index: wazuh-alerts*
+name: azure_identity_protection_new_coutry_region
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

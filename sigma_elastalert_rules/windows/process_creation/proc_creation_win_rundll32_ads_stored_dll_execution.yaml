@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of rundll32 where the DLL being called is stored in
+  an Alternate Data Stream (ADS).
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\rundll32.exe OR file_name_original:"RUNDLL32.EXE")
+        AND process_command_line.keyword:/[Rr][Uu][Nn][Dd][Ll][Ll]32(\.[Ee][Xx][Ee])?
+        \S+?\w:\S+?:/)
+index: wazuh-alerts*
+name: proc_creation_win_rundll32_ads_stored_dll_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

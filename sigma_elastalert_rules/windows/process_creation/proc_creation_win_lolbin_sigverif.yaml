@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the execution of sigverif binary as a parent process which could
+  indicate it being used as a LOLBIN to proxy execution
+filter:
+- query:
+    query_string:
+      query: process_parent_path.keyword:*\\sigverif.exe
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_sigverif
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

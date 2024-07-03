@@ -1,0 +1,18 @@
+alert:
+- debug
+description: "Detects DNS queries made by \"AppInstaller.EXE\". The AppInstaller is
+  the default handler for the \"ms-appinstaller\" URI. It attempts to load/install
+  a package from the referenced URL\n"
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:C\:\\Program\ Files\\WindowsApps\\Microsoft.DesktopAppInstaller_*
+        AND process_path.keyword:*\\AppInstaller.exe)
+index: wazuh-alerts*
+name: dns_query_win_appinstaller
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

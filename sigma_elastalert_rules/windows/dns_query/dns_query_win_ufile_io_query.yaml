@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects DNS queries to "ufile.io", which was seen abused by malware and
+  threat actors as a method for data exfiltration
+filter:
+- query:
+    query_string:
+      query: QueryName.keyword:*ufile.io*
+index: wazuh-alerts*
+name: dns_query_win_ufile_io_query
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

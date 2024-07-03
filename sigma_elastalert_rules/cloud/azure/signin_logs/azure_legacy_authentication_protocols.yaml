@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Alert on when legacy authentication has been used on an account
+filter:
+- query:
+    query_string:
+      query: (ActivityDetails:"Sign\-ins" AND ClientApp:("Other\ client" OR "IMAP"
+        OR "POP3" OR "MAPI" OR "SMTP" OR "Exchange\ ActiveSync" OR "Exchange\ Web\
+        Services") AND Username:"UPN")
+index: wazuh-alerts*
+name: azure_legacy_authentication_protocols
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

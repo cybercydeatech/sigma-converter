@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects remote RPC calls that performs remote DCOM operations. These
+  could be abused for lateral movement via DCOM or WMI.
+filter:
+- query:
+    query_string:
+      query: (EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:("4d9f4ab8\-7d1c\-11cf\-861e\-0020af6e7c57"
+        OR "99fcfec4\-5260\-101b\-bbcb\-00aa0021347a" OR "000001a0\-0000\-0000\-c000\-000000000046"
+        OR "00000131\-0000\-0000\-c000\-000000000046" OR "00000143\-0000\-0000\-c000\-000000000046"
+        OR "00000000\-0000\-0000\-c000\-000000000046"))
+index: wazuh-alerts*
+name: rpc_firewall_remote_dcom_or_wmi
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an application exports a certificate (and potentially the
+  private key as well) from the local Windows certificate store.
+filter:
+- query:
+    query_string:
+      query: event_id:"1007"
+index: wazuh-alerts*
+name: win_certificateservicesclient_lifecycle_system_cert_exported
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

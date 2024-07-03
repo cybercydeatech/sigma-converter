@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect DLL Load from Spooler Service backup folder
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\spoolsv.exe AND ImageLoaded.keyword:(*\\Windows\\System32\\spool\\drivers\\x64\\3\\*
+        OR *\\Windows\\System32\\spool\\drivers\\x64\\4\\*) AND ImageLoaded.keyword:*.dll)
+index: wazuh-alerts*
+name: image_load_spoolsv_dll_load
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

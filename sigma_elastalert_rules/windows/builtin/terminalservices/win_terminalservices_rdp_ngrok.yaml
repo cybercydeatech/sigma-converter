@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects cases in which ngrok, a reverse proxy tool, forwards events to
+  the local RDP port, which could be a sign of malicious behaviour
+filter:
+- query:
+    query_string:
+      query: (event_id:"21" AND Address.keyword:*16777216*)
+index: wazuh-alerts*
+name: win_terminalservices_rdp_ngrok
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

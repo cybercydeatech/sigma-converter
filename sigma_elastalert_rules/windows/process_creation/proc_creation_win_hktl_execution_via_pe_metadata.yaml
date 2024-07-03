@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the execution of different Windows based hacktools via PE metadata
+  (company, product, etc.) even if the files have been renamed
+filter:
+- query:
+    query_string:
+      query: file_company:"Cube0x0"
+index: wazuh-alerts*
+name: proc_creation_win_hktl_execution_via_pe_metadata
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

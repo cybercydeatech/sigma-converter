@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects Windows PowerShell Web Access
+filter:
+- query:
+    query_string:
+      query: c-useragent.keyword:*\ WindowsPowerShell\/*
+index: wazuh-alerts*
+name: proxy_ua_powershell
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

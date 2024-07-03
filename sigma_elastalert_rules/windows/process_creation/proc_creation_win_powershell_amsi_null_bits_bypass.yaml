@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects usage of special strings/null bits in order to potentially bypass
+  AMSI functionalities
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*if\(0\)\{\{\{0\}\}\}'\ \-f\ $\(0\ \-as\
+        \[char\]\)\ \+* OR *#<NULL>*)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_amsi_null_bits_bypass
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects instances where a GIT service on an OpenCanary node has had Git
+  Clone request.
+filter:
+- query:
+    query_string:
+      query: logtype:"16001"
+index: wazuh-alerts*
+name: opencanary_git_clone_request
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

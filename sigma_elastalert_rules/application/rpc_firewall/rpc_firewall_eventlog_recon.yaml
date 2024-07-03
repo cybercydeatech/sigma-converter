@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects remote RPC calls to get event log information via EVEN or EVEN6
+filter:
+- query:
+    query_string:
+      query: (EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:("82273fdc\-e32a\-18c3\-3f78\-827929dc23ea"
+        OR "f6beaff7\-1e19\-4fbb\-9f8f\-b89e2018337c"))
+index: wazuh-alerts*
+name: rpc_firewall_eventlog_recon
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

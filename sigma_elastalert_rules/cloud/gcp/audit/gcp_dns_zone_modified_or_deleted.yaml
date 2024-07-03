@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when a DNS Zone is modified or deleted in Google Cloud.
+filter:
+- query:
+    query_string:
+      query: gcp.audit.method_name:("Dns.ManagedZones.Delete" OR "Dns.ManagedZones.Update"
+        OR "Dns.ManagedZones.Patch")
+index: wazuh-alerts*
+name: gcp_dns_zone_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

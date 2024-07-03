@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Generic rule for SQL exceptions in Python according to PEP 249
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*DataError* OR *IntegrityError* OR *ProgrammingError* OR
+        *OperationalError*)
+index: wazuh-alerts*
+name: app_python_sql_exceptions
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

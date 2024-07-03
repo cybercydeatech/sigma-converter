@@ -1,0 +1,24 @@
+alert:
+- debug
+description: "Detects execution of the Add-In deployment cache updating utility (AddInutil.exe)
+  with uncommon Addinroot or Pipelineroot paths. An adversary may execute AddinUtil.exe
+  with uncommon Addinroot/Pipelineroot paths that point to the adversaries Addins.Store
+  payload.\n"
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\addinutil.exe OR file_name_original:"AddInUtil.exe")
+        AND process_command_line.keyword:(*\-AddInRoot\:* OR *\-PipelineRoot\:*))
+        AND (NOT ((process_command_line.keyword:(*\-AddInRoot\:\"C\:\\Program\ Files\
+        \(x86\)\\Common\ Files\\Microsoft\ Shared\\VSTA* OR *\-AddInRoot\:C\:\\Program\
+        Files\ \(x86\)\\Common\ Files\\Microsoft\ Shared\\VSTA* OR *\-PipelineRoot\:\"C\:\\Program\
+        Files\ \(x86\)\\Common\ Files\\Microsoft\ Shared\\VSTA* OR *\-PipelineRoot\:C\:\\Program\
+        Files\ \(x86\)\\Common\ Files\\Microsoft\ Shared\\VSTA*)))))
+index: wazuh-alerts*
+name: proc_creation_win_addinutil_uncommon_cmdline
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

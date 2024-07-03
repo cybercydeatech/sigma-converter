@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Adversaries may attempt to gather information about attached peripheral
+  devices and components connected to a computer system.
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:*Win32_PnPEntity*
+index: wazuh-alerts*
+name: posh_ps_susp_win32_pnpentity
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

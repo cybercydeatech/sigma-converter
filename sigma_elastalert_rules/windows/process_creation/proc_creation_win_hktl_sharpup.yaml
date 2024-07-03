@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the use of SharpUp, a tool for local privilege escalation
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\SharpUp.exe OR file_description:"SharpUp" OR
+        process_command_line.keyword:(*HijackablePaths* OR *UnquotedServicePath* OR
+        *ProcessDLLHijack* OR *ModifiableServiceBinaries* OR *ModifiableScheduledTask*
+        OR *DomainGPPPassword* OR *CachedGPPPassword*))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_sharpup
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

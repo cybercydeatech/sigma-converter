@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects changes to environment variables related to ETW logging. This
+  could indicate potential adversaries stopping ETW providers recording loaded .NET
+  assemblies.
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*COMPlus_ETWEnabled* OR *COMPlus_ETWFlags*)
+index: wazuh-alerts*
+name: proc_creation_win_susp_etw_modification_cmdline
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

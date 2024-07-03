@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects potential process injection via Microsoft Remote Asssistance
+  (Msra.exe) by looking at suspicious child processes spawned from the aforementioned
+  process. It has been a target used by many threat actors and used for discovery
+  and persistence tactics
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\msra.exe AND process_parent_command_line.keyword:*msra.exe
+        AND process_path.keyword:(*\\arp.exe OR *\\cmd.exe OR *\\net.exe OR *\\netstat.exe
+        OR *\\nslookup.exe OR *\\route.exe OR *\\schtasks.exe OR *\\whoami.exe))
+index: wazuh-alerts*
+name: proc_creation_win_msra_process_injection
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

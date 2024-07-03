@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects suspicious PowerShell download patterns that are often used in
+  malicious scripts, stagers or downloaders (make sure that your backend applies the
+  strings case-insensitive)
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*IEX\ \(\(New\-Object\ Net.WebClient\).DownloadString*
+        OR *IEX\ \(New\-Object\ Net.WebClient\).DownloadString* OR *IEX\(\(New\-Object\
+        Net.WebClient\).DownloadString* OR *IEX\(New\-Object\ Net.WebClient\).DownloadString*
+        OR *\ \-command\ \(New\-Object\ System.Net.WebClient\).DownloadFile\(* OR
+        *\ \-c\ \(New\-Object\ System.Net.WebClient\).DownloadFile\(*)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_susp_download_patterns
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

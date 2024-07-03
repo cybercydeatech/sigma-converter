@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when Okta identifies new activity in the Admin Console.
+filter:
+- query:
+    query_string:
+      query: ((eventtype:"policy.evaluate_sign_on" AND target.displayname:"Okta\ Admin\
+        Console") AND (debugcontext.debugdata.behaviors.keyword:*POSITIVE* OR debugcontext.debugdata.logonlysecuritydata.keyword:*POSITIVE*))
+index: wazuh-alerts*
+name: okta_new_behaviours_admin_console
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

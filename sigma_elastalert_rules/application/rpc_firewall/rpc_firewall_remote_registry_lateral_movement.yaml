@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects remote RPC calls to modify the registry and possible execute
+  code
+filter:
+- query:
+    query_string:
+      query: (EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:"338cd001\-2244\-31f1\-aaaa\-900038001003"
+        AND OpNum:("6" OR "7" OR "8" OR "13" OR "18" OR "19" OR "21" OR "22" OR "23"
+        OR "35"))
+index: wazuh-alerts*
+name: rpc_firewall_remote_registry_lateral_movement
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

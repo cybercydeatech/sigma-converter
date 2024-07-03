@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the use of PSAttack PowerShell hack tool
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:*PS\ ATTACK\!\!\!*
+index: wazuh-alerts*
+name: posh_ps_psattack
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

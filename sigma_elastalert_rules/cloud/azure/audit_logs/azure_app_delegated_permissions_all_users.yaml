@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when highly privileged delegated permissions are granted on behalf
+  of all users
+filter:
+- query:
+    query_string:
+      query: properties.message:"Add\ delegated\ permission\ grant"
+index: wazuh-alerts*
+name: azure_app_delegated_permissions_all_users
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects extraction of files with usage of steghide binary, the adversaries
+  may use this technique to prevent the detection of hidden information.
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0:"steghide" AND a1:"extract" AND a2:"\-sf" AND a3.keyword:(*.jpg
+        OR *.png))
+index: wazuh-alerts*
+name: lnx_auditd_steghide_extract_steganography
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

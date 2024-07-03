@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious execution of Sysinternals PsSuspend, where the utility
+  is used to suspend critical processes such as AV or EDR to bypass defenses
+filter:
+- query:
+    query_string:
+      query: ((file_name_original:"pssuspend.exe" OR process_path.keyword:(*\\pssuspend.exe
+        OR *\\pssuspend64.exe)) AND process_command_line.keyword:*msmpeng.exe*)
+index: wazuh-alerts*
+name: proc_creation_win_sysinternals_pssuspend_susp_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

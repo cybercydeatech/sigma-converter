@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects execution of "dsquery.exe" for domain trust discovery
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\dsquery.exe OR file_name_original:"dsquery.exe")
+        AND process_command_line.keyword:*trustedDomain*)
+index: wazuh-alerts*
+name: proc_creation_win_dsquery_domain_trust_discovery
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

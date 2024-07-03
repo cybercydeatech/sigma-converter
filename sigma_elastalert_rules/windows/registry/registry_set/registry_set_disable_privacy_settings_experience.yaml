@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects registry modifications that disable Privacy Settings Experience
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\SOFTWARE\\Policies\\Microsoft\\Windows\\OOBE\\DisablePrivacyExperience
+        AND Details:"DWORD\ \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_disable_privacy_settings_experience
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

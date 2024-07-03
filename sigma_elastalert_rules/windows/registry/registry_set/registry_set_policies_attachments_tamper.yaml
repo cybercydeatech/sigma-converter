@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects tampering with attachment manager settings policies attachments
+  (See reference for more information)
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Attachments\\*
+        AND ((registry_key_path.keyword:*\\HideZoneInfoOnProperties AND Details:"DWORD\
+        \(0x00000001\)") OR (registry_key_path.keyword:*\\SaveZoneInformation AND
+        Details:"DWORD\ \(0x00000002\)") OR (registry_key_path.keyword:*\\ScanWithAntiVirus
+        AND Details:"DWORD\ \(0x00000001\)")))
+index: wazuh-alerts*
+name: registry_set_policies_attachments_tamper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

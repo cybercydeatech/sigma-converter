@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Detects a suspicious copy operation that tries to copy a program from system (System32, SysWOW64, WinSxS) directories to another on disk.
+  Often used to move LOLBINs such as 'certutil' or 'desktopimgdownldr' to a different location with a different name in order to bypass detections based on locations.
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\cmd.exe AND process_command_line.keyword:*copy\
+        *) OR (process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) AND process_command_line.keyword:(*copy\-item*
+        OR *\ copy\ * OR *cpi\ * OR *\ cp\ *)) OR (process_path.keyword:(*\\robocopy.exe
+        OR *\\xcopy.exe) OR file_name_original:("robocopy.exe" OR "XCOPY.EXE"))) AND
+        process_command_line.keyword:(*\\System32* OR *\\SysWOW64* OR *\\WinSxS*))
+index: wazuh-alerts*
+name: proc_creation_win_susp_copy_system_dir
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

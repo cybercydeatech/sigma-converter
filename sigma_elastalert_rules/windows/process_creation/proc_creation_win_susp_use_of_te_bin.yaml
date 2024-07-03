@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Windows Test Authoring and Execution Framework (TAEF) framework allows you to run automation by executing tests files written on different languages (C, C#, Microsoft COM Scripting interfaces
+  Adversaries may execute malicious code (such as WSC file with VBScript, dll and so on) directly by running te.exe
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\te.exe OR process_parent_path.keyword:*\\te.exe
+        OR file_name_original:"\\te.exe")
+index: wazuh-alerts*
+name: proc_creation_win_susp_use_of_te_bin
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

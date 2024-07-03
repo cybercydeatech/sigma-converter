@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of a new Outlook form which can contain malicious
+  code
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\outlook.exe AND file_name.keyword:(*\\AppData\\Local\\Microsoft\\FORMS\\IPM*
+        OR *\\Local\ Settings\\Application\ Data\\Microsoft\\Forms*))
+index: wazuh-alerts*
+name: file_event_win_office_outlook_newform
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

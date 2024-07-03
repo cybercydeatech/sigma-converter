@@ -1,0 +1,56 @@
+alert:
+- debug
+description: "Detects an initiated network connection by a non browser process on
+  the system to \"azurewebsites.net\". The latter was often used by threat actors
+  as a malware hosting and exfiltration site.\n"
+filter:
+- query:
+    query_string:
+      query: ((Initiated:"true" AND dst_host_name.keyword:*azurewebsites.net) AND
+        (NOT ((process_path:("C\:\\Program\ Files\\Google\\Chrome\\Application\\chrome.exe"
+        OR "C\:\\Program\ Files\ \(x86\)\\Google\\Chrome\\Application\\chrome.exe"))
+        OR (process_path.keyword:C\:\\Users\\* AND process_path.keyword:*\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe)
+        OR (process_path:("C\:\\Program\ Files\\Mozilla\ Firefox\\firefox.exe" OR
+        "C\:\\Program\ Files\ \(x86\)\\Mozilla\ Firefox\\firefox.exe")) OR (process_path.keyword:C\:\\Users\\*
+        AND process_path.keyword:*\\AppData\\Local\\Mozilla\ Firefox\\firefox.exe)
+        OR (process_path:("C\:\\Program\ Files\ \(x86\)\\Internet\ Explorer\\iexplore.exe"
+        OR "C\:\\Program\ Files\\Internet\ Explorer\\iexplore.exe")) OR (process_path.keyword:C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\EdgeWebView\\Application\\* OR process_path.keyword:*\\WindowsApps\\MicrosoftEdge.exe
+        OR process_path:("C\:\\Program\ Files\ \(x86\)\\Microsoft\\Edge\\Application\\msedge.exe"
+        OR "C\:\\Program\ Files\\Microsoft\\Edge\\Application\\msedge.exe")) OR (process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\EdgeCore\\* OR C\:\\Program\ Files\\Microsoft\\EdgeCore\\*)
+        AND process_path.keyword:(*\\msedge.exe OR *\\msedgewebview2.exe)) OR (process_path.keyword:(*C\:\\Program\
+        Files\ \(x86\)\\Safari\\* OR *C\:\\Program\ Files\\Safari\\*) AND process_path.keyword:*\\safari.exe)
+        OR (process_path.keyword:(*C\:\\Program\ Files\\Windows\ Defender\ Advanced\
+        Threat\ Protection\\* OR *C\:\\Program\ Files\\Windows\ Defender\\* OR *C\:\\ProgramData\\Microsoft\\Windows\
+        Defender\\Platform\\*) AND process_path.keyword:(*\\MsMpEng.exe OR *\\MsSense.exe))
+        OR (process_path.keyword:(*C\:\\Program\ Files\ \(x86\)\\PRTG\ Network\ Monitor\\PRTG\
+        Probe.exe OR *C\:\\Program\ Files\\PRTG\ Network\ Monitor\\PRTG\ Probe.exe))
+        OR (process_path.keyword:C\:\\Program\ Files\\BraveSoftware\\* AND process_path.keyword:*\\brave.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Maxthon\\* AND process_path.keyword:*\\maxthon.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Programs\\Opera\\* AND process_path.keyword:*\\opera.exe)
+        OR (process_path.keyword:(C\:\\Program\ Files\\SeaMonkey\\* OR C\:\\Program\
+        Files\ \(x86\)\\SeaMonkey\\*) AND process_path.keyword:*\\seamonkey.exe) OR
+        (process_path.keyword:*\\AppData\\Local\\Vivaldi\\* AND process_path.keyword:*\\vivaldi.exe)
+        OR (process_path.keyword:(C\:\\Program\ Files\\Naver\\Naver\ Whale\\* OR C\:\\Program\
+        Files\ \(x86\)\\Naver\\Naver\ Whale\\*) AND process_path.keyword:*\\whale.exe)
+        OR (process_path.keyword:(C\:\\Program\ Files\\Waterfox\\* OR C\:\\Program\
+        Files\ \(x86\)\\Waterfox\\*) AND process_path.keyword:*\\Waterfox.exe) OR
+        (process_path.keyword:(C\:\\Program\ Files\\SlimBrowser\\* OR C\:\\Program\
+        Files\ \(x86\)\\SlimBrowser\\*) AND process_path.keyword:*\\slimbrowser.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Flock\\* AND process_path.keyword:*\\Flock.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Phoebe\\* AND process_path.keyword:*\\Phoebe.exe)
+        OR (process_path.keyword:(C\:\\Program\ Files\\Falkon\\* OR C\:\\Program\
+        Files\ \(x86\)\\Falkon\\*) AND process_path.keyword:*\\falkon.exe) OR (process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\QtWeb\\* OR C\:\\Program\ Files\\QtWeb\\*) AND process_path.keyword:*\\QtWeb.exe)
+        OR (process_path.keyword:(C\:\\Program\ Files\ \(x86\)\\Avant\ Browser\\*
+        OR C\:\\Program\ Files\\Avant\ Browser\\*) AND process_path.keyword:*\\avant.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Discord\\* AND process_path.keyword:*\\Discord.exe))))
+index: wazuh-alerts*
+name: net_connection_win_domain_azurewebsites
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

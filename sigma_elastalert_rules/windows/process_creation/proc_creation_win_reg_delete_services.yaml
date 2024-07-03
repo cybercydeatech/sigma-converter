@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of "reg.exe" commands with the "delete" flag on services
+  registry key. Often used by attacker to remove AV software services
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*reg.exe OR file_name_original:"reg.exe") AND
+        process_command_line.keyword:*\ delete\ * AND process_command_line.keyword:*\\SYSTEM\\CurrentControlSet\\services\\*)
+index: wazuh-alerts*
+name: proc_creation_win_reg_delete_services
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

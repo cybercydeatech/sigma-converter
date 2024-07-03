@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  An adversary might use WMI to check if a certain remote service is running on a remote device.
+  When the test completes, a service information will be displayed on the screen if it exists.
+  A common feedback message is that "No instance(s) Available" if the service queried is not running.
+  A common error message is "Node - (provided IP or default) ERROR Description =The RPC server is unavailable" if the provided remote host is unreachable
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\WMIC.exe OR file_name_original:"wmic.exe")
+        AND process_command_line.keyword:*service*)
+index: wazuh-alerts*
+name: proc_creation_win_wmic_recon_service
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

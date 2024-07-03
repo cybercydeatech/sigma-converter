@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the execution of the nscurl utility in order to download files.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/nscurl AND process_command_line.keyword:(*\-\-download\
+        * OR *\-\-download\-directory\ * OR *\-\-output\ * OR *\-dir\ * OR *\-dl\
+        * OR *\-ld* OR *\-o\ *))
+index: wazuh-alerts*
+name: proc_creation_macos_nscurl_usage
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

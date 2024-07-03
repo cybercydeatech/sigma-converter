@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects WerFault copoed to a suspicious folder, which could be a sign
+  of WerFault DLL hijacking
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\\WerFault.exe OR *\\wer.dll) AND (NOT (file_name.keyword:(*\\System32\\*
+        OR *\\SysWOW64\\* OR *\\WinSxS\\*))))
+index: wazuh-alerts*
+name: file_event_win_werfault_dll_hijacking
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

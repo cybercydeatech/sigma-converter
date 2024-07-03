@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the deletion of registry keys containing the MSTSC connection
+  history
+filter:
+- query:
+    query_string:
+      query: ((event_category_type:"DeleteValue" AND registry_key_path.keyword:*\\Microsoft\\Terminal\
+        Server\ Client\\Default\\MRU*) OR (event_category_type:"DeleteKey" AND registry_key_path.keyword:*\\Microsoft\\Terminal\
+        Server\ Client\\Servers\\*))
+index: wazuh-alerts*
+name: registry_delete_mstsc_history_cleared
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

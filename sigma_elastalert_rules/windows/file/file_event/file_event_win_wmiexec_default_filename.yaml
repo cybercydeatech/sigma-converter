@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of the default output filename used by the wmiexec
+  tool
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:/.*\\Windows\\__1\d{9}\.\d{1,7}/ OR file_name.keyword:/.*C:\\__1\d{9}\.\d{1,7}/
+        OR file_name.keyword:/.*D:\\__1\d{9}\.\d{1,7}/)
+index: wazuh-alerts*
+name: file_event_win_wmiexec_default_filename
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

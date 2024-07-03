@@ -1,0 +1,33 @@
+alert:
+- debug
+description: Detects tampering with the "Enabled" registry key in order to disable
+  Windows logging of a Windows event channel
+filter:
+- query:
+    query_string:
+      query: 
+        (((registry_key_path.keyword:*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\*
+        AND registry_key_path.keyword:*\\Enabled AND Details:"DWORD\ \(0x00000000\)")
+        AND (NOT ((process_path:"C\:\\Windows\\system32\\wevtutil.exe") OR (process_path.keyword:C\:\\Windows\\winsxs\\*
+        AND process_path.keyword:*\\TiWorker.exe) OR (process_path:"C\:\\Windows\\System32\\svchost.exe"
+        AND 
+        registry_key_path.keyword:(*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft\-Windows\-FileInfoMinifilter*
+        OR 
+        *\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft\-Windows\-ASN1\\*
+        OR 
+        *\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft\-Windows\-Kernel\-AppCompat\\*
+        OR 
+        *\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft\-Windows\-Runtime\\Error\\*
+        OR 
+        *\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft\-Windows\-CAPI2\/Operational\\*))
+        OR (process_path:"C\:\\Windows\\servicing\\TrustedInstaller.exe" AND 
+        registry_key_path.keyword:*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\Microsoft\-Windows\-Compat\-Appraiser*))))
+        AND (NOT ((process_path:"") OR (NOT _exists_:process_path))))
+index: wazuh-alerts*
+name: registry_set_disable_winevt_logging
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

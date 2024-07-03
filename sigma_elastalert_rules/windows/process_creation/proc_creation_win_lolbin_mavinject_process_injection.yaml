@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects process injection using the signed Windows tool "Mavinject" via
+  the "INJECTRUNNING" flag
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*\ \/INJECTRUNNING\ * AND (NOT (process_parent_path:"C\:\\Windows\\System32\\AppVClient.exe")))
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_mavinject_process_injection
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: This method uses uncommon error codes on failed logons to determine suspicious
+  activity and tampering with accounts that have been disabled or somehow restricted.
+filter:
+- query:
+    query_string:
+      query: ((event_id:("4625" OR "4776") AND event_status:("0xC0000072" OR "0xC000006F"
+        OR "0xC0000070" OR "0xC0000413" OR "0xC000018C" OR "0xC000015B")) AND (NOT
+        (SubjectUserSid:"S\-1\-0\-0")))
+index: wazuh-alerts*
+name: win_security_susp_failed_logon_reasons
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

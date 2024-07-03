@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Hides the file extension through modification of the registry
+filter:
+- query:
+    query_string:
+      query: 
+        ((registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt
+        AND Details:"DWORD\ \(0x00000001\)") OR 
+        (registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden
+        AND Details:"DWORD\ \(0x00000002\)"))
+index: wazuh-alerts*
+name: registry_set_hidden_extention
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect attempt to enable auditing of TTY input
+filter:
+- query:
+    query_string:
+      query: ((type:"PATH" AND name:("\/etc\/pam.d\/system\-auth" OR "\/etc\/pam.d\/password\-auth"))
+        OR type:("TTY" OR "USER_TTY"))
+index: wazuh-alerts*
+name: lnx_auditd_keylogging_with_pam_d
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

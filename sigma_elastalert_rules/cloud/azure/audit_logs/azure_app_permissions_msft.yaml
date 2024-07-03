@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when an application is granted delegated or app role permissions
+  for Microsoft Graph, Exchange, Sharepoint, or Azure AD
+filter:
+- query:
+    query_string:
+      query: properties.message:("Add\ delegated\ permission\ grant" OR "Add\ app\
+        role\ assignment\ to\ service\ principal")
+index: wazuh-alerts*
+name: azure_app_permissions_msft
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

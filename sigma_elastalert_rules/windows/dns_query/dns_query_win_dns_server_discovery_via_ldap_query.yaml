@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects DNS server discovery via LDAP query requests from uncommon applications
+filter:
+- query:
+    query_string:
+      query: ((QueryName.keyword:_ldap.* AND (NOT ((process_path.keyword:(*\:\\Program\
+        Files\\* OR *\:\\Program\ Files\ \(x86\)\\* OR *\:\\Windows\\*)) OR (process_path.keyword:*\:\\ProgramData\\Microsoft\\Windows\
+        Defender\\Platform\\* AND process_path.keyword:*\\MsMpEng.exe) OR (process_path:"<unknown\
+        process>") OR (NOT _exists_:process_path)))) AND (NOT ((process_path.keyword:C\:\\WindowsAzure\\GuestAgent*)
+        OR (process_path.keyword:(*\\chrome.exe OR *\\firefox.exe OR *\\opera.exe)))))
+index: wazuh-alerts*
+name: dns_query_win_dns_server_discovery_via_ldap_query
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

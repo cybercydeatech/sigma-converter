@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "7za.dll"
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\7za.dll AND (NOT ((process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\* OR C\:\\Program\ Files\\*) AND ImageLoaded.keyword:(C\:\\Program\
+        Files\ \(x86\)\\* OR C\:\\Program\ Files\\*)))))
+index: wazuh-alerts*
+name: image_load_side_load_7za
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

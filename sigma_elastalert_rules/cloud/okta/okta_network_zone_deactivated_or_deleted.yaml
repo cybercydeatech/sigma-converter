@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when an Network Zone is Deactivated or Deleted.
+filter:
+- query:
+    query_string:
+      query: eventtype:("zone.deactivate" OR "zone.delete")
+index: wazuh-alerts*
+name: okta_network_zone_deactivated_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

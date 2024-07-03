@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects when an organization member or an outside collaborator is added
+  to or removed from a project board or has their permission level changed or when
+  an owner removes an outside collaborator from an organization or when two-factor
+  authentication is required in an organization and an outside collaborator does not
+  use 2FA or disables 2FA.\n"
+filter:
+- query:
+    query_string:
+      query: action:("org.remove_outside_collaborator" OR "project.update_user_permission")
+index: wazuh-alerts*
+name: github_outside_collaborator_detected
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

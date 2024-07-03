@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential persistence activity via outlook home pages.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*\\Software\\Microsoft\\Office\\* OR *\\Outlook\\WebView\\*)
+        AND registry_key_path.keyword:*\\URL AND registry_key_path.keyword:(*\\Calendar\\*
+        OR *\\Inbox\\*))
+index: wazuh-alerts*
+name: registry_set_persistence_outlook_homepage
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

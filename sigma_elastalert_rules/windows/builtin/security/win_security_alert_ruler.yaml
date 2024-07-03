@@ -1,0 +1,16 @@
+alert:
+- debug
+description: This events that are generated when using the hacktool Ruler by Sensepost
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4776" AND src_host_name:"RULER") OR (event_id:("4624" OR
+        "4625") AND src_host_name:"RULER"))
+index: wazuh-alerts*
+name: win_security_alert_ruler
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

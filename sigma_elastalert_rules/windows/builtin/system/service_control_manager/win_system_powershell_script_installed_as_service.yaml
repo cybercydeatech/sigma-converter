@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects powershell script installed as a Service
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Service\ Control\ Manager" AND event_id:"7045" AND ImagePath.keyword:(*powershell*
+        OR *pwsh*))
+index: wazuh-alerts*
+name: win_system_powershell_script_installed_as_service
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

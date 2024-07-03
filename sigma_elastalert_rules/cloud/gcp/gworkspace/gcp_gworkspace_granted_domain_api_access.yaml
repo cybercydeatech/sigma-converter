@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when an API access service account is granted domain authority.
+filter:
+- query:
+    query_string:
+      query: (eventService:"admin.googleapis.com" AND eventName:"AUTHORIZE_API_CLIENT_ACCESS")
+index: wazuh-alerts*
+name: gcp_gworkspace_granted_domain_api_access
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

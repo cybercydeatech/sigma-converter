@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects PowerShell scripts that contains reference to keystroke capturing
+  functions
+filter:
+- query:
+    query_string:
+      query: 
+        ScriptBlockText.keyword:*\[Windows.Input.Keyboard\]\:\:IsKeyDown\(\[System.Windows.Input.Key\]\:\:*
+index: wazuh-alerts*
+name: posh_ps_susp_keylogger_activity
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

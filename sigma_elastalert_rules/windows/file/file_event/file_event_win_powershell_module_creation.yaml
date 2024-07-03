@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of a new PowerShell module ".psm1", ".psd1", ".dll",
+  ".ps1", etc.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) AND file_name.keyword:(*\\WindowsPowerShell\\Modules\\*
+        OR *\\PowerShell\\7\\Modules\\*))
+index: wazuh-alerts*
+name: file_event_win_powershell_module_creation
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

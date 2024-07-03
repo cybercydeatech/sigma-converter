@@ -1,0 +1,27 @@
+alert:
+- debug
+description: Detects known hacktool execution based on image name.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\/crackmapexec OR *\/havoc OR *\/merlin\-agent
+        OR *\/merlinServer\-Linux\-x64 OR *\/msfconsole OR *\/msfvenom OR *\/ps\-empire\
+        server OR *\/ps\-empire OR *\/sliver\-client OR *\/sliver\-server OR *\/Villain.py)
+        OR process_path.keyword:(*\/cobaltstrike* OR *\/teamserver*) OR process_path.keyword:(*\/autorecon
+        OR *\/httpx OR *\/legion OR *\/naabu OR *\/netdiscover OR *\/nmap OR *\/nuclei
+        OR *\/recon\-ng OR *\/zenmap) OR process_path.keyword:*\/sniper* OR process_path.keyword:(*\/dirb
+        OR *\/dirbuster OR *\/eyewitness OR *\/feroxbuster OR *\/ffuf OR *\/gobuster
+        OR *\/wfuzz OR *\/whatweb) OR process_path.keyword:(*\/joomscan OR *\/nikto
+        OR *\/wpscan) OR process_path.keyword:(*\/aircrack\-ng OR *\/bloodhound\-python
+        OR *\/bpfdos OR *\/ebpfki OR *\/evil\-winrm OR *\/hashcat OR *\/hoaxshell.py
+        OR *\/hydra OR *\/john OR *\/ncrack OR *\/nxc\-ubuntu\-latest OR *\/pidhide
+        OR *\/pspy32 OR *\/pspy32s OR *\/pspy64 OR *\/pspy64s OR *\/setoolkit OR *\/sqlmap
+        OR *\/writeblocker) OR process_path.keyword:*\/linpeas*)
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_hktl_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

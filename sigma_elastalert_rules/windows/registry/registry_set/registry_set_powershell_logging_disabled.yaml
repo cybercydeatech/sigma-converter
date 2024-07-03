@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects changes to the registry for the currently logged-in user. In
+  order to disable PowerShell module logging, script block logging or transcription
+  and script execution logging
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*\\Microsoft\\Windows\\PowerShell\\* OR *\\Microsoft\\PowerShellCore\\*)
+        AND registry_key_path.keyword:(*\\ModuleLogging\\EnableModuleLogging OR *\\ScriptBlockLogging\\EnableScriptBlockLogging
+        OR *\\ScriptBlockLogging\\EnableScriptBlockInvocationLogging OR *\\Transcription\\EnableTranscripting
+        OR *\\Transcription\\EnableInvocationHeader OR *\\EnableScripts) AND Details:"DWORD\
+        \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_powershell_logging_disabled
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

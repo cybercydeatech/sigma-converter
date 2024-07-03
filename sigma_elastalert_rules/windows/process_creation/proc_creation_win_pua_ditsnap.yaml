@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of Ditsnap tool, an inspection tool for Active Directory
+  database, ntds.dit.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\ditsnap.exe OR process_command_line.keyword:*ditsnap.exe*)
+index: wazuh-alerts*
+name: proc_creation_win_pua_ditsnap
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

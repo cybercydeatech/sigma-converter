@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects tampering of RDP Terminal Service/Server sensitive settings.
+  Such as allowing unauthorized users access to a system via the 'fAllowUnsolicited' or enabling RDP via 'fDenyTSConnections', etc.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*\\fDenyTSConnections OR *\\fSingleSessionPerUser
+        OR *\\UserAuthentication) AND Details:"DWORD\ \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_terminal_server_suspicious
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

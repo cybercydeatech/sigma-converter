@@ -1,0 +1,24 @@
+alert:
+- debug
+description: "Detects execution of the Add-In deployment cache updating utility (AddInutil.exe)
+  with suspicious Addinroot or Pipelineroot paths. An adversary may execute AddinUtil.exe
+  with uncommon Addinroot/Pipelineroot paths that point to the adversaries Addins.Store
+  payload.\n"
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\addinutil.exe OR file_name_original:"AddInUtil.exe")
+        AND ((process_command_line.keyword:(*\-AddInRoot\:* OR *\-PipelineRoot\:*)
+        AND process_command_line.keyword:(*\\AppData\\Local\\Temp\\* OR *\\Desktop\\*
+        OR *\\Downloads\\* OR *\\Users\\Public\\* OR *\\Windows\\Temp\\*)) OR (process_command_line.keyword:(*\-AddInRoot\:.*
+        OR *\-AddInRoot\:\".\"* OR *\-PipelineRoot\:.* OR *\-PipelineRoot\:\".\"*)
+        AND process_current_directory.keyword:(*\\AppData\\Local\\Temp\\* OR *\\Desktop\\*
+        OR *\\Downloads\\* OR *\\Users\\Public\\* OR *\\Windows\\Temp\\*))))
+index: wazuh-alerts*
+name: proc_creation_win_addinutil_suspicious_cmdline
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

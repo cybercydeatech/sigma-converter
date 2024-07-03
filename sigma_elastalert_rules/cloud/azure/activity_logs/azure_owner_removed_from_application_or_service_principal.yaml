@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies when a owner is was removed from a application or service
+  principal in Azure.
+filter:
+- query:
+    query_string:
+      query: properties.message:("Remove\ owner\ from\ service\ principal" OR "Remove\
+        owner\ from\ application")
+index: wazuh-alerts*
+name: azure_owner_removed_from_application_or_service_principal
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

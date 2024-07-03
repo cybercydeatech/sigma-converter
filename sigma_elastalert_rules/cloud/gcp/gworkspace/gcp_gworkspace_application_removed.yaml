@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an an application is removed from Google Workspace.
+filter:
+- query:
+    query_string:
+      query: (eventService:"admin.googleapis.com" AND eventName:("REMOVE_APPLICATION"
+        OR "REMOVE_APPLICATION_FROM_WHITELIST"))
+index: wazuh-alerts*
+name: gcp_gworkspace_application_removed
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

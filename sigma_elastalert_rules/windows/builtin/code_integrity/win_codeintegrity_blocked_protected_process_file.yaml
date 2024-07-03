@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects block events for files that are disallowed by code integrity
+  for protected processes
+filter:
+- query:
+    query_string:
+      query: event_id:"3104"
+index: wazuh-alerts*
+name: win_codeintegrity_blocked_protected_process_file
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

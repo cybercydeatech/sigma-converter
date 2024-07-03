@@ -1,0 +1,18 @@
+alert:
+- debug
+description: "Detects the creation of a file with the name \"code_tunnel.json\" which
+  indicate execution and usage of VsCode tunneling utility by an \"Image\" or \"Process\"\
+  \ other than VsCode.\n"
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\\code_tunnel.json AND (NOT ((process_path.keyword:(*\\code\-tunnel.exe
+        OR *\\code.exe)))))
+index: wazuh-alerts*
+name: file_event_win_vscode_tunnel_renamed_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

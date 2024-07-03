@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects execution of Chromium based browser in headless mode
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\brave.exe OR *\\chrome.exe OR *\\msedge.exe
+        OR *\\opera.exe OR *\\vivaldi.exe) AND process_command_line.keyword:*\-\-headless*)
+index: wazuh-alerts*
+name: proc_creation_win_browsers_chromium_headless_exec
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

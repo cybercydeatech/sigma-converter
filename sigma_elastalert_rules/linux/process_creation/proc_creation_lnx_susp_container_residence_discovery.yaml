@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential container discovery via listing of certain kernel features
+  in the "/proc" virtual filesystem
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*awk OR *\/cat OR *grep OR *\/head OR *\/less
+        OR *\/more OR *\/nl OR *\/tail) AND (process_command_line.keyword:*\/proc\/2\/*
+        OR (process_command_line.keyword:*\/proc\/* AND process_command_line.keyword:(*\/cgroup
+        OR *\/sched))))
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_container_residence_discovery
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

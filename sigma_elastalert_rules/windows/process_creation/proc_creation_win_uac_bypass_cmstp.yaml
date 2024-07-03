@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detect commandline usage of Microsoft Connection Manager Profile Installer
+  (cmstp.exe) to install specially formatted local .INF files
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\cmstp.exe OR file_name_original:"CMSTP.EXE")
+        AND process_command_line.keyword:(*\/s* OR *\-s* OR *\/au* OR *\-au* OR *\/ni*
+        OR *\-ni*))
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_cmstp
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

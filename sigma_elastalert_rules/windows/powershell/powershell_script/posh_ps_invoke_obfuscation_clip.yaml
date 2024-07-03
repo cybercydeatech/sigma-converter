@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects Obfuscated use of Clip.exe to execute PowerShell
+filter:
+- query:
+    query_string:
+      query: 
+        ScriptBlockText.keyword:/cmd.{0,5}(?:/c|/r).+clip(?:\.exe)?.{0,4}&&.+clipboard]::\(\s\\"\{\d\}.+-f.+"/
+index: wazuh-alerts*
+name: posh_ps_invoke_obfuscation_clip
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

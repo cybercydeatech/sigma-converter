@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when an application is modified or deleted.
+filter:
+- query:
+    query_string:
+      query: eventtype:("application.lifecycle.update" OR "application.lifecycle.delete")
+index: wazuh-alerts*
+name: okta_application_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

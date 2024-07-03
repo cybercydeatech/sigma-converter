@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects remote RPC calls to create or execute a scheduled task via ATSvc
+filter:
+- query:
+    query_string:
+      query: (EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:"1ff70682\-0a51\-30e8\-076d\-740be8cee98b"
+        AND OpNum:("0" OR "1"))
+index: wazuh-alerts*
+name: rpc_firewall_atsvc_lateral_movement
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

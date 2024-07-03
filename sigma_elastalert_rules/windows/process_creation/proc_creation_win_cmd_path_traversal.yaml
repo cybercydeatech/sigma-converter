@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potential path traversal attempt via cmd.exe. Could indicate
+  possible command/argument confusion/hijacking
+filter:
+- query:
+    query_string:
+      query: (((process_parent_path.keyword:*\\cmd.exe OR process_path.keyword:*\\cmd.exe
+        OR file_name_original:"cmd.exe") AND (process_parent_command_line.keyword:(*\/c*
+        OR *\/k* OR *\/r*) OR process_command_line.keyword:(*\/c* OR *\/k* OR *\/r*))
+        AND (process_parent_command_line:"\/..\/..\/" OR process_command_line.keyword:*\/..\/..\/*))
+        AND (NOT 
+        ((process_command_line.keyword:*\\Tasktop\\keycloak\\bin\\\/..\/..\/jre\\bin\\java*))))
+index: wazuh-alerts*
+name: proc_creation_win_cmd_path_traversal
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

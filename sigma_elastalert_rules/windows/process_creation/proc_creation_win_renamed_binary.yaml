@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the execution of a renamed binary often used by attackers or
+  malware leveraging new Sysmon OriginalFileName datapoint.
+filter:
+- query:
+    query_string:
+      query: (file_name_original:("Cmd.Exe" OR "CONHOST.EXE" OR "7z.exe" OR "WinRAR.exe"
+        OR "wevtutil.exe" OR "net.exe" OR "net1.exe" OR "netsh.exe" OR "InstallUtil.exe")
+        AND (NOT (process_path.keyword:(*\\cmd.exe OR *\\conhost.exe OR *\\7z.exe
+        OR *\\WinRAR.exe OR *\\wevtutil.exe OR *\\net.exe OR *\\net1.exe OR *\\netsh.exe
+        OR *\\InstallUtil.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_binary
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

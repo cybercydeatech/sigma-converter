@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of the lesser known remote execution tool named CsExec
+  a PsExec alternative
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\csexec.exe OR file_description:"csexec")
+index: wazuh-alerts*
+name: proc_creation_win_pua_csexec
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

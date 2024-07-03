@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Detects potential PowerShell execution from a DLL instead of the usual PowerShell process as seen used in PowerShdll.
+  This detection assumes that PowerShell commands are passed via the CommandLine.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\InstallUtil.exe OR *\\RegAsm.exe OR *\\RegSvcs.exe
+        OR *\\regsvr32.exe OR *\\rundll32.exe) OR file_name_original:("InstallUtil.exe"
+        OR "RegAsm.exe" OR "RegSvcs.exe" OR "REGSVR32.EXE" OR "RUNDLL32.EXE")) AND
+        process_command_line.keyword:(*Default.GetString* OR *DownloadString* OR *FromBase64String*
+        OR *ICM\ * OR *IEX\ * OR *Invoke\-Command* OR *Invoke\-Expression*))
+index: wazuh-alerts*
+name: proc_creation_win_susp_powershell_execution_via_dll
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

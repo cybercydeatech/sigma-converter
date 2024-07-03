@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects read access to a domain user from a non-machine account
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4662" AND object_type.keyword:*bf967aba\-0de6\-11d0\-a285\-00aa003049e2*
+        AND object_access_mask.keyword:(*1? OR *3? OR *4? OR *7? OR *9? OR *B? OR
+        *D? OR *F?)) AND (NOT ((user_name.keyword:*$) OR (user_name.keyword:MSOL_*))))
+index: wazuh-alerts*
+name: win_security_ad_user_enumeration
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

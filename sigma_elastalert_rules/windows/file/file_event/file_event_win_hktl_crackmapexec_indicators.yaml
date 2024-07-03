@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects file creation events with filename patterns used by CrackMapExec.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:C\:\\Windows\\Temp\\* AND (file_name.keyword:(*\\temp.ps1
+        OR *\\msol.ps1) OR 
+        file_name.keyword:/.*\\[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.txt/
+        OR file_name.keyword:/.*\\[a-zA-Z]{8}\.tmp/))
+index: wazuh-alerts*
+name: file_event_win_hktl_crackmapexec_indicators
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

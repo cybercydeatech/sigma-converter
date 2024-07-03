@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Turn off logging locally or remote
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*no\ logging* OR *no\ aaa\ new\-model*)
+index: wazuh-alerts*
+name: cisco_cli_disable_logging
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

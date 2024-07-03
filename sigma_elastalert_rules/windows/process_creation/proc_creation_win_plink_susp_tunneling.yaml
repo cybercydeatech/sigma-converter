@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Execution of plink to perform data exfiltration and tunneling
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\plink.exe AND process_command_line.keyword:*\:127.0.0.1\:3389*)
+        OR (process_path.keyword:*\\plink.exe AND process_command_line.keyword:*\:3389*
+        AND process_command_line.keyword:(*\ \-P\ 443* OR *\ \-P\ 22*)))
+index: wazuh-alerts*
+name: proc_creation_win_plink_susp_tunneling
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

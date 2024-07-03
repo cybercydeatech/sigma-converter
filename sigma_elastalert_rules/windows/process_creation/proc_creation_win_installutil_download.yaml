@@ -1,0 +1,18 @@
+alert:
+- debug
+description: "Detects use of .NET InstallUtil.exe in order to download arbitrary files.
+  The files will be written to \"%LOCALAPPDATA%\\Microsoft\\Windows\\INetCache\\IE\\\
+  \"\n"
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\InstallUtil.exe OR file_name_original:"InstallUtil.exe")
+        AND process_command_line.keyword:(*ftp\:\/\/* OR *http\:\/\/* OR *https\:\/\/*))
+index: wazuh-alerts*
+name: proc_creation_win_installutil_download
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

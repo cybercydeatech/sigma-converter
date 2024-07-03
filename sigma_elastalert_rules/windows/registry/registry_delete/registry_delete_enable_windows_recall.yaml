@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the enabling of the Windows Recall feature via registry manipulation. Windows Recall can be enabled by deleting the existing "DisableAIDataAnalysis" registry value.
+  Adversaries may enable Windows Recall as part of post-exploitation discovery and collection activities.
+  This rule assumes that Recall is already explicitly disabled on the host, and subsequently enabled by the adversary.
+filter:
+- query:
+    query_string:
+      query: (event_category_type:"DeleteValue" AND 
+        registry_key_path.keyword:*\\Microsoft\\Windows\\WindowsAI\\DisableAIDataAnalysis)
+index: wazuh-alerts*
+name: registry_delete_enable_windows_recall
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

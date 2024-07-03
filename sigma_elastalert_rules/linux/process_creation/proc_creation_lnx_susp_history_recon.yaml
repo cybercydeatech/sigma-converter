@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects events in which someone prints the contents of history files
+  to the commandline or redirects it to a file for reconnaissance
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\/cat OR *\/head OR *\/tail OR *\/more) AND (process_command_line.keyword:(*\/.bash_history*
+        OR *\/.zsh_history*) OR process_command_line.keyword:(*_history OR *.history
+        OR *zhistory)))
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_history_recon
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

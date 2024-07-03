@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects creation of cron file or files in Cron directories which could
+  indicates potential persistence.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(\/etc\/cron.d\/* OR \/etc\/cron.daily\/* OR \/etc\/cron.hourly\/*
+        OR \/etc\/cron.monthly\/* OR \/etc\/cron.weekly\/* OR \/var\/spool\/cron\/crontabs\/*)
+        OR file_name.keyword:(*\/etc\/cron.allow* OR *\/etc\/cron.deny* OR *\/etc\/crontab*))
+index: wazuh-alerts*
+name: file_event_lnx_persistence_cron_files
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

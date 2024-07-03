@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects strings used in command execution in DNS TXT Answer
+filter:
+- query:
+    query_string:
+      query: (record_type:"TXT" AND answer.keyword:(*IEX* OR *Invoke\-Expression*
+        OR *cmd.exe*))
+index: wazuh-alerts*
+name: net_dns_susp_txt_exec_strings
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

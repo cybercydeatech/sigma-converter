@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect when authentications to important application(s) only required
+  single-factor authentication
+filter:
+- query:
+    query_string:
+      query: (event_status:"Success" AND AppId:"Insert\ Application\ ID\ use\ OR\
+        for\ multiple" AND AuthenticationRequirement:"singleFactorAuthentication")
+index: wazuh-alerts*
+name: azure_ad_auth_to_important_apps_using_single_factor_auth
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

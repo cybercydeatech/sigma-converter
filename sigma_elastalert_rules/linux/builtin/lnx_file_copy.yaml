@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of tools that copy files from or to remote systems
+filter:
+- query:
+    query_string:
+      query: (\*.keyword:(*scp\ * OR *rsync\ * OR *sftp\ *) AND \*.keyword:(*@* OR
+        *\:*))
+index: wazuh-alerts*
+name: lnx_file_copy
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

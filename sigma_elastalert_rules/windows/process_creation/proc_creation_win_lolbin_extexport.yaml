@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Extexport.exe loads dll and is execute from other folder the original
+  path
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*Extexport.exe* OR process_path.keyword:*\\Extexport.exe
+        OR file_name_original:"extexport.exe")
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_extexport
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

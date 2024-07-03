@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects downloads from PwnDrp web servers developed for red team testing
+  and most likely also used for criminal activity
+filter:
+- query:
+    query_string:
+      query: c-uri.keyword:*\/pwndrop\/*
+index: wazuh-alerts*
+name: proxy_pwndrop
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

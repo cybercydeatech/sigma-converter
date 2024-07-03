@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects SILENTTRINITY stager dll loading activity
+filter:
+- query:
+    query_string:
+      query: file_description.keyword:*st2stager*
+index: wazuh-alerts*
+name: image_load_hktl_silenttrinity_stager
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

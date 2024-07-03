@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a Chromium based browser process with the 'load-extension' flag
+  to start a instance with a custom extension
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\brave.exe OR *\\chrome.exe OR *\\msedge.exe
+        OR *\\opera.exe OR *\\vivaldi.exe) AND process_command_line.keyword:*\-\-load\-extension\=*)
+index: wazuh-alerts*
+name: proc_creation_win_browsers_chromium_load_extension
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

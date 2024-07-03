@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects changing the PowerShell script execution policy to a potentially
+  insecure level using the "Set-ExecutionPolicy" cmdlet.
+filter:
+- query:
+    query_string:
+      query: ((ScriptBlockText.keyword:*Set\-ExecutionPolicy* AND ScriptBlockText.keyword:(*Unrestricted*
+        OR *bypass*)) AND (NOT ((ScriptBlockText.keyword:(*\(New\-Object\ 
+        System.Net.WebClient\).DownloadString\('https\:\/\/community.chocolatey.org\/install.ps1'\)*
+        OR *\(New\-Object\ 
+        System.Net.WebClient\).DownloadString\('https\:\/\/chocolatey.org\/install.ps1'\)*)))))
+index: wazuh-alerts*
+name: posh_ps_set_policies_to_unsecure_level
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the pattern of a pipe name as used by the hack tool CoercedPotato
+filter:
+- query:
+    query_string:
+      query: pipe_name.keyword:*\\coerced\\*
+index: wazuh-alerts*
+name: pipe_created_hktl_coercedpotato
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

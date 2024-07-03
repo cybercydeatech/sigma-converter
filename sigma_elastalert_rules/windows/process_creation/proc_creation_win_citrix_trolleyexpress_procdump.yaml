@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a possible process memory dump that uses the white-listed Citrix
+  TrolleyExpress.exe filename as a way to dump the lsass process memory
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*\\TrolleyExpress\ 7* OR *\\TrolleyExpress\
+        8* OR *\\TrolleyExpress\ 9* OR *\\TrolleyExpress.exe\ 7* OR *\\TrolleyExpress.exe\
+        8* OR *\\TrolleyExpress.exe\ 9* OR *\\TrolleyExpress.exe\ \-ma\ *) OR (process_path.keyword:*\\TrolleyExpress.exe
+        AND (NOT ((file_name_original.keyword:*CtxInstall*) OR (NOT _exists_:file_name_original)))))
+index: wazuh-alerts*
+name: proc_creation_win_citrix_trolleyexpress_procdump
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

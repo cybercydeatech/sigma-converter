@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the suspicious execution of a utility to convert Windows 3.x
+  .grp files or for persistence purposes by malicious software or actors
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*grpconv.exe\ \-o* OR *grpconv\ \-o*)
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_susp_grpconv
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

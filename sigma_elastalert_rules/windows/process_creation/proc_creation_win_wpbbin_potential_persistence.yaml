@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects execution of the binary "wpbbin" which is used as part of the
+  UEFI based persistence method described in the reference section
+filter:
+- query:
+    query_string:
+      query: process_path:"C\:\\Windows\\System32\\wpbbin.exe"
+index: wazuh-alerts*
+name: proc_creation_win_wpbbin_potential_persistence
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

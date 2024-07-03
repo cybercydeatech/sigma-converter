@@ -1,0 +1,30 @@
+alert:
+- debug
+description: Detects calls to base64 encoded WMI class such as "Win32_ShadowCopy",
+  "Win32_ScheduledJob", etc.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) OR file_name_original:("PowerShell.EXE"
+        OR "pwsh.dll")) AND (process_command_line.keyword:(*VwBpAG4AMwAyAF8AUwBoAGEAZABvAHcAYwBvAHAAeQ*
+        OR *cAaQBuADMAMgBfAFMAaABhAGQAbwB3AGMAbwBwAHkA* OR *XAGkAbgAzADIAXwBTAGgAYQBkAG8AdwBjAG8AcAB5A*
+        OR *V2luMzJfU2hhZG93Y29we* OR *dpbjMyX1NoYWRvd2NvcH* OR *XaW4zMl9TaGFkb3djb3B5*)
+        OR process_command_line.keyword:(*VwBpAG4AMwAyAF8AUwBjAGgAZQBkAHUAbABlAGQASgBvAGIA*
+        OR *cAaQBuADMAMgBfAFMAYwBoAGUAZAB1AGwAZQBkAEoAbwBiA* OR *XAGkAbgAzADIAXwBTAGMAaABlAGQAdQBsAGUAZABKAG8AYg*
+        OR *V2luMzJfU2NoZWR1bGVkSm9i* OR *dpbjMyX1NjaGVkdWxlZEpvY* OR *XaW4zMl9TY2hlZHVsZWRKb2*)
+        OR process_command_line.keyword:(*VwBpAG4AMwAyAF8AUAByAG8AYwBlAHMAcw* OR *cAaQBuADMAMgBfAFAAcgBvAGMAZQBzAHMA*
+        OR *XAGkAbgAzADIAXwBQAHIAbwBjAGUAcwBzA* OR *V2luMzJfUHJvY2Vzc* OR *dpbjMyX1Byb2Nlc3*
+        OR *XaW4zMl9Qcm9jZXNz*) OR process_command_line.keyword:(*VwBpAG4AMwAyAF8AVQBzAGUAcgBBAGMAYwBvAHUAbgB0A*
+        OR *cAaQBuADMAMgBfAFUAcwBlAHIAQQBjAGMAbwB1AG4AdA* OR *XAGkAbgAzADIAXwBVAHMAZQByAEEAYwBjAG8AdQBuAHQA*
+        OR *V2luMzJfVXNlckFjY291bn* OR *dpbjMyX1VzZXJBY2NvdW50* OR *XaW4zMl9Vc2VyQWNjb3Vud*)
+        OR process_command_line.keyword:(*VwBpAG4AMwAyAF8ATABvAGcAZwBlAGQATwBuAFUAcwBlAHIA*
+        OR *cAaQBuADMAMgBfAEwAbwBnAGcAZQBkAE8AbgBVAHMAZQByA* OR *XAGkAbgAzADIAXwBMAG8AZwBnAGUAZABPAG4AVQBzAGUAcg*
+        OR *V2luMzJfTG9nZ2VkT25Vc2Vy* OR *dpbjMyX0xvZ2dlZE9uVXNlc* OR *XaW4zMl9Mb2dnZWRPblVzZX*)))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_base64_wmi_classes
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

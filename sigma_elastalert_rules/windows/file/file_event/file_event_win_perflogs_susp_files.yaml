@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects suspicious file based on their extension being created in "C:\PerfLogs\".
+  Note that this directory mostly contains ".etl" files
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:C\:\\PerfLogs\\* AND file_name.keyword:(*.7z OR *.bat
+        OR *.bin OR *.chm OR *.dll OR *.exe OR *.hta OR *.lnk OR *.ps1 OR *.psm1 OR
+        *.py OR *.scr OR *.sys OR *.vbe OR *.vbs OR *.zip))
+index: wazuh-alerts*
+name: file_event_win_perflogs_susp_files
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

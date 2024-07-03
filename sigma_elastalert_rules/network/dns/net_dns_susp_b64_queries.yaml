@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects suspicious DNS queries using base64 encoding
+filter:
+- query:
+    query_string:
+      query: query.keyword:*\=\=.*
+index: wazuh-alerts*
+name: net_dns_susp_b64_queries
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects important or interesting Windows services that got terminated
+  unexpectedly.
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:"7034") AND
+        (param1.keyword:*Message\ Queuing* OR Binary.keyword:(*4d0053004d005100* OR
+        *6d0073006d007100*)))
+index: wazuh-alerts*
+name: win_system_service_terminated_unexpectedly
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

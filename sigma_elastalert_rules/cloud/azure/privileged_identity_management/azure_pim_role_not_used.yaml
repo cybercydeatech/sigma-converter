@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when a user has been assigned a privilege role and are not
+  using that role.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"redundantAssignmentAlertIncident"
+index: wazuh-alerts*
+name: azure_pim_role_not_used
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

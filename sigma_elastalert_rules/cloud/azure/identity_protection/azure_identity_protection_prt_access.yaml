@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Indicates access attempt to the PRT resource which can be used to move
+  laterally into an organization or perform credential theft
+filter:
+- query:
+    query_string:
+      query: riskEventType:"attemptedPrtAccess"
+index: wazuh-alerts*
+name: azure_identity_protection_prt_access
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects unsigned module load by ClickOnce application.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\AppData\\Local\\Apps\\2.0\\* AND (signed:"false"
+        OR signature_status:"Expired"))
+index: wazuh-alerts*
+name: image_load_susp_clickonce_unsigned_module_loaded
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

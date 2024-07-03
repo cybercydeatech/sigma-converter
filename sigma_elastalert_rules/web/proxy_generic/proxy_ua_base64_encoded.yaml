@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects suspicious encoded User-Agent strings, as seen used by some malware.
+filter:
+- query:
+    query_string:
+      query: c-useragent.keyword:(Q2hyb21l* OR QXBwbGVXZWJLaX* OR RGFsdmlr* OR TW96aWxsY*)
+index: wazuh-alerts*
+name: proxy_ua_base64_encoded
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

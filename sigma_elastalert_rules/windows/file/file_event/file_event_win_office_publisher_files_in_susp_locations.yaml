@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects creation of files with the ".pub" extension in suspicious or
+  uncommon locations. This could be a sign of attackers abusing Publisher documents
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\\AppData\\Local\\Temp\\* OR *\\Users\\Public\\*
+        OR *\\Windows\\Temp\\* OR *C\:\\Temp\\*) AND file_name.keyword:*.pub)
+index: wazuh-alerts*
+name: file_event_win_office_publisher_files_in_susp_locations
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

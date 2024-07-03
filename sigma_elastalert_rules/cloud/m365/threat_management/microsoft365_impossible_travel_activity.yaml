@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a Microsoft Cloud App Security reported a risky sign-in
+  attempt due to a login associated with an impossible travel.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"SecurityComplianceCenter" AND eventName:"Impossible\ travel\
+        activity" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_impossible_travel_activity
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

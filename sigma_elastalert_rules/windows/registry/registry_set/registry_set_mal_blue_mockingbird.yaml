@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Attempts to detect system changes made by Blue Mockingbird
+filter:
+- query:
+    query_string:
+      query: 
+        registry_key_path.keyword:*\\CurrentControlSet\\Services\\wercplsupport\\Parameters\\ServiceDll
+index: wazuh-alerts*
+name: registry_set_mal_blue_mockingbird
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

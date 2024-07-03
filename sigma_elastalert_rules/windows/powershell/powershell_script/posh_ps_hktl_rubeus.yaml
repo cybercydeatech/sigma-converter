@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the execution of the hacktool Rubeus using specific command line
+  flags
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*asreproast\ * OR *dump\ \/service\:krbtgt\
+        * OR *dump\ \/luid\:0x* OR *kerberoast\ * OR *createnetonly\ \/program\:*
+        OR *ptt\ \/ticket\:* OR *\/impersonateuser\:* OR *renew\ \/ticket\:* OR *asktgt\
+        \/user\:* OR *harvest\ \/interval\:* OR *s4u\ \/user\:* OR *s4u\ \/ticket\:*
+        OR *hash\ \/password\:* OR *golden\ \/aes256\:* OR *silver\ \/user\:*)
+index: wazuh-alerts*
+name: posh_ps_hktl_rubeus
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

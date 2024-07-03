@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Adversaries may carry out malicious operations using a virtual instance
+  to avoid detection
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*New\-VM* OR *Set\-VMFirmware* OR *Start\-VM*)
+index: wazuh-alerts*
+name: posh_ps_susp_hyper_v_condlet
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

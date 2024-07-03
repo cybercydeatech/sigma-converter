@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects suspicious DNS queries known from Cobalt Strike beacons
+filter:
+- query:
+    query_string:
+      query: (query.keyword:(aaa.stage.* OR post.1*) OR query.keyword:*.stage.123456.*)
+index: wazuh-alerts*
+name: net_dns_mal_cobaltstrike
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects uncommon "userinit.exe" child processes, which could be a sign
+  of uncommon shells or login scripts used for persistence.
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:*\\userinit.exe AND (NOT ((process_path.keyword:*\:\\WINDOWS\\explorer.exe))))
+        AND (NOT ((process_command_line.keyword:(*netlogon.bat* OR *UsrLogon.cmd*))
+        OR (process_command_line:"PowerShell.exe") OR (process_path.keyword:(*\:\\Windows\\System32\\proquota.exe
+        OR *\:\\Windows\\SysWOW64\\proquota.exe)) OR (process_path.keyword:(*\:\\Program\
+        Files\ \(x86\)\\Citrix\\HDX\\bin\\cmstart.exe OR *\:\\Program\ Files\ \(x86\)\\Citrix\\HDX\\bin\\icast.exe
+        OR *\:\\Program\ Files\ \(x86\)\\Citrix\\System32\\icast.exe OR *\:\\Program\
+        Files\\Citrix\\HDX\\bin\\cmstart.exe OR *\:\\Program\ Files\\Citrix\\HDX\\bin\\icast.exe
+        OR *\:\\Program\ Files\\Citrix\\System32\\icast.exe)) OR (NOT _exists_:process_path))))
+index: wazuh-alerts*
+name: proc_creation_win_userinit_uncommon_child_processes
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

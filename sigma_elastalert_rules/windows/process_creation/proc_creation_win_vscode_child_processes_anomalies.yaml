@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects uncommon or suspicious child processes spawning from a VsCode
+  "code.exe" process. This could indicate an attempt of persistence via VsCode tasks
+  or terminal profiles.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\code.exe AND (process_path.keyword:(*\\calc.exe
+        OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\cscript.exe OR *\\wscript.exe)
+        OR (process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe OR *\\cmd.exe)
+        AND process_command_line.keyword:(*Invoke\-Expressions* OR *IEX* OR *Invoke\-Command*
+        OR *ICM* OR *DownloadString* OR *rundll32* OR *regsvr32* OR *wscript* OR *cscript*))
+        OR process_path.keyword:(*\:\\Users\\Public\\* OR *\:\\Windows\\Temp\\* OR
+        *\:\\Temp\\*)))
+index: wazuh-alerts*
+name: proc_creation_win_vscode_child_processes_anomalies
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

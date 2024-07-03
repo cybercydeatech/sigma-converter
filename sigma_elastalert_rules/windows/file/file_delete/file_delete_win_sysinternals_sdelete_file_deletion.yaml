@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the deletion of files by the Sysinternals SDelete utility. It
+  looks for the common name pattern used to rename files.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*.AAA OR *.ZZZ) AND (NOT ((file_name.keyword:*\\Wireshark\\radius\\dictionary.alcatel\-lucent.aaa))))
+index: wazuh-alerts*
+name: file_delete_win_sysinternals_sdelete_file_deletion
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

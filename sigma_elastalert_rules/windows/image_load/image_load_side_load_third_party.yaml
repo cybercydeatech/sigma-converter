@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects DLL sideloading of DLLs that are part of third party software
+  (zoom, discord....etc)
+filter:
+- query:
+    query_string:
+      query: ((ImageLoaded.keyword:*\\commfunc.dll AND (NOT (ImageLoaded.keyword:*\\AppData\\local\\Google\\Chrome\\Application\\*
+        OR ImageLoaded.keyword:(C\:\\Program\ Files\\Lenovo\\Communications\ Utility\\*
+        OR C\:\\Program\ Files\ \(x86\)\\Lenovo\\Communications\ Utility\\*)))) OR
+        (ImageLoaded.keyword:*\\tosbtkbd.dll AND (NOT (ImageLoaded.keyword:(C\:\\Program\
+        Files\\Toshiba\\Bluetooth\ Toshiba\ Stack\\* OR C\:\\Program\ Files\ \(x86\)\\Toshiba\\Bluetooth\
+        Toshiba\ Stack\\*)))))
+index: wazuh-alerts*
+name: image_load_side_load_third_party
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

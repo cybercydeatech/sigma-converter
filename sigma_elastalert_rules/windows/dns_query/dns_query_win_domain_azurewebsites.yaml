@@ -1,0 +1,46 @@
+alert:
+- debug
+description: "Detects a DNS query by a non browser process on the system to \"azurewebsites.net\"\
+  . The latter was often used by threat actors as a malware hosting and exfiltration
+  site.\n"
+filter:
+- query:
+    query_string:
+      query: (QueryName.keyword:*azurewebsites.net AND (NOT ((process_path:("C\:\\Program\
+        Files\\Google\\Chrome\\Application\\chrome.exe" OR "C\:\\Program\ Files\ \(x86\)\\Google\\Chrome\\Application\\chrome.exe"))
+        OR (process_path:("C\:\\Program\ Files\\Mozilla\ Firefox\\firefox.exe" OR
+        "C\:\\Program\ Files\ \(x86\)\\Mozilla\ Firefox\\firefox.exe")) OR (process_path:("C\:\\Program\
+        Files\ \(x86\)\\Internet\ Explorer\\iexplore.exe" OR "C\:\\Program\ Files\\Internet\
+        Explorer\\iexplore.exe")) OR (process_path.keyword:C\:\\Program\ Files\ \(x86\)\\Microsoft\\EdgeWebView\\Application\\*
+        OR process_path.keyword:*\\WindowsApps\\MicrosoftEdge.exe OR process_path:("C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\Edge\\Application\\msedge.exe" OR "C\:\\Program\
+        Files\\Microsoft\\Edge\\Application\\msedge.exe")) OR (process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\EdgeCore\\* OR C\:\\Program\ Files\\Microsoft\\EdgeCore\\*)
+        AND process_path.keyword:(*\\msedge.exe OR *\\msedgewebview2.exe)) OR (process_path.keyword:*\\safari.exe)
+        OR (process_path.keyword:(*\\MsMpEng.exe OR *\\MsSense.exe)) OR (process_path.keyword:*\\brave.exe
+        AND process_path.keyword:C\:\\Program\ Files\\BraveSoftware\\*) OR (process_path.keyword:*\\AppData\\Local\\Maxthon\\*
+        AND process_path.keyword:*\\maxthon.exe) OR (process_path.keyword:*\\AppData\\Local\\Programs\\Opera\\*
+        AND process_path.keyword:*\\opera.exe) OR (process_path.keyword:(C\:\\Program\
+        Files\\SeaMonkey\\* OR C\:\\Program\ Files\ \(x86\)\\SeaMonkey\\*) AND process_path.keyword:*\\seamonkey.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Vivaldi\\* AND process_path.keyword:*\\vivaldi.exe)
+        OR (process_path.keyword:(C\:\\Program\ Files\\Naver\\Naver\ Whale\\* OR C\:\\Program\
+        Files\ \(x86\)\\Naver\\Naver\ Whale\\*) AND process_path.keyword:*\\whale.exe)
+        OR (process_path.keyword:*\\Tor\ Browser\\*) OR (process_path.keyword:(C\:\\Program\
+        Files\\Waterfox\\* OR C\:\\Program\ Files\ \(x86\)\\Waterfox\\*) AND process_path.keyword:*\\Waterfox.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Programs\\midori\-ng\\* AND process_path.keyword:*\\Midori\
+        Next\ Generation.exe) OR (process_path.keyword:(C\:\\Program\ Files\\SlimBrowser\\*
+        OR C\:\\Program\ Files\ \(x86\)\\SlimBrowser\\*) AND process_path.keyword:*\\slimbrowser.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Flock\\* AND process_path.keyword:*\\Flock.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Phoebe\\* AND process_path.keyword:*\\Phoebe.exe)
+        OR (process_path.keyword:(C\:\\Program\ Files\\Falkon\\* OR C\:\\Program\
+        Files\ \(x86\)\\Falkon\\*) AND process_path.keyword:*\\falkon.exe) OR (process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Avant\ Browser\\* OR C\:\\Program\ Files\\Avant\ Browser\\*)
+        AND process_path.keyword:*\\avant.exe))))
+index: wazuh-alerts*
+name: dns_query_win_domain_azurewebsites
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

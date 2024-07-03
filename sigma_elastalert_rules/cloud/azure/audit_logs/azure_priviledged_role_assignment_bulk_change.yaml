@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a user is removed from a privileged role. Bulk changes should
+  be investigated.
+filter:
+- query:
+    query_string:
+      query: properties.message:("Remove\ eligible\ member\ \(permanent\)" OR "Remove\
+        eligible\ member\ \(eligible\)")
+index: wazuh-alerts*
+name: azure_priviledged_role_assignment_bulk_change
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

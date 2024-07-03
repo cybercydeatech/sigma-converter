@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of Metasploit SMB PsExec (exploit/windows/smb/psexec) and
+  Impacket psexec.py by triggering on specific service installation
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4697" AND service_image_path.keyword:/%systemroot%\\[a-zA-Z]{8}\.exe/
+        AND service_name.keyword:/(^[a-zA-Z]{4}$)|(^[a-zA-Z]{8}$)|(^[a-zA-Z]{16}$)/
+        AND ServiceStartType:"3" AND ServiceType:"0x10") AND (NOT (service_name:"PSEXESVC")))
+index: wazuh-alerts*
+name: win_security_metasploit_or_impacket_smb_psexec_service_install
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

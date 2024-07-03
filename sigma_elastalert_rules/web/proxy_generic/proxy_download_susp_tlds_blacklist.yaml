@@ -1,0 +1,25 @@
+alert:
+- debug
+description: Detects download of certain file types from hosts in suspicious TLDs
+filter:
+- query:
+    query_string:
+      query: (c-uri-extension:("exe" OR "vbs" OR "bat" OR "rar" OR "ps1" OR "doc"
+        OR "docm" OR "xls" OR "xlsm" OR "pptm" OR "rtf" OR "hta" OR "dll" OR "ws"
+        OR "wsf" OR "sct" OR "zip") AND cs-host.keyword:(*.country OR *.stream OR
+        *.gdn OR *.mom OR *.xin OR *.kim OR *.men OR *.loan OR *.download OR *.racing
+        OR *.online OR *.science OR *.ren OR *.gb OR *.win OR *.top OR *.review OR
+        *.vip OR *.party OR *.tech OR *.xyz OR *.date OR *.faith OR *.zip OR *.cricket
+        OR *.space OR *.info OR *.vn OR *.cm OR *.am OR *.cc OR *.asia OR *.ws OR
+        *.tk OR *.biz OR *.su OR *.st OR *.ro OR *.ge OR *.ms OR *.pk OR *.nu OR *.me
+        OR *.ph OR *.to OR *.tt OR *.name OR *.tv OR *.kz OR *.tc OR *.mobi OR *.study
+        OR *.click OR *.link OR *.trade OR *.accountant OR *.cf OR *.gq OR *.ml OR
+        *.ga OR *.pw))
+index: wazuh-alerts*
+name: proxy_download_susp_tlds_blacklist
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

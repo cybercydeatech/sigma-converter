@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the restoration of files from the defender quarantine
+filter:
+- query:
+    query_string:
+      query: event_id:"1009"
+index: wazuh-alerts*
+name: win_defender_restored_quarantine_file
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the execution of SecurityXploded Tools
+filter:
+- query:
+    query_string:
+      query: (file_company:"SecurityXploded" OR process_path.keyword:*PasswordDump.exe
+        OR file_name_original.keyword:*PasswordDump.exe)
+index: wazuh-alerts*
+name: proc_creation_win_hktl_secutyxploded
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

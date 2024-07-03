@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects removing immutable file attribute.
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0.keyword:*chattr* AND a1.keyword:*\-i*)
+index: wazuh-alerts*
+name: lnx_auditd_chattr_immutable_removal
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

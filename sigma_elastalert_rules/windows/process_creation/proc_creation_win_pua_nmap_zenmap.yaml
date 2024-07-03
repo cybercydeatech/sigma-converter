@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of namp/zenmap. Adversaries may attempt to get a listing
+  of services running on remote hosts, including those that may be vulnerable to remote
+  software exploitation
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\nmap.exe OR *\\zennmap.exe) OR file_name_original:("nmap.exe"
+        OR "zennmap.exe"))
+index: wazuh-alerts*
+name: proc_creation_win_pua_nmap_zenmap
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

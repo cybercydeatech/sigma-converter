@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects a highly relevant Antivirus alert that reports a hack tool or
+  other attack tool
+filter:
+- query:
+    query_string:
+      query: (signature.keyword:(HTOOL* OR HKTL* OR SecurityTool* OR Adfind* OR ATK\/*
+        OR Exploit.Script.CVE* OR PWS.* OR PWSX*) OR signature.keyword:(*Hacktool*
+        OR *ATK\/* OR *Potato* OR *Rozena* OR *Sbelt* OR *Seatbelt* OR *SecurityTool*
+        OR *SharpDump* OR *Sliver* OR *Splinter* OR *Swrort* OR *Impacket* OR *Koadic*
+        OR *Lazagne* OR *Metasploit* OR *Meterpreter* OR *MeteTool* OR *Mimikatz*
+        OR *mikatz* OR *Mpreter* OR *Nighthawk* OR *PentestPowerShell* OR *PowerSploit*
+        OR *PowerSSH* OR *PshlSpy* OR *PSWTool* OR *PWCrack* OR *Brutel* OR *BruteR*
+        OR *Cobalt* OR *COBEACON* OR *Cometer* OR *DumpCreds* OR *FastReverseProxy*
+        OR *PWDump*))
+index: wazuh-alerts*
+name: av_hacktool
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

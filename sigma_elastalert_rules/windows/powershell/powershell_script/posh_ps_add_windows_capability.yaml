@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects usage of the "Add-WindowsCapability" cmdlet to add Windows capabilities.
+  Notable capabilities could be "OpenSSH" and others.
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:*Add\-WindowsCapability\ * AND ScriptBlockText.keyword:*\-Name\
+        OpenSSH.*)
+index: wazuh-alerts*
+name: posh_ps_add_windows_capability
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

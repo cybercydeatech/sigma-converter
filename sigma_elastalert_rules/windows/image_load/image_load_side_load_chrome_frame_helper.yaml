@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "chrome_frame_helper.dll"
+filter:
+- query:
+    query_string:
+      query: ((ImageLoaded.keyword:*\\chrome_frame_helper.dll AND (NOT ((ImageLoaded.keyword:(C\:\\Program\
+        Files\\Google\\Chrome\\Application\\* OR C\:\\Program\ Files\ \(x86\)\\Google\\Chrome\\Application\\*)))))
+        AND (NOT ((ImageLoaded.keyword:*\\AppData\\local\\Google\\Chrome\\Application\\*))))
+index: wazuh-alerts*
+name: image_load_side_load_chrome_frame_helper
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

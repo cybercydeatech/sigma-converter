@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects .NET Framework CLR and .NET Core CLR "cor_enable_profiling" and
+  "cor_profiler" variables being set and configured.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*\\COR_ENABLE_PROFILING OR *\\COR_PROFILER
+        OR *\\CORECLR_ENABLE_PROFILING) OR registry_key_path.keyword:*\\CORECLR_PROFILER_PATH*)
+index: wazuh-alerts*
+name: registry_set_enabling_cor_profiler_env_variables
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

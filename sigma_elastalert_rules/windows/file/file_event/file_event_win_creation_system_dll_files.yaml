@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the creation of a file with the ".dll" extension that has the name of a System DLL in uncommon or unsuspected locations. (Outisde of "System32", "SysWOW64", etc.).
+  It is highly recommended to perform an initial baseline before using this rule in production.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\\secur32.dll OR *\\tdh.dll) AND (NOT ((file_name.keyword:(*C\:\\$WINDOWS.\~BT\\*
+        OR *C\:\\$WinREAgent\\* OR *C\:\\Windows\\SoftwareDistribution\\* OR *C\:\\Windows\\System32\\*
+        OR *C\:\\Windows\\SysWOW64\\* OR *C\:\\Windows\\WinSxS\\* OR *C\:\\Windows\\uus\\*)))))
+index: wazuh-alerts*
+name: file_event_win_creation_system_dll_files
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

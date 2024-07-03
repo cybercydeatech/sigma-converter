@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects changes to the NGenAssemblyUsageLog registry key.
+  .NET Usage Log output location can be controlled by setting the NGenAssemblyUsageLog CLR configuration knob in the Registry or by configuring an environment variable (as described in the next section).
+  By simplify specifying an arbitrary value (e.g. fake output location or junk data) for the expected value, a Usage Log file for the .NET execution context will not be created.
+filter:
+- query:
+    query_string:
+      query: 
+        registry_key_path.keyword:*SOFTWARE\\Microsoft\\.NETFramework\\NGenAssemblyUsageLog
+index: wazuh-alerts*
+name: registry_set_net_cli_ngenassemblyusagelog
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

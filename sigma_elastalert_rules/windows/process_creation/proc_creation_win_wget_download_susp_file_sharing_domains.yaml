@@ -1,0 +1,29 @@
+alert:
+- debug
+description: Detects potentially suspicious file downloads from file sharing domains
+  using wget.exe
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\wget.exe OR file_name_original:"wget.exe")
+        AND process_command_line.keyword:(*.githubusercontent.com* OR *anonfiles.com*
+        OR *cdn.discordapp.com* OR *cdn.discordapp.com\/attachments\/* OR *ddns.net*
+        OR *dl.dropboxusercontent.com* OR *ghostbin.co* OR *glitch.me* OR *gofile.io*
+        OR *hastebin.com* OR *mediafire.com* OR *mega.nz* OR *onrender.com* OR *paste.ee*
+        OR *pastebin.com* OR *pastebin.pl* OR *pastetext.net* OR *privatlab.com* OR
+        *privatlab.net* OR *send.exploit.in* OR *sendspace.com* OR *storage.googleapis.com*
+        OR *storjshare.io* OR *supabase.co* OR *temp.sh* OR *transfer.sh* OR *ufile.io*)
+        AND process_command_line.keyword:*http* AND (process_command_line.keyword:/\s-O\s/
+        OR process_command_line.keyword:*\-\-output\-document*) AND process_command_line.keyword:(*.ps1
+        OR *.ps1' OR *.ps1\" OR *.dat OR *.dat' OR *.dat\" OR *.msi OR *.msi' OR *.msi\"
+        OR *.bat OR *.bat' OR *.bat\" OR *.exe OR *.exe' OR *.exe\" OR *.vbs OR *.vbs'
+        OR *.vbs\" OR *.vbe OR *.vbe' OR *.vbe\" OR *.hta OR *.hta' OR *.hta\" OR
+        *.dll OR *.dll' OR *.dll\" OR *.psm1 OR *.psm1' OR *.psm1\"))
+index: wazuh-alerts*
+name: proc_creation_win_wget_download_susp_file_sharing_domains
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

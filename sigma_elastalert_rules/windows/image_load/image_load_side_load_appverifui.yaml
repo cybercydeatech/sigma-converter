@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "appverifUI.dll"
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\appverifUI.dll AND (NOT ((process_path:("C\:\\Windows\\SysWOW64\\appverif.exe"
+        OR "C\:\\Windows\\System32\\appverif.exe") AND ImageLoaded.keyword:(C\:\\Windows\\System32\\*
+        OR C\:\\Windows\\SysWOW64\\* OR C\:\\Windows\\WinSxS\\*)))))
+index: wazuh-alerts*
+name: image_load_side_load_appverifui
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

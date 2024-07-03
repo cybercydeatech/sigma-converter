@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the modification of Outlook security setting to allow unprompted
+  execution of macros.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Outlook\\Security\\Level AND Details.keyword:*0x00000001*)
+index: wazuh-alerts*
+name: registry_set_office_outlook_enable_macro_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Monitor and alert for Bitlocker key retrieval.
+filter:
+- query:
+    query_string:
+      query: (Category:"KeyManagement" AND OperationName:"Read\ BitLocker\ key")
+index: wazuh-alerts*
+name: azure_ad_bitlocker_key_retrieval
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

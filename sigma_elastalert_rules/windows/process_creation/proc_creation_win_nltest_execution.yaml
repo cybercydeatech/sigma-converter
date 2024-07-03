@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects nltest commands that can be used for information discovery
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\nltest.exe OR file_name_original:"nltestrk.exe")
+index: wazuh-alerts*
+name: proc_creation_win_nltest_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

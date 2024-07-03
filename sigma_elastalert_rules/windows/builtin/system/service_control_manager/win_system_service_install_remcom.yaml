@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects RemCom service installation and execution events
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:"7045") AND
+        (service_name:"RemComSvc" OR ImagePath.keyword:*\\RemComSvc.exe))
+index: wazuh-alerts*
+name: win_system_service_install_remcom
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

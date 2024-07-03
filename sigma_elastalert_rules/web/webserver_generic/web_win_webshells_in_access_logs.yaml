@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects common commands used in Windows webshells
+filter:
+- query:
+    query_string:
+      query: (cs-method:"GET" AND \*.keyword:(*\=whoami* OR *\=net%20user* OR *\=net\+user*
+        OR *\=net%2Buser* OR *\=cmd%20\/c%* OR *\=cmd\+\/c\+* OR *\=cmd%2B\/c%* OR
+        *\=cmd%20\/r%* OR *\=cmd\+\/r\+* OR *\=cmd%2B\/r%* OR *\=cmd%20\/k%* OR *\=cmd\+\/k\+*
+        OR *\=cmd%2B\/k%* OR *\=powershell%* OR *\=powershell\+* OR *\=tasklist%*
+        OR *\=tasklist\+* OR *\=wmic%* OR *\=wmic\+* OR *\=ssh%* OR *\=ssh\+* OR *\=python%*
+        OR *\=python\+* OR *\=python3%* OR *\=python3\+* OR *\=ipconfig* OR *\=wget%*
+        OR *\=wget\+* OR *\=curl%* OR *\=curl\+* OR *\=certutil* OR *\=copy%20%5C%5C*
+        OR *\=dsquery%* OR *\=dsquery\+* OR *\=nltest%* OR *\=nltest\+*))
+index: wazuh-alerts*
+name: web_win_webshells_in_access_logs
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

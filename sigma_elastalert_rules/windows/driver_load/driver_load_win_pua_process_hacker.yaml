@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects driver load of the Process Hacker tool
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\kprocesshacker.sys OR Hashes.keyword:(*IMPHASH\=821D74031D3F625BCBD0DF08B70F1E77*
+        OR *IMPHASH\=F86759BB4DE4320918615DC06E998A39* OR *IMPHASH\=0A64EEB85419257D0CE32BD5D55C3A18*
+        OR *IMPHASH\=6E7B34DFC017700B1517B230DF6FF0D0*) OR hash_imphash:("821D74031D3F625BCBD0DF08B70F1E77"
+        OR "F86759BB4DE4320918615DC06E998A39" OR "0A64EEB85419257D0CE32BD5D55C3A18"
+        OR "6E7B34DFC017700B1517B230DF6FF0D0"))
+index: wazuh-alerts*
+name: driver_load_win_pua_process_hacker
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

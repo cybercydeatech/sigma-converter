@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies the suspicious use of AssumeRole. Attackers could move laterally
+  and escalate privileges.
+filter:
+- query:
+    query_string:
+      query: (userIdentity.type:"AssumedRole" AND userIdentity.sessionContext.sessionIssuer.type:"Role")
+index: wazuh-alerts*
+name: aws_sts_assumerole_misuse
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

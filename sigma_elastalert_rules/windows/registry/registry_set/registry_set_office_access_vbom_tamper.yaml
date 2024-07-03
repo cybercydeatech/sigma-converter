@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects registry changes to Microsoft Office "AccessVBOM" to a value
+  of "1" which disables trust access for VBA on the victim machine and lets attackers
+  execute malicious macros without any Microsoft Office warnings.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Security\\AccessVBOM AND Details:"DWORD\
+        \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_office_access_vbom_tamper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

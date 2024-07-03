@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects kerberos TGS request using RC4 encryption which may be indicative
+  of kerberoasting
+filter:
+- query:
+    query_string:
+      query: ((request_type:"TGS" AND cipher:"rc4\-hmac") AND (NOT (service.keyword:$*)))
+index: wazuh-alerts*
+name: zeek_susp_kerberos_rc4
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

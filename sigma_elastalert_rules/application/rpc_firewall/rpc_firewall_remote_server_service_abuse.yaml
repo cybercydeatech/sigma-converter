@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects remote RPC calls to possibly abuse remote encryption service
+  via MS-SRVS
+filter:
+- query:
+    query_string:
+      query: (EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:"4b324fc8\-1670\-01d3\-1278\-5a47bf6ee188")
+index: wazuh-alerts*
+name: rpc_firewall_remote_server_service_abuse
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: |
+  Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel.
+  The data may also be sent to an alternate network location from the main command and control server.
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:*Send\-MailMessage* AND (NOT (ScriptBlockText.keyword:*CmdletsToExport*)))
+index: wazuh-alerts*
+name: posh_ps_send_mailmessage
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

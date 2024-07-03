@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the use of CoercedPotato, a tool for privilege escalation
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\CoercedPotato.exe OR process_command_line.keyword:*\
+        \-\-exploitId\ * OR hash_imphash:("a75d7669db6b2e107a44c4057ff7f7d6" OR "f91624350e2c678c5dcbe5e1f24e22c9"
+        OR "14c81850a079a87e83d50ca41c709a15") OR Hashes.keyword:(*IMPHASH\=A75D7669DB6B2E107A44C4057FF7F7D6*
+        OR *IMPHASH\=F91624350E2C678C5DCBE5E1F24E22C9* OR *IMPHASH\=14C81850A079A87E83D50CA41C709A15*))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_coercedpotato
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

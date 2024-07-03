@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when multi-factor authentication (MFA) is disabled.
+filter:
+- query:
+    query_string:
+      query: (eventService:"admin.googleapis.com" AND eventName:("ENFORCE_STRONG_AUTHENTICATION"
+        OR "ALLOW_STRONG_AUTHENTICATION") AND new_value:"false")
+index: wazuh-alerts*
+name: gcp_gworkspace_mfa_disabled
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

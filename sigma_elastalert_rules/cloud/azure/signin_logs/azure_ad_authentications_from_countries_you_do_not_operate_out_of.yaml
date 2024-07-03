@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect successful authentications from countries you do not operate out
+  of.
+filter:
+- query:
+    query_string:
+      query: (event_status:"Success" AND (NOT (Location.keyword:*<Countries\ you\
+        DO\ operate\ out\ of\ e,g\ GB,\ use\ OR\ for\ multiple>*)))
+index: wazuh-alerts*
+name: azure_ad_authentications_from_countries_you_do_not_operate_out_of
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

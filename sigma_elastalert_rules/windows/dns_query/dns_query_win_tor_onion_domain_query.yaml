@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects DNS queries to an ".onion" address related to Tor routing networks
+filter:
+- query:
+    query_string:
+      query: QueryName.keyword:*.onion*
+index: wazuh-alerts*
+name: dns_query_win_tor_onion_domain_query
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

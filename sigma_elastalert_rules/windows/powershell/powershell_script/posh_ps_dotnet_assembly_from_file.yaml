@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of "Reflection.Assembly" load functions to dynamically
+  load assemblies in memory
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:*\[Reflection.Assembly\]\:\:load*
+index: wazuh-alerts*
+name: posh_ps_dotnet_assembly_from_file
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

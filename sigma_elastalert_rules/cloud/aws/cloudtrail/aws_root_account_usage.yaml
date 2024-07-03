@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects AWS root account usage
+filter:
+- query:
+    query_string:
+      query: (userIdentity.type:"Root" AND (NOT (eventType:"AwsServiceEvent")))
+index: wazuh-alerts*
+name: aws_root_account_usage
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

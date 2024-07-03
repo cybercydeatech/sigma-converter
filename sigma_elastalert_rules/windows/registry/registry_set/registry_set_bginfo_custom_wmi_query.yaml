@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects setting of a new registry value related to BgInfo configuration,
+  which can be abused to execute custom WMI query via "BgInfo.exe"
+filter:
+- query:
+    query_string:
+      query: (event_category_type:"SetValue" AND registry_key_path.keyword:*\\Software\\Winternals\\BGInfo\\UserFields\\*
+        AND Details.keyword:6*)
+index: wazuh-alerts*
+name: registry_set_bginfo_custom_wmi_query
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

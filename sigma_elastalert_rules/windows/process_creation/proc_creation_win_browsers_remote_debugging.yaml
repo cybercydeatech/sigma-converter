@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects browsers starting with the remote debugging flags. Which is a
+  technique often used to perform browser injection attacks
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*\ \-\-remote\-debugging\-* OR (process_path.keyword:*\\firefox.exe
+        AND process_command_line.keyword:*\ \-start\-debugger\-server*))
+index: wazuh-alerts*
+name: proc_creation_win_browsers_remote_debugging
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

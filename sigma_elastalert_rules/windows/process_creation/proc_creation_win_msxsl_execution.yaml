@@ -1,0 +1,17 @@
+alert:
+- debug
+description: |
+  Detects the execution of the MSXSL utility. This can be used to execute Extensible Stylesheet Language (XSL) files. These files are commonly used to describe the processing and rendering of data within XML files.
+  Adversaries can abuse this functionality to execute arbitrary files while potentially bypassing application whitelisting defenses.
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\\msxsl.exe
+index: wazuh-alerts*
+name: proc_creation_win_msxsl_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

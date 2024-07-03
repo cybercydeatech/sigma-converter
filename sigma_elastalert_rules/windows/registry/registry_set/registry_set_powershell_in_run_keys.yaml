@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potential PowerShell commands or code within registry run keys
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Run*
+        AND Details.keyword:(*powershell* OR *pwsh\ * OR *FromBase64String* OR *.DownloadFile\(*
+        OR *.DownloadString\(* OR *\ \-w\ hidden\ * OR *\ \-w\ 1\ * OR *\-windowstyle\
+        hidden* OR *\-window\ hidden* OR *\ \-nop\ * OR *\ \-encodedcommand\ * OR
+        *\-ExecutionPolicy\ Bypass* OR *Invoke\-Expression* OR *IEX\ \(* OR *Invoke\-Command*
+        OR *ICM\ \-* OR *Invoke\-WebRequest* OR *IWR\ * OR *\ \-noni\ * OR *\ \-noninteractive\
+        *))
+index: wazuh-alerts*
+name: registry_set_powershell_in_run_keys
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

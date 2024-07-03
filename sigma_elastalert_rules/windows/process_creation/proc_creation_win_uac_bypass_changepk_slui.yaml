@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects an UAC bypass that uses changepk.exe and slui.exe (UACMe 61)
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\changepk.exe AND process_parent_path.keyword:*\\slui.exe
+        AND IntegrityLevel:("High" OR "System"))
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_changepk_slui
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

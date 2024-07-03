@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the usage and installation of a backdoor that uses an option
+  to register a malicious debugger for built-in tools that are accessible in the login
+  screen
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\winlogon.exe AND process_path.keyword:(*\\cmd.exe
+        OR *\\cscript.exe OR *\\mshta.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\regsvr32.exe
+        OR *\\rundll32.exe OR *\\wscript.exe OR *\\wt.exe) AND process_command_line.keyword:(*sethc.exe*
+        OR *utilman.exe* OR *osk.exe* OR *Magnify.exe* OR *Narrator.exe* OR *DisplaySwitch.exe*))
+index: wazuh-alerts*
+name: proc_creation_win_cmd_sticky_key_like_backdoor_execution
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

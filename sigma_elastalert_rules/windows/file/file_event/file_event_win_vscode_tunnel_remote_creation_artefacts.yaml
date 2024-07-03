@@ -1,0 +1,17 @@
+alert:
+- debug
+description: "Detects the creation of file by the \"node.exe\" process in the \".vscode-server\"\
+  \ directory. Could be a sign of remote file creation via VsCode tunnel feature\n"
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\servers\\Stable\-* AND process_path.keyword:*\\server\\node.exe
+        AND file_name.keyword:*\\.vscode\-server\\data\\User\\History\\*)
+index: wazuh-alerts*
+name: file_event_win_vscode_tunnel_remote_creation_artefacts
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

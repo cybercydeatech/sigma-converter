@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Alerts on Metasploit host's authentications on the domain.
+filter:
+- query:
+    query_string:
+      query: ((event_id:("4625" OR "4624") AND logon_type:"3" AND logon_authentication_package:"NTLM"
+        AND src_host_name.keyword:/[A-Za-z0-9]{16}/) OR (event_id:"4776" AND src_host_name.keyword:/[A-Za-z0-9]{16}/))
+index: wazuh-alerts*
+name: win_security_metasploit_authentication
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

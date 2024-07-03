@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of a signed dbghelp.dll by the Sysinternals
+  VMMap.
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*C\:\\Debuggers\\dbghelp.dll* AND process_path.keyword:(*\\vmmap.exe
+        OR *\\vmmap64.exe) AND signed:"true")
+index: wazuh-alerts*
+name: image_load_side_load_vmmap_dbghelp_signed
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

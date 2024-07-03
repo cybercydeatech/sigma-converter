@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects changing the PowerShell script execution policy to a potentially
+  insecure level using the "-ExecutionPolicy" flag.
+filter:
+- query:
+    query_string:
+      query: ((file_name_original:("PowerShell.EXE" OR "pwsh.dll") OR process_path.keyword:(*\\powershell.exe
+        OR *\\pwsh.exe)) AND process_command_line.keyword:(*\-executionpolicy\ * OR
+        *\ \-ep\ * OR *\ \-exec\ *) AND process_command_line.keyword:(*Bypass* OR
+        *Unrestricted*))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_set_policies_to_unsecure_level
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

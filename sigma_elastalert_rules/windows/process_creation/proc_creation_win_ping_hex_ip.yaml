@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects a ping command that uses a hex encoded IP address
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\ping.exe AND process_command_line.keyword:*0x*)
+index: wazuh-alerts*
+name: proc_creation_win_ping_hex_ip
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

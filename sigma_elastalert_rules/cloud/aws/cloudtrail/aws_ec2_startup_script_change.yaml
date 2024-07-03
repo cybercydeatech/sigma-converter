@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects changes to the EC2 instance startup script. The shell script
+  will be executed as root/SYSTEM every time the specific instances are booted up.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"ec2.amazonaws.com" AND requestParameters.attribute:"userData"
+        AND eventName:"ModifyInstanceAttribute")
+index: wazuh-alerts*
+name: aws_ec2_startup_script_change
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

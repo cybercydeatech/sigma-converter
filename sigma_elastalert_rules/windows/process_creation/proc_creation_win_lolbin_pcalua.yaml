@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execition of commands and binaries from the context of The program
+  compatibility assistant (Pcalua.exe). This can be used as a LOLBIN in order to bypass
+  application whitelisting.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\pcalua.exe AND process_command_line.keyword:*\
+        \-a*)
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_pcalua
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

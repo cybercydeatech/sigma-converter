@@ -1,0 +1,35 @@
+alert:
+- debug
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:(*\\Software\\Wow6432Node\\Microsoft\\Office*
+        OR *\\Software\\Microsoft\\Office*) AND registry_key_path.keyword:(*\\Word\\Addins*
+        OR *\\PowerPoint\\Addins* OR *\\Outlook\\Addins* OR *\\Onenote\\Addins* OR
+        *\\Excel\\Addins* OR *\\Access\\Addins* OR *test\\Special\\Perf*)) AND (NOT
+        ((Details:"\(Empty\)") OR (process_path.keyword:(C\:\\Program\ Files\\Microsoft\
+        Office\\* OR C\:\\Program\ Files\ \(x86\)\\Microsoft\ Office\\* OR C\:\\Windows\\System32\\msiexec.exe*
+        OR C\:\\Windows\\System32\\regsvr32.exe*) AND 
+        registry_key_path.keyword:(*\\Excel\\Addins\\AdHocReportingExcelClientLib.AdHocReportingExcelClientAddIn.1\\*
+        OR *\\Excel\\Addins\\ExcelPlugInShell.PowerMapConnect\\* OR *\\Excel\\Addins\\NativeShim\\*
+        OR *\\Excel\\Addins\\NativeShim.InquireConnector.1\\* OR *\\Excel\\Addins\\PowerPivotExcelClientAddIn.NativeEntry.1\\*
+        OR *\\Outlook\\AddIns\\AccessAddin.DC\\* OR *\\Outlook\\AddIns\\ColleagueImport.ColleagueImportAddin\\*
+        OR *\\Outlook\\AddIns\\EvernoteCC.EvernoteContactConnector\\* OR *\\Outlook\\AddIns\\EvernoteOLRD.Connect\\*
+        OR *\\Outlook\\Addins\\Microsoft.VbaAddinForOutlook.1\\* OR *\\Outlook\\Addins\\OcOffice.OcForms\\*
+        OR *\\Outlook\\Addins\\OneNote.OutlookAddin* OR *\\Outlook\\Addins\\OscAddin.Connect\\*
+        OR *\\Outlook\\Addins\\OutlookChangeNotifier.Connect\\* OR *\\Outlook\\Addins\\UCAddin.LyncAddin.1*
+        OR *\\Outlook\\Addins\\UCAddin.UCAddin.1* OR *\\Outlook\\Addins\\UmOutlookAddin.FormRegionAddin\\*))
+        OR (process_path.keyword:(C\:\\Program\ Files\\Common\ Files\\Microsoft\ Shared\\ClickToRun\\*
+        OR C\:\\Program\ Files\\Common\ Files\\Microsoft\ Shared\\ClickToRun\\Updates\\*)
+        AND process_path.keyword:*\\OfficeClickToRun.exe) OR (process_path:"C\:\\Program\
+        Files\\AVG\\Antivirus\\RegSvr.exe" AND 
+        registry_key_path.keyword:*\\Microsoft\\Office\\Outlook\\Addins\\Antivirus.AsOutExt\\*))))
+index: wazuh-alerts*
+name: registry_set_asep_reg_keys_modification_office
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

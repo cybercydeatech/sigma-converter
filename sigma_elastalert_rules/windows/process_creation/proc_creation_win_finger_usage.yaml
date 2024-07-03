@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious aged finger.exe tool execution often used in malware
+  attacks nowadays
+filter:
+- query:
+    query_string:
+      query: (file_name_original:"finger.exe" OR process_path.keyword:*\\finger.exe)
+index: wazuh-alerts*
+name: proc_creation_win_finger_usage
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

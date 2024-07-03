@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the image load of VSS DLL by uncommon executables
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\vssapi.dll AND (NOT ((process_path:("C\:\\Windows\\explorer.exe"
+        OR "C\:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe") OR process_path.keyword:(C\:\\Windows\\System32\\*
+        OR C\:\\Windows\\SysWOW64\\* OR C\:\\Windows\\Temp\\\{* OR C\:\\Windows\\WinSxS\\*))
+        OR (process_path.keyword:(C\:\\Program\ Files\\* OR C\:\\Program\ Files\ \(x86\)\\*))
+        OR (process_path.keyword:C\:\\ProgramData\\Package\ Cache\\*))))
+index: wazuh-alerts*
+name: image_load_dll_vssapi_susp_load
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

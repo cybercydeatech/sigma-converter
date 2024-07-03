@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the creation of a new bits job by PowerShell
+filter:
+- query:
+    query_string:
+      query: (event_id:"3" AND process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe))
+index: wazuh-alerts*
+name: win_bits_client_new_job_via_powershell
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

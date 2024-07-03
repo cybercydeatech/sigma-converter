@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects changes to the PowerShell execution policy registry key in order
+  to bypass signing requirements for script execution from the CommandLine
+filter:
+- query:
+    query_string:
+      query: 
+        (process_command_line.keyword:(*\\ShellIds\\Microsoft.PowerShell\\ExecutionPolicy*
+        OR *\\Policies\\Microsoft\\Windows\\PowerShell\\ExecutionPolicy*) AND process_command_line.keyword:(*Bypass*
+        OR *RemoteSigned* OR *Unrestricted*))
+index: wazuh-alerts*
+name: proc_creation_win_registry_set_unsecure_powershell_policy
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the execution of the PoC that can be used to exploit Sysmon CVE-2022-41120
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\SysmonEOP.exe OR Hashes.keyword:(*IMPHASH\=22F4089EB8ABA31E1BB162C6D9BF72E5*
+        OR *IMPHASH\=5123FA4C4384D431CD0D893EEB49BBEC*) OR hash_imphash:("22f4089eb8aba31e1bb162c6d9bf72e5"
+        OR "5123fa4c4384d431cd0d893eeb49bbec"))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_sysmoneop
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

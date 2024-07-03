@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Indicates sign-ins from an anonymous IP address, for example, using an
+  anonymous browser or VPN.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"anonymizedIPAddress"
+index: wazuh-alerts*
+name: azure_identity_protection_anonymous_ip_address
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

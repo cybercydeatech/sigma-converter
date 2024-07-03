@@ -1,0 +1,21 @@
+alert:
+- debug
+description: BlackByte set three different registry values to escalate privileges
+  and begin setting the stage for lateral movement and encryption
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path:("HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\LocalAccountTokenFilterPolicy"
+        OR 
+        "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLinkedConnections"
+        OR "HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem\\LongPathsEnabled")
+        AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_blackbyte_ransomware
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

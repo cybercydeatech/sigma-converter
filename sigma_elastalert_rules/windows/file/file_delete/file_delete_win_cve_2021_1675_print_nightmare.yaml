@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect DLL deletions from Spooler Service driver folder. This might be
+  a potential exploitation attempt of CVE-2021-1675
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\spoolsv.exe AND file_name.keyword:*C\:\\Windows\\System32\\spool\\drivers\\x64\\3\\*)
+index: wazuh-alerts*
+name: file_delete_win_cve_2021_1675_print_nightmare
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

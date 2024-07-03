@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects when a user has been elevated to manage all Azure Subscriptions.
+  This change should be investigated immediately if it isn't planned.
+  This setting could allow an attacker access to Azure subscriptions in your environment.
+filter:
+- query:
+    query_string:
+      query: (Category:"Administrative" AND OperationName:"Assigns\ the\ caller\ to\
+        user\ access\ admin")
+index: wazuh-alerts*
+name: azure_subscription_permissions_elevation_via_auditlogs
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

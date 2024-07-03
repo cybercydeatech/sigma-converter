@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects logon events that have characteristics of events generated during
+  an attack with KrbRelayUp and the like
+filter:
+- query:
+    query_string:
+      query: (event_id:"4624" AND logon_type:"3" AND logon_authentication_package:"Kerberos"
+        AND src_original_value:"127.0.0.1" AND TargetUserSid.keyword:S\-1\-5\-21\-*
+        AND TargetUserSid.keyword:*\-500)
+index: wazuh-alerts*
+name: win_security_susp_krbrelayup
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: |
+  Detects process discovery commands. Adversaries may attempt to get information about running processes on a system.
+  Information obtained could be used to gain an understanding of common software/applications running on systems within the network
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:(*\/ps OR *\/top)
+index: wazuh-alerts*
+name: proc_creation_lnx_process_discovery
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

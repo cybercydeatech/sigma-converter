@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects the execution of "wmic" with the "group" flag.
+  Adversaries may attempt to find local system groups and permission settings.
+  The knowledge of local system permission groups can help adversaries determine which groups exist and which users belong to a particular group.
+  Adversaries may use this information to determine which users have elevated permissions, such as the users found within the local administrators group.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\wmic.exe OR file_name_original:"wmic.exe")
+        AND process_command_line.keyword:*\ group*)
+index: wazuh-alerts*
+name: proc_creation_win_wmic_recon_group
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

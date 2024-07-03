@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the use of the RunXCmd tool to execute commands with System or
+  TrustedInstaller accounts
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*\ \/account\=system\ * OR *\ \/account\=ti\
+        *) AND process_command_line.keyword:*\/exec\=*)
+index: wazuh-alerts*
+name: proc_creation_win_pua_runxcmd
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

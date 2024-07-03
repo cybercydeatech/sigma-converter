@@ -1,0 +1,17 @@
+alert:
+- debug
+description: "Detects execution of NoFilter, a tool for abusing the Windows Filtering
+  Platform for privilege escalation via hardcoded policy name indicators\n"
+filter:
+- query:
+    query_string:
+      query: ((event_id:"5447" AND FilterName.keyword:*RonPolicy*) OR (event_id:"5449"
+        AND ProviderContextName.keyword:*RonPolicy*))
+index: wazuh-alerts*
+name: win_security_hktl_nofilter
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

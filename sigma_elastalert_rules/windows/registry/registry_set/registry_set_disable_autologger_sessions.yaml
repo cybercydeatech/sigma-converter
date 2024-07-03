@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects tampering with autologger trace sessions which is a technique
+  used by attackers to disable logging
+filter:
+- query:
+    query_string:
+      query: 
+        ((registry_key_path.keyword:*\\System\\CurrentControlSet\\Control\\WMI\\Autologger\\*
+        AND registry_key_path.keyword:(*\\EventLog\-* OR *\\Defender*) AND registry_key_path.keyword:(*\\Enable
+        OR *\\Start) AND Details:"DWORD\ \(0x00000000\)") AND (NOT ((process_path:"C\:\\Windows\\system32\\wevtutil.exe"))))
+index: wazuh-alerts*
+name: registry_set_disable_autologger_sessions
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects suspicious powershell process starts with base64 encoded commands
+  (e.g. Emotet)
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) OR file_name_original:("PowerShell.EXE"
+        OR "pwsh.dll")) AND ((process_command_line.keyword:*\ \-e* AND process_command_line.keyword:(*\
+        JAB* OR *\ SUVYI* OR *\ SQBFAFgA* OR *\ aQBlAHgA* OR *\ aWV4I* OR *\ IAA*
+        OR *\ IAB* OR *\ UwB* OR *\ cwB*)) OR process_command_line.keyword:(*.exe\
+        \-ENCOD\ * OR *\ BA\^J\ e\-*))) AND (NOT ((process_command_line.keyword:*\
+        \-ExecutionPolicy\ remotesigned\ *))))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_base64_encoded_cmd
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

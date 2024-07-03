@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an account was created and deleted in a short period of
+  time.
+filter:
+- query:
+    query_string:
+      query: (properties.message:("Add\ user" OR "Delete\ user") AND event_status:"Success")
+index: wazuh-alerts*
+name: azure_ad_account_created_deleted
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of the "Import-Module" cmdlet to load the "Microsoft.ActiveDirectory.Management.dl"
+  DLL. Which is often used by attackers to perform AD enumeration.
+filter:
+- query:
+    query_string:
+      query: (Payload.keyword:(*Import\-Module\ * OR *ipmo\ *) AND Payload.keyword:*Microsoft.ActiveDirectory.Management.dll*)
+index: wazuh-alerts*
+name: posh_pm_active_directory_module_dll_import
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

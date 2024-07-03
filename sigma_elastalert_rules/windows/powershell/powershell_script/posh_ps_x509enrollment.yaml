@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detect use of X509Enrollment
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*X509Enrollment.CBinaryConverter* OR *884e2002\-217d\-11da\-b2a4\-000e7bbb2b09*)
+index: wazuh-alerts*
+name: posh_ps_x509enrollment
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

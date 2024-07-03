@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects the usage of "reg.exe" in order to dump sensitive registry hives.
+  This includes SAM, SYSTEM and SECURITY hives.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\reg.exe OR file_name_original:"reg.exe") AND
+        process_command_line.keyword:(*\ save\ * OR *\ export\ * OR *\ ˢave\ * OR
+        *\ eˣport\ *) AND process_command_line.keyword:(*hklm* OR *hk˪m* OR *hkey_local_machine*
+        OR *hkey_˪ocal_machine* OR *hkey_loca˪_machine* OR *hkey_˪oca˪_machine*) AND
+        process_command_line.keyword:(*\\system* OR *\\sam* OR *\\security* OR *\\ˢystem*
+        OR *\\syˢtem* OR *\\ˢyˢtem* OR *\\ˢam* OR *\\ˢecurity*))
+index: wazuh-alerts*
+name: proc_creation_win_reg_dumping_sensitive_hives
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

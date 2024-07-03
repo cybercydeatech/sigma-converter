@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when an attacker modifies the registry key "HtmlHelp Author"
+  to achieve persistence
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:(*\\Software\\Microsoft\\HtmlHelp\ Author\\Location*
+        OR *\\Software\\WOW6432Node\\Microsoft\\HtmlHelp\ Author\\Location*)
+index: wazuh-alerts*
+name: registry_set_persistence_chm
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

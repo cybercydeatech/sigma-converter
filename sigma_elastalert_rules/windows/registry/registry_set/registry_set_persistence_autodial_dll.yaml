@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects change the the "AutodialDLL" key which could be used as a persistence
+  method to load custom DLL via the "ws2_32" library
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*\\Services\\WinSock2\\Parameters\\AutodialDLL*
+index: wazuh-alerts*
+name: registry_set_persistence_autodial_dll
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

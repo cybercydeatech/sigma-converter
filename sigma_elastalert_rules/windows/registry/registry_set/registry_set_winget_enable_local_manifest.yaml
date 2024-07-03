@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects changes to the AppInstaller (winget) policy. Specifically the
+  activation of the local manifest installation, which allows a user to install new
+  packages via custom manifests.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\AppInstaller\\EnableLocalManifestFiles
+        AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_winget_enable_local_manifest
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

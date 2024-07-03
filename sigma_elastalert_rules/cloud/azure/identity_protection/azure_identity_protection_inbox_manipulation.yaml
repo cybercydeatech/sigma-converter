@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious rules that delete or move messages or folders are
+  set on a user's inbox.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"mcasSuspiciousInboxManipulationRules"
+index: wazuh-alerts*
+name: azure_identity_protection_inbox_manipulation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious user agent strings used by crypto miners in proxy
+  logs
+filter:
+- query:
+    query_string:
+      query: c-useragent.keyword:(XMRig\ * OR ccminer*)
+index: wazuh-alerts*
+name: proxy_ua_cryptominer
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

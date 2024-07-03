@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Powershell as a child of the WmiPrvSE process. Which could be
+  a sign of lateral movement via WMI.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\WmiPrvSE.exe AND (process_path.keyword:(*\\powershell.exe
+        OR *\\pwsh.exe) OR file_name_original:("PowerShell.EXE" OR "pwsh.dll")))
+index: wazuh-alerts*
+name: proc_creation_win_wmiprvse_spawns_powershell
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

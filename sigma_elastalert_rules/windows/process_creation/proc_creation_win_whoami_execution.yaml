@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the execution of whoami, which is often used by attackers after
+  exploitation / privilege escalation
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\whoami.exe OR file_name_original:"whoami.exe")
+index: wazuh-alerts*
+name: proc_creation_win_whoami_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

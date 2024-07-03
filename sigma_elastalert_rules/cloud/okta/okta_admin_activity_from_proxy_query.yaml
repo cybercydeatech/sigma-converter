@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects access to Okta admin functions through proxy.
+filter:
+- query:
+    query_string:
+      query: (debugContext.debugData.requestUri.keyword:*admin* AND securityContext.isProxy:"true")
+index: wazuh-alerts*
+name: okta_admin_activity_from_proxy_query
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

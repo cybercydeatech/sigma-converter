@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:(*\\Software\\Wow6432Node\\Microsoft\\Internet\
+        Explorer* OR *\\Software\\Microsoft\\Internet\ Explorer*) AND registry_key_path.keyword:(*\\Toolbar*
+        OR *\\Extensions* OR *\\Explorer\ Bars*)) AND (NOT ((Details:"\(Empty\)")
+        OR 
+        (registry_key_path.keyword:(*\\Extensions\\\{2670000A\-7350\-4f3c\-8081\-5663EE0C6C49\}*
+        OR *\\Extensions\\\{31D09BA0\-12F5\-4CCE\-BE8A\-2923E76605DA\}* OR *\\Extensions\\\{789FE86F\-6FC4\-46A1\-9849\-EDE0DB0C95CA\}*
+        OR *\\Extensions\\\{A95fe080\-8f5d\-11d2\-a20b\-00aa003c157a\}*)) OR (registry_key_path.keyword:(*\\Toolbar\\ShellBrowser\\ITBar7Layout
+        OR *\\Toolbar\\ShowDiscussionButton OR *\\Toolbar\\Locked)))))
+index: wazuh-alerts*
+name: registry_set_asep_reg_keys_modification_internet_explorer
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

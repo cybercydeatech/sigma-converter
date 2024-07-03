@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potential DLL sideloading activity via the Aruba Networks Virtual
+  Intranet Access "arubanetsvc.exe" process using DLL Search Order Hijacking
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\arubanetsvc.exe AND ImageLoaded.keyword:(*\\wtsapi32.dll
+        OR *\\msvcr100.dll OR *\\msvcp100.dll OR *\\dbghelp.dll OR *\\dbgcore.dll
+        OR *\\wininet.dll OR *\\iphlpapi.dll OR *\\version.dll OR *\\cryptsp.dll OR
+        *\\cryptbase.dll OR *\\wldp.dll OR *\\profapi.dll OR *\\sspicli.dll OR *\\winsta.dll
+        OR *\\dpapi.dll)) AND (NOT (ImageLoaded.keyword:(C\:\\Windows\\System32\\*
+        OR C\:\\Windows\\SysWOW64\\* OR C\:\\Windows\\WinSxS\\*))))
+index: wazuh-alerts*
+name: image_load_side_load_aruba_networks_virtual_intranet_access
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

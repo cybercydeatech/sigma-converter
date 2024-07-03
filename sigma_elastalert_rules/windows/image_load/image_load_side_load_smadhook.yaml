@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "SmadHook.dll", a DLL used by SmadAV
+  antivirus
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:(*\\SmadHook32c.dll OR *\\SmadHook64c.dll) AND (NOT
+        ((process_path:("C\:\\Program\ Files\ \(x86\)\\SMADAV\\SmadavProtect32.exe"
+        OR "C\:\\Program\ Files\ \(x86\)\\SMADAV\\SmadavProtect64.exe" OR "C\:\\Program\
+        Files\\SMADAV\\SmadavProtect32.exe" OR "C\:\\Program\ Files\\SMADAV\\SmadavProtect64.exe")
+        AND ImageLoaded.keyword:(C\:\\Program\ Files\ \(x86\)\\SMADAV\\* OR C\:\\Program\
+        Files\\SMADAV\\*)))))
+index: wazuh-alerts*
+name: image_load_side_load_smadhook
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

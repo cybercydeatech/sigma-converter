@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Monitor and alert for changes to the device registration policy.
+filter:
+- query:
+    query_string:
+      query: (Category:"Policy" AND ActivityDisplayName:"Set\ device\ registration\
+        policies")
+index: wazuh-alerts*
+name: azure_ad_device_registration_policy_changes
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

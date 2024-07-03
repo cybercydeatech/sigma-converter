@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects DLL sideloading of DLLs that are part of Microsoft Office from
+  non standard location
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\outllib.dll AND (NOT (ImageLoaded.keyword:(C\:\\Program\
+        Files\\Microsoft\ Office\\OFFICE* OR C\:\\Program\ Files\ \(x86\)\\Microsoft\
+        Office\\OFFICE* OR C\:\\Program\ Files\\Microsoft\ Office\\Root\\OFFICE* OR
+        C\:\\Program\ Files\ \(x86\)\\Microsoft\ Office\\Root\\OFFICE*))))
+index: wazuh-alerts*
+name: image_load_side_load_office_dlls
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

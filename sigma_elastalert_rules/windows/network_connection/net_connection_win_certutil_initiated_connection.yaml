@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects a network connection initiated by the certutil.exe utility.
+  Attackers can abuse the utility in order to download malware or additional payloads.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\certutil.exe AND Initiated:"true" AND dst_port:("80"
+        OR "135" OR "443" OR "445"))
+index: wazuh-alerts*
+name: net_connection_win_certutil_initiated_connection
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

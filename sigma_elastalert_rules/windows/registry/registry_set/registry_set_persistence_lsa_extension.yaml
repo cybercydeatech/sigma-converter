@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects when an attacker modifies the "REG_MULTI_SZ" value named "Extensions" to include a custom DLL to achieve persistence via lsass.
+  The "Extensions" list contains filenames of DLLs being automatically loaded by lsass.exe. Each DLL has its InitializeLsaExtension() method called after loading.
+filter:
+- query:
+    query_string:
+      query: 
+        registry_key_path.keyword:*\\SYSTEM\\CurrentControlSet\\Control\\LsaExtensionConfig\\LsaSrv\\Extensions*
+index: wazuh-alerts*
+name: registry_set_persistence_lsa_extension
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

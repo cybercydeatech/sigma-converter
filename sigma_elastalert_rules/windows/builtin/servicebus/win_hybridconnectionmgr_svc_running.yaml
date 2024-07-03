@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Rule to detect the Hybrid Connection Manager service running on an endpoint.
+filter:
+- query:
+    query_string:
+      query: (event_id:("40300" OR "40301" OR "40302") AND \*.keyword:(*HybridConnection*
+        OR *sb\:\/\/* OR *servicebus.windows.net* OR *HybridConnectionManage*))
+index: wazuh-alerts*
+name: win_hybridconnectionmgr_svc_running
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

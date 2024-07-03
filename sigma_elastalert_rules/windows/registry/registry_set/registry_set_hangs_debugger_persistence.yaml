@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when an attacker adds a new "Debugger" value to the "Hangs" key
+  in order to achieve persistence which will get invoked when an application crashes
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\\Windows\ Error\
+        Reporting\\Hangs\\Debugger*
+index: wazuh-alerts*
+name: registry_set_hangs_debugger_persistence
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

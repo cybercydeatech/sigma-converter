@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects remote RPC calls useb by SharpHound to map remote connections
+  and local group membership.
+filter:
+- query:
+    query_string:
+      query: (EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:"4b324fc8\-1670\-01d3\-1278\-5a47bf6ee188"
+        AND OpNum:"12")
+index: wazuh-alerts*
+name: rpc_firewall_sharphound_recon_sessions
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

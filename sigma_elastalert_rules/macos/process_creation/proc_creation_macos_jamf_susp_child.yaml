@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential suspicious child processes of "jamf". Could be a sign
+  of potential abuse of Jamf as a C2 server as seen by Typhon MythicAgent.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\/jamf AND process_path.keyword:(*\/bash
+        OR *\/sh))
+index: wazuh-alerts*
+name: proc_creation_macos_jamf_susp_child
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

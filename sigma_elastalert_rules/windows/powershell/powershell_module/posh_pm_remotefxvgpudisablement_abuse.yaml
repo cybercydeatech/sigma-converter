@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects PowerShell module creation where the module Contents are set
+  to "function Get-VMRemoteFXPhysicalVideoAdapter". This could be a sign of potential
+  abuse of the "RemoteFXvGPUDisablement.exe" binary which is known to be vulnerable
+  to module load-order hijacking.
+filter:
+- query:
+    query_string:
+      query: Payload.keyword:*ModuleContents\=function\ Get\-VMRemoteFXPhysicalVideoAdapter\
+        \{*
+index: wazuh-alerts*
+name: posh_pm_remotefxvgpudisablement_abuse
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

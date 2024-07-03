@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when a system process (i.e. located in system32, syswow64, etc.)
+  loads a DLL from a suspicious location or a location with permissive permissions
+  such as "C:\Users\Public"
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:C\:\\Windows\\* AND ImageLoaded.keyword:(C\:\\Users\\Public\\*
+        OR C\:\\PerfLogs\\*))
+index: wazuh-alerts*
+name: image_load_susp_dll_load_system_process
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

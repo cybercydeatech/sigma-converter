@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the creation of "ebpfbackdoor" files in both "cron.d" and "sudoers.d"
+  directories. Which both are related to the TripleCross persistence method
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*ebpfbackdoor
+index: wazuh-alerts*
+name: file_event_lnx_triple_cross_rootkit_persistence
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

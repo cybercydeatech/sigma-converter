@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects a user certificate that was valid but could not be mapped to a user in a strong way (such as via explicit mapping, key trust mapping, or a SID)
+  This could be a sign of exploitation of the elevation of privilege vulnerabilities (CVE-2022-34691, CVE-2022-26931, CVE-2022-26923) that can occur when the KDC allows certificate spoofing by not requiring a strong mapping.
+  Events where the AccountName and CN of the Subject do not match, or where the CN ends in a dollar sign indicating a machine, may indicate certificate spoofing.
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Kerberos\-Key\-Distribution\-Center" AND event_id:("39"
+        OR "41"))
+index: wazuh-alerts*
+name: win_system_kdcsvc_cert_use_no_strong_mapping
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

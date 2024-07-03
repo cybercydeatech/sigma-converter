@@ -1,0 +1,16 @@
+alert:
+- debug
+description: "Detects code integrity failures such as missing page hashes or corrupted
+  drivers due unauthorized modification. This could be a sign of tampered binaries.\n"
+filter:
+- query:
+    query_string:
+      query: event_id:("5038" OR "6281")
+index: wazuh-alerts*
+name: win_security_codeintegrity_check_failure
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

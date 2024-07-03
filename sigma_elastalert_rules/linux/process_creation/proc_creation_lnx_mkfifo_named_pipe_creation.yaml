@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the creation of a new named pipe using the "mkfifo" utility
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\/mkfifo
+index: wazuh-alerts*
+name: proc_creation_lnx_mkfifo_named_pipe_creation
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

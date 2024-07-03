@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection.
+  An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data.
+filter:
+- query:
+    query_string:
+      query: ((type:"execve" AND a0:"tcpdump" AND a1:"\-c" AND a3.keyword:*\-i*) OR
+        (type:"execve" AND a0:"tshark" AND a1:"\-c" AND a3:"\-i"))
+index: wazuh-alerts*
+name: lnx_auditd_network_sniffing
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

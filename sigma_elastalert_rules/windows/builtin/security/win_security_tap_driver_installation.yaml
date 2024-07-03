@@ -1,0 +1,16 @@
+alert:
+- debug
+description: "Detects the installation of a well-known TAP driver service. This could
+  be a sign of potential preparation for data exfiltration using tunnelling techniques.\n"
+filter:
+- query:
+    query_string:
+      query: (event_id:"4697" AND service_image_path.keyword:*tap0901*)
+index: wazuh-alerts*
+name: win_security_tap_driver_installation
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

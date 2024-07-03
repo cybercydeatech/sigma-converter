@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Detects registry value settings that would replace the user's desktop background.
+  This is a common technique used by malware to change the desktop background to a ransom note or other image.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:(*Control\ Panel\\Desktop* OR *CurrentVersion\\Policies\\ActiveDesktop*
+        OR *CurrentVersion\\Policies\\System*) AND ((registry_key_path.keyword:*NoChangingWallpaper
+        AND Details:"DWORD\ \(0x00000001\)") OR registry_key_path.keyword:*\\Wallpaper
+        OR (registry_key_path.keyword:*\\WallpaperStyle AND Details:"2"))) AND (NOT
+        ((process_path.keyword:*\\svchost.exe))))
+index: wazuh-alerts*
+name: registry_set_desktop_background_change
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

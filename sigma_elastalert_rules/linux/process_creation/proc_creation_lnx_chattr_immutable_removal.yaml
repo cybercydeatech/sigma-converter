@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of the 'chattr' utility to remove immutable file attribute.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/chattr AND process_command_line.keyword:*\ \-i\
+        *)
+index: wazuh-alerts*
+name: proc_creation_lnx_chattr_immutable_removal
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

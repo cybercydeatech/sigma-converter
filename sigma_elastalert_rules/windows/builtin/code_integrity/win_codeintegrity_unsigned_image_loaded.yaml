@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects loaded unsigned image on the system
+filter:
+- query:
+    query_string:
+      query: event_id:"3037"
+index: wazuh-alerts*
+name: win_codeintegrity_unsigned_image_loaded
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

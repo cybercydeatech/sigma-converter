@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the presence of "bpf_probe_write_user" BPF helper-generated warning
+  messages. Which could be a sign of suspicious eBPF activity on the system.
+filter:
+- query:
+    query_string:
+      query: bpf_probe_write_user
+index: wazuh-alerts*
+name: lnx_potential_susp_ebpf_activity
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

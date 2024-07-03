@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies when a Virtual Network is modified or deleted in Azure.
+filter:
+- query:
+    query_string:
+      query: (operationName.keyword:(MICROSOFT.NETWORK\/VIRTUALNETWORKGATEWAYS\/*
+        OR MICROSOFT.NETWORK\/VIRTUALNETWORKS\/*) AND operationName.keyword:(*\/WRITE
+        OR *\/DELETE))
+index: wazuh-alerts*
+name: azure_virtual_network_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

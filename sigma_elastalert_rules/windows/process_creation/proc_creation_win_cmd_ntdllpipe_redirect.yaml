@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects command that type the content of ntdll.dll to a different file
+  or a pipe in order to evade AV / EDR detection. As seen being used in the POC NtdllPipe
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*type\ %windir%\\system32\\ntdll.dll* OR
+        *type\ %systemroot%\\system32\\ntdll.dll* OR *type\ c\:\\windows\\system32\\ntdll.dll*
+        OR *\\ntdll.dll\ >\ \\\\.\\pipe\\\*)
+index: wazuh-alerts*
+name: proc_creation_win_cmd_ntdllpipe_redirect
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

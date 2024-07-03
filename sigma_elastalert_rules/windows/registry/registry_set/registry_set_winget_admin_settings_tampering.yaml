@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects changes to the AppInstaller (winget) admin settings. Such as
+  enabling local manifest installations or disabling installer hash checks
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\winget.exe AND registry_key_path.keyword:\\REGISTRY\\A\\*
+        AND registry_key_path.keyword:*\\LocalState\\admin_settings)
+index: wazuh-alerts*
+name: registry_set_winget_admin_settings_tampering
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

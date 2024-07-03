@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the creation of a macro file for Outlook.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\\Microsoft\\Outlook\\VbaProject.OTM AND (NOT (process_path.keyword:*\\outlook.exe)))
+index: wazuh-alerts*
+name: file_event_win_office_outlook_susp_macro_creation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

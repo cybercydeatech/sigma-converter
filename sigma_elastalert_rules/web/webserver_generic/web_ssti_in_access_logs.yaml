@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects SSTI attempts sent via GET requests in access logs
+filter:
+- query:
+    query_string:
+      query: ((cs-method:"GET" AND \*.keyword:(*\=\{\{* OR *\=%7B%7B* OR *\=$\{* OR
+        *\=$%7B* OR *\=<%\=* OR *\=%3C%25\=* OR *\=@\(* OR *freemarker.template.utility.Execute*
+        OR *.getClass\(\).forName\('javax.script.ScriptEngineManager'\)* OR *T\(org.apache.commons.io.IOUtils\)*))
+        AND (NOT (sc-status:"404")))
+index: wazuh-alerts*
+name: web_ssti_in_access_logs
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

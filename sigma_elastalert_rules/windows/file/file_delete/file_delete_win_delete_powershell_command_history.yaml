@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the deletion of the PowerShell console History logs which may
+  indicate an attempt to destroy forensic evidence
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\PSReadLine\\ConsoleHost_history.txt
+index: wazuh-alerts*
+name: file_delete_win_delete_powershell_command_history
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects the creation of a new PowerShell module ".psm1", ".psd1", ".dll",
+  ".ps1", etc. by a non-PowerShell process
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\\WindowsPowerShell\\Modules\\* OR *\\PowerShell\\7\\Modules\\*)
+        AND (NOT ((process_path.keyword:(*\:\\Program\ Files\\PowerShell\\7\-preview\\pwsh.exe
+        OR *\:\\Program\ Files\\PowerShell\\7\\pwsh.exe OR *\:\\Windows\\System32\\poqexec.exe
+        OR *\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe OR
+        *\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe OR *\:\\Windows\\SysWOW64\\poqexec.exe
+        OR *\:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell_ise.exe OR
+        *\:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe)))))
+index: wazuh-alerts*
+name: file_event_win_powershell_module_uncommon_creation
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

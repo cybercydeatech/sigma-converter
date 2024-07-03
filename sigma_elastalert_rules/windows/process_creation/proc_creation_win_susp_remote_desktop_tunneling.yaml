@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects potential use of an SSH utility to establish RDP over a reverse
+  SSH Tunnel. This can be used by attackers to enable routing of network packets that
+  would otherwise not reach their intended destination.
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*\:3389* AND process_command_line.keyword:(*\
+        \-L\ * OR *\ \-P\ * OR *\ \-R\ * OR *\ \-pw\ * OR *\ \-ssh\ *))
+index: wazuh-alerts*
+name: proc_creation_win_susp_remote_desktop_tunneling
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

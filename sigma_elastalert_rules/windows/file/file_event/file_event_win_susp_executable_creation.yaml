@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detect creation of suspicious executable file names.
+  Some strings look for suspicious file extensions, others look for filenames that exploit unquoted service paths.
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:(*\:\\$Recycle.Bin.exe OR *\:\\Documents\ and\ Settings.exe
+        OR *\:\\MSOCache.exe OR *\:\\PerfLogs.exe OR *\:\\Recovery.exe OR *.bat.exe
+        OR *.sys.exe)
+index: wazuh-alerts*
+name: file_event_win_susp_executable_creation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects suspicious Ruby on Rails exceptions that could indicate exploitation
+  attempts
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*ActionController\:\:InvalidAuthenticityToken* OR *ActionController\:\:InvalidCrossOriginRequest*
+        OR *ActionController\:\:MethodNotAllowed* OR *ActionController\:\:BadRequest*
+        OR *ActionController\:\:ParameterMissing*)
+index: wazuh-alerts*
+name: appframework_ruby_on_rails_exceptions
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

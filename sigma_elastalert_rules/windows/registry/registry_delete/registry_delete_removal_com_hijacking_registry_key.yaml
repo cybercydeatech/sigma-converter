@@ -1,0 +1,30 @@
+alert:
+- debug
+description: |
+  Detects any deletion of entries in ".*\shell\open\command" registry keys.
+  These registry keys might have been used for COM hijacking activities by a threat actor or an attacker and the deletion could indicate steps to remove its tracks.
+filter:
+- query:
+    query_string:
+      query: ((event_category_type:"DeleteKey" AND registry_key_path.keyword:*\\shell\\open\\command)
+        AND (NOT ((process_path:"C\:\\Windows\\system32\\svchost.exe") OR (process_path.keyword:(C\:\\Program\
+        Files\\Common\ Files\\Microsoft\ Shared\\ClickToRun\\* OR C\:\\Program\ Files\\Common\
+        Files\\Microsoft\ Shared\\ClickToRun\\Updates\\*) AND process_path.keyword:*\\OfficeClickToRun.exe)
+        OR (process_path:"C\:\\Program\ Files\ \(x86\)\\Microsoft\ Office\\root\\integration\\integrator.exe")
+        OR (process_path.keyword:*\\Dropbox.exe AND registry_key_path.keyword:*\\Dropbox.*)
+        OR (process_path.keyword:*\\AppData\\Local\\Temp\\Wireshark_uninstaller.exe
+        AND registry_key_path.keyword:*\\wireshark\-capture\-file\\*) OR (process_path.keyword:(C\:\\Program\
+        Files\\Opera\\* OR C\:\\Program\ Files\ \(x86\)\\Opera\\*) AND process_path.keyword:*\\installer.exe)
+        OR (process_path.keyword:*peazip* AND registry_key_path.keyword:*\\PeaZip.*)
+        OR (process_path.keyword:*\\Everything.exe AND registry_key_path.keyword:*\\Everything.*)
+        OR (process_path.keyword:C\:\\Windows\\Installer\\MSI*) OR (process_path.keyword:C\:\\Program\
+        Files\ \(x86\)\\Java\\* AND process_path.keyword:*\\installer.exe AND 
+        registry_key_path.keyword:*\\Classes\\WOW6432Node\\CLSID\\\{4299124F\-F2C3\-41b4\-9C73\-9236B2AD0E8F\}*))))
+index: wazuh-alerts*
+name: registry_delete_removal_com_hijacking_registry_key
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

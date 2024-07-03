@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the creation of doas.conf file in linux host platform.
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\/etc\/doas.conf
+index: wazuh-alerts*
+name: file_event_lnx_doas_conf_creation
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detect suspicious parent processes of well-known Windows processes
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\svchost.exe OR *\\taskhost.exe OR *\\lsm.exe
+        OR *\\lsass.exe OR *\\services.exe OR *\\lsaiso.exe OR *\\csrss.exe OR *\\wininit.exe
+        OR *\\winlogon.exe) AND (NOT ((process_parent_path.keyword:(*\\SavService.exe
+        OR *\\ngen.exe) OR process_parent_path.keyword:(*\\System32\\* OR *\\SysWOW64\\*))
+        OR (process_parent_path.keyword:(*\\Windows\ Defender\\* OR *\\Microsoft\
+        Security\ Client\\*) AND process_parent_path.keyword:*\\MsMpEng.exe) OR (NOT
+        _exists_:process_parent_path OR process_parent_path:"\-"))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_proc_wrong_parent
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

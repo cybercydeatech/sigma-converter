@@ -1,0 +1,17 @@
+alert:
+- debug
+description: "Detects Windows update errors including installation failures and connection
+  issues. Defenders should observe this in case critical update KBs aren't installed.\n"
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Microsoft\-Windows\-WindowsUpdateClient" AND event_id:("16"
+        OR "20" OR "24" OR "213" OR "217"))
+index: wazuh-alerts*
+name: win_system_susp_system_update_error
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

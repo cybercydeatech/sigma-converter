@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of binaries in the WinSxS folder by non-system processes
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:C\:\\Windows\\WinSxS\\* AND file_name.keyword:*.exe)
+        AND (NOT ((process_path.keyword:(C\:\\Windows\\Systems32\\* OR C\:\\Windows\\SysWOW64\\*
+        OR C\:\\Windows\\WinSxS\\*)))))
+index: wazuh-alerts*
+name: file_event_win_susp_winsxs_binary_creation
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

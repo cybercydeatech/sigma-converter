@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the load of EvtMuteHook.dll, a key component of SharpEvtHook,
+  a tool that tampers with the Windows event logs
+filter:
+- query:
+    query_string:
+      query: (Hashes.keyword:*IMPHASH\=330768A4F172E10ACB6287B87289D83B* OR hash_imphash:"330768a4f172e10acb6287b87289d83b")
+index: wazuh-alerts*
+name: image_load_hktl_sharpevtmute
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

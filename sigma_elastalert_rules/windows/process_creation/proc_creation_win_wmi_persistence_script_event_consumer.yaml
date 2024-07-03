@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects WMI script event consumers
+filter:
+- query:
+    query_string:
+      query: (process_path:"C\:\\WINDOWS\\system32\\wbem\\scrcons.exe" AND process_parent_path:"C\:\\Windows\\System32\\svchost.exe")
+index: wazuh-alerts*
+name: proc_creation_win_wmi_persistence_script_event_consumer
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

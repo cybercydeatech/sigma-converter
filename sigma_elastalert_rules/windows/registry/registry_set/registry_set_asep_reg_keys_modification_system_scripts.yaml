@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+filter:
+- query:
+    query_string:
+      query: 
+        ((registry_key_path.keyword:*\\Software\\Policies\\Microsoft\\Windows\\System\\Scripts*
+        AND registry_key_path.keyword:(*\\Startup* OR *\\Shutdown* OR *\\Logon* OR
+        *\\Logoff*)) AND (NOT (Details:"\(Empty\)")))
+index: wazuh-alerts*
+name: registry_set_asep_reg_keys_modification_system_scripts
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

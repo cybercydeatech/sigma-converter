@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects DNS queries initiated by "Regsvr32.exe"
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\\regsvr32.exe
+index: wazuh-alerts*
+name: dns_query_win_regsvr32_dns_query
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

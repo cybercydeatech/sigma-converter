@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects renaming of file while deletion with SDelete tool.
+filter:
+- query:
+    query_string:
+      query: (event_id:("4656" OR "4663" OR "4658") AND object_name.keyword:(*.AAA
+        OR *.ZZZ))
+index: wazuh-alerts*
+name: win_security_susp_sdelete
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

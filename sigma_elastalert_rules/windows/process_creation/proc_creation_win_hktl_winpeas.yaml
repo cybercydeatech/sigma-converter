@@ -1,0 +1,23 @@
+alert:
+- debug
+description: WinPEAS is a script that search for possible paths to escalate privileges
+  on Windows hosts. The checks are explained on book.hacktricks.xyz
+filter:
+- query:
+    query_string:
+      query: (file_name_original:"winPEAS.exe" OR process_path.keyword:(*\\winPEASany_ofs.exe
+        OR *\\winPEASany.exe OR *\\winPEASx64_ofs.exe OR *\\winPEASx64.exe OR *\\winPEASx86_ofs.exe
+        OR *\\winPEASx86.exe) OR process_command_line.keyword:(*\ applicationsinfo*
+        OR *\ browserinfo* OR *\ eventsinfo* OR *\ fileanalysis* OR *\ filesinfo*
+        OR *\ processinfo* OR *\ servicesinfo* OR *\ windowscreds*) OR 
+        process_command_line.keyword:*https\:\/\/github.com\/carlospolop\/PEASS\-ng\/releases\/latest\/download\/*
+        OR process_parent_command_line.keyword:*\ \-linpeas OR process_command_line.keyword:*\
+        \-linpeas)
+index: wazuh-alerts*
+name: proc_creation_win_hktl_winpeas
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

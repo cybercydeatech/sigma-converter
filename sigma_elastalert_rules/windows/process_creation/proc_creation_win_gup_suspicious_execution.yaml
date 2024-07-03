@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects execution of the Notepad++ updater in a suspicious directory,
+  which is often used in DLL side-loading attacks
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\GUP.exe AND (NOT ((process_path.keyword:(*\\Program\
+        Files\\Notepad\+\+\\updater\\GUP.exe OR *\\Program\ Files\ \(x86\)\\Notepad\+\+\\updater\\GUP.exe))
+        OR (process_path.keyword:*\\Users\\* AND process_path.keyword:(*\\AppData\\Local\\Notepad\+\+\\updater\\GUP.exe
+        OR *\\AppData\\Roaming\\Notepad\+\+\\updater\\GUP.exe)))))
+index: wazuh-alerts*
+name: proc_creation_win_gup_suspicious_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

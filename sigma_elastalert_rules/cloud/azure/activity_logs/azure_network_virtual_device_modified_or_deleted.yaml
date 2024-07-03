@@ -1,0 +1,22 @@
+alert:
+- debug
+description: |
+  Identifies when a virtual network device is being modified or deleted.
+  This can be a network interface, network virtual appliance, virtual hub, or virtual router.
+filter:
+- query:
+    query_string:
+      query: operationName:("MICROSOFT.NETWORK\/NETWORKINTERFACES\/TAPCONFIGURATIONS\/WRITE"
+        OR "MICROSOFT.NETWORK\/NETWORKINTERFACES\/TAPCONFIGURATIONS\/DELETE" OR "MICROSOFT.NETWORK\/NETWORKINTERFACES\/WRITE"
+        OR "MICROSOFT.NETWORK\/NETWORKINTERFACES\/JOIN\/ACTION" OR "MICROSOFT.NETWORK\/NETWORKINTERFACES\/DELETE"
+        OR "MICROSOFT.NETWORK\/NETWORKVIRTUALAPPLIANCES\/DELETE" OR "MICROSOFT.NETWORK\/NETWORKVIRTUALAPPLIANCES\/WRITE"
+        OR "MICROSOFT.NETWORK\/VIRTUALHUBS\/DELETE" OR "MICROSOFT.NETWORK\/VIRTUALHUBS\/WRITE"
+        OR "MICROSOFT.NETWORK\/VIRTUALROUTERS\/WRITE" OR "MICROSOFT.NETWORK\/VIRTUALROUTERS\/DELETE")
+index: wazuh-alerts*
+name: azure_network_virtual_device_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

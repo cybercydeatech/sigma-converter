@@ -1,0 +1,26 @@
+alert:
+- debug
+description: "Detects a network connection initiated by programs or processes running
+  from suspicious or uncommon files system locations.\n"
+filter:
+- query:
+    query_string:
+      query: ((Initiated:"true" AND process_path.keyword:(*\:\\$Recycle.bin* OR *\:\\Perflogs\\*
+        OR *\:\\Temp\\* OR *\:\\Users\\Default\\* OR *\:\\Windows\\Fonts\\* OR *\:\\Windows\\IME\\*
+        OR *\:\\Windows\\System32\\Tasks\\* OR *\:\\Windows\\Tasks\\* OR *\\config\\systemprofile\\*
+        OR *\\Windows\\addins\\*)) AND (NOT ((dst_host_name.keyword:(*.githubusercontent.com
+        OR *anonfiles.com OR *cdn.discordapp.com OR *cdn.discordapp.com\/attachments\/
+        OR *ddns.net OR *dl.dropboxusercontent.com OR *ghostbin.co OR *glitch.me OR
+        *gofile.io OR *hastebin.com OR *mediafire.com OR *mega.co.nz OR *mega.nz OR
+        *onrender.com OR *paste.ee OR *pastebin.com OR *pastebin.pl OR *pastetext.net
+        OR *portmap.io OR *privatlab.com OR *privatlab.net OR *send.exploit.in OR
+        *sendspace.com OR *storage.googleapis.com OR *storjshare.io OR *supabase.co
+        OR *temp.sh OR *transfer.sh OR *ufile.io)))))
+index: wazuh-alerts*
+name: net_connection_win_susp_initiated_uncommon_or_suspicious_locations
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

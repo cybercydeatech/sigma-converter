@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects default RemCom service filename which indicates RemCom service
+  installation and execution
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\RemComSvc.exe
+index: wazuh-alerts*
+name: file_event_win_remcom_service
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

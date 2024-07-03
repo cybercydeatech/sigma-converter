@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects registry changes to Office trust records where the path is located
+  in a potentially suspicious location
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Security\\Trusted\ Documents\\TrustRecords*
+        AND registry_key_path.keyword:(*\/AppData\/Local\/Microsoft\/Windows\/INetCache\/*
+        OR *\/AppData\/Local\/Temp\/* OR *\/PerfLogs\/* OR *C\:\/Users\/Public\/*
+        OR *file\:\/\/\/D\:\/* OR *file\:\/\/\/E\:\/*))
+index: wazuh-alerts*
+name: registry_set_office_trust_record_susp_location
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

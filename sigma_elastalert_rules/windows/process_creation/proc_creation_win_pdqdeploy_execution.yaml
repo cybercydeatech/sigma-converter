@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect use of PDQ Deploy remote admin tool
+filter:
+- query:
+    query_string:
+      query: (file_description:"PDQ\ Deploy\ Console" OR file_product:"PDQ\ Deploy"
+        OR file_company:"PDQ.com" OR file_name_original:"PDQDeployConsole.exe")
+index: wazuh-alerts*
+name: proc_creation_win_pdqdeploy_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

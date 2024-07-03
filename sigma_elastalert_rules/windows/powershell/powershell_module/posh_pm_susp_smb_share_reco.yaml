@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Adversaries may look for folders and drives shared on remote systems as a means of identifying sources of information to gather as a precursor for Collection and
+  to identify potential systems of interest for Lateral Movement.
+  Networks often contain shared network drives and folders that enable users to access file directories on various systems across a network.
+filter:
+- query:
+    query_string:
+      query: (Payload.keyword:*get\-smbshare* OR ContextInfo.keyword:*get\-smbshare*)
+index: wazuh-alerts*
+name: posh_pm_susp_smb_share_reco
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

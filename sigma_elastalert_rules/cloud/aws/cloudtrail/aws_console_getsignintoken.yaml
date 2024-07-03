@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects potentially suspicious events involving "GetSigninToken".
+  An adversary using the "aws_consoler" tool can leverage this console API to create temporary federated credential that help obfuscate which AWS credential is compromised (the original access key) and enables the adversary to pivot from the AWS CLI to console sessions without the need for MFA using the new access key issued in this request.
+filter:
+- query:
+    query_string:
+      query: ((eventSource:"signin.amazonaws.com" AND eventName:"GetSigninToken")
+        AND (NOT ((userAgent.keyword:*Jersey\/$\{project.version\}*))))
+index: wazuh-alerts*
+name: aws_console_getsignintoken
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

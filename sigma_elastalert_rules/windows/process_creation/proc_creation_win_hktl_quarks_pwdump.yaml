@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of the Quarks PwDump tool via commandline arguments
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\QuarksPwDump.exe OR process_command_line:("\
+        \-dhl" OR "\ \-\-dump\-hash\-local" OR "\ \-dhdc" OR "\ \-\-dump\-hash\-domain\-cached"
+        OR "\ \-\-dump\-bitlocker" OR "\ \-dhd\ " OR "\ \-\-dump\-hash\-domain\ "
+        OR "\-\-ntds\-file"))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_quarks_pwdump
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

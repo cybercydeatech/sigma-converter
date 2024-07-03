@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential abuse of the "manage-bde.wsf" script as a LOLBIN to
+  proxy execution
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\wscript.exe OR file_name_original:"wscript.exe")
+        AND process_command_line.keyword:*manage\-bde.wsf*) OR ((process_parent_path.keyword:(*\\cscript.exe
+        OR *\\wscript.exe) AND process_parent_command_line.keyword:*manage\-bde.wsf*)
+        AND (NOT (process_path.keyword:*\\cmd.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_manage_bde
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects the download of suspicious file type from a well-known file and
+  paste sharing domain
+filter:
+- query:
+    query_string:
+      query: (Contents.keyword:(*.githubusercontent.com* OR *anonfiles.com* OR *cdn.discordapp.com*
+        OR *cdn.discordapp.com\/attachments\/* OR *ddns.net* OR *dl.dropboxusercontent.com*
+        OR *ghostbin.co* OR *glitch.me* OR *gofile.io* OR *hastebin.com* OR *mediafire.com*
+        OR *mega.nz* OR *onrender.com* OR *paste.ee* OR *pastebin.com* OR *pastebin.pl*
+        OR *pastetext.net* OR *privatlab.com* OR *privatlab.net* OR *send.exploit.in*
+        OR *sendspace.com* OR *storage.googleapis.com* OR *storjshare.io* OR *supabase.co*
+        OR *temp.sh* OR *transfer.sh* OR *ufile.io*) AND file_name.keyword:(*.ps1\:Zone*
+        OR *.bat\:Zone* OR *.cmd\:Zone*))
+index: wazuh-alerts*
+name: create_stream_hash_file_sharing_domains_download_unusual_extension
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

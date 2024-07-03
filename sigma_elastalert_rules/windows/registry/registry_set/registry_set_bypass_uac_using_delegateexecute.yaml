@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Bypasses User Account Control using a fileless method
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\open\\command\\DelegateExecute AND Details:"\(Empty\)")
+index: wazuh-alerts*
+name: registry_set_bypass_uac_using_delegateexecute
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

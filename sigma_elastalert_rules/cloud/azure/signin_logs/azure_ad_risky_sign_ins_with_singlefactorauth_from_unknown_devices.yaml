@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects risky authencaition from a non AD registered device without MFA
+  being required.
+filter:
+- query:
+    query_string:
+      query: (event_status:"Success" AND AuthenticationRequirement:"singleFactorAuthentication"
+        AND DeviceDetail.trusttype:"" AND RiskState:"atRisk")
+index: wazuh-alerts*
+name: azure_ad_risky_sign_ins_with_singlefactorauth_from_unknown_devices
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

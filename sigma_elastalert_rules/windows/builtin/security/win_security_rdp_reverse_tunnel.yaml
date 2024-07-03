@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects svchost hosting RDP termsvcs communicating with the loopback
+  address
+filter:
+- query:
+    query_string:
+      query: ((event_id:"5156" AND ((src_port:"3389" AND dst_ip_addr.keyword:(127.*
+        OR \:\:1)) OR (DestPort:"3389" AND src_ip_addr.keyword:(127.* OR \:\:1))))
+        AND (NOT ((FilterOrigin:"AppContainer\ Loopback") OR (Application.keyword:(*\\thor.exe
+        OR *\\thor64.exe)))))
+index: wazuh-alerts*
+name: win_security_rdp_reverse_tunnel
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

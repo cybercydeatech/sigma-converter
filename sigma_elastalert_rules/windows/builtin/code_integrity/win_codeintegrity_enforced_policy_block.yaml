@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects blocked load events that did not meet the authenticode signing
+  level requirements or violated the code integrity policy.
+filter:
+- query:
+    query_string:
+      query: event_id:"3077"
+index: wazuh-alerts*
+name: win_codeintegrity_enforced_policy_block
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

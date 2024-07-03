@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies the suspicious use of GetSessionToken. Tokens could be created
+  and used by attackers to move laterally and escalate privileges.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"sts.amazonaws.com" AND eventName:"GetSessionToken" AND
+        userIdentity.type:"IAMUser")
+index: wazuh-alerts*
+name: aws_sts_getsessiontoken_misuse
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

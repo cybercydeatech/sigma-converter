@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the execution of Sysinternals ADExplorer with the "-snapshot"
+  flag in order to save a local copy of the active directory database.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\ADExplorer.exe OR file_name_original:"AdExp")
+        AND process_command_line.keyword:*snapshot*)
+index: wazuh-alerts*
+name: proc_creation_win_sysinternals_adexplorer_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

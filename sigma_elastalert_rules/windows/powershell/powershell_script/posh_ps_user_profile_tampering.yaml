@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects calls to "Add-Content" cmdlet in order to modify the content
+  of the user profile and potentially adding suspicious commands for persistence
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:*Add\-Content\ $profile* AND ScriptBlockText.keyword:(*\-Value\
+        \"IEX\ * OR *\-Value\ \"Invoke\-Expression* OR *\-Value\ \"Invoke\-WebRequest*
+        OR *\-Value\ \"Start\-Process* OR *\-Value\ 'IEX\ * OR *\-Value\ 'Invoke\-Expression*
+        OR *\-Value\ 'Invoke\-WebRequest* OR *\-Value\ 'Start\-Process*))
+index: wazuh-alerts*
+name: posh_ps_user_profile_tampering
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

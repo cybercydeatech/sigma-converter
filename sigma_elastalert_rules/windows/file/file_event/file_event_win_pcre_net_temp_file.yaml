@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects processes creating temp files related to PCRE.NET package
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\AppData\\Local\\Temp\\ba9ea7344a4a5f591d6e5dc32a13494b\\*
+index: wazuh-alerts*
+name: file_event_win_pcre_net_temp_file
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

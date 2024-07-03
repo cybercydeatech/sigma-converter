@@ -1,0 +1,42 @@
+alert:
+- debug
+description: |
+  Detects attempted file load events that did not meet the signing level requirements. It often means the file's signature is revoked or a signature with the Lifetime Signing EKU has expired.
+  This event is best correlated with EID 3089 to determine the error of the validation.
+filter:
+- query:
+    query_string:
+      query: ((event_id:("3033" OR "3034") AND (NOT ((FileNameBuffer.keyword:*\\Windows\\assembly\\GAC\\*
+        AND ProcessNameBuffer.keyword:*\\mscorsvw.exe AND ProcessNameBuffer.keyword:*\\Windows\\Microsoft.NET\\*
+        AND RequestedPolicy:"8")))) AND (NOT ((FileNameBuffer.keyword:*\\Program\
+        Files\\DTrace\\dtrace.dll AND ProcessNameBuffer.keyword:*\\Windows\\System32\\svchost.exe
+        AND RequestedPolicy:"12") OR (FileNameBuffer.keyword:*\\Windows\\System32\\DriverStore\\FileRepository\\*
+        AND FileNameBuffer.keyword:*\\igd10iumd64.dll AND RequestedPolicy:"7") OR
+        (FileNameBuffer.keyword:*\\Windows\\System32\\nvspcap64.dll AND ProcessNameBuffer.keyword:(*\\AppData\\Local\\Keybase\\Gui\\Keybase.exe
+        OR *\\Microsoft\\Teams\\stage\\Teams.exe) AND RequestedPolicy:"8") OR (FileNameBuffer.keyword:*\\Program\
+        Files\\Bonjour\\mdnsNSP.dll AND ProcessNameBuffer.keyword:(*\\Windows\\System32\\svchost.exe
+        OR *\\Windows\\System32\\SIHClient.exe) AND RequestedPolicy:("8" OR "12"))
+        OR (FileNameBuffer.keyword:*\\Microsoft\ Office\\root\\vfs\\ProgramFilesCommonX64\\Microsoft\
+        Shared\\OFFICE* AND FileNameBuffer.keyword:*\\MSOXMLMF.DLL AND RequestedPolicy:"7")
+        OR (FileNameBuffer.keyword:*\\Windows\\System32\\nvspcap64.dll AND ProcessNameBuffer.keyword:*\\AppData\\Local\\slack\\app\-*
+        AND ProcessNameBuffer.keyword:*\\slack.exe AND RequestedPolicy:"8") OR (FileNameBuffer.keyword:(*\\Mozilla\
+        Firefox\\mozavcodec.dll OR *\\Mozilla\ Firefox\\mozavutil.dll) AND ProcessNameBuffer.keyword:*\\Mozilla\
+        Firefox\\firefox.exe AND RequestedPolicy:"8") OR (FileNameBuffer.keyword:(*\\Program\
+        Files\\Avast\ Software\\Avast\\aswAMSI.dll OR *\\Program\ Files\ \(x86\)\\Avast\
+        Software\\Avast\\aswAMSI.dll) AND RequestedPolicy:("8" OR "12")) OR (FileNameBuffer.keyword:*\\Program\
+        Files\\Google\\Drive\ File\ Stream\\* AND FileNameBuffer.keyword:*\\crashpad_handler.exe
+        AND ProcessNameBuffer.keyword:*\\Windows\\ImmersiveControlPanel\\SystemSettings.exe
+        AND RequestedPolicy:"8") OR (FileNameBuffer.keyword:*\\Trend\ Micro\\Client\
+        Server\ Security\ Agent\\perficrcperfmonmgr.dll AND RequestedPolicy:"8") OR
+        (FileNameBuffer.keyword:*\\Program\ Files\\National\ Instruments\\Shared\\mDNS\
+        Responder\\nimdnsNSP.dll\ ) OR (FileNameBuffer.keyword:(*\\Program\ Files\\McAfee\\Endpoint\
+        Security\\Threat\ Prevention\\MfeAmsiProvider.dll OR *\\Program\ Files\\McAfee\\MfeAV\\AMSIExt.dll))
+        OR (FileNameBuffer.keyword:*\\Program\ Files\\ESET\\ESET\ Security\\eamsi.dll))))
+index: wazuh-alerts*
+name: win_codeintegrity_attempted_dll_load
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

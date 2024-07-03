@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detect usage of DLL "coregen.exe" (Microsoft CoreCLR Native Image Generator)
+  binary to sideload arbitrary DLLs.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\coregen.exe AND (NOT (ImageLoaded.keyword:(C\:\\Windows\\System32\\*
+        OR C\:\\Windows\\SysWOW64\\* OR C\:\\Program\ Files\\Microsoft\ Silverlight\\*
+        OR C\:\\Program\ Files\ \(x86\)\\Microsoft\ Silverlight\\*))))
+index: wazuh-alerts*
+name: image_load_side_load_coregen
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

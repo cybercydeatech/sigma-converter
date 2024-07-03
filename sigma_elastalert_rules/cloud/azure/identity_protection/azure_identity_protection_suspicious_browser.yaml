@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Indicates anomalous behavior based on suspicious sign-in activity across
+  multiple tenants from different countries in the same browser
+filter:
+- query:
+    query_string:
+      query: riskEventType:"suspiciousBrowser"
+index: wazuh-alerts*
+name: azure_identity_protection_suspicious_browser
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

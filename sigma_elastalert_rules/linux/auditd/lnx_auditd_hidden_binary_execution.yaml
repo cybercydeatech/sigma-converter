@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects calls to hidden files or files located in hidden directories
+  in NIX systems.
+filter:
+- query:
+    query_string:
+      query: ((type:"PATH" AND name.keyword:*\/.*) AND (NOT (name.keyword:(*\/.cache\/*
+        OR *\/.config\/* OR *\/.pyenv\/* OR *\/.rustup\/toolchains*))))
+index: wazuh-alerts*
+name: lnx_auditd_hidden_binary_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects usage of Gpg4win to encrypt/decrypt files located in potentially
+  suspicious locations.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\gpg.exe OR *\\gpg2.exe) OR file_product:"GNU\
+        Privacy\ Guard\ \(GnuPG\)" OR file_description:"GnuPG’s\ OpenPGP\ tool") AND
+        process_command_line.keyword:*\-passphrase* AND process_command_line.keyword:(*\:\\PerfLogs\\*
+        OR *\:\\Temp\\* OR *\:\\Users\\Public\\* OR *\:\\Windows\\Temp\\* OR *\\AppData\\Local\\Temp\\*
+        OR *\\AppData\\Roaming\\*))
+index: wazuh-alerts*
+name: proc_creation_win_gpg4win_susp_location
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

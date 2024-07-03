@@ -1,0 +1,25 @@
+alert:
+- debug
+description: Detects suspicious base64 encoded and obfuscated "LOAD" keyword used
+  in .NET "reflection.assembly"
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*OgA6ACgAIgBMACIAKwAiAG8AYQBkACIAKQ* OR
+        *oAOgAoACIATAAiACsAIgBvAGEAZAAiACkA* OR *6ADoAKAAiAEwAIgArACIAbwBhAGQAIgApA*
+        OR *OgA6ACgAIgBMAG8AIgArACIAYQBkACIAKQ* OR *oAOgAoACIATABvACIAKwAiAGEAZAAiACkA*
+        OR *6ADoAKAAiAEwAbwAiACsAIgBhAGQAIgApA* OR *OgA6ACgAIgBMAG8AYQAiACsAIgBkACIAKQ*
+        OR *oAOgAoACIATABvAGEAIgArACIAZAAiACkA* OR *6ADoAKAAiAEwAbwBhACIAKwAiAGQAIgApA*
+        OR *OgA6ACgAJwBMACcAKwAnAG8AYQBkACcAKQ* OR *oAOgAoACcATAAnACsAJwBvAGEAZAAnACkA*
+        OR *6ADoAKAAnAEwAJwArACcAbwBhAGQAJwApA* OR *OgA6ACgAJwBMAG8AJwArACcAYQBkACcAKQ*
+        OR *oAOgAoACcATABvACcAKwAnAGEAZAAnACkA* OR *6ADoAKAAnAEwAbwAnACsAJwBhAGQAJwApA*
+        OR *OgA6ACgAJwBMAG8AYQAnACsAJwBkACcAKQ* OR *oAOgAoACcATABvAGEAJwArACcAZAAnACkA*
+        OR *6ADoAKAAnAEwAbwBhACcAKwAnAGQAJwApA*)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_base64_reflection_assembly_load_obfusc
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

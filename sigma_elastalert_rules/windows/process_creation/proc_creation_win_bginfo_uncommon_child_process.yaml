@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects uncommon child processes of "BgInfo.exe" which could be a sign
+  of potential abuse of the binary to proxy execution via external VBScript
+filter:
+- query:
+    query_string:
+      query: process_parent_path.keyword:(*\\bginfo.exe OR *\\bginfo64.exe)
+index: wazuh-alerts*
+name: proc_creation_win_bginfo_uncommon_child_process
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

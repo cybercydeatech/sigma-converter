@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects SharpLdapWhoami, a whoami alternative that queries the LDAP service
+  on a domain controller
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\SharpLdapWhoami.exe OR file_name_original.keyword:*SharpLdapWhoami*
+        OR file_product:"SharpLdapWhoami" OR process_command_line.keyword:(*\ \/method\:ntlm
+        OR *\ \/method\:kerb OR *\ \/method\:nego OR *\ \/m\:nego OR *\ \/m\:ntlm
+        OR *\ \/m\:kerb))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_sharpldapwhoami
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

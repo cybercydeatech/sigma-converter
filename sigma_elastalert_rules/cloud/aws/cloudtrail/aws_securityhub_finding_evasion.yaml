@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the modification of the findings on SecurityHub.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"securityhub.amazonaws.com" AND eventName:("BatchUpdateFindings"
+        OR "DeleteInsight" OR "UpdateFindings" OR "UpdateInsight"))
+index: wazuh-alerts*
+name: aws_securityhub_finding_evasion
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects PowerShell scripts that make use of the "Compress-Archive" Cmdlet in order to compress folders and files where the output is stored in a potentially suspicious location that is used often by malware for exfiltration.
+  An adversary might compress data (e.g., sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network.
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*Compress\-Archive\ \-Path*\-DestinationPath\
+        $env\:TEMP* OR *Compress\-Archive\ \-Path*\-DestinationPath*\\AppData\\Local\\Temp\\*
+        OR *Compress\-Archive\ \-Path*\-DestinationPath*\:\\Windows\\Temp\\*)
+index: wazuh-alerts*
+name: posh_ps_susp_zip_compress
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

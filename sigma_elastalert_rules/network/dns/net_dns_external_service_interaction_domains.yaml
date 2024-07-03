@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects suspicious DNS queries to external service interaction domains
+  often used for out-of-band interactions after successful RCE
+filter:
+- query:
+    query_string:
+      query: query.keyword:(*.interact.sh* OR *.oast.pro* OR *.oast.live* OR *.oast.site*
+        OR *.oast.online* OR *.oast.fun* OR *.oast.me* OR *.burpcollaborator.net*
+        OR *.oastify.com* OR *.canarytokens.com* OR *.requestbin.net* OR *.dnslog.cn*)
+index: wazuh-alerts*
+name: net_dns_external_service_interaction_domains
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

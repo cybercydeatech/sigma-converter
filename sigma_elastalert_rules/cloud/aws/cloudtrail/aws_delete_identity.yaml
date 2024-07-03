@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects an instance of an SES identity being deleted via the "DeleteIdentity"
+  event. This may be an indicator of an adversary removing the account that carried
+  out suspicious or malicious activities
+filter:
+- query:
+    query_string:
+      query: (eventSource:"ses.amazonaws.com" AND eventName:"DeleteIdentity")
+index: wazuh-alerts*
+name: aws_delete_identity
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

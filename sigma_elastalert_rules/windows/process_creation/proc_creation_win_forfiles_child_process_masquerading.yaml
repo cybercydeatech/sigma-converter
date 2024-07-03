@@ -1,0 +1,20 @@
+alert:
+- debug
+description: "Detects the execution of \"forfiles\" from a non-default location, in
+  order to potentially spawn a custom \"cmd.exe\" from the current working directory.\n"
+filter:
+- query:
+    query_string:
+      query: ((process_parent_command_line.keyword:(*.exe OR *.exe\") AND process_path.keyword:*\\cmd.exe
+        AND process_command_line.keyword:\/c\ echo\ \"*) AND (NOT ((process_parent_path.keyword:(*\:\\Windows\\System32\\*
+        OR *\:\\Windows\\SysWOW64\\*) AND process_parent_path.keyword:*\\forfiles.exe
+        AND process_path.keyword:(*\:\\Windows\\System32\\* OR *\:\\Windows\\SysWOW64\\*)
+        AND process_path.keyword:*\\cmd.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_forfiles_child_process_masquerading
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

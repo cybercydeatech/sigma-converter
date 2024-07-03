@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects usage of system utilities to discover files and directories
+filter:
+- query:
+    query_string:
+      query: ((process_path:"\/usr\/bin\/file" AND process_command_line.keyword:/(.){200,}/)
+        OR (process_path:"\/bin\/ls" AND process_command_line.keyword:*\-R*) OR process_path:"\/usr\/bin\/find"
+        OR process_path:"\/usr\/bin\/mdfind" OR process_path:"\/tree")
+index: wazuh-alerts*
+name: proc_creation_macos_file_and_directory_discovery
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

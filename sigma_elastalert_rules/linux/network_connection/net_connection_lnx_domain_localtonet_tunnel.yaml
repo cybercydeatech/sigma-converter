@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects an executable initiating a network connection to "LocaltoNet" tunneling sub-domains.
+  LocaltoNet is a reverse proxy that enables localhost services to be exposed to the Internet.
+  Attackers have been seen to use this service for command-and-control activities to bypass MFA and perimeter controls.
+filter:
+- query:
+    query_string:
+      query: (dst_host_name.keyword:(*.localto.net OR *.localtonet.com) AND Initiated:"true")
+index: wazuh-alerts*
+name: net_connection_lnx_domain_localtonet_tunnel
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

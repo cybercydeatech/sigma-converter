@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects suspicious reconnaissance command line activity on Windows systems
+  using the PowerShell Get-LocalGroupMember Cmdlet
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*Get\-LocalGroupMember\ * AND process_command_line.keyword:(*domain\
+        admins* OR *\ administrator* OR *\ administrateur* OR *enterprise\ admins*
+        OR *Exchange\ Trusted\ Subsystem* OR *Remote\ Desktop\ Users* OR *Utilisateurs\
+        du\ Bureau\ à\ distance* OR *Usuarios\ de\ escritorio\ remoto*))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_get_localgroup_member_recon
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

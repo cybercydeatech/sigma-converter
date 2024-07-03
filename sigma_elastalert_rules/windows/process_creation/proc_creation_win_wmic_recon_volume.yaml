@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  An adversary might use WMI to discover information about the system, such as the volume name, size,
+  free space, and other disk information. This can be done using the `wmic` command-line utility and has been
+  observed being used by threat actors such as Volt Typhoon.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\WMIC.exe OR file_name_original:"wmic.exe")
+        AND process_command_line.keyword:(*volume* OR *path\ win32_logicaldisk*))
+index: wazuh-alerts*
+name: proc_creation_win_wmic_recon_volume
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

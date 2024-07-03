@@ -1,0 +1,17 @@
+alert:
+- debug
+description: "Detects changes to the Netsh registry key to add a new DLL value. This
+  change might be an indication of a potential persistence attempt by adding a malicious
+  Netsh helper\n"
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\NetSh* AND Details.keyword:*.dll*)
+index: wazuh-alerts*
+name: registry_set_netsh_helper_dll_potential_persistence
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

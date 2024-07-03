@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects Bitsadmin connections to IP addresses instead of FQDN names
+filter:
+- query:
+    query_string:
+      query: (c-useragent.keyword:Microsoft\ BITS\/* AND cs-host.keyword:(*1 OR *2
+        OR *3 OR *4 OR *5 OR *6 OR *7 OR *8 OR *9))
+index: wazuh-alerts*
+name: proxy_ua_bitsadmin_susp_ip
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

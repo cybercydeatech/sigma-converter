@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of rcdll.dll
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\rcdll.dll AND (NOT (ImageLoaded.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Microsoft\ Visual\ Studio\\* OR C\:\\Program\ Files\ \(x86\)\\Windows\
+        Kits\\*))))
+index: wazuh-alerts*
+name: image_load_side_load_rcdll
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects function calls from the EditionUpgradeManager COM interface.
+  Which is an interface that is not used by standard executables.
+filter:
+- query:
+    query_string:
+      query: process_call_trace.keyword:*editionupgrademanagerobj.dll*
+index: wazuh-alerts*
+name: proc_access_win_uac_bypass_editionupgrademanagerobj
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

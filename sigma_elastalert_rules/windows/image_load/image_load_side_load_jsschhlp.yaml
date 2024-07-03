@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects potential DLL sideloading using JUSTSYSTEMS Japanese word processor
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\JSESPR.dll AND (NOT (ImageLoaded.keyword:C\:\\Program\
+        Files\\Common\ Files\\Justsystem\\JsSchHlp\\*)))
+index: wazuh-alerts*
+name: image_load_side_load_jsschhlp
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

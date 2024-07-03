@@ -1,0 +1,17 @@
+alert:
+- debug
+description: The "VSIISExeLauncher.exe" binary part of the Visual Studio/VS Code can
+  be used to execute arbitrary binaries
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\VSIISExeLauncher.exe OR file_name_original:"VSIISExeLauncher.exe")
+        AND process_command_line.keyword:(*\ \-p\ * OR *\ \-a\ *))
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_vsiisexelauncher
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

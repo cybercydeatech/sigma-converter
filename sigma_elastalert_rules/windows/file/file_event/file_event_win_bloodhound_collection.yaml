@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects default file names outputted by the BloodHound collection tool
+  SharpHound
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*BloodHound.zip OR *_computers.json OR *_containers.json
+        OR *_domains.json OR *_gpos.json OR *_groups.json OR *_ous.json OR *_users.json)
+        AND (NOT ((process_path.keyword:*\\svchost.exe AND file_name.keyword:C\:\\Program\
+        Files\\WindowsApps\\Microsoft.* AND file_name.keyword:*\\pocket_containers.json))))
+index: wazuh-alerts*
+name: file_event_win_bloodhound_collection
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

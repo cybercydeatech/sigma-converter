@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the deletion of AMSI provider registry key entries in HKLM\Software\Microsoft\AMSI.
+  This technique could be used by an attacker in order to disable AMSI inspection.
+filter:
+- query:
+    query_string:
+      query: (event_category_type:"DeleteKey" AND registry_key_path.keyword:(*\{2781761E\-28E0\-4109\-99FE\-B9D127C57AFE\}
+        OR *\{A7C452EF\-8E9F\-42EB\-9F2B\-245613CA0DC9\}))
+index: wazuh-alerts*
+name: registry_delete_removal_amsi_registry_key
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

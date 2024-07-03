@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects a remote thread creation of Ttdinject.exe used as proxy
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\\ttdinject.exe
+index: wazuh-alerts*
+name: create_remote_thread_win_ttdinjec
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

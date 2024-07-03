@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the execution of a renamed "client32.exe" (NetSupport RAT) via
+  Imphash, Product and OriginalFileName strings
+filter:
+- query:
+    query_string:
+      query: ((file_product.keyword:*NetSupport\ Remote\ Control* OR file_name_original.keyword:*client32.exe*
+        OR hash_imphash:"a9d50692e95b79723f3e76fcf70d023e" OR Hashes.keyword:*IMPHASH\=A9D50692E95B79723F3E76FCF70D023E*)
+        AND (NOT (process_path.keyword:*\\client32.exe)))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_netsupport_rat
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

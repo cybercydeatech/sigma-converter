@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a creation of systemd services which could be used by adversaries
+  to execute malicious code.
+filter:
+- query:
+    query_string:
+      query: ((type:"PATH" AND nametype:"CREATE") AND (name.keyword:(\/usr\/lib\/systemd\/system\/*
+        OR \/etc\/systemd\/system\/*) OR name.keyword:*\/.config\/systemd\/user\/*))
+index: wazuh-alerts*
+name: lnx_auditd_systemd_service_creation
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

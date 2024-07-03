@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects execution of binaries located in potentially suspicious locations
+  via "nohup"
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/nohup AND process_command_line.keyword:*\/tmp\/*)
+index: wazuh-alerts*
+name: proc_creation_lnx_nohup_susp_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

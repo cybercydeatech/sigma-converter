@@ -1,0 +1,17 @@
+alert:
+- debug
+description: |
+  Detects the execution of the "jsc.exe" (JScript Compiler).
+  Attacker might abuse this in order to compile JScript files on the fly and bypassing application whitelisting.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\jsc.exe OR file_name_original:"jsc.exe")
+index: wazuh-alerts*
+name: proc_creation_win_jsc_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

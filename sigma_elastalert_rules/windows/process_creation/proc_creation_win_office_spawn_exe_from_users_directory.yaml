@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects an executable in the users directory started from one of the
+  Microsoft Office suite applications (Word, Excel, PowerPoint, Publisher, Visio)
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:(*\\WINWORD.EXE OR *\\EXCEL.EXE OR *\\POWERPNT.exe
+        OR *\\MSPUB.exe OR *\\VISIO.exe OR *\\MSACCESS.exe OR *\\EQNEDT32.exe) AND
+        process_path.keyword:C\:\\users\\* AND process_path.keyword:*.exe) AND (NOT
+        (process_path.keyword:*\\Teams.exe)))
+index: wazuh-alerts*
+name: proc_creation_win_office_spawn_exe_from_users_directory
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

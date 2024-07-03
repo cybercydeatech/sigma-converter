@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect use of scrobj.dll as this DLL looks for the ScriptletURL key to
+  get the location of the script to execute
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*InprocServer32\\\(Default\) AND Details:"C\:\\WINDOWS\\system32\\scrobj.dll")
+index: wazuh-alerts*
+name: registry_set_persistence_scrobj_dll
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

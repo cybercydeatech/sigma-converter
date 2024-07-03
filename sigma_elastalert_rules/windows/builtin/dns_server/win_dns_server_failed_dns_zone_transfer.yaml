@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when a DNS zone transfer failed.
+filter:
+- query:
+    query_string:
+      query: event_id:"6004"
+index: wazuh-alerts*
+name: win_dns_server_failed_dns_zone_transfer
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

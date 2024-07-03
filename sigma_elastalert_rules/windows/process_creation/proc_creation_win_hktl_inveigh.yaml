@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the use of Inveigh a cross-platform .NET IPv4/IPv6 machine-in-the-middle
+  tool
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\Inveigh.exe OR file_name_original:("\\Inveigh.exe"
+        OR "\\Inveigh.dll") OR file_description:"Inveigh" OR process_command_line.keyword:(*\
+        \-SpooferIP* OR *\ \-ReplyToIPs\ * OR *\ \-ReplyToDomains\ * OR *\ \-ReplyToMACs\
+        * OR *\ \-SnifferIP*))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_inveigh
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

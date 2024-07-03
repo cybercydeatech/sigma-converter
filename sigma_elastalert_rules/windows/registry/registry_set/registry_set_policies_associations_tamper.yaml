@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects tampering with attachment manager settings policies associations
+  to lower the default file type risks (See reference for more information)
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Associations\\*
+        AND ((registry_key_path.keyword:*\\DefaultFileTypeRisk AND Details:"DWORD\
+        \(0x00006152\)") OR (registry_key_path.keyword:*\\LowRiskFileTypes AND Details.keyword:(*.zip;*
+        OR *.rar;* OR *.exe;* OR *.bat;* OR *.com;* OR *.cmd;* OR *.reg;* OR *.msi;*
+        OR *.htm;* OR *.html;*))))
+index: wazuh-alerts*
+name: registry_set_policies_associations_tamper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

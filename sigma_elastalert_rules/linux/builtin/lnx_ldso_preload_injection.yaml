@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the ld.so preload persistence file. See `man ld.so` for more
+  information.
+filter:
+- query:
+    query_string:
+      query: \/etc\/ld.so.preload
+index: wazuh-alerts*
+name: lnx_ldso_preload_injection
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

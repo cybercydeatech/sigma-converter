@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Identifies use of various commands to query a systems time. This technique
+  may be used before executing a scheduled task or to discover the time zone of a
+  target system.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\net.exe OR *\\net1.exe) AND process_command_line.keyword:*time*)
+        OR (process_path.keyword:*\\w32tm.exe AND process_command_line.keyword:*tz*))
+index: wazuh-alerts*
+name: proc_creation_win_remote_time_discovery
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

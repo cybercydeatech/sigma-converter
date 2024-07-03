@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Identifies when a Azure Kubernetes network policy is modified or deleted.
+filter:
+- query:
+    query_string:
+      query: 
+        operationName:("MICROSOFT.KUBERNETES\/CONNECTEDCLUSTERS\/NETWORKING.K8S.IO\/NETWORKPOLICIES\/WRITE"
+        OR 
+        "MICROSOFT.KUBERNETES\/CONNECTEDCLUSTERS\/NETWORKING.K8S.IO\/NETWORKPOLICIES\/DELETE"
+        OR "MICROSOFT.KUBERNETES\/CONNECTEDCLUSTERS\/EXTENSIONS\/NETWORKPOLICIES\/WRITE"
+        OR "MICROSOFT.KUBERNETES\/CONNECTEDCLUSTERS\/EXTENSIONS\/NETWORKPOLICIES\/DELETE")
+index: wazuh-alerts*
+name: azure_kubernetes_network_policy_change
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

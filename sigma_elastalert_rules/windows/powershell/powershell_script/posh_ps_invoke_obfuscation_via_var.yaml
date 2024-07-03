@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects Obfuscated Powershell via VAR++ LAUNCHER
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:/(?i)&&set.*(\{\d\}){2,}\\"\s+?-f.*&&.*cmd.*/c/
+index: wazuh-alerts*
+name: posh_ps_invoke_obfuscation_via_var
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

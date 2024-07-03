@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Potential adversaries accessing the microphone and webcam in an endpoint.
+filter:
+- query:
+    query_string:
+      query: (event_id:("4657" OR "4656" OR "4663") AND 
+        object_name.keyword:(*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\microphone\\NonPackaged*
+        OR 
+        *\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\CapabilityAccessManager\\ConsentStore\\webcam\\NonPackaged*))
+index: wazuh-alerts*
+name: win_security_camera_microphone_access
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when unauthorized access to app occurs.
+filter:
+- query:
+    query_string:
+      query: displaymessage:"User\ attempted\ unauthorized\ access\ to\ app"
+index: wazuh-alerts*
+name: okta_unauthorized_access_to_app
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

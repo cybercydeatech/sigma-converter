@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects an installation of a device that is forbidden by the system policy
+filter:
+- query:
+    query_string:
+      query: event_id:"6423"
+index: wazuh-alerts*
+name: win_security_device_installation_blocked
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

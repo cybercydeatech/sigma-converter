@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of Advanced IP Scanner. Seems to be a popular tool for
+  ransomware groups.
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\AppData\\Local\\Temp\\Advanced\ IP\ Scanner\ 2*
+index: wazuh-alerts*
+name: file_event_win_advanced_ip_scanner
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

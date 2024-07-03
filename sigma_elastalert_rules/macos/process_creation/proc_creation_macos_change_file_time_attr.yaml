@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect file time attribute change to hide new or changes to existing
+  files
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/touch AND process_command_line.keyword:(*\-t*
+        OR *\-acmr* OR *\-d* OR *\-r*))
+index: wazuh-alerts*
+name: proc_creation_macos_change_file_time_attr
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

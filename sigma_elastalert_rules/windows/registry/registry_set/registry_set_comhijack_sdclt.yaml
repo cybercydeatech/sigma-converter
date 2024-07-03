@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects changes to 'HKCU\Software\Classes\Folder\shell\open\command\DelegateExecute'
+filter:
+- query:
+    query_string:
+      query: 
+        registry_key_path.keyword:*\\Software\\Classes\\Folder\\shell\\open\\command\\DelegateExecute*
+index: wazuh-alerts*
+name: registry_set_comhijack_sdclt
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

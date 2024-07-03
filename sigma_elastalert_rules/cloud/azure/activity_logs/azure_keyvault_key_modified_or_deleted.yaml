@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Identifies when a Keyvault Key is modified or deleted in Azure.
+filter:
+- query:
+    query_string:
+      query: operationName:("MICROSOFT.KEYVAULT\/VAULTS\/KEYS\/UPDATE\/ACTION" OR
+        "MICROSOFT.KEYVAULT\/VAULTS\/KEYS\/CREATE" OR "MICROSOFT.KEYVAULT\/VAULTS\/KEYS\/CREATE\/ACTION"
+        OR "MICROSOFT.KEYVAULT\/VAULTS\/KEYS\/IMPORT\/ACTION" OR "MICROSOFT.KEYVAULT\/VAULTS\/KEYS\/RECOVER\/ACTION"
+        OR "MICROSOFT.KEYVAULT\/VAULTS\/KEYS\/RESTORE\/ACTION" OR "MICROSOFT.KEYVAULT\/VAULTS\/KEYS\/DELETE"
+        OR "MICROSOFT.KEYVAULT\/VAULTS\/KEYS\/BACKUP\/ACTION" OR "MICROSOFT.KEYVAULT\/VAULTS\/KEYS\/PURGE\/ACTION")
+index: wazuh-alerts*
+name: azure_keyvault_key_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

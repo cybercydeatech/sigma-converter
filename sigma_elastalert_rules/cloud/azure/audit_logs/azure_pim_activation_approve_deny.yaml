@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when a PIM elevation is approved or denied. Outside of normal
+  operations should be investigated.
+filter:
+- query:
+    query_string:
+      query: properties.message:"Request\ Approved\/Denied"
+index: wazuh-alerts*
+name: azure_pim_activation_approve_deny
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

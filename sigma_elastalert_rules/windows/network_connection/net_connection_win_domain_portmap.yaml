@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects an executable accessing the portmap.io domain, which could be
+  a sign of forbidden C2 traffic or data exfiltration by malicious actors
+filter:
+- query:
+    query_string:
+      query: (Initiated:"true" AND dst_host_name.keyword:*.portmap.io)
+index: wazuh-alerts*
+name: net_connection_win_domain_portmap
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

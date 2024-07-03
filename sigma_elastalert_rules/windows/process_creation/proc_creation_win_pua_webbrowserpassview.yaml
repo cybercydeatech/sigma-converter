@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the execution of WebBrowserPassView.exe. A password recovery
+  tool that reveals the passwords stored by the following Web browsers, Internet Explorer
+  (Version 4.0 - 11.0), Mozilla Firefox (All Versions), Google Chrome, Safari, and
+  Opera
+filter:
+- query:
+    query_string:
+      query: (file_description:"Web\ Browser\ Password\ Viewer" OR process_path.keyword:*\\WebBrowserPassView.exe)
+index: wazuh-alerts*
+name: proc_creation_win_pua_webbrowserpassview
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

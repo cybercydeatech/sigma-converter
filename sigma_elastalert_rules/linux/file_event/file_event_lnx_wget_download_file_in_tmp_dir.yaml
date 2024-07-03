@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of wget to download content in a temporary directory
+  such as "/tmp" or "/var/tmp"
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/wget AND file_name.keyword:(\/tmp\/* OR \/var\/tmp\/*))
+index: wazuh-alerts*
+name: file_event_lnx_wget_download_file_in_tmp_dir
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

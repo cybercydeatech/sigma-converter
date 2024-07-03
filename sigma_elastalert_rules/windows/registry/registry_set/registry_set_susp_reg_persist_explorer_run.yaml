@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects a possible persistence mechanism using RUN key for Windows Explorer
+  and pointing to a suspicious folder
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run
+        AND Details.keyword:(*\:\\$Recycle.bin\\* OR *\:\\ProgramData\\* OR *\:\\Temp\\*
+        OR *\:\\Users\\Default\\* OR *\:\\Users\\Public\\* OR *\:\\Windows\\Temp\\*
+        OR *\\AppData\\Local\\Temp\\*))
+index: wazuh-alerts*
+name: registry_set_susp_reg_persist_explorer_run
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

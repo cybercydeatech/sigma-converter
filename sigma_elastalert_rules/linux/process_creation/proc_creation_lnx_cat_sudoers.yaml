@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the execution of a cat /etc/sudoers to list all users that have
+  sudo rights
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\/cat OR *grep OR *\/head OR *\/tail OR *\/more)
+        AND process_command_line.keyword:*\ \/etc\/sudoers*)
+index: wazuh-alerts*
+name: proc_creation_lnx_cat_sudoers
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

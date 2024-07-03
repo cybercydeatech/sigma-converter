@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects usage of known powershell cmdlets such as "Clear-EventLog" to
+  clear the Windows event logs
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*Clear\-EventLog\ * OR *Remove\-EventLog\ *
+        OR *Limit\-EventLog\ * OR *Clear\-WinEvent\ *)
+index: wazuh-alerts*
+name: posh_ps_susp_clear_eventlog
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

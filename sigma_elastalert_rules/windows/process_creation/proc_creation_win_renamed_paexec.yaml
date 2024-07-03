@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects execution of renamed version of PAExec. Often used by attackers
+filter:
+- query:
+    query_string:
+      query: ((file_description:"PAExec\ Application" OR file_name_original:"PAExec.exe"
+        OR file_product.keyword:*PAExec* OR hash_imphash:("11D40A7B7876288F919AB819CC2D9802"
+        OR "6444f8a34e99b8f7d9647de66aabe516" OR "dfd6aa3f7b2b1035b76b718f1ddc689f"
+        OR "1a6cca4d5460b1710a12dea39e4a592c") OR Hashes.keyword:(*IMPHASH\=11D40A7B7876288F919AB819CC2D9802*
+        OR *IMPHASH\=6444f8a34e99b8f7d9647de66aabe516* OR *IMPHASH\=dfd6aa3f7b2b1035b76b718f1ddc689f*
+        OR *IMPHASH\=1a6cca4d5460b1710a12dea39e4a592c*)) AND (NOT (process_path.keyword:*\\paexec.exe
+        OR process_path.keyword:C\:\\Windows\\PAExec\-*)))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_paexec
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects attempts to discover the files with setuid/setgid capability
+  on them. That would allow adversary to escalate their privileges.
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0:"getcap" AND a1:"\-r" AND a2:"\/")
+index: wazuh-alerts*
+name: lnx_auditd_capabilities_discovery
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

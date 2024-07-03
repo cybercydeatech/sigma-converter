@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Once executed, colorcpl.exe will copy the arbitrary file to c:\windows\system32\spool\drivers\color\
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\colorcpl.exe AND (NOT ((file_name.keyword:(*.icm
+        OR *.gmmp OR *.cdmp OR *.camp)))))
+index: wazuh-alerts*
+name: file_event_win_susp_colorcpl
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

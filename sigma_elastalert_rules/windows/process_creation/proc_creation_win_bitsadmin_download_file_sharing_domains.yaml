@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects usage of bitsadmin downloading a file from a suspicious domain
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\bitsadmin.exe OR file_name_original:"bitsadmin.exe")
+        AND process_command_line.keyword:(*\ \/transfer\ * OR *\ \/create\ * OR *\
+        \/addfile\ *) AND process_command_line.keyword:(*.githubusercontent.com* OR
+        *anonfiles.com* OR *cdn.discordapp.com* OR *cdn.discordapp.com\/attachments\/*
+        OR *ddns.net* OR *dl.dropboxusercontent.com* OR *ghostbin.co* OR *glitch.me*
+        OR *gofile.io* OR *hastebin.com* OR *mediafire.com* OR *mega.nz* OR *onrender.com*
+        OR *paste.ee* OR *pastebin.com* OR *pastebin.pl* OR *pastetext.net* OR *privatlab.com*
+        OR *privatlab.net* OR *send.exploit.in* OR *sendspace.com* OR *storage.googleapis.com*
+        OR *storjshare.io* OR *supabase.co* OR *temp.sh* OR *transfer.sh* OR *ufile.io*))
+index: wazuh-alerts*
+name: proc_creation_win_bitsadmin_download_file_sharing_domains
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

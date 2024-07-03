@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the presence of a loaded unsigned kernel module on the system.
+filter:
+- query:
+    query_string:
+      query: event_id:"3001"
+index: wazuh-alerts*
+name: win_codeintegrity_unsigned_driver_loaded
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

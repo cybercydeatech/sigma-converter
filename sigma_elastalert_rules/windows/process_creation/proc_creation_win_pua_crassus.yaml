@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Crassus, a Windows privilege escalation discovery tool, based
+  on PE metadata characteristics.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\Crassus.exe OR file_name_original:"Crassus.exe"
+        OR file_description.keyword:*Crassus*)
+index: wazuh-alerts*
+name: proc_creation_win_pua_crassus
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

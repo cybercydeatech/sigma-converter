@@ -1,0 +1,17 @@
+alert:
+- debug
+description: detects BPFDoor .lock and .pid files access in temporary file storage
+  facility
+filter:
+- query:
+    query_string:
+      query: (type:"PATH" AND name:("\/var\/run\/haldrund.pid" OR "\/var\/run\/xinetd.lock"
+        OR "\/var\/run\/kdevrund.pid"))
+index: wazuh-alerts*
+name: lnx_auditd_bpfdoor_file_accessed
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

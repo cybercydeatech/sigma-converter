@@ -1,0 +1,16 @@
+alert:
+- debug
+description: RDP login with localhost source address may be a tunnelled login
+filter:
+- query:
+    query_string:
+      query: (event_id:"4624" AND logon_type:"10" AND src_original_value:("\:\:1"
+        OR "127.0.0.1"))
+index: wazuh-alerts*
+name: win_security_rdp_localhost_login
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

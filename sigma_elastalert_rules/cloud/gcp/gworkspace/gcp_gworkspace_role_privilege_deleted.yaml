@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when an a role privilege is deleted in Google Workspace.
+filter:
+- query:
+    query_string:
+      query: (eventService:"admin.googleapis.com" AND eventName:"REMOVE_PRIVILEGE")
+index: wazuh-alerts*
+name: gcp_gworkspace_role_privilege_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of Time Travel Debugging Utility. Adversaries can execute
+  malicious processes and dump processes, such as lsass.exe, via tttracer.exe.
+filter:
+- query:
+    query_string:
+      query: process_parent_path.keyword:*\\tttracer.exe
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_tttracer_mod_load
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

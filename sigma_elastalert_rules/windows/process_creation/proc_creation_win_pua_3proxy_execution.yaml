@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the use of 3proxy, a tiny free proxy server
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\3proxy.exe OR file_description:"3proxy\ \-\
+        tiny\ proxy\ server" OR process_command_line.keyword:*.exe\ \-i127.0.0.1\
+        \-p*)
+index: wazuh-alerts*
+name: proc_creation_win_pua_3proxy_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

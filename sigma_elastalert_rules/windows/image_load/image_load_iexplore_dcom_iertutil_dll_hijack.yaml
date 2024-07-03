@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential DLL hijack of "iertutil.dll" found in the DCOM InternetExplorer.Application
+  Class
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\Internet\ Explorer\\iexplore.exe AND ImageLoaded.keyword:*\\Internet\
+        Explorer\\iertutil.dll)
+index: wazuh-alerts*
+name: image_load_iexplore_dcom_iertutil_dll_hijack
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

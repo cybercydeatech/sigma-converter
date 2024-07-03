@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects usage of system utilities to discover system network connections
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\/who OR *\/w OR *\/last OR *\/lsof OR *\/netstat)
+        AND (NOT ((process_parent_command_line.keyword:*\/usr\/bin\/landscape\-sysinfo*
+        AND process_path.keyword:*\/who))))
+index: wazuh-alerts*
+name: proc_creation_lnx_system_network_connections_discovery
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

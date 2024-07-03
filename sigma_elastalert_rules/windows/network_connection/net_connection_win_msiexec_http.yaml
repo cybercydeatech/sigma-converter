@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects an initiated network connection by "Msiexec.exe" over port 80 or 443.
+  Adversaries might abuse "msiexec.exe" to install and execute remotely hosted packages.
+filter:
+- query:
+    query_string:
+      query: (Initiated:"true" AND process_path.keyword:*\\msiexec.exe AND dst_port:("80"
+        OR "443"))
+index: wazuh-alerts*
+name: net_connection_win_msiexec_http
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

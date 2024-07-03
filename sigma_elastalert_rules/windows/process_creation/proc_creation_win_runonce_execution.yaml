@@ -1,0 +1,17 @@
+alert:
+- debug
+description: This rule detects the execution of Run Once task as configured in the
+  registry
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\runonce.exe OR file_description:"Run\ Once\
+        Wrapper") AND (process_command_line.keyword:*\/AlternateShellStartup* OR process_command_line.keyword:*\/r))
+index: wazuh-alerts*
+name: proc_creation_win_runonce_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

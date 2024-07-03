@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a user tampers with S3 data management in Amazon Web Services.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"s3.amazonaws.com" AND eventName:("PutBucketLogging" OR
+        "PutBucketWebsite" OR "PutEncryptionConfiguration" OR "PutLifecycleConfiguration"
+        OR "PutReplicationConfiguration" OR "ReplicateObject" OR "RestoreObject"))
+index: wazuh-alerts*
+name: aws_s3_data_management_tampering
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

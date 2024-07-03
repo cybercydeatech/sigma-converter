@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects creation of sudoers file or files in "sudoers.d" directory which
+  can be used a potential method to persiste privileges for a specific user.
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:\/etc\/sudoers.d\/*
+index: wazuh-alerts*
+name: file_event_lnx_persistence_sudoers_files
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

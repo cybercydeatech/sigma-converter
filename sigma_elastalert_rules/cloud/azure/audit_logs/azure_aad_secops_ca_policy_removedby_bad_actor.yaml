@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Monitor and alert on conditional access changes where non approved actor
+  removed CA Policy.
+filter:
+- query:
+    query_string:
+      query: properties.message:"Delete\ conditional\ access\ policy"
+index: wazuh-alerts*
+name: azure_aad_secops_ca_policy_removedby_bad_actor
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

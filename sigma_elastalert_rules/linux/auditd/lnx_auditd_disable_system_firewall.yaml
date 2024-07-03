@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects disabling of system firewalls which could be used by adversaries
+  to bypass controls that limit usage of the network.
+filter:
+- query:
+    query_string:
+      query: (type:"SERVICE_STOP" AND unit:("firewalld" OR "iptables" OR "ufw"))
+index: wazuh-alerts*
+name: lnx_auditd_disable_system_firewall
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects an executable that isn't dropbox but communicates with the Dropbox
+  API
+filter:
+- query:
+    query_string:
+      query: ((Initiated:"true" AND dst_host_name.keyword:(*api.dropboxapi.com OR
+        *content.dropboxapi.com)) AND (NOT (process_path.keyword:*\\Dropbox*)))
+index: wazuh-alerts*
+name: net_connection_win_domain_dropbox_api
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when a new admin role assignment is created. Which could be a
+  sign of privilege escalation or persistence
+filter:
+- query:
+    query_string:
+      query: eventtype:"iam.resourceset.bindings.add"
+index: wazuh-alerts*
+name: okta_admin_role_assignment_created
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

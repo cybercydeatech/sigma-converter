@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects the deletion of the "Zone.Identifier" ADS by an uncommon process.
+  Attackers can leverage this in order to bypass security restrictions that make use
+  of the ADS such as Microsoft Office apps.
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:*\:Zone.Identifier AND (NOT ((process_path:("C\:\\Program\
+        Files\\PowerShell\\7\-preview\\pwsh.exe" OR "C\:\\Program\ Files\\PowerShell\\7\\pwsh.exe"
+        OR "C\:\\Windows\\explorer.exe" OR "C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        OR "C\:\\Windows\\SysWOW64\\explorer.exe" OR "C\:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell.exe")))))
+        AND (NOT ((process_path:("C\:\\Program\ Files\ \(x86\)\\Google\\Chrome\\Application\\chrome.exe"
+        OR "C\:\\Program\ Files\\Google\\Chrome\\Application\\chrome.exe")) OR (process_path:("C\:\\Program\
+        Files\ \(x86\)\\Mozilla\ Firefox\\firefox.exe" OR "C\:\\Program\ Files\\Mozilla\
+        Firefox\\firefox.exe")))))
+index: wazuh-alerts*
+name: file_delete_win_zone_identifier_ads_uncommon
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

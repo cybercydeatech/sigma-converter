@@ -1,0 +1,35 @@
+alert:
+- debug
+description: Attempting to disable scheduled scanning and other parts of Windows Defender
+  ATP or set default actions to allow.
+filter:
+- query:
+    query_string:
+      query: (Data.keyword:*Set\-MpPreference* AND (Data.keyword:(*\-dbaf\ $true*
+        OR *\-dbaf\ 1* OR *\-dbm\ $true* OR *\-dbm\ 1* OR *\-dips\ $true* OR *\-dips\
+        1* OR *\-DisableArchiveScanning\ $true* OR *\-DisableArchiveScanning\ 1* OR
+        *\-DisableBehaviorMonitoring\ $true* OR *\-DisableBehaviorMonitoring\ 1* OR
+        *\-DisableBlockAtFirstSeen\ $true* OR *\-DisableBlockAtFirstSeen\ 1* OR *\-DisableCatchupFullScan\
+        $true* OR *\-DisableCatchupFullScan\ 1* OR *\-DisableCatchupQuickScan\ $true*
+        OR *\-DisableCatchupQuickScan\ 1* OR *\-DisableIntrusionPreventionSystem\
+        $true* OR *\-DisableIntrusionPreventionSystem\ 1* OR *\-DisableIOAVProtection\
+        $true* OR *\-DisableIOAVProtection\ 1* OR *\-DisableRealtimeMonitoring\ $true*
+        OR *\-DisableRealtimeMonitoring\ 1* OR *\-DisableRemovableDriveScanning\ $true*
+        OR *\-DisableRemovableDriveScanning\ 1* OR *\-DisableScanningMappedNetworkDrivesForFullScan\
+        $true* OR *\-DisableScanningMappedNetworkDrivesForFullScan\ 1* OR *\-DisableScanningNetworkFiles\
+        $true* OR *\-DisableScanningNetworkFiles\ 1* OR *\-DisableScriptScanning\
+        $true* OR *\-DisableScriptScanning\ 1* OR *\-MAPSReporting\ $false* OR *\-MAPSReporting\
+        0* OR *\-drdsc\ $true* OR *\-drdsc\ 1* OR *\-drtm\ $true* OR *\-drtm\ 1* OR
+        *\-dscrptsc\ $true* OR *\-dscrptsc\ 1* OR *\-dsmndf\ $true* OR *\-dsmndf\
+        1* OR *\-dsnf\ $true* OR *\-dsnf\ 1* OR *\-dss\ $true* OR *\-dss\ 1*) OR Data.keyword:(*HighThreatDefaultAction\
+        Allow* OR *htdefac\ Allow* OR *LowThreatDefaultAction\ Allow* OR *ltdefac\
+        Allow* OR *ModerateThreatDefaultAction\ Allow* OR *mtdefac\ Allow* OR *SevereThreatDefaultAction\
+        Allow* OR *stdefac\ Allow*)))
+index: wazuh-alerts*
+name: posh_pc_tamper_windows_defender_set_mp
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Adversaries may use binary padding to add junk data and change the on-disk
+  representation of malware. This rule detect using dd and truncate to add a junk
+  data to file.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\/truncate AND process_command_line.keyword:*\-s\
+        \+*) OR (process_path.keyword:*\/dd AND process_command_line.keyword:(*if\=\/dev\/zero*
+        OR *if\=\/dev\/random* OR *if\=\/dev\/urandom*)))
+index: wazuh-alerts*
+name: proc_creation_macos_binary_padding
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

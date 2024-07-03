@@ -1,0 +1,17 @@
+alert:
+- debug
+description: "Detects disabling of Windows Defender Real-time Protection. As this
+  event doesn't contain a lot of information on who initaited this action you might
+  want to reduce it to a \"medium\" level if this occurs too many times in your environment\n"
+filter:
+- query:
+    query_string:
+      query: event_id:"5001"
+index: wazuh-alerts*
+name: win_defender_real_time_protection_disabled
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

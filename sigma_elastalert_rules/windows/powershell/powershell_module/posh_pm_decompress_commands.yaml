@@ -1,0 +1,16 @@
+alert:
+- debug
+description: A General detection for specific decompress commands in PowerShell logs.
+  This could be an adversary decompressing files.
+filter:
+- query:
+    query_string:
+      query: Payload.keyword:*Expand\-Archive*
+index: wazuh-alerts*
+name: posh_pm_decompress_commands
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

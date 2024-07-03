@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects unusual parent or children of the ImagingDevices.exe (Windows
+  Contacts) process as seen being used with Bumblebee activity
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:(*\\WmiPrvSE.exe OR *\\svchost.exe OR *\\dllhost.exe)
+        AND process_path.keyword:*\\ImagingDevices.exe) OR process_parent_path.keyword:*\\ImagingDevices.exe)
+index: wazuh-alerts*
+name: proc_creation_win_imagingdevices_unusual_parents
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

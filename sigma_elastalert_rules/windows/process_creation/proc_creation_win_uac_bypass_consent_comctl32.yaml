@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the pattern of UAC Bypass using consent.exe and comctl32.dll
+  (UACMe 22)
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\consent.exe AND process_path.keyword:*\\werfault.exe
+        AND IntegrityLevel:("High" OR "System"))
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_consent_comctl32
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

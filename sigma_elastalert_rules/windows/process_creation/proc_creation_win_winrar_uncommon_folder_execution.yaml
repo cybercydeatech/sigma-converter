@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a suspicious winrar execution in a folder which is not the default
+  installation folder
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:(*\\rar.exe OR *\\winrar.exe) OR file_description:"Command\
+        line\ RAR") AND (NOT ((process_path.keyword:*\\UnRAR.exe) OR (process_path.keyword:(*\:\\Program\
+        Files\ \(x86\)\\WinRAR\\* OR *\:\\Program\ Files\\WinRAR\\*))))) AND (NOT
+        ((process_path.keyword:*\:\\Windows\\Temp\\*))))
+index: wazuh-alerts*
+name: proc_creation_win_winrar_uncommon_folder_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the pattern of UAC Bypass using IEInstal.exe (UACMe 64)
+filter:
+- query:
+    query_string:
+      query: (IntegrityLevel:("High" OR "System") AND process_parent_path.keyword:*\\ieinstal.exe
+        AND process_path.keyword:*\\AppData\\Local\\Temp\\* AND process_path.keyword:*consent.exe)
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_ieinstal
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

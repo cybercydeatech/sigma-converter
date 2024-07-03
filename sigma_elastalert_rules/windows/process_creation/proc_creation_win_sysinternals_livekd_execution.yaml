@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects execution of LiveKD based on PE metadata or image name
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\livekd.exe OR *\\livekd64.exe) OR file_name_original:"livekd.exe")
+index: wazuh-alerts*
+name: proc_creation_win_sysinternals_livekd_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

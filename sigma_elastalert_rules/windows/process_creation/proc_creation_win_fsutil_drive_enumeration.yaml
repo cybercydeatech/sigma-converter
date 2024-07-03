@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Attackers may leverage fsutil to enumerated connected drives.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\fsutil.exe OR file_name_original:"fsutil.exe")
+        AND process_command_line.keyword:*drives*)
+index: wazuh-alerts*
+name: proc_creation_win_fsutil_drive_enumeration
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

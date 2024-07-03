@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detect set UseActionCenterExperience to 0 to disable the Windows security
+  center notification
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*Windows\\CurrentVersion\\ImmersiveShell\\UseActionCenterExperience
+        AND Details:"DWORD\ \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_disable_security_center_notifications
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

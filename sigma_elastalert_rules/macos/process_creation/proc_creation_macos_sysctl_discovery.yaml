@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects the execution of "sysctl" with specific arguments that have been used by threat actors and malware. It provides system hardware information.
+  This process is primarily used to detect and avoid virtualization and analysis environments.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\/sysctl OR process_command_line.keyword:*sysctl*)
+        AND process_command_line.keyword:(*hw.* OR *kern.* OR *machdep.*))
+index: wazuh-alerts*
+name: proc_creation_macos_sysctl_discovery
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

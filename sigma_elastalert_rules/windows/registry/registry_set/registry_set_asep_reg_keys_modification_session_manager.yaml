@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*\\System\\CurrentControlSet\\Control\\Session\
+        Manager* AND registry_key_path.keyword:(*\\SetupExecute* OR *\\S0InitialCommand*
+        OR *\\KnownDlls* OR *\\Execute* OR *\\BootExecute* OR *\\AppCertDlls*)) AND
+        (NOT (Details:"\(Empty\)")))
+index: wazuh-alerts*
+name: registry_set_asep_reg_keys_modification_session_manager
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

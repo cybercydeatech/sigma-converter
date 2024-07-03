@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the creation of a schtask that potentially executes a base64
+  encoded payload stored in the Windows Registry using PowerShell.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\schtasks.exe OR file_name_original:"schtasks.exe")
+        AND process_command_line.keyword:*\/Create* AND process_command_line.keyword:(*FromBase64String*
+        OR *encodedcommand*) AND process_command_line.keyword:(*Get\-ItemProperty*
+        OR *\ gp\ *) AND process_command_line.keyword:(*HKCU\:* OR *HKLM\:* OR *registry\:\:*
+        OR *HKEY_*))
+index: wazuh-alerts*
+name: proc_creation_win_schtasks_reg_loader_encoded
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

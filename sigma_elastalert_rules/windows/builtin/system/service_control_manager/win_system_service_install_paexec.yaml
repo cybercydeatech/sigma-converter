@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects PAExec service installation
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:"7045") AND
+        (service_name.keyword:PAExec\-* OR ImagePath.keyword:C\:\\WINDOWS\\PAExec\-*))
+index: wazuh-alerts*
+name: win_system_service_install_paexec
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects usage of bitsadmin downloading a file with a suspicious extension
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\bitsadmin.exe OR file_name_original:"bitsadmin.exe")
+        AND process_command_line.keyword:(*\ \/transfer\ * OR *\ \/create\ * OR *\
+        \/addfile\ *) AND process_command_line.keyword:(*.7z* OR *.asax* OR *.ashx*
+        OR *.asmx* OR *.asp* OR *.aspx* OR *.bat* OR *.cfm* OR *.cgi* OR *.chm* OR
+        *.cmd* OR *.dll* OR *.gif* OR *.jpeg* OR *.jpg* OR *.jsp* OR *.jspx* OR *.log*
+        OR *.png* OR *.ps1* OR *.psm1* OR *.rar* OR *.scf* OR *.sct* OR *.txt* OR
+        *.vbe* OR *.vbs* OR *.war* OR *.wsf* OR *.wsh* OR *.xll* OR *.zip*))
+index: wazuh-alerts*
+name: proc_creation_win_bitsadmin_download_susp_extensions
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the use of the Microsoft Windows Resource Leak Diagnostic tool
+  "rdrleakdiag.exe" to dump process memory
+filter:
+- query:
+    query_string:
+      query: ((process_command_line.keyword:(*fullmemdmp* OR *\/memdmp* OR *\-memdmp*)
+        AND process_command_line.keyword:(*\ \-o\ * OR *\ \/o\ *) AND process_command_line.keyword:(*\
+        \-p\ * OR *\ \/p\ *)) OR ((process_path.keyword:*\\rdrleakdiag.exe OR file_name_original:"RdrLeakDiag.exe")
+        AND process_command_line.keyword:(*fullmemdmp* OR *\/memdmp* OR *\-memdmp*)))
+index: wazuh-alerts*
+name: proc_creation_win_rdrleakdiag_process_dumping
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

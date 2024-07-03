@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the execution of "logman" utility in order to disable or delete
+  Windows trace sessions
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\logman.exe OR file_name_original:"Logman.exe")
+        AND process_command_line.keyword:(*stop\ * OR *delete\ *) AND process_command_line.keyword:(*Circular\
+        Kernel\ Context\ Logger* OR *EventLog\-* OR *SYSMON\ TRACE* OR *SysmonDnsEtwSession*))
+index: wazuh-alerts*
+name: proc_creation_win_logman_disable_eventlog
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

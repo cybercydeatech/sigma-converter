@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects various indicators of Microsoft Connection Manager Profile Installer
+  execution
+filter:
+- query:
+    query_string:
+      query: process_call_trace.keyword:*cmlua.dll*
+index: wazuh-alerts*
+name: proc_access_win_cmstp_execution_by_access
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

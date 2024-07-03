@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the pattern of UAC Bypass via WSReset usable by default sysmon-config
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\wsreset.exe AND IntegrityLevel:("High" OR "System"))
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_wsreset_integrity_level
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

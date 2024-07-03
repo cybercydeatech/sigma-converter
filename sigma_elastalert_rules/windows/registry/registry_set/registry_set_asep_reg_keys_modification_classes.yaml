@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*\\Software\\Classes* AND registry_key_path.keyword:(*\\Folder\\ShellEx\\ExtShellFolderViews*
+        OR *\\Folder\\ShellEx\\DragDropHandlers* OR *\\Folder\\Shellex\\ColumnHandlers*
+        OR *\\Filter* OR *\\Exefile\\Shell\\Open\\Command\\\(Default\)* OR *\\Directory\\Shellex\\DragDropHandlers*
+        OR *\\Directory\\Shellex\\CopyHookHandlers* OR *\\CLSID\\\{AC757296\-3522\-4E11\-9862\-C17BE5A1767E\}\\Instance*
+        OR *\\CLSID\\\{ABE3B9A4\-257D\-4B97\-BD1A\-294AF496222E\}\\Instance* OR *\\CLSID\\\{7ED96837\-96F0\-4812\-B211\-F13C24117ED3\}\\Instance*
+        OR *\\CLSID\\\{083863F1\-70DE\-11d0\-BD40\-00A0C911CE86\}\\Instance* OR *\\Classes\\AllFileSystemObjects\\ShellEx\\DragDropHandlers*
+        OR *\\.exe* OR *\\.cmd* OR *\\ShellEx\\PropertySheetHandlers* OR *\\ShellEx\\ContextMenuHandlers*))
+        AND (NOT ((Details:"\(Empty\)") OR (Details:"\{807583E5\-5146\-11D5\-A672\-00B0D022E945\}")
+        OR (process_path:"C\:\\Windows\\System32\\drvinst.exe") OR (process_path:"C\:\\Windows\\System32\\svchost.exe"
+        AND registry_key_path.keyword:*\\lnkfile\\shellex\\ContextMenuHandlers\\*))))
+index: wazuh-alerts*
+name: registry_set_asep_reg_keys_modification_classes
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

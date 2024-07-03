@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the creation of diagcab file, which could be caused by some legitimate
+  installer or is a sign of exploitation (review the filename and its location)
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*.diagcab
+index: wazuh-alerts*
+name: file_event_win_susp_diagcab
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

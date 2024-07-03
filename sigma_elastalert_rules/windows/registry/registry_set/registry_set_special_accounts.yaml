@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects modifications to the registry key "HKLM\Software\Microsoft\Windows
+  NT\CurrentVersion\Winlogon\SpecialAccounts\Userlist" where the value is set to "0"
+  in order to hide user account from being listed on the logon screen.
+filter:
+- query:
+    query_string:
+      query: (event_category_type:"SetValue" AND registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\
+        NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList* AND Details:"DWORD\
+        \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_special_accounts
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

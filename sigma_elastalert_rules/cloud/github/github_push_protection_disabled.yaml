@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects if the push protection feature is disabled for an organization,
+  enterprise, repositories or custom pattern rules.
+filter:
+- query:
+    query_string:
+      query: action:("business_secret_scanning_custom_pattern_push_protection.disabled"
+        OR "business_secret_scanning_push_protection.disable" OR "business_secret_scanning_push_protection.disabled_for_new_repos"
+        OR "org.secret_scanning_custom_pattern_push_protection_disabled" OR "org.secret_scanning_push_protection_disable"
+        OR "org.secret_scanning_push_protection_new_repos_disable" OR "repository_secret_scanning_custom_pattern_push_protection.disabled")
+index: wazuh-alerts*
+name: github_push_protection_disabled
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

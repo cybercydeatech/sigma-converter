@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects usage of Dsacls to grant over permissive permissions
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\dsacls.exe OR file_name_original:"DSACLS.EXE")
+        AND process_command_line.keyword:*\ \/G\ * AND process_command_line.keyword:(*GR*
+        OR *GE* OR *GW* OR *GA* OR *WP* OR *WD*))
+index: wazuh-alerts*
+name: proc_creation_win_dsacls_abuse_permissions
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

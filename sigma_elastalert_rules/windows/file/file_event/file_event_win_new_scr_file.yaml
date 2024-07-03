@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the creation of screensaver files (.scr) outside of system folders.
+  Attackers may execute an application as an ".SCR" file using "rundll32.exe desk.cpl,InstallScreenSaver"
+  for example.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*.scr AND (NOT (file_name.keyword:(*\:\\$WINDOWS.\~BT\\NewOS\\*
+        OR *\:\\Windows\\System32\\* OR *\:\\Windows\\SysWOW64\\* OR *\:\\Windows\\WinSxS\\*
+        OR *\:\\WUDownloadCache\\*))))
+index: wazuh-alerts*
+name: file_event_win_new_scr_file
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

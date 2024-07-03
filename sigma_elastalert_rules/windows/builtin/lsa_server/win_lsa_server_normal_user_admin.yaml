@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detect standard users login that are part of high privileged groups such
+  as the Administrator group
+filter:
+- query:
+    query_string:
+      query: ((event_id:"300" AND TargetUserSid.keyword:S\-1\-5\-21\-* AND SidList.keyword:(*S\-1\-5\-32\-544*
+        OR *\-500\}* OR *\-518\}* OR *\-519\}*)) AND (NOT ((TargetUserSid.keyword:(*\-500
+        OR *\-518 OR *\-519)))))
+index: wazuh-alerts*
+name: win_lsa_server_normal_user_admin
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

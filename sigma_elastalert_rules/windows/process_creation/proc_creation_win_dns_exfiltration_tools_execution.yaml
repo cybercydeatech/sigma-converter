@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Well-known DNS Exfiltration tools execution
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\iodine.exe OR process_path.keyword:*\\dnscat2*)
+index: wazuh-alerts*
+name: proc_creation_win_dns_exfiltration_tools_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

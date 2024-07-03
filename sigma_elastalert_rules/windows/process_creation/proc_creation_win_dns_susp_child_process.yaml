@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects an unexpected process spawning from dns.exe which may indicate
+  activity related to remote code execution or other forms of exploitation as seen
+  in CVE-2020-1350 (SigRed)
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\dns.exe AND (NOT (process_path.keyword:*\\conhost.exe)))
+index: wazuh-alerts*
+name: proc_creation_win_dns_susp_child_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

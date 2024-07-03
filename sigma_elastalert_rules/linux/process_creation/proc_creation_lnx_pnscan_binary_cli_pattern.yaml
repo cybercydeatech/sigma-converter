@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects command line patterns associated with the use of Pnscan for sending and receiving binary data across the network.
+  This behavior has been identified in a Linux malware campaign targeting Docker, Apache Hadoop, Redis, and Confluence and was previously used by the threat actor known as TeamTNT
+filter:
+- query:
+    query_string:
+      query: 
+        process_command_line.keyword:/-(W|R)\s?(\s|"|')([0-9a-fA-F]{2}\s?){2,20}(\s|"|')/
+index: wazuh-alerts*
+name: proc_creation_lnx_pnscan_binary_cli_pattern
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

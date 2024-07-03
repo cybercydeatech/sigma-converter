@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an attacker tries to hide from Sysmon by disabling or stopping
+  it
+filter:
+- query:
+    query_string:
+      query: ((State:"Stopped" OR "Sysmon\ config\ state\ changed") AND (NOT (State:"Started")))
+index: wazuh-alerts*
+name: sysmon_config_modification_status
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

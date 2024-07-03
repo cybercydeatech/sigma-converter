@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the execution of whoami that has been renamed to a different
+  name to avoid detection
+filter:
+- query:
+    query_string:
+      query: (file_name_original:"whoami.exe" AND (NOT (process_path.keyword:*\\whoami.exe)))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_whoami
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

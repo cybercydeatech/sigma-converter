@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects Windows services that got terminated for whatever reason
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Service\ Control\ Manager" AND event_id:"7023")
+index: wazuh-alerts*
+name: win_system_service_terminated_error_generic
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

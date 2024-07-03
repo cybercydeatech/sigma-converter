@@ -1,0 +1,16 @@
+alert:
+- debug
+description: This rule detects a DHCP server error in which a specified Callout DLL
+  (in registry) could not be loaded
+filter:
+- query:
+    query_string:
+      query: (event_id:("1031" OR "1032" OR "1034") AND Provider_Name:"Microsoft\-Windows\-DHCP\-Server")
+index: wazuh-alerts*
+name: win_system_susp_dhcp_config_failed
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the installation of RTCore service. Which could be an indication
+  of Micro-Star MSI Afterburner vulnerable driver abuse
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Service\ Control\ Manager" AND event_id:"7045" AND service_name:"RTCore64")
+index: wazuh-alerts*
+name: win_system_susp_rtcore64_service_install
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Execution of ssh.exe to perform data exfiltration and tunneling through
+  RDP
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\ssh.exe AND process_command_line.keyword:*\:3389*)
+index: wazuh-alerts*
+name: proc_creation_win_ssh_rdp_tunneling
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

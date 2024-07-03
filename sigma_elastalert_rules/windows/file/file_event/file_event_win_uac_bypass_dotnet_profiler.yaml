@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the pattern of UAC Bypass using .NET Code Profiler and mmc.exe
+  DLL hijacking (UACMe 39)
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:C\:\\Users\\* AND file_name.keyword:*\\AppData\\Local\\Temp\\pe386.dll)
+index: wazuh-alerts*
+name: file_event_win_uac_bypass_dotnet_profiler
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

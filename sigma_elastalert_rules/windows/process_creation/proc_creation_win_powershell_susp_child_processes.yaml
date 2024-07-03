@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potentially suspicious child processes spawned by PowerShell
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:(*\\powershell_ise.exe OR *\\powershell.exe
+        OR *\\pwsh.exe) AND process_path.keyword:(*\\bash.exe OR *\\bitsadmin.exe
+        OR *\\certutil.exe OR *\\cscript.exe OR *\\forfiles.exe OR *\\hh.exe OR *\\mshta.exe
+        OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\schtasks.exe OR *\\scrcons.exe
+        OR *\\scriptrunner.exe OR *\\sh.exe OR *\\wmic.exe OR *\\wscript.exe)) AND
+        (NOT ((process_parent_command_line.keyword:*\\Program\ Files\\Amazon\\WorkspacesConfig\\Scripts\\*
+        AND process_command_line.keyword:*\\Program\ Files\\Amazon\\WorkspacesConfig\\Scripts\\*))))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_susp_child_processes
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

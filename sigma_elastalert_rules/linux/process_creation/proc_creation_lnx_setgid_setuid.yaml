@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious change of file privileges with chown and chmod commands
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*chown\ root* AND process_command_line.keyword:(*\
+        chmod\ u\+s* OR *\ chmod\ g\+s*))
+index: wazuh-alerts*
+name: proc_creation_lnx_setgid_setuid
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

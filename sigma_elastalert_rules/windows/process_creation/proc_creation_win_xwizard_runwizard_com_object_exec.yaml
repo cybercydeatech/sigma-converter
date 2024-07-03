@@ -1,0 +1,22 @@
+alert:
+- debug
+description: |
+  Detects the execution of Xwizard tool with the "RunWizard" flag and a GUID like argument.
+  This utility can be abused in order to run custom COM object created in the registry.
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\xwizard.exe OR file_name_original:"xwizard.exe")
+        AND (process_command_line:"RunWizard" AND 
+        process_command_line.keyword:/\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\}/))
+        OR ((process_command_line:"RunWizard" AND 
+        process_command_line.keyword:/\{[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\}/)
+        AND (NOT (process_path.keyword:*\\xwizard.exe OR file_name_original:"xwizard.exe"))))
+index: wazuh-alerts*
+name: proc_creation_win_xwizard_runwizard_com_object_exec
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

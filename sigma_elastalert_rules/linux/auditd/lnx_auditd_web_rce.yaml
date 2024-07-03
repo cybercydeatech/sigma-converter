@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects possible command execution by web application/web shell
+filter:
+- query:
+    query_string:
+      query: (type:"SYSCALL" AND syscall:"execve" AND key:"detect_execve_www")
+index: wazuh-alerts*
+name: lnx_auditd_web_rce
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

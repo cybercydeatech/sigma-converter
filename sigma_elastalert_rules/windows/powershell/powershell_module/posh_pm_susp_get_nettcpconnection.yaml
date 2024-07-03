@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Adversaries may attempt to get a listing of network connections to or
+  from the compromised system they are currently accessing or from remote systems
+  by querying for information over the network.
+filter:
+- query:
+    query_string:
+      query: ContextInfo.keyword:*Get\-NetTCPConnection*
+index: wazuh-alerts*
+name: posh_pm_susp_get_nettcpconnection
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

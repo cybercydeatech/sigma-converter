@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the addition of a new Federated Domain.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"Exchange" AND eventName:"Add\-FederatedDomain" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_new_federated_domain_added_exchange
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

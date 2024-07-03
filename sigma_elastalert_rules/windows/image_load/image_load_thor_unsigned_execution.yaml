@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects loading and execution of an unsigned thor scanner binary.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\thor.exe OR *\\thor64.exe) AND ImageLoaded.keyword:(*\\thor.exe
+        OR *\\thor64.exe)) AND (NOT (signed:"true" AND signature_status:"valid" AND
+        signature:"Nextron\ Systems\ GmbH")))
+index: wazuh-alerts*
+name: image_load_thor_unsigned_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

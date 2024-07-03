@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects POST requests to the F5 BIG-IP iControl Rest API "bash" endpoint,
+  which allows the execution of commands on the BIG-IP
+filter:
+- query:
+    query_string:
+      query: (cs-method:"POST" AND cs-uri-query.keyword:*\/mgmt\/tm\/util\/bash)
+index: wazuh-alerts*
+name: web_f5_tm_utility_bash_api_request
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

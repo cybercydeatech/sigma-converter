@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects DLL sideloading of unsigned "mfdetours.dll". Executing "mftrace.exe"
+  can be abused to attach to an arbitrary process and force load any DLL named "mfdetours.dll"
+  from the current directory of execution.
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\mfdetours.dll AND (NOT ((ImageLoaded.keyword:*\:\\Program\
+        Files\ \(x86\)\\Windows\ Kits\\10\\bin\\* AND signature_status:"Valid"))))
+index: wazuh-alerts*
+name: image_load_side_load_mfdetours_unsigned
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

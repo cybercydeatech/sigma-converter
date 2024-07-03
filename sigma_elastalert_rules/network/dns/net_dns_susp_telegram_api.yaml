@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious DNS queries to api.telegram.org used by Telegram Bots
+  of any kind
+filter:
+- query:
+    query_string:
+      query: query:"api.telegram.org"
+index: wazuh-alerts*
+name: net_dns_susp_telegram_api
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the execution of "whoami.exe" with the "/FO" flag to choose CSV
+  as output format or with redirection options to export the results to a file for
+  later use.
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\whoami.exe OR file_name_original:"whoami.exe")
+        AND process_command_line.keyword:(*\ \/FO\ CSV* OR *\ \-FO\ CSV*)) OR process_command_line.keyword:*whoami*>*)
+index: wazuh-alerts*
+name: proc_creation_win_whoami_output
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

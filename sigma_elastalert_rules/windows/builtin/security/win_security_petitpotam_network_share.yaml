@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect PetitPotam coerced authentication activity.
+filter:
+- query:
+    query_string:
+      query: (event_id:"5145" AND share_name.keyword:\\\\\* AND share_name.keyword:*\\IPC$
+        AND share_relative_target_name:"lsarpc" AND user_name:"ANONYMOUS\ LOGON")
+index: wazuh-alerts*
+name: win_security_petitpotam_network_share
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

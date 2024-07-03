@@ -1,0 +1,16 @@
+alert:
+- debug
+description: "Detects attempts to execute remote commands, within a Pod's container
+  using e.g. the \"kubectl exec\" command.\n"
+filter:
+- query:
+    query_string:
+      query: (verb:"create" AND objectRef.resource:"pods" AND objectRef.subresource:"exec")
+index: wazuh-alerts*
+name: kubernetes_audit_exec_into_container
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

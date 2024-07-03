@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a Microsoft Cloud App Security reported when a user uploads
+  files to the cloud that might be infected with ransomware.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"SecurityComplianceCenter" AND eventName:"Potential\ ransomware\
+        activity" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_potential_ransomware_activity
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

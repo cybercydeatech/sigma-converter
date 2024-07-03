@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects unusual processes accessing desktop.ini remotely over network
+  share, which can be leveraged to alter how Explorer displays a folder's content
+  (i.e. renaming files) without changing them on disk.
+filter:
+- query:
+    query_string:
+      query: (event_id:"5145" AND object_type:"File" AND share_relative_target_name.keyword:*\\desktop.ini
+        AND user_access_list.keyword:(*WriteData* OR *DELETE* OR *WriteDAC* OR *AppendData*
+        OR *AddSubdirectory*))
+index: wazuh-alerts*
+name: win_security_net_share_obj_susp_desktop_ini
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: VisualUiaVerifyNative.exe is a Windows SDK that can be used for AWL bypass
+  and is listed in Microsoft's recommended block rules.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\VisualUiaVerifyNative.exe OR file_name_original:"VisualUiaVerifyNative.exe")
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_visualuiaverifynative
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

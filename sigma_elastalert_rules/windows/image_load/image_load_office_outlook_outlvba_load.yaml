@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects outlvba (Microsoft VBA for Outlook Addin) DLL being loaded by
+  the outlook process
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\outlook.exe AND ImageLoaded.keyword:*\\outlvba.dll)
+index: wazuh-alerts*
+name: image_load_office_outlook_outlvba_load
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

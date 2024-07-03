@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potentially uncommon child processes of SndVol.exe (the Windows
+  volume mixer)
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\SndVol.exe AND (NOT ((process_path.keyword:*\\rundll32.exe
+        AND process_command_line.keyword:*\ shell32.dll,Control_RunDLL\ *))))
+index: wazuh-alerts*
+name: proc_creation_win_sndvol_susp_child_processes
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

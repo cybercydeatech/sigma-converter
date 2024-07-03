@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Attempts to load dismcore.dll after dropping it
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\dism.exe AND ImageLoaded.keyword:*\\dismcore.dll)
+        AND (NOT (ImageLoaded:"C\:\\Windows\\System32\\Dism\\dismcore.dll")))
+index: wazuh-alerts*
+name: image_load_uac_bypass_via_dism
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

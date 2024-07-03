@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a Sysmon configuration change, which could be the result of a
+  legitimate reconfiguration or someone trying manipulate the configuration
+filter:
+- query:
+    query_string:
+      query: event_id:"16"
+index: wazuh-alerts*
+name: sysmon_config_modification
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

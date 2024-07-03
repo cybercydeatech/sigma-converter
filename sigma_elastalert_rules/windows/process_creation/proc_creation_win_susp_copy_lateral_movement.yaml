@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects a copy command or a copy utility execution to or from an Admin
+  share or remote
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*\\\\*$* OR *\\Sysvol\\*) AND (((process_path.keyword:(*\\robocopy.exe
+        OR *\\xcopy.exe) OR file_name_original:("robocopy.exe" OR "XCOPY.EXE")) OR
+        ((process_path.keyword:*\\cmd.exe OR file_name_original:"Cmd.Exe") AND process_command_line.keyword:*copy*))
+        OR ((process_path.keyword:(*\\powershell.exe* OR *\\pwsh.exe*) OR file_name_original:("PowerShell.EXE"
+        OR "pwsh.dll")) AND process_command_line.keyword:(*copy\-item* OR *copy\ *
+        OR *cpi\ * OR *\ cp\ * OR *move\ * OR *move\-item* OR *\ mi\ * OR *\ mv\ *))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_copy_lateral_movement
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

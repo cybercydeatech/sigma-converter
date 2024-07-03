@@ -1,0 +1,17 @@
+alert:
+- debug
+description: |
+  Detects attempts to post the file with the usage of wget utility.
+  The adversary can bypass the permission restriction with the misconfigured sudo permission for wget utility which could allow them to read files like /etc/shadow.
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0:"wget" AND a1.keyword:\-\-post\-file\=*)
+index: wazuh-alerts*
+name: lnx_auditd_data_exfil_wget
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

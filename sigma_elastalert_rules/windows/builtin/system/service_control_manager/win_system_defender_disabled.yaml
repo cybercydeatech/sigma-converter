@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the "Windows Defender Threat Protection" service has been disabled
+filter:
+- query:
+    query_string:
+      query: (event_id:"7036" AND Provider_Name:"Service\ Control\ Manager" AND param1:("Windows\
+        Defender\ Antivirus\ Service" OR "Service\ antivirus\ Microsoft\ Defender")
+        AND param2:("stopped" OR "arrêté"))
+index: wazuh-alerts*
+name: win_system_defender_disabled
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

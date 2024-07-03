@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Alert on when a user has performed an eDiscovery search or exported a
+  PST file from the search. This PST file usually has sensitive information including
+  email body content
+filter:
+- query:
+    query_string:
+      query: (eventSource:"SecurityComplianceCenter" AND eventName:"eDiscovery\ search\
+        started\ or\ exported" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_pst_export_alert
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

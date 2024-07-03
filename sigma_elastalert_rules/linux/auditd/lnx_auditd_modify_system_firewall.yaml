@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the removal of system firewall rules. Adversaries may only delete or modify a specific system firewall rule to bypass controls limiting network usage or access.
+  Detection rules that match only on the disabling of firewalls will miss this.
+filter:
+- query:
+    query_string:
+      query: ((type:"EXECVE" AND a0:"iptables" AND a1.keyword:*DROP*) OR (type:"EXECVE"
+        AND a0:"firewall\-cmd" AND a1.keyword:*remove*) OR (type:"EXECVE" AND a0:"ufw"
+        AND a1.keyword:*delete*))
+index: wazuh-alerts*
+name: lnx_auditd_modify_system_firewall
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

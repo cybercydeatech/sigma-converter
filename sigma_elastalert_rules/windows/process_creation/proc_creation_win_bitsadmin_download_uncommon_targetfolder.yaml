@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of bitsadmin downloading a file to uncommon target folder
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\bitsadmin.exe OR file_name_original:"bitsadmin.exe")
+        AND process_command_line.keyword:(*\ \/transfer\ * OR *\ \/create\ * OR *\
+        \/addfile\ *) AND process_command_line.keyword:(*%AppData%* OR *%temp%* OR
+        *%tmp%* OR *\\AppData\\Local\\* OR *C\:\\Windows\\Temp\\*))
+index: wazuh-alerts*
+name: proc_creation_win_bitsadmin_download_uncommon_targetfolder
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

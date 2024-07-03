@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects enumeration of local system groups. Adversaries may attempt to
+  find local system groups and permission settings
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/groups OR (process_path.keyword:(*\/cat OR *\/head
+        OR *\/tail OR *\/more) AND process_command_line.keyword:*\/etc\/group*))
+index: wazuh-alerts*
+name: proc_creation_lnx_local_groups
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the execution of msiexec.exe from an uncommon directory
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\msiexec.exe OR file_name_original:"\\msiexec.exe")
+        AND (NOT (process_path.keyword:(C\:\\Windows\\System32\\* OR C\:\\Windows\\SysWOW64\\*
+        OR C\:\\Windows\\WinSxS\\*))))
+index: wazuh-alerts*
+name: proc_creation_win_msiexec_masquerading
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

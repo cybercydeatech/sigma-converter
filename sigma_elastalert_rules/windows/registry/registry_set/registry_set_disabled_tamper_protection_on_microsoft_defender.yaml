@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects disabling Windows Defender Tamper Protection
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*\\Microsoft\\Windows\ Defender\\Features\\TamperProtection*
+        AND Details:"DWORD\ \(0x00000000\)") AND (NOT ((process_path.keyword:C\:\\ProgramData\\Microsoft\\Windows\
+        Defender\\Platform\\* AND process_path.keyword:*\\MsMpEng.exe) OR (process_path:"C\:\\Program\
+        Files\\Windows\ Defender\\MsMpEng.exe"))))
+index: wazuh-alerts*
+name: registry_set_disabled_tamper_protection_on_microsoft_defender
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

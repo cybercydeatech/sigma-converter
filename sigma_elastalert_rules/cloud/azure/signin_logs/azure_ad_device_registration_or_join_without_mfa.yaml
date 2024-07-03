@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Monitor and alert for device registration or join events where MFA was
+  not performed.
+filter:
+- query:
+    query_string:
+      query: ((ResourceDisplayName:"Device\ Registration\ Service" AND conditionalAccessStatus:"success")
+        AND (NOT (AuthenticationRequirement:"multiFactorAuthentication")))
+index: wazuh-alerts*
+name: azure_ad_device_registration_or_join_without_mfa
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Administrative shares are hidden network shares created by Microsoft
+  Windows NT operating systems that grant system administrators remote access to every
+  disk volume on a network-connected system
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Services\\LanmanServer\\Parameters\\* AND
+        registry_key_path.keyword:(*\\AutoShareWks OR *\\AutoShareServer) AND Details:"DWORD\
+        \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_disable_administrative_share
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

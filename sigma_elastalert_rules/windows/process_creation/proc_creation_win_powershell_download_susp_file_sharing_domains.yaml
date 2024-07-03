@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects potentially suspicious file downloads from file sharing domains
+  using PowerShell.exe
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) OR file_name_original:("PowerShell.EXE"
+        OR "pwsh.dll")) AND process_command_line.keyword:(*anonfiles.com* OR *cdn.discordapp.com*
+        OR *cdn.discordapp.com\/attachments\/* OR *ddns.net* OR *dl.dropboxusercontent.com*
+        OR *ghostbin.co* OR *glitch.me* OR *gofile.io* OR *hastebin.com* OR *mediafire.com*
+        OR *mega.nz* OR *onrender.com* OR *paste.ee* OR *pastebin.com* OR *pastebin.pl*
+        OR *pastetext.net* OR *privatlab.com* OR *privatlab.net* OR *send.exploit.in*
+        OR *sendspace.com* OR *storage.googleapis.com* OR *storjshare.io* OR *supabase.co*
+        OR *temp.sh* OR *transfer.sh* OR *ufile.io*) AND process_command_line.keyword:(*.DownloadString\(*
+        OR *.DownloadFile\(* OR *Invoke\-WebRequest\ * OR *iwr\ * OR *wget\ *))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_download_susp_file_sharing_domains
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

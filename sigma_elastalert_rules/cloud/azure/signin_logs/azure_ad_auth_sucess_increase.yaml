@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when successful sign-ins increased by 10% or greater.
+filter:
+- query:
+    query_string:
+      query: (event_status:"Success" AND Count:"<10%")
+index: wazuh-alerts*
+name: azure_ad_auth_sucess_increase
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects a suspicious process spawning from an "mshta.exe" process, which
+  could be indicative of a malicious HTA script execution
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\mshta.exe AND (process_path.keyword:(*\\cmd.exe
+        OR *\\powershell.exe OR *\\pwsh.exe OR *\\wscript.exe OR *\\cscript.exe OR
+        *\\sh.exe OR *\\bash.exe OR *\\reg.exe OR *\\regsvr32.exe OR *\\bitsadmin.exe)
+        OR file_name_original:("Cmd.Exe" OR "PowerShell.EXE" OR "pwsh.dll" OR "wscript.exe"
+        OR "cscript.exe" OR "Bash.exe" OR "reg.exe" OR "REGSVR32.EXE" OR "bitsadmin.exe")))
+index: wazuh-alerts*
+name: proc_creation_win_mshta_susp_child_processes
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of a scanner by zerosum0x0 that discovers targets vulnerable
+  to  CVE-2019-0708 RDP RCE aka BlueKeep
+filter:
+- query:
+    query_string:
+      query: (event_id:"4625" AND TargetUserName:"AAAAAAA")
+index: wazuh-alerts*
+name: win_security_rdp_bluekeep_poc_scanner
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

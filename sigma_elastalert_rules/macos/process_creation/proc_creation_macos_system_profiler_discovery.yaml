@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the execution of "system_profiler" with specific "Data Types" that have been seen being used by threat actors and malware. It provides system hardware and software configuration information.
+  This process is primarily used for system information discovery. However, "system_profiler" can also be used to determine if virtualization software is being run for defense evasion purposes.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\/system_profiler OR process_command_line.keyword:*system_profiler*)
+        AND process_command_line.keyword:(*SPApplicationsDataType* OR *SPHardwareDataType*
+        OR *SPNetworkDataType* OR *SPUSBDataType*))
+index: wazuh-alerts*
+name: proc_creation_macos_system_profiler_discovery
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects file access requests to the Windows Credential History File by an uncommon application.
+  This can be a sign of credential stealing. Example case would be usage of mimikatz "dpapi::credhist" function
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\\Microsoft\\Protect\\CREDHIST AND (NOT ((process_path.keyword:(*\:\\Program\
+        Files\\* OR *\:\\Program\ Files\ \(x86\)\\* OR *\:\\Windows\\system32\\* OR
+        *\:\\Windows\\SysWOW64\\*)) OR (process_path.keyword:*\:\\Windows\\explorer.exe))))
+index: wazuh-alerts*
+name: file_access_win_susp_cred_hist_access
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potentially suspicious child processes of KeyScrambler.exe
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\KeyScrambler.exe AND (process_path.keyword:(*\\cmd.exe
+        OR *\\cscript.exe OR *\\mshta.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\regsvr32.exe
+        OR *\\rundll32.exe OR *\\wscript.exe) OR file_name_original:("Cmd.Exe" OR
+        "cscript.exe" OR "mshta.exe" OR "PowerShell.EXE" OR "pwsh.dll" OR "regsvr32.exe"
+        OR "RUNDLL32.EXE" OR "wscript.exe")))
+index: wazuh-alerts*
+name: proc_creation_win_keyscrambler_susp_child_process
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

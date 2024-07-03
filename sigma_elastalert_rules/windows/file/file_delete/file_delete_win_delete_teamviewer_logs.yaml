@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the deletion of the TeamViewer log files which may indicate an
+  attempt to destroy forensic evidence
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:*\\TeamViewer_* AND file_name.keyword:*.log) AND
+        (NOT (process_path:"C\:\\Windows\\system32\\svchost.exe")))
+index: wazuh-alerts*
+name: file_delete_win_delete_teamviewer_logs
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

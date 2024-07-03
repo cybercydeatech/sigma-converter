@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects errors when a target server doesn't have suitable keys for generating kerberos tickets.
+  This issue can occur for example when a service uses a user account or a computer account that is configured for only DES encryption on a computer that is running Windows 7 which has DES encryption for Kerberos authentication disabled.
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Microsoft\-Windows\-Kerberos\-Key\-Distribution\-Center"
+        AND event_id:("16" OR "27"))
+index: wazuh-alerts*
+name: win_system_kdcsvc_tgs_no_suitable_encryption_key_found
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

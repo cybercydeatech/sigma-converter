@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects usage of the Sharp Chisel via the commandline arguments
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\SharpChisel.exe OR file_product:"SharpChisel")
+index: wazuh-alerts*
+name: proc_creation_win_hktl_sharp_chisel
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects PowerShell core DLL being loaded by an Office Product
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\excel.exe OR *\\mspub.exe OR *\\outlook.exe
+        OR *\\onenote.exe OR *\\onenoteim.exe OR *\\powerpnt.exe OR *\\winword.exe)
+        AND ImageLoaded.keyword:(*\\System.Management.Automation.Dll* OR *\\System.Management.Automation.ni.Dll*))
+index: wazuh-alerts*
+name: image_load_office_powershell_dll_load
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

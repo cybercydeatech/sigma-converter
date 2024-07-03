@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a method to load DLL via LSASS process using an undocumented
+  Registry key
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:(*\\CurrentControlSet\\Services\\NTDS\\DirectoryServiceExtPt*
+        OR *\\CurrentControlSet\\Services\\NTDS\\LsaDbExtPt*) AND (NOT ((process_path:"C\:\\Windows\\system32\\lsass.exe"
+        AND Details:("%%systemroot%%\\system32\\ntdsa.dll" OR "%%systemroot%%\\system32\\lsadb.dll")))))
+index: wazuh-alerts*
+name: registry_event_susp_lsass_dll_load
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Clear command history in network OS which is used for defense evasion
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*clear\ logging* OR *clear\ archive*)
+index: wazuh-alerts*
+name: cisco_cli_clear_logs
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

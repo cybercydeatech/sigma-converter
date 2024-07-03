@@ -1,0 +1,27 @@
+alert:
+- debug
+description: Detects when a shell program such as the Windows command prompt or PowerShell
+  is launched with system privileges from a uncommon parent location.
+filter:
+- query:
+    query_string:
+      query: ((((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe OR *\\cmd.exe)
+        OR file_name_original:("PowerShell.EXE" OR "pwsh.dll" OR "Cmd.Exe")) AND (user_account.keyword:(*AUTHORI*
+        OR *AUTORI*) AND LogonId:"0x3e7")) AND (NOT ((process_parent_path.keyword:(*\:\\Program\
+        Files\ \(x86\)\\* OR *\:\\Program\ Files\\* OR *\:\\ProgramData\\* OR *\:\\Windows\\System32\\*
+        OR *\:\\Windows\\SysWOW64\\* OR *\:\\Windows\\Temp\\* OR *\:\\Windows\\WinSxS\\*))
+        OR (NOT _exists_:process_parent_path) OR (process_parent_path:"")))) AND (NOT
+        ((process_parent_path.keyword:*\:\\ManageEngine\\ADManager\ Plus\\pgsql\\bin\\postgres.exe
+        AND process_path.keyword:*\\cmd.exe) OR (process_command_line.keyword:*\:\\WINDOWS\\system32\\cmd.exe\
+        \/c\ \"* AND process_current_directory.keyword:*\:\\WINDOWS\\Temp\\asgard2\-agent\\*)
+        OR (process_parent_path.keyword:*\:\\IBM\\SpectrumProtect\\webserver\\scripts\\*
+        AND 
+        process_command_line.keyword:*\:\\IBM\\SpectrumProtect\\webserver\\scripts\\*))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_elevated_system_shell_uncommon_parent
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

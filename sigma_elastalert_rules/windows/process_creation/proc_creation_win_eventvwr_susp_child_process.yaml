@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects uncommon or suspicious child processes of "eventvwr.exe" which
+  might indicate a UAC bypass attempt
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\eventvwr.exe AND (NOT ((process_path.keyword:(*\:\\Windows\\System32\\mmc.exe
+        OR *\:\\Windows\\System32\\WerFault.exe OR *\:\\Windows\\SysWOW64\\WerFault.exe)))))
+index: wazuh-alerts*
+name: proc_creation_win_eventvwr_susp_child_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

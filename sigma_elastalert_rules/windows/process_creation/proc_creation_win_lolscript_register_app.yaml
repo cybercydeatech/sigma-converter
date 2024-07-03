@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential abuse of the "register_app.vbs" script that is part
+  of the Windows SDK. The script offers the capability to register new VSS/VDS Provider
+  as a COM+ application. Attackers can use this to install malicious DLLs for persistence
+  and execution.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\cscript.exe OR *\\wscript.exe) OR file_name_original:("cscript.exe"
+        OR "wscript.exe")) AND process_command_line.keyword:*.vbs\ \-register\ *)
+index: wazuh-alerts*
+name: proc_creation_win_lolscript_register_app
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

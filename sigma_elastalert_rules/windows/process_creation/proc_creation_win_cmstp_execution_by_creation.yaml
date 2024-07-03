@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects various indicators of Microsoft Connection Manager Profile Installer
+  execution
+filter:
+- query:
+    query_string:
+      query: process_parent_path.keyword:*\\cmstp.exe
+index: wazuh-alerts*
+name: proc_creation_win_cmstp_execution_by_creation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

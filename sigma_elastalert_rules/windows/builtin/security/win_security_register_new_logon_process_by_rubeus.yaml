@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects potential use of Rubeus via registered new trusted logon process
+filter:
+- query:
+    query_string:
+      query: (event_id:"4611" AND logon_process_name:"User32LogonProcesss")
+index: wazuh-alerts*
+name: win_security_register_new_logon_process_by_rubeus
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

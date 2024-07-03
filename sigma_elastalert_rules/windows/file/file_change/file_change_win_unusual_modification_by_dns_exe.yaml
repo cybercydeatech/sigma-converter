@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects an unexpected file being modified by dns.exe which my indicate
+  activity related to remote code execution or other forms of exploitation as seen
+  in CVE-2020-1350 (SigRed)
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\dns.exe AND (NOT (file_name.keyword:*\\dns.log)))
+index: wazuh-alerts*
+name: file_change_win_unusual_modification_by_dns_exe
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

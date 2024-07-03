@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the deletion of the event log files which may indicate an attempt
+  to destroy forensic evidence
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:C\:\\Windows\\System32\\winevt\\Logs\\* AND file_name.keyword:*.evtx)
+index: wazuh-alerts*
+name: file_delete_win_delete_event_log_files
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

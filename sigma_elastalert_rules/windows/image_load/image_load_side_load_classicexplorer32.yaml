@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential DLL sideloading using ClassicExplorer32.dll from the
+  Classic Shell software
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\ClassicExplorer32.dll AND (NOT (ImageLoaded.keyword:C\:\\Program\
+        Files\\Classic\ Shell\\*)))
+index: wazuh-alerts*
+name: image_load_side_load_classicexplorer32
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

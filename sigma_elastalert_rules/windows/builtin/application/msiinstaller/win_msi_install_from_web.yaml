@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects installation of a remote msi file from web.
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"MsiInstaller" AND event_id:("1040" OR "1042") AND Data.keyword:*\:\/\/*)
+index: wazuh-alerts*
+name: win_msi_install_from_web
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

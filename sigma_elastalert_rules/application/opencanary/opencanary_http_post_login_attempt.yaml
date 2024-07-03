@@ -1,0 +1,16 @@
+alert:
+- debug
+description: "Detects instances where an HTTP service on an OpenCanary node has had
+  login attempt via Form POST.\n"
+filter:
+- query:
+    query_string:
+      query: logtype:"3001"
+index: wazuh-alerts*
+name: opencanary_http_post_login_attempt
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

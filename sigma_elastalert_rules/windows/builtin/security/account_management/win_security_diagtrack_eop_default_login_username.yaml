@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the default "UserName" used by the DiagTrackEoP POC
+filter:
+- query:
+    query_string:
+      query: (event_id:"4624" AND logon_type:"9" AND TargetOutboundUserName:"thisisnotvaliduser")
+index: wazuh-alerts*
+name: win_security_diagtrack_eop_default_login_username
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

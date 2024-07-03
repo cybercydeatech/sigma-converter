@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Once established within a system or network, an adversary may use automated
+  techniques for collecting internal data
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:(*Get\-Service\ * OR *Get\-ChildItem\ * OR *Get\-Process\
+        *) AND ScriptBlockText.keyword:*>\ $env\:TEMP\\*)
+index: wazuh-alerts*
+name: posh_ps_susp_recon_export
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

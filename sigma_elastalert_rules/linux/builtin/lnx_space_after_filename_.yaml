@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects space after filename
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*echo\ \"*\"\ >\ *\ \&&\ chmod\ \+x\ * AND *mv\ *\ \"*\ \"*)
+index: wazuh-alerts*
+name: lnx_space_after_filename_
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,21 @@
+alert:
+- debug
+description: "Detects the execution of SharpMove, a .NET utility performing multiple
+  tasks such as \"Task Creation\", \"SCM\" query, VBScript execution using WMI via
+  its PE metadata and command line options.\n"
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\SharpMove.exe OR file_name_original:"SharpMove.exe")
+        OR (process_command_line.keyword:*computername\=* AND process_command_line.keyword:(*action\=create*
+        OR *action\=dcom* OR *action\=executevbs* OR *action\=hijackdcom* OR *action\=modschtask*
+        OR *action\=modsvc* OR *action\=query* OR *action\=scm* OR *action\=startservice*
+        OR *action\=taskscheduler*)))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_sharpmove
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

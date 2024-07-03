@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects attempts to record audio with arecord utility
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0:"arecord" AND a1:"\-vv" AND a2:"\-fdat")
+index: wazuh-alerts*
+name: lnx_auditd_audio_capture
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

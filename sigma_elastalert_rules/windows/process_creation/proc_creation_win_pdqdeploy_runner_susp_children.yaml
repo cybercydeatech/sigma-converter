@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects suspicious execution of "PDQDeployRunner" which is part of the
+  PDQDeploy service stack that is responsible for executing commands and packages
+  on a remote machines
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\PDQDeployRunner\-* AND (process_path.keyword:(*\\bash.exe
+        OR *\\certutil.exe OR *\\cmd.exe OR *\\csc.exe OR *\\cscript.exe OR *\\dllhost.exe
+        OR *\\mshta.exe OR *\\msiexec.exe OR *\\regsvr32.exe OR *\\rundll32.exe OR
+        *\\scriptrunner.exe OR *\\wmic.exe OR *\\wscript.exe OR *\\wsl.exe) OR process_path.keyword:(*\:\\ProgramData\\*
+        OR *\:\\Users\\Public\\* OR *\:\\Windows\\TEMP\\* OR *\\AppData\\Local\\Temp*)
+        OR process_command_line.keyword:(*\ \-decode\ * OR *\ \-enc\ * OR *\ \-encodedcommand\
+        * OR *\ \-w\ hidden* OR *DownloadString* OR *FromBase64String* OR *http* OR
+        *iex\ * OR *Invoke\-*)))
+index: wazuh-alerts*
+name: proc_creation_win_pdqdeploy_runner_susp_children
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,34 @@
+alert:
+- debug
+description: "Detects suspicious child processes of electron apps (teams, discord,
+  slack, etc.). This could be a potential sign of \".asar\" file tampering (See reference
+  section for more information) or binary execution proxy through specific CLI arguments
+  (see related rule)\n"
+filter:
+- query:
+    query_string:
+      query: (((process_parent_path.keyword:(*\\chrome.exe OR *\\discord.exe OR *\\GitHubDesktop.exe
+        OR *\\keybase.exe OR *\\msedge.exe OR *\\msedgewebview2.exe OR *\\msteams.exe
+        OR *\\slack.exe OR *\\Teams.exe) AND (process_path.keyword:(*\\cmd.exe OR
+        *\\cscript.exe OR *\\mshta.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\regsvr32.exe
+        OR *\\wscript.exe) OR process_path.keyword:(*\\AppData\\Local\\Temp\\* OR
+        *\\Users\\Public\\* OR *\\Windows\\Temp\\* OR *\:\\Temp\\*))) AND (NOT ((process_parent_path.keyword:*\\chrome.exe
+        AND process_path.keyword:*\\chrome.exe) OR (process_parent_path.keyword:*\\discord.exe
+        AND process_path.keyword:*\\discord.exe) OR (process_parent_path.keyword:*\\GitHubDesktop.exe
+        AND process_path.keyword:*\\GitHubDesktop.exe) OR (process_parent_path.keyword:*\\keybase.exe
+        AND process_path.keyword:*\\keybase.exe) OR (process_parent_path.keyword:*\\msedge.exe
+        AND process_path.keyword:*\\msedge.exe) OR (process_parent_path.keyword:*\\msedgewebview2.exe
+        AND process_path.keyword:*\\msedgewebview2.exe) OR (process_parent_path.keyword:*\\msteams.exe
+        AND process_path.keyword:*\\msteams.exe) OR (process_parent_path.keyword:*\\slack.exe
+        AND process_path.keyword:*\\slack.exe) OR (process_parent_path.keyword:*\\teams.exe
+        AND process_path.keyword:*\\teams.exe) OR (process_path:("C\:\\Windows\\SysWOW64\\WerFault.exe"
+        OR "C\:\\Windows\\System32\\WerFault.exe"))))) AND (NOT ((process_parent_path.keyword:*\\Discord.exe
+        AND process_command_line.keyword:*\\NVSMI\\nvidia\-smi.exe*))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_electron_app_children
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects linux package removal using builtin tools such as "yum", "apt",
+  "apt-get" or "dpkg".
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\/yum AND process_command_line.keyword:(*erase*
+        OR *remove*)) OR (process_path.keyword:(*\/apt OR *\/apt\-get) AND process_command_line.keyword:(*remove*
+        OR *purge*)) OR (process_path.keyword:*\/dpkg AND process_command_line.keyword:(*\-\-remove\
+        * OR *\ \-r\ *)) OR (process_path.keyword:*\/rpm AND process_command_line.keyword:*\
+        \-e\ *))
+index: wazuh-alerts*
+name: proc_creation_lnx_remove_package
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

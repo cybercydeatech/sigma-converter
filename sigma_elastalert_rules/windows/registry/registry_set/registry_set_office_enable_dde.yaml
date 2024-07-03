@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Enable Dynamic Data Exchange protocol (DDE) in all supported editions
+  of Microsoft Word or Excel.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*\\Word\\Security\\AllowDDE AND Details:("DWORD\
+        \(0x00000001\)" OR "DWORD\ \(0x00000002\)")) OR (registry_key_path.keyword:(*\\Excel\\Security\\DisableDDEServerLaunch
+        OR *\\Excel\\Security\\DisableDDEServerLookup) AND Details:"DWORD\ \(0x00000000\)"))
+index: wazuh-alerts*
+name: registry_set_office_enable_dde
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

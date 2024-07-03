@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects when adversaries try to stop system services or processes by
+  deleting their respective scheduled tasks in order to conduct data destructive activities\n"
+filter:
+- query:
+    query_string:
+      query: ((event_id:"141" AND task_name.keyword:(*\\Windows\\SystemRestore\\SR*
+        OR *\\Windows\\Windows\ Defender\\* OR *\\Windows\\BitLocker* OR *\\Windows\\WindowsBackup\\*
+        OR *\\Windows\\WindowsUpdate\\* OR *\\Windows\\UpdateOrchestrator\\* OR *\\Windows\\ExploitGuard*))
+        AND (NOT (user_name.keyword:(*AUTHORI* OR *AUTORI*))))
+index: wazuh-alerts*
+name: win_taskscheduler_susp_schtasks_delete
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

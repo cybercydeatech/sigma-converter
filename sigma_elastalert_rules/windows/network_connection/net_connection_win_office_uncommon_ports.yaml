@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects an office suit application (Word, Excel, PowerPoint, Outlook)
+  communicating to target systems over uncommon ports.
+filter:
+- query:
+    query_string:
+      query: ((Initiated:"true" AND process_path.keyword:(*\\excel.exe OR *\\outlook.exe
+        OR *\\powerpnt.exe OR *\\winword.exe OR *\\wordview.exe)) AND (NOT ((dst_port:("53"
+        OR "80" OR "139" OR "443" OR "445")) OR (process_path.keyword:*\:\\Program\
+        Files\\Microsoft\ Office\\* AND process_path.keyword:*\\OUTLOOK.EXE AND dst_port:("465"
+        OR "587" OR "993" OR "995")))))
+index: wazuh-alerts*
+name: net_connection_win_office_uncommon_ports
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects connections to interplanetary file system (IPFS) containing a
+  user's email address which mirrors behaviours observed in recent phishing campaigns
+  leveraging IPFS to host credential harvesting webpages.
+filter:
+- query:
+    query_string:
+      query: cs-uri.keyword:/(?i)(ipfs\.io/|ipfs\.io\s).+\..+@.+\.[a-z]+/
+index: wazuh-alerts*
+name: proxy_susp_ipfs_cred_harvest
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

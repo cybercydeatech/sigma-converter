@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects scenario where if a user is assigned the SeEnableDelegationPrivilege
+  right in Active Directory it would allow control of other AD user objects.
+filter:
+- query:
+    query_string:
+      query: (event_id:"4704" AND PrivilegeList.keyword:*SeEnableDelegationPrivilege*)
+index: wazuh-alerts*
+name: win_security_alert_active_directory_user_control
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

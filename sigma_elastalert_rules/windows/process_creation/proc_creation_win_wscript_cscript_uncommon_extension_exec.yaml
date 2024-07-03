@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects Wscript/Cscript executing a file with an uncommon (i.e. non-script)
+  extension
+filter:
+- query:
+    query_string:
+      query: ((file_name_original:("wscript.exe" OR "cscript.exe") OR process_path.keyword:(*\\wscript.exe
+        OR *\\cscript.exe)) AND process_command_line.keyword:(*.csv* OR *.dat* OR
+        *.doc* OR *.gif* OR *.jpeg* OR *.jpg* OR *.png* OR *.ppt* OR *.txt* OR *.xls*
+        OR *.xml*))
+index: wazuh-alerts*
+name: proc_creation_win_wscript_cscript_uncommon_extension_exec
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

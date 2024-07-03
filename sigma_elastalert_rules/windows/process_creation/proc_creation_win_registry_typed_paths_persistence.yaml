@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects modification addition to the 'TypedPaths' key in the user or
+  admin registry via the commandline. Which might indicate persistence attempt
+filter:
+- query:
+    query_string:
+      query: 
+        process_command_line.keyword:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths*
+index: wazuh-alerts*
+name: proc_creation_win_registry_typed_paths_persistence
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

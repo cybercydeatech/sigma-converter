@@ -1,0 +1,37 @@
+alert:
+- debug
+description: Detects potential calls to NtOpenProcess directly from NTDLL.
+filter:
+- query:
+    query_string:
+      query: ((process_call_trace.keyword:UNKNOWN* AND (NOT ((target_process_path.keyword:*vcredist_x64.exe
+        AND process_path.keyword:*vcredist_x64.exe) OR (process_path.keyword:(*\:\\Program\
+        Files\ \(x86\)\\* OR *\:\\Program\ Files\\* OR *\:\\Windows\\System32\\* OR
+        *\:\\Windows\\SysWOW64\\* OR *\:\\Windows\\WinSxS\\*) AND target_process_path.keyword:(*\:\\Program\
+        Files\ \(x86\)\\* OR *\:\\Program\ Files\\* OR *\:\\Windows\\System32\\* OR
+        *\:\\Windows\\SysWOW64\\* OR *\:\\Windows\\WinSxS\\*)) OR (Provider_Name:"Microsoft\-Windows\-Kernel\-Audit\-API\-Calls"))))
+        AND (NOT ((target_process_path.keyword:*\:\\Windows\\system32\\systeminfo.exe
+        AND process_path.keyword:*setup64.exe) OR (process_path.keyword:*\:\\Windows\\Explorer.EXE
+        AND target_process_path.keyword:*\:\\Program\ Files\\Cylance\\Desktop\\CylanceUI.exe)
+        OR (process_path.keyword:*AmazonSSMAgentSetup.exe AND target_process_path.keyword:*AmazonSSMAgentSetup.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Programs\\Microsoft\ VS\ Code\\Code.exe
+        AND target_process_path.keyword:*\\AppData\\Local\\Programs\\Microsoft\ VS\
+        Code\\Code.exe) OR 
+        (target_process_path.keyword:*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe
+        AND process_path.keyword:*\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe)
+        OR (target_process_path.keyword:*\\AppData\\Local\\Discord\\* AND target_process_path.keyword:*\\Discord.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\yammerdesktop\\app\-* AND process_path.keyword:*\\Yammer.exe
+        AND target_process_path.keyword:*\\AppData\\Local\\yammerdesktop\\app\-* AND
+        target_process_path.keyword:*\\Yammer.exe AND process_granted_access:"0x1000")
+        OR (target_process_path.keyword:*\\Evernote\\Evernote.exe) OR (process_path.keyword:*\:\\Program\
+        Files\\Adobe\\Acrobat\ DC\\Acrobat\\* AND process_path.keyword:*\\AcroCEF.exe
+        AND target_process_path.keyword:*\:\\Program\ Files\\Adobe\\Acrobat\ DC\\Acrobat\\*
+        AND target_process_path.keyword:*\\AcroCEF.exe))))
+index: wazuh-alerts*
+name: proc_access_win_susp_direct_ntopenprocess_call
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

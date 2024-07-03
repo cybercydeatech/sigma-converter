@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects usage of SoftPerfect's "netscan.exe". An application for scanning networks.
+  It is actively used in-the-wild by threat actors to inspect and understand the network architecture of a victim.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\netscan.exe OR file_product:"Network\ Scanner"
+        OR file_description:"Application\ for\ scanning\ networks")
+index: wazuh-alerts*
+name: proc_creation_win_pua_netscan
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

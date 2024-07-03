@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects the execution of the hacktool Rubeus via PE information of command
+  line parameters
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\Rubeus.exe OR file_name_original:"Rubeus.exe"
+        OR file_description:"Rubeus" OR process_command_line.keyword:(*asreproast\
+        * OR *dump\ \/service\:krbtgt\ * OR *dump\ \/luid\:0x* OR *kerberoast\ * OR
+        *createnetonly\ \/program\:* OR *ptt\ \/ticket\:* OR *\/impersonateuser\:*
+        OR *renew\ \/ticket\:* OR *asktgt\ \/user\:* OR *harvest\ \/interval\:* OR
+        *s4u\ \/user\:* OR *s4u\ \/ticket\:* OR *hash\ \/password\:* OR *golden\ \/aes256\:*
+        OR *silver\ \/user\:*))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_rubeus
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects changes to the "ExtErrorInformation" key in order to disable
+  ETW logging for rpcrt4.dll
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Microsoft\\Windows\ NT\\Rpc\\ExtErrorInformation
+        AND Details:("DWORD\ \(0x00000000\)" OR "DWORD\ \(0x00000002\)"))
+index: wazuh-alerts*
+name: registry_set_rpcrt4_etw_tamper
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

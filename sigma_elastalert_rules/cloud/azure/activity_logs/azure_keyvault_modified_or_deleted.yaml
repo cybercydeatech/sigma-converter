@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when a key vault is modified or deleted.
+filter:
+- query:
+    query_string:
+      query: operationName:("MICROSOFT.KEYVAULT\/VAULTS\/WRITE" OR "MICROSOFT.KEYVAULT\/VAULTS\/DELETE"
+        OR "MICROSOFT.KEYVAULT\/VAULTS\/DEPLOY\/ACTION" OR "MICROSOFT.KEYVAULT\/VAULTS\/ACCESSPOLICIES\/WRITE")
+index: wazuh-alerts*
+name: azure_keyvault_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

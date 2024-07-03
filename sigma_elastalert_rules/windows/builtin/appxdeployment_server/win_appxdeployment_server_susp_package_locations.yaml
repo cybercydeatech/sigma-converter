@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects an appx package added the pipeline of the "to be processed" packages
+  which is located in suspicious locations
+filter:
+- query:
+    query_string:
+      query: (event_id:"854" AND process_path.keyword:(*C\:\\Users\\Public\\* OR *\/users\/public\/*
+        OR *C\:\\PerfLogs\\* OR *C\:\/perflogs\/* OR *\\Desktop\\* OR *\/desktop\/*
+        OR *\\Downloads\\* OR *\/Downloads\/* OR *C\:\\Windows\\Temp\\* OR *C\:\/Windows\/Temp\/*
+        OR *\\AppdData\\Local\\Temp\\* OR *\/AppdData\/Local\/Temp\/*))
+index: wazuh-alerts*
+name: win_appxdeployment_server_susp_package_locations
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

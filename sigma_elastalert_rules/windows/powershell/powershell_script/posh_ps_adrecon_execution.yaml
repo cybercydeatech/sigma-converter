@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of ADRecon.ps1 for AD reconnaissance which has been
+  reported to be actively used by FIN7
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*Function\ Get\-ADRExcelComOb* OR *Get\-ADRGPO*
+        OR *Get\-ADRDomainController* OR *ADRecon\-Report.xlsx*)
+index: wazuh-alerts*
+name: posh_ps_adrecon_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

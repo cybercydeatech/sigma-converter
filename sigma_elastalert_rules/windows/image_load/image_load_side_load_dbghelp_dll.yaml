@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects DLL sideloading of "dbghelp.dll"
+filter:
+- query:
+    query_string:
+      query: ((ImageLoaded.keyword:*\\dbghelp.dll AND (NOT ((ImageLoaded.keyword:(C\:\\Program\
+        Files\ \(x86\)\\* OR C\:\\Program\ Files\\* OR C\:\\Windows\\SoftwareDistribution\\*
+        OR C\:\\Windows\\System32\\* OR C\:\\Windows\\SystemTemp\\* OR C\:\\Windows\\SysWOW64\\*
+        OR C\:\\Windows\\WinSxS\\*))))) AND (NOT 
+        ((ImageLoaded.keyword:(*\\Anaconda3\\Lib\\site\-packages\\vtrace\\platforms\\windll\\amd64\\dbghelp.dll
+        OR 
+        *\\Anaconda3\\Lib\\site\-packages\\vtrace\\platforms\\windll\\i386\\dbghelp.dll))
+        OR (ImageLoaded.keyword:(*\\Epic\ Games\\Launcher\\Engine\\Binaries\\ThirdParty\\DbgHelp\\dbghelp.dll
+        OR *\\Epic\ Games\\MagicLegends\\x86\\dbghelp.dll)))))
+index: wazuh-alerts*
+name: image_load_side_load_dbghelp_dll
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the stopping of a Windows service via the PowerShell Cmdlet "Stop-Service"
+filter:
+- query:
+    query_string:
+      query: ((file_name_original:("PowerShell.EXE" OR "pwsh.dll") OR process_path.keyword:(*\\powershell.exe
+        OR *\\pwsh.exe)) AND process_command_line.keyword:*Stop\-Service\ *)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_stop_service
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

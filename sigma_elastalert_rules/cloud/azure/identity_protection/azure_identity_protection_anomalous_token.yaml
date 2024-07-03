@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Indicates that there are abnormal characteristics in the token such as
+  an unusual token lifetime or a token that is played from an unfamiliar location.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"anomalousToken"
+index: wazuh-alerts*
+name: azure_identity_protection_anomalous_token
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects usage of system utilities to discover system network connections
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:(*\/who OR *\/w OR *\/last OR *\/lsof OR *\/netstat)
+index: wazuh-alerts*
+name: proc_creation_macos_system_network_connections_discovery
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the modification of Outlook setting "LoadMacroProviderOnBoot"
+  which if enabled allows the automatic loading of any configured VBA project/module
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Outlook\\LoadMacroProviderOnBoot AND Details.keyword:*0x00000001*)
+index: wazuh-alerts*
+name: registry_set_office_outlook_enable_load_macro_provider_on_boot
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

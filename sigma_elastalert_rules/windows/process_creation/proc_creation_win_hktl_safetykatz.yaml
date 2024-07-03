@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the execution of the hacktool SafetyKatz via PE information and
+  default Image name
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\SafetyKatz.exe OR file_name_original:"SafetyKatz.exe"
+        OR file_description:"SafetyKatz")
+index: wazuh-alerts*
+name: proc_creation_win_hktl_safetykatz
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

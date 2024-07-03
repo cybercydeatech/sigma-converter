@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects svchost hosting RDP termsvcs communicating to target systems
+  on TCP port 80 or 443
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\svchost.exe AND Initiated:"true" AND src_port:"3389"
+        AND dst_port:("80" OR "443"))
+index: wazuh-alerts*
+name: net_connection_win_rdp_to_http
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

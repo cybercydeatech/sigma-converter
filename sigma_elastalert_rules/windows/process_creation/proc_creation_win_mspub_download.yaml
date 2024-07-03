@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects usage of "MSPUB" (Microsoft Publisher) to download arbitrary
+  files
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\MSPUB.exe OR file_name_original:"MSPUB.exe")
+        AND process_command_line.keyword:(*ftp\:\/\/* OR *http\:\/\/* OR *https\:\/\/*))
+index: wazuh-alerts*
+name: proc_creation_win_mspub_download
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

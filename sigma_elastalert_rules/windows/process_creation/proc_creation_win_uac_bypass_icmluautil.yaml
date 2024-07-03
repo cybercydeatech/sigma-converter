@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the pattern of UAC Bypass using ICMLuaUtil Elevated COM interface
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:*\\dllhost.exe AND 
+        process_parent_command_line.keyword:(*\/Processid\:\{3E5FC7F9\-9A51\-4367\-9063\-A120244FBEC7\}*
+        OR *\/Processid\:\{D2E7041B\-2927\-42FB\-8E9F\-7CE93B6DC937\}*)) AND (NOT
+        (process_path.keyword:*\\WerFault.exe OR file_name_original:"WerFault.exe")))
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_icmluautil
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

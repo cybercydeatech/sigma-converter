@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect potential adversaries leveraging WMI ActiveScriptEventConsumers
+  remotely to move laterally in a network
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4624" AND logon_type:"3" AND process_path.keyword:*scrcons.exe)
+        AND (NOT (TargetLogonId:"0x3e7")))
+index: wazuh-alerts*
+name: win_security_scrcons_remote_wmi_scripteventconsumer
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

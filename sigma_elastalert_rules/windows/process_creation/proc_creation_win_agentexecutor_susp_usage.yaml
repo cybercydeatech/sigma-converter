@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects execution of the AgentExecutor.exe binary. Which can be abused
+  as a LOLBIN to execute powershell scripts with the ExecutionPolicy "Bypass" or any
+  binary named "powershell.exe" located in the path provided by 6th positional argument
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\AgentExecutor.exe OR file_name_original:"AgentExecutor.exe")
+        AND process_command_line.keyword:(*\ \-powershell* OR *\ \-remediationScript*))
+        AND (NOT 
+        ((process_command_line.keyword:(*C\:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\*
+        OR *C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\*)))))
+index: wazuh-alerts*
+name: proc_creation_win_agentexecutor_susp_usage
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects suspicious application installed by looking at the added shortcut
+  to the app resolver cache
+filter:
+- query:
+    query_string:
+      query: ((event_id:"28115" AND Name.keyword:(*Zenmap* OR *AnyDesk* OR *wireshark*
+        OR *openvpn*)) OR (event_id:"28115" AND AppID.keyword:(*zenmap.exe* OR *prokzult\
+        ad* OR *wireshark* OR *openvpn*)))
+index: wazuh-alerts*
+name: win_shell_core_susp_packages_installed
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

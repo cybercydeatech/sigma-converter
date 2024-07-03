@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect a system being shutdown or put into different boot mode
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*shutdown* OR *config\-register\ 0x2100* OR *config\-register\
+        0x2142*)
+index: wazuh-alerts*
+name: cisco_cli_dos
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the mount of an ISO image on an endpoint
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4663" AND object_server:"Security" AND object_type:"File"
+        AND object_name.keyword:\\Device\\CdRom*) AND (NOT ((object_name:("\\Device\\CdRom0\\autorun.ico"
+        OR "\\Device\\CdRom0\\setup.exe" OR "\\Device\\CdRom0\\setup64.exe")))))
+index: wazuh-alerts*
+name: win_security_iso_mount
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

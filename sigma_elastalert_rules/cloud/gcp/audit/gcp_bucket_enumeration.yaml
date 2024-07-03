@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when storage bucket is enumerated in Google Cloud.
+filter:
+- query:
+    query_string:
+      query: gcp.audit.method_name:("storage.buckets.list" OR "storage.buckets.listChannels")
+index: wazuh-alerts*
+name: gcp_bucket_enumeration
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

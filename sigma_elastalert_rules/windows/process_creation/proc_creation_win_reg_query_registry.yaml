@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the usage of "reg.exe" in order to query reconnaissance information
+  from the registry. Adversaries may interact with the Windows registry to gather
+  information about credentials, the system, configuration, and installed software.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\reg.exe OR file_name_original:"reg.exe") AND
+        process_command_line.keyword:*query* AND process_command_line.keyword:(*currentVersion\\windows*
+        OR *winlogon\\* OR *currentVersion\\shellServiceObjectDelayLoad* OR *currentVersion\\run*
+        OR *currentVersion\\policies\\explorer\\run* OR *currentcontrolset\\services*))
+index: wazuh-alerts*
+name: proc_creation_win_reg_query_registry
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

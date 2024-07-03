@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect usage of the "sqlite" binary to query databases in Firefox and
+  other Gecko-based browsers for potential data stealing.
+filter:
+- query:
+    query_string:
+      query: ((file_product:"SQLite" OR process_path.keyword:(*\\sqlite.exe OR *\\sqlite3.exe))
+        AND process_command_line.keyword:(*cookies.sqlite* OR *places.sqlite*))
+index: wazuh-alerts*
+name: proc_creation_win_sqlite_firefox_gecko_profile_data
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

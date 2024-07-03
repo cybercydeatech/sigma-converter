@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects backup catalog deletions
+filter:
+- query:
+    query_string:
+      query: (event_id:"524" AND Provider_Name:"Microsoft\-Windows\-Backup")
+index: wazuh-alerts*
+name: win_susp_backup_delete
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

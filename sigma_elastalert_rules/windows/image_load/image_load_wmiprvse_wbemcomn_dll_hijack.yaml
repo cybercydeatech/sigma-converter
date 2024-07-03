@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a threat actor creating a file named `wbemcomn.dll` in the `C:\Windows\System32\wbem\`
+  directory over the network and loading it for a WMI DLL Hijack scenario.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\wmiprvse.exe AND ImageLoaded.keyword:*\\wbem\\wbemcomn.dll)
+index: wazuh-alerts*
+name: image_load_wmiprvse_wbemcomn_dll_hijack
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

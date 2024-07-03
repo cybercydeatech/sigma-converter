@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects DLL sideloading of "dbgcore.dll"
+filter:
+- query:
+    query_string:
+      query: ((ImageLoaded.keyword:*\\dbgcore.dll AND (NOT ((ImageLoaded.keyword:(C\:\\Program\
+        Files\ \(x86\)\\* OR C\:\\Program\ Files\\* OR C\:\\Windows\\SoftwareDistribution\\*
+        OR C\:\\Windows\\System32\\* OR C\:\\Windows\\SystemTemp\\* OR C\:\\Windows\\SysWOW64\\*
+        OR C\:\\Windows\\WinSxS\\*))))) AND (NOT ((ImageLoaded.keyword:*\\Steam\\bin\\cef\\cef.win7x64\\dbgcore.dll))))
+index: wazuh-alerts*
+name: image_load_side_load_dbgcore_dll
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious Windows strings in URI which could indicate possible
+  exfiltration or webshell communication
+filter:
+- query:
+    query_string:
+      query: cs-uri-query.keyword:(*\=C\:\/Users* OR *\=C\:\/Program%20Files* OR *\=C\:\/Windows*
+        OR *\=C%3A%5CUsers* OR *\=C%3A%5CProgram%20Files* OR *\=C%3A%5CWindows*)
+index: wazuh-alerts*
+name: web_susp_windows_path_uri
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

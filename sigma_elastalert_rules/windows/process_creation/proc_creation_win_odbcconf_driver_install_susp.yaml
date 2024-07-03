@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of "odbcconf" with the "INSTALLDRIVER" action where
+  the driver doesn't contain a ".dll" extension. This is often used as a defense evasion
+  method.
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\odbcconf.exe OR file_name_original:"odbcconf.exe")
+        AND process_command_line.keyword:*INSTALLDRIVER\ *) AND (NOT ((process_command_line.keyword:*.dll*))))
+index: wazuh-alerts*
+name: proc_creation_win_odbcconf_driver_install_susp
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

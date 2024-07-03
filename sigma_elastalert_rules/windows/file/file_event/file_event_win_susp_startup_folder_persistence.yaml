@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when a file with a suspicious extension is created in the startup
+  folder
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\\Windows\\Start\ Menu\\Programs\\Startup\\* AND
+        file_name.keyword:(*.vbs OR *.vbe OR *.bat OR *.ps1 OR *.hta OR *.dll OR *.jar
+        OR *.msi OR *.scr OR *.cmd))
+index: wazuh-alerts*
+name: file_event_win_susp_startup_folder_persistence
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

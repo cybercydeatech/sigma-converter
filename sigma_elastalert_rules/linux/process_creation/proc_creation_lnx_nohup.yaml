@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of nohup which could be leveraged by an attacker to keep
+  a process running or break out from restricted environments
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\/nohup
+index: wazuh-alerts*
+name: proc_creation_lnx_nohup
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Use of hostname to get information
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\\HOSTNAME.EXE
+index: wazuh-alerts*
+name: proc_creation_win_hostname_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

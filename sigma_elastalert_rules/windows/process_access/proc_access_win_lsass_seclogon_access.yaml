@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious access to LSASS handle via a call trace to "seclogon.dll"
+  with a suspicious access right.
+filter:
+- query:
+    query_string:
+      query: (target_process_path.keyword:*\\lsass.exe AND process_path.keyword:*\\svchost.exe
+        AND process_granted_access:"0x14c0" AND process_call_trace.keyword:*seclogon.dll*)
+index: wazuh-alerts*
+name: proc_access_win_lsass_seclogon_access
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

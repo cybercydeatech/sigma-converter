@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects the creation of a user with the \"$\" character. This can be
+  used by attackers to hide a user or trick detection systems that lack the parsing
+  mechanisms.\n"
+filter:
+- query:
+    query_string:
+      query: (((event_id:"4720" AND user_attribute_samaccount_name.keyword:*$*) OR
+        (event_id:"4781" AND NewTargetUserName.keyword:*$*)) AND (NOT ((event_id:"4720"
+        AND TargetUserName:"HomeGroupUser$"))))
+index: wazuh-alerts*
+name: win_security_new_or_renamed_user_account_with_dollar_sign
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

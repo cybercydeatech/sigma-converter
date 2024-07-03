@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of wget to download content to a suspicious directory
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/wget AND (process_command_line.keyword:/\s-O\s/
+        OR process_command_line.keyword:*\-\-output\-document*) AND process_command_line.keyword:*\/tmp\/*)
+index: wazuh-alerts*
+name: proc_creation_lnx_wget_download_suspicious_directory
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

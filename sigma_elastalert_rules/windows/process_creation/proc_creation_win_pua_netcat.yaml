@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects execution of Netcat. Adversaries may use a non-application layer
+  protocol for communication between host and C2 server or among infected hosts within
+  a network
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\nc.exe OR *\\ncat.exe OR *\\netcat.exe) OR
+        process_command_line.keyword:(*\ \-lvp\ * OR *\ \-lvnp* OR *\ \-l\ \-v\ \-p\
+        * OR *\ \-lv\ \-p\ * OR *\ \-l\ \-\-proxy\-type\ http\ * OR *\ \-vnl\ \-\-exec\
+        * OR *\ \-vnl\ \-e\ * OR *\ \-\-lua\-exec\ * OR *\ \-\-sh\-exec\ *))
+index: wazuh-alerts*
+name: proc_creation_win_pua_netcat
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

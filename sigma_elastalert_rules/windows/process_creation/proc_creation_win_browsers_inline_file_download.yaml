@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects execution of a browser process with a URL argument pointing to
+  a file with a potentially interesting extension. This can be abused to download
+  arbitrary files or to hide from the user for example by launching the browser in
+  a minimized state.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\brave.exe OR *\\chrome.exe OR *\\msedge.exe
+        OR *\\opera.exe OR *\\vivaldi.exe) AND process_command_line.keyword:*http*
+        AND process_command_line.keyword:(*.7z OR *.dat OR *.dll OR *.exe OR *.hta
+        OR *.ps1 OR *.psm1 OR *.txt OR *.vbe OR *.vbs OR *.zip))
+index: wazuh-alerts*
+name: proc_creation_win_browsers_inline_file_download
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,43 @@
+alert:
+- debug
+description: |
+  Detects the creation of an executable with a system process name in folders other than the system ones (System32, SysWOW64, etc.).
+  It is highly recommended to perform an initial baseline before using this rule in production.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\\AtBroker.exe OR *\\audiodg.exe OR *\\backgroundTaskHost.exe
+        OR *\\bcdedit.exe OR *\\bitsadmin.exe OR *\\cmdl32.exe OR *\\cmstp.exe OR
+        *\\conhost.exe OR *\\csrss.exe OR *\\dasHost.exe OR *\\dfrgui.exe OR *\\dllhost.exe
+        OR *\\dwm.exe OR *\\eventcreate.exe OR *\\eventvwr.exe OR *\\explorer.exe
+        OR *\\extrac32.exe OR *\\fontdrvhost.exe OR *\\ipconfig.exe OR *\\iscsicli.exe
+        OR *\\iscsicpl.exe OR *\\logman.exe OR *\\LogonUI.exe OR *\\LsaIso.exe OR
+        *\\lsass.exe OR *\\lsm.exe OR *\\msiexec.exe OR *\\msinfo32.exe OR *\\mstsc.exe
+        OR *\\nbtstat.exe OR *\\odbcconf.exe OR *\\powershell.exe OR *\\pwsh.exe OR
+        *\\regini.exe OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\RuntimeBroker.exe
+        OR *\\schtasks.exe OR *\\SearchFilterHost.exe OR *\\SearchIndexer.exe OR *\\SearchProtocolHost.exe
+        OR *\\SecurityHealthService.exe OR *\\SecurityHealthSystray.exe OR *\\services.exe
+        OR *\\ShellAppRuntime.exe OR *\\sihost.exe OR *\\smartscreen.exe OR *\\smss.exe
+        OR *\\spoolsv.exe OR *\\svchost.exe OR *\\SystemSettingsBroker.exe OR *\\taskhost.exe
+        OR *\\taskhostw.exe OR *\\Taskmgr.exe OR *\\TiWorker.exe OR *\\vssadmin.exe
+        OR *\\w32tm.exe OR *\\WerFault.exe OR *\\WerFaultSecure.exe OR *\\wermgr.exe
+        OR *\\wevtutil.exe OR *\\wininit.exe OR *\\winlogon.exe OR *\\winrshost.exe
+        OR *\\WinRTNetMUAHostServer.exe OR *\\wlanext.exe OR *\\wlrmdr.exe OR *\\WmiPrvSE.exe
+        OR *\\wslhost.exe OR *\\WSReset.exe OR *\\WUDFHost.exe OR *\\WWAHost.exe)
+        AND (NOT ((file_name.keyword:(*C\:\\$WINDOWS.\~BT\\* OR *C\:\\$WinREAgent\\*
+        OR *C\:\\Windows\\SoftwareDistribution\\* OR *C\:\\Windows\\System32\\* OR
+        *C\:\\Windows\\SysWOW64\\* OR *C\:\\Windows\\WinSxS\\* OR *C\:\\Windows\\uus\\*))
+        OR (process_path.keyword:*C\:\\Windows\\system32\\svchost.exe AND file_name.keyword:*C\:\\Program\
+        Files\\WindowsApps\\*) OR (process_path.keyword:*C\:\\Windows\\System32\\wuauclt.exe)
+        OR (file_name.keyword:*C\:\\Windows\\explorer.exe) OR (process_path.keyword:*C\:\\WINDOWS\\system32\\msiexec.exe
+        AND file_name.keyword:(*C\:\\Program\ Files\\PowerShell\\7\\pwsh.exe OR *C\:\\Program\
+        Files\\PowerShell\\7\-preview\\pwsh.exe)) OR (file_name.keyword:*C\:\\Windows\\System32\\SecurityHealth\\*
+        AND file_name.keyword:*\\SecurityHealthSystray.exe AND process_path.keyword:*\\SecurityHealthSetup.exe))))
+index: wazuh-alerts*
+name: file_event_win_creation_system_file
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

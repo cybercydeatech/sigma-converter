@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Identifies when a Firewall Rule Configuration is Modified or Deleted.
+filter:
+- query:
+    query_string:
+      query: 
+        operationName:("MICROSOFT.NETWORK\/FIREWALLPOLICIES\/RULECOLLECTIONGROUPS\/WRITE"
+        OR "MICROSOFT.NETWORK\/FIREWALLPOLICIES\/RULECOLLECTIONGROUPS\/DELETE" OR
+        "MICROSOFT.NETWORK\/FIREWALLPOLICIES\/RULEGROUPS\/WRITE" OR "MICROSOFT.NETWORK\/FIREWALLPOLICIES\/RULEGROUPS\/DELETE")
+index: wazuh-alerts*
+name: azure_network_firewall_rule_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

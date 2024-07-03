@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects when a memory process image does not match the disk image, indicative
+  of process hollowing.
+filter:
+- query:
+    query_string:
+      query: ((Type:"Image\ is\ replaced" AND (NOT ((process_path.keyword:(*\:\\Program\
+        Files\ \(x86\)* OR *\:\\Program\ Files\\* OR *\:\\Windows\\System32\\wbem\\WMIADAP.exe*
+        OR *\:\\Windows\\SysWOW64\\wbem\\WMIADAP.exe*))))) AND (NOT ((process_path.keyword:*\\AppData\\Local\\Programs\\Opera\\*
+        AND process_path.keyword:*\\opera.exe) OR (process_path.keyword:*\\WindowsApps\\MicrosoftEdge.exe))))
+index: wazuh-alerts*
+name: proc_tampering_susp_process_hollowing
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

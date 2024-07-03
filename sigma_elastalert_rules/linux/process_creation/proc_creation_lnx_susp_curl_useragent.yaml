@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a suspicious curl process start on linux with set useragent options
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/curl AND process_command_line.keyword:(*\ \-A\
+        * OR *\ \-\-user\-agent\ *))
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_curl_useragent
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

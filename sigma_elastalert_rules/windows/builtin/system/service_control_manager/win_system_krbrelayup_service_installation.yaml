@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects service creation from KrbRelayUp tool used for privilege escalation
+  in Windows domain environments where LDAP signing is not enforced (the default settings)
+filter:
+- query:
+    query_string:
+      query: (event_id:"7045" AND service_name:"KrbSCM")
+index: wazuh-alerts*
+name: win_system_krbrelayup_service_installation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

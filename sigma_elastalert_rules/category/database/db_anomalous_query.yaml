@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious SQL query keywrods that are often used during recon,
+  exfiltration or destructive activities. Such as dropping tables and selecting wildcard
+  fields
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*drop* OR *truncate* OR *dump* OR *select\ \*)
+index: wazuh-alerts*
+name: db_anomalous_query
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

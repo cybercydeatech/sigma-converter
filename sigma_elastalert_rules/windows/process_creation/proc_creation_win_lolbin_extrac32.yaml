@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Download or Copy file with Extrac32
+filter:
+- query:
+    query_string:
+      query: ((process_command_line.keyword:*extrac32.exe* OR process_path.keyword:*\\extrac32.exe
+        OR file_name_original:"extrac32.exe") AND process_command_line.keyword:*.cab*
+        AND process_command_line.keyword:(*\/C* OR *\/Y* OR *\ \\\\\*))
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_extrac32
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

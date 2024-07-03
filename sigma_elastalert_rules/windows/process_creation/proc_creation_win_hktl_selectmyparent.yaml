@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects the use of parent process ID spoofing tools like Didier Stevens
+  tool SelectMyParent
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\SelectMyParent.exe OR process_command_line.keyword:(*PPID\-spoof*
+        OR *ppid_spoof* OR *spoof\-ppid* OR *spoof_ppid* OR *ppidspoof* OR *spoofppid*
+        OR *spoofedppid* OR *\ \-spawnto\ *) OR file_name_original.keyword:(*PPID\-spoof*
+        OR *ppid_spoof* OR *spoof\-ppid* OR *spoof_ppid* OR *ppidspoof* OR *spoofppid*
+        OR *spoofedppid*) OR file_description:"SelectMyParent" OR hash_imphash:("04d974875bd225f00902b4cad9af3fbc"
+        OR "a782af154c9e743ddf3f3eb2b8f3d16e" OR "89059503d7fbf470e68f7e63313da3ad"
+        OR "ca28337632625c8281ab8a130b3d6bad") OR Hashes.keyword:(*IMPHASH\=04D974875BD225F00902B4CAD9AF3FBC*
+        OR *IMPHASH\=A782AF154C9E743DDF3F3EB2B8F3D16E* OR *IMPHASH\=89059503D7FBF470E68F7E63313DA3AD*
+        OR *IMPHASH\=CA28337632625C8281AB8A130B3D6BAD*))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_selectmyparent
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

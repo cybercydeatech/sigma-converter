@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when a Security Compliance Center reported a user who exceeded
+  sending limits of the service policies and because of this has been restricted from
+  sending email.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"SecurityComplianceCenter" AND eventName:"User\ restricted\
+        from\ sending\ email" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_user_restricted_from_sending_email
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a EFS Fileshare Mount is modified or deleted. An adversary
+  breaking any file system using the mount target that is being deleted, which might
+  disrupt instances or applications using those mounts.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"elasticfilesystem.amazonaws.com" AND eventName:"DeleteMountTarget")
+index: wazuh-alerts*
+name: aws_efs_fileshare_mount_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

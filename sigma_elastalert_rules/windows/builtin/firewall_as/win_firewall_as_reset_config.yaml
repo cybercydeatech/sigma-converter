@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects activity when Windows Defender Firewall has been reset to its
+  default configuration
+filter:
+- query:
+    query_string:
+      query: event_id:("2032" OR "2060")
+index: wazuh-alerts*
+name: win_firewall_as_reset_config
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

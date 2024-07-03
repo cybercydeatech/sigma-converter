@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects execution of the IEExec utility to download and execute files
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\IEExec.exe OR file_name_original:"IEExec.exe")
+        AND process_command_line.keyword:(*http\:\/\/* OR *https\:\/\/*))
+index: wazuh-alerts*
+name: proc_creation_win_ieexec_download
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

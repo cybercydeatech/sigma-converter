@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects shellshock expressions in log files
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*\(\)\{\:;\};* OR *\(\)\ \{\:;\};* OR *\(\)\ \{\ \:;\};*
+        OR *\(\)\ \{\ \:;\ \};*)
+index: wazuh-alerts*
+name: lnx_shellshock
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

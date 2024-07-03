@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects SyncAppvPublishingServer process execution which usually utilized
+  by adversaries to bypass PowerShell execution restrictions.
+filter:
+- query:
+    query_string:
+      query: ContextInfo.keyword:*SyncAppvPublishingServer.exe*
+index: wazuh-alerts*
+name: posh_pm_syncappvpublishingserver_exe
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

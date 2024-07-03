@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the execution of WMIC with the "csproduct" which is used to obtain
+  information such as hardware models and vendor information
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\wmic.exe OR file_name_original:"wmic.exe")
+        AND process_command_line.keyword:*csproduct*)
+index: wazuh-alerts*
+name: proc_creation_win_wmic_recon_csproduct
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

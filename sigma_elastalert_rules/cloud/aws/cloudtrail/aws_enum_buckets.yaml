@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Looks for potential enumeration of AWS buckets via ListBuckets.
+filter:
+- query:
+    query_string:
+      query: ((eventSource:"s3.amazonaws.com" AND eventName:"ListBuckets") AND (NOT
+        (type:"AssumedRole")))
+index: wazuh-alerts*
+name: aws_enum_buckets
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

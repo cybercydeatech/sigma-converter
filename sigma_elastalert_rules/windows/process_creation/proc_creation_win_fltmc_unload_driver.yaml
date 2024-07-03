@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detect filter driver unloading activity via fltmc.exe
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\fltMC.exe OR file_name_original:"fltMC.exe")
+        AND process_command_line.keyword:*unload*) AND (NOT ((process_parent_path.keyword:C\:\\Users\\*
+        AND process_parent_path.keyword:*\\AppData\\Local\\Temp\\* AND process_parent_path.keyword:*\\endpoint\-protection\-installer\-x64.tmp
+        AND process_command_line.keyword:*unload\ rtp_filesystem_filter) OR (process_parent_path:"C\:\\Program\
+        Files\ \(x86\)\\ManageEngine\\uems_agent\\bin\\dcfaservice64.exe" AND process_command_line.keyword:*unload\
+        DFMFilter))))
+index: wazuh-alerts*
+name: proc_creation_win_fltmc_unload_driver
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

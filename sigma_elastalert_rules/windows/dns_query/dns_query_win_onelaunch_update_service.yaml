@@ -1,0 +1,17 @@
+alert:
+- debug
+description: |
+  Detects DNS query requests to "update.onelaunch.com". This domain is associated with the OneLaunch adware application.
+  When the OneLaunch application is installed it will attempt to get updates from this domain.
+filter:
+- query:
+    query_string:
+      query: (QueryName:"update.onelaunch.com" AND process_path.keyword:*\\OneLaunch.exe)
+index: wazuh-alerts*
+name: dns_query_win_onelaunch_update_service
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

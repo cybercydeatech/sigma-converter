@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the remote installation of a print driver which is possible indication of the exploitation of PrintNightmare (CVE-2021-1675).
+  The occurrence of print drivers being installed remotely via RPC functions should be rare, as print drivers are normally installed locally and or through group policy.
+filter:
+- query:
+    query_string:
+      query: operation:("RpcAsyncInstallPrinterDriverFromPackage" OR "RpcAsyncAddPrintProcessor"
+        OR "RpcAddPrintProcessor" OR "RpcAddPrinterDriverEx" OR "RpcAddPrinterDriver"
+        OR "RpcAsyncAddPrinterDriver")
+index: wazuh-alerts*
+name: zeek_dce_rpc_printnightmare_print_driver_install
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

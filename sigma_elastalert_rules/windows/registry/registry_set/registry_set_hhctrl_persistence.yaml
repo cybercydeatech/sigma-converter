@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when an attacker modifies the registry value of the "hhctrl"
+  to point to a custom binary
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\CLSID\\\{52A2AAAE\-085D\-4187\-97EA\-8C30DB990436\}\\InprocServer32\\\(Default\)*
+        AND (NOT (Details:"C\:\\Windows\\System32\\hhctrl.ocx")))
+index: wazuh-alerts*
+name: registry_set_hhctrl_persistence
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

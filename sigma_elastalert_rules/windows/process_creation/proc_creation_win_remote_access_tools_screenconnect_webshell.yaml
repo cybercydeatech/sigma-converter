@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects potential web shell execution from the ScreenConnect server process.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\ScreenConnect.Service.exe AND process_path.keyword:(*\\cmd.exe
+        OR *\\csc.exe))
+index: wazuh-alerts*
+name: proc_creation_win_remote_access_tools_screenconnect_webshell
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

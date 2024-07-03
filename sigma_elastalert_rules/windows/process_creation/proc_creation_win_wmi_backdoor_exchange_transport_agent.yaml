@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a WMI backdoor in Exchange Transport Agents via WMI event filters
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\EdgeTransport.exe AND (NOT ((process_path:"C\:\\Windows\\System32\\conhost.exe")
+        OR (process_path.keyword:C\:\\Program\ Files\\Microsoft\\Exchange\ Server\\*
+        AND process_path.keyword:*\\Bin\\OleConverter.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_wmi_backdoor_exchange_transport_agent
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

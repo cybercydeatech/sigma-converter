@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects PowerShell scripts leveraging the "Invoke-WebRequest" cmdlet
+  to send data via either "PUT" or "POST" method.
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:(*Invoke\-WebRequest* OR *iwr\ *) AND ScriptBlockText.keyword:(*\-Method\
+        Put* OR *\-Method\ Post*))
+index: wazuh-alerts*
+name: posh_ps_script_with_upload_capabilities
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

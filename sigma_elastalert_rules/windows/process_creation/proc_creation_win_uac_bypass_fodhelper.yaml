@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies use of Fodhelper.exe to bypass User Account Control. Adversaries
+  use this technique to execute privileged processes.
+filter:
+- query:
+    query_string:
+      query: process_parent_path.keyword:*\\fodhelper.exe
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_fodhelper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

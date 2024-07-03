@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  This detection uses azureactivity logs (Administrative category) to identify the deletion of an Azure AD Hybrid health AD FS service instance in a tenant.
+  A threat actor can create a new AD Health ADFS service and create a fake server to spoof AD FS signing logs.
+  The health AD FS service can then be deleted after it is not longer needed via HTTP requests to Azure.
+filter:
+- query:
+    query_string:
+      query: (CategoryValue:"Administrative" AND ResourceProviderValue:"Microsoft.ADHybridHealthService"
+        AND ResourceId.keyword:*AdFederationService* AND OperationNameValue:"Microsoft.ADHybridHealthService\/services\/delete")
+index: wazuh-alerts*
+name: azure_aadhybridhealth_adfs_service_delete
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

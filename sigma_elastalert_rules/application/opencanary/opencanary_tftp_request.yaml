@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects instances where a TFTP service on an OpenCanary node has had
+  a request.
+filter:
+- query:
+    query_string:
+      query: logtype:"10001"
+index: wazuh-alerts*
+name: opencanary_tftp_request
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of attrib.exe to hide files from users.
+filter:
+- query:
+    query_string:
+      query: ((((process_path.keyword:*\\attrib.exe OR file_name_original:"ATTRIB.EXE")
+        AND process_command_line.keyword:*\ \+h\ *) AND (NOT ((process_command_line.keyword:*\\desktop.ini\
+        *)))) AND (NOT ((process_parent_path.keyword:*\\cmd.exe AND process_command_line.keyword:\+R\
+        \+H\ \+S\ \+A\ \\\*.cui AND process_parent_command_line.keyword:C\:\\WINDOWS\\system32\\\*.bat))))
+index: wazuh-alerts*
+name: proc_creation_win_attrib_hiding_files
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

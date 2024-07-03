@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of the filename DumpStack.log to evade Microsoft Defender
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\DumpStack.log OR process_command_line.keyword:*\
+        \-o\ DumpStack.log*)
+index: wazuh-alerts*
+name: proc_creation_win_susp_dumpstack_log_evasion
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

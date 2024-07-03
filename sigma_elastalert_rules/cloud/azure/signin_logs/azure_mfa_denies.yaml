@@ -1,0 +1,17 @@
+alert:
+- debug
+description: User has indicated they haven't instigated the MFA prompt and could indicate
+  an attacker has the password for the account.
+filter:
+- query:
+    query_string:
+      query: (AuthenticationRequirement:"multiFactorAuthentication" AND event_status.keyword:*MFA\
+        Denied*)
+index: wazuh-alerts*
+name: azure_mfa_denies
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

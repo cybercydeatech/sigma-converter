@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a suspicious child process spawning from Outlook where the image
+  is located in a remote location (SMB/WebDav shares).
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\outlook.exe AND process_path.keyword:\\\\\*)
+index: wazuh-alerts*
+name: proc_creation_win_office_outlook_susp_child_processes_remote
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

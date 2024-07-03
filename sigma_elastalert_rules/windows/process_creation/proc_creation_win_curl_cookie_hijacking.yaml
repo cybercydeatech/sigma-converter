@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of "curl.exe" with the "-c" flag in order to save cookie
+  data.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\curl.exe OR file_name_original:"curl.exe")
+        AND (process_command_line.keyword:/\s-c\s/ OR process_command_line.keyword:*\-\-cookie\-jar*))
+index: wazuh-alerts*
+name: proc_creation_win_curl_cookie_hijacking
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

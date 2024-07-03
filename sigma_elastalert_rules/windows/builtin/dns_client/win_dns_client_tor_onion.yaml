@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects DNS resolution of an .onion address related to Tor routing networks
+filter:
+- query:
+    query_string:
+      query: (event_id:"3008" AND QueryName.keyword:*.onion*)
+index: wazuh-alerts*
+name: win_dns_client_tor_onion
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

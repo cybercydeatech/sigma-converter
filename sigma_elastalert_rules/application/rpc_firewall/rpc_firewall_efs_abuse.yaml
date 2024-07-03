@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects remote RPC calls to possibly abuse remote encryption service
+  via MS-EFSR
+filter:
+- query:
+    query_string:
+      query: (EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:("df1941c5\-fe89\-4e79\-bf10\-463657acf44d"
+        OR "c681d488\-d850\-11d0\-8c52\-00c04fd90f7e"))
+index: wazuh-alerts*
+name: rpc_firewall_efs_abuse
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

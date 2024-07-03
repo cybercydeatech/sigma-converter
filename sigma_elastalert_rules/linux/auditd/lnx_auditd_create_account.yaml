@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of a new user account. Such accounts may be used
+  for persistence that do not require persistent remote access tools to be deployed
+  on the system.
+filter:
+- query:
+    query_string:
+      query: ((type:"SYSCALL" AND exe.keyword:*\/useradd) OR type:"ADD_USER")
+index: wazuh-alerts*
+name: lnx_auditd_create_account
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

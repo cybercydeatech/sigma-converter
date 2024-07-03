@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects suspicious command line flags that let the user set a target
+  user and command as e.g. seen in PsExec-like tools
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*\ \-u\ system\ * OR *\ \-\-user\ system\
+        * OR *\ \-u\ NT* OR *\ \-u\ \"NT* OR *\ \-u\ 'NT* OR *\ \-\-system\ * OR *\
+        \-u\ administrator\ *) AND process_command_line.keyword:(*\ \-c\ cmd* OR *\
+        \-c\ \"cmd* OR *\ \-c\ powershell* OR *\ \-c\ \"powershell* OR *\ \-\-command\
+        cmd* OR *\ \-\-command\ powershell* OR *\ \-c\ whoami* OR *\ \-c\ wscript*
+        OR *\ \-c\ cscript*))
+index: wazuh-alerts*
+name: proc_creation_win_susp_privilege_escalation_cli_patterns
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

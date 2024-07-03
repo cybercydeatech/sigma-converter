@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects scheduled task creations that have suspicious action command
+  and folder combinations
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\schtasks.exe OR file_name_original:"schtasks.exe")
+        AND process_command_line.keyword:*\ \/create\ * AND process_command_line.keyword:(*powershell*
+        OR *pwsh* OR *cmd\ \/c\ * OR *cmd\ \/k\ * OR *cmd\ \/r\ * OR *cmd.exe\ \/c\
+        * OR *cmd.exe\ \/k\ * OR *cmd.exe\ \/r\ *) AND process_command_line.keyword:(*C\:\\ProgramData\\*
+        OR *%ProgramData%*))
+index: wazuh-alerts*
+name: proc_creation_win_schtasks_folder_combos
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects Executables in the Downloads folder without FileVersion,Description,Product,Company
+  likely created with py2exe
+filter:
+- query:
+    query_string:
+      query: ((((file_description:"\?" AND file_version:"\?") OR (file_description:"\?"
+        AND file_product:"\?")) OR (file_description:"\?" AND file_company:"\?"))
+        AND process_path.keyword:*\\Downloads\\*)
+index: wazuh-alerts*
+name: proc_creation_win_susp_file_characteristics
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

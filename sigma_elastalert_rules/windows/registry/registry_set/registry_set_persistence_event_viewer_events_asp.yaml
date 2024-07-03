@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects potential registry persistence technique using the Event Viewer
+  "Events.asp" technique
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*\\Microsoft\\Windows\ NT\\CurrentVersion\\Event\
+        Viewer\\MicrosoftRedirectionProgram* OR *\\Microsoft\\Windows\ NT\\CurrentVersion\\Event\
+        Viewer\\MicrosoftRedirectionURL*) AND (NOT ((process_path.keyword:*C\:\\WINDOWS\\system32\\svchost.exe
+        AND registry_key_path.keyword:*\\Microsoft\\Windows\ NT\\CurrentVersion\\Event\
+        Viewer\\MicrosoftRedirectionProgram AND Details:"%%SystemRoot%%\\PCHealth\\HelpCtr\\Binaries\\HelpCtr.exe")
+        OR (process_path.keyword:*C\:\\WINDOWS\\system32\\svchost.exe AND registry_key_path.keyword:*\\Microsoft\\Windows\
+        NT\\CurrentVersion\\Event\ Viewer\\MicrosoftRedirectionProgramCommandLineParameters
+        AND Details.keyword:\-url\ hcp\:\/\/services\/centers\/support?topic\=%%s)
+        OR (Details:"http\:\/\/go.microsoft.com\/fwlink\/events.asp") OR (Details:"\(Empty\)"))))
+index: wazuh-alerts*
+name: registry_set_persistence_event_viewer_events_asp
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

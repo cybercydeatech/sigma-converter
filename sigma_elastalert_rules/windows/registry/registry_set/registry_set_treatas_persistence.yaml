@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detect modification of TreatAs key to enable "rundll32.exe -sta" command
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*TreatAs\\\(Default\) AND (NOT ((process_path.keyword:C\:\\Program\
+        Files\\Common\ Files\\Microsoft\ Shared\\ClickToRun\\* AND process_path.keyword:*\\OfficeClickToRun.exe)
+        OR (process_path:"C\:\\Program\ Files\ \(x86\)\\Microsoft\ Office\\root\\integration\\integrator.exe")
+        OR (process_path:"C\:\\Windows\\system32\\svchost.exe") OR (process_path:("C\:\\Windows\\system32\\msiexec.exe"
+        OR "C\:\\Windows\\SysWOW64\\msiexec.exe")))))
+index: wazuh-alerts*
+name: registry_set_treatas_persistence
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

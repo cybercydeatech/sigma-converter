@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detect use of the Windows 8.3 short name. Which could be used as a method
+  to avoid command-line detection
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*\~1\\* OR *\~2\\*) AND (NOT (process_parent_path:("C\:\\Windows\\System32\\Dism.exe"
+        OR "C\:\\Windows\\System32\\cleanmgr.exe" OR "C\:\\Program\ Files\\GPSoftware\\Directory\
+        Opus\\dopus.exe") OR process_parent_path.keyword:(*\\WebEx\\WebexHost.exe
+        OR *\\thor\\thor64.exe OR *\\veam.backup.shell.exe OR *\\winget.exe OR *\\Everything\\Everything.exe)
+        OR process_parent_path.keyword:*\\AppData\\Local\\Temp\\WinGet\\* OR 
+        process_command_line.keyword:(*\\appdata\\local\\webex\\webex64\\meetings\\wbxreport.exe*
+        OR *C\:\\Program\ Files\\Git\\post\-install.bat* OR *C\:\\Program\ Files\\Git\\cmd\\scalar.exe*))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_ntfs_short_name_path_use_cli
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

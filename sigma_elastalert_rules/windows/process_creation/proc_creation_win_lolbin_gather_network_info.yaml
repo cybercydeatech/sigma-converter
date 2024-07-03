@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of the built-in script located in "C:\Windows\System32\gatherNetworkInfo.vbs".
+  Which can be used to gather information about the target machine
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\cscript.exe OR *\\wscript.exe) OR file_name_original:("cscript.exe"
+        OR "wscript.exe")) AND process_command_line.keyword:*gatherNetworkInfo.vbs*)
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_gather_network_info
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

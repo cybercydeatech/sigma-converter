@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the execution of CSharp interactive console by PowerShell
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\csi.exe AND process_parent_path.keyword:(*\\powershell.exe
+        OR *\\pwsh.exe OR *\\powershell_ise.exe) AND file_name_original:"csi.exe")
+index: wazuh-alerts*
+name: proc_creation_win_csi_use_of_csharp_console
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

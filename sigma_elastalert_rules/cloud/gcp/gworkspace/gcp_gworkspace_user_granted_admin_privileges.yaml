@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an Google Workspace user is granted admin privileges.
+filter:
+- query:
+    query_string:
+      query: (eventService:"admin.googleapis.com" AND eventName:("GRANT_DELEGATED_ADMIN_PRIVILEGES"
+        OR "GRANT_ADMIN_PRIVILEGE"))
+index: wazuh-alerts*
+name: gcp_gworkspace_user_granted_admin_privileges
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

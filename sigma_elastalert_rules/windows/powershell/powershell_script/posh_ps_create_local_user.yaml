@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects creation of a local user via PowerShell
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:*New\-LocalUser*
+index: wazuh-alerts*
+name: posh_ps_create_local_user
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

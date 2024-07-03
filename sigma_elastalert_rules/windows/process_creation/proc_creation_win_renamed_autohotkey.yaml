@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects execution of a renamed autohotkey.exe binary based on PE metadata
+  fields
+filter:
+- query:
+    query_string:
+      query: ((file_product.keyword:*AutoHotkey* OR file_description.keyword:*AutoHotkey*
+        OR file_name_original:("AutoHotkey.exe" OR "AutoHotkey.rc")) AND (NOT (process_path.keyword:(*\\AutoHotkey.exe
+        OR *\\AutoHotkey32.exe OR *\\AutoHotkey32_UIA.exe OR *\\AutoHotkey64.exe OR
+        *\\AutoHotkey64_UIA.exe OR *\\AutoHotkeyA32.exe OR *\\AutoHotkeyA32_UIA.exe
+        OR *\\AutoHotkeyU32.exe OR *\\AutoHotkeyU32_UIA.exe OR *\\AutoHotkeyU64.exe
+        OR *\\AutoHotkeyU64_UIA.exe) OR process_path.keyword:*\\AutoHotkey*)))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_autohotkey
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

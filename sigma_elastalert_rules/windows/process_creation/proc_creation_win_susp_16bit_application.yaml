@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Ntvdm.exe allows the execution of 16-bit Windows applications on 32-bit
+  Windows operating systems, as well as the execution of both 16-bit and 32-bit DOS
+  applications
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:(*\\ntvdm.exe OR *\\csrstub.exe)
+index: wazuh-alerts*
+name: proc_creation_win_susp_16bit_application
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

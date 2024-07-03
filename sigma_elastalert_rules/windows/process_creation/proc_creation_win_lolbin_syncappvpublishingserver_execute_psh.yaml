@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Executes arbitrary PowerShell code using SyncAppvPublishingServer.exe.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\SyncAppvPublishingServer.exe OR file_name_original:"syncappvpublishingserver.exe")
+        AND process_command_line.keyword:*\"n;\ *)
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_syncappvpublishingserver_execute_psh
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

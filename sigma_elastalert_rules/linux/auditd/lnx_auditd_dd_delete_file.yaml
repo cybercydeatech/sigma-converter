@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects overwriting (effectively wiping/deleting) of a file.
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0.keyword:*dd* AND a1.keyword:(*if\=\/dev\/null*
+        OR *if\=\/dev\/zero*))
+index: wazuh-alerts*
+name: lnx_auditd_dd_delete_file
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

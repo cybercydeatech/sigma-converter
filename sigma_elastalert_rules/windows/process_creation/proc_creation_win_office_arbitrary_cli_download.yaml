@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential arbitrary file download using a Microsoft Office application
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\EXCEL.EXE OR *\\POWERPNT.EXE OR *\\WINWORD.exe)
+        OR file_name_original:("Excel.exe" OR "POWERPNT.EXE" OR "WinWord.exe")) AND
+        process_command_line.keyword:(*http\:\/\/* OR *https\:\/\/*))
+index: wazuh-alerts*
+name: proc_creation_win_office_arbitrary_cli_download
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

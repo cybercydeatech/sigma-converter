@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Well-known TAP software installation. Possible preparation for data exfiltration
+  using tunnelling techniques
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Service\ Control\ Manager" AND event_id:"7045" AND ImagePath.keyword:*tap0901*)
+index: wazuh-alerts*
+name: win_system_service_install_tap_driver
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

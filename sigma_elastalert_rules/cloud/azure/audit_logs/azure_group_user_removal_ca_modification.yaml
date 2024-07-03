@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Monitor and alert on group membership removal of groups that have CA
+  policy modification access
+filter:
+- query:
+    query_string:
+      query: properties.message:"Remove\ member\ from\ group"
+index: wazuh-alerts*
+name: azure_group_user_removal_ca_modification
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

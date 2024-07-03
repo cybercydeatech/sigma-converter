@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects changes in Sysmon driver altitude value.
+  If the Sysmon driver is configured to load at an altitude of another registered service, it will fail to load at boot.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Services\\* AND registry_key_path.keyword:*\\Instances\\Sysmon\
+        Instance\\Altitude)
+index: wazuh-alerts*
+name: registry_set_change_sysmon_driver_altitude
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

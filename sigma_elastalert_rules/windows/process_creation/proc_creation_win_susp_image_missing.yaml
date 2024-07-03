@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Checks whether the image specified in a process creation event is not
+  a full, absolute path (caused by process ghosting or other unorthodox methods to
+  start a process)
+filter:
+- query:
+    query_string:
+      query: ((NOT (process_path.keyword:*\\*)) AND (NOT ((NOT _exists_:process_path)
+        OR (process_path:("\-" OR "")) OR (process_path:("System" OR "Registry" OR
+        "MemCompression" OR "vmmem") OR process_command_line:("Registry" OR "MemCompression"
+        OR "vmmem")))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_image_missing
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

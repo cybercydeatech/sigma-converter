@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the modification of the registry to disable a system restore
+  on the computer
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*\\Policies\\Microsoft\\Windows\ NT\\SystemRestore*
+        OR *\\Microsoft\\Windows\ NT\\CurrentVersion\\SystemRestore*) AND registry_key_path.keyword:(*DisableConfig
+        OR *DisableSR) AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_disable_system_restore
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

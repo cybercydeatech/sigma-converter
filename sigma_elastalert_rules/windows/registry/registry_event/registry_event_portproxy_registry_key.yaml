@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the modification of the PortProxy registry key which is used
+  for port forwarding.
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*\\Services\\PortProxy\\v4tov4\\tcp\\*
+index: wazuh-alerts*
+name: registry_event_portproxy_registry_key
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

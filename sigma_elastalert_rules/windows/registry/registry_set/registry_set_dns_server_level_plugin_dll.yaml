@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the installation of a DNS plugin DLL via ServerLevelPluginDll
+  parameter in registry, which can be used to execute code in context of the DNS server
+  (restart required)
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*\\services\\DNS\\Parameters\\ServerLevelPluginDll
+index: wazuh-alerts*
+name: registry_set_dns_server_level_plugin_dll
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Monitor and alert on conditional access changes.
+filter:
+- query:
+    query_string:
+      query: properties.message:"Add\ conditional\ access\ policy"
+index: wazuh-alerts*
+name: azure_aad_secops_new_ca_policy_addedby_bad_actor
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

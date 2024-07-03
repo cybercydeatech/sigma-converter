@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects an access to authentication tokens and accounts of Microsoft
+  Teams desktop application.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\\Microsoft\\Teams\\Cookies* OR *\\Microsoft\\Teams\\Local\
+        Storage\\leveldb*) AND (NOT (process_path.keyword:*\\Microsoft\\Teams\\current\\Teams.exe*)))
+index: wazuh-alerts*
+name: file_event_win_access_susp_teams
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

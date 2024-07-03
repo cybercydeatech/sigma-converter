@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when an organization doesn't have the proper license for PIM
+  and is out of compliance.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"invalidLicenseAlertIncident"
+index: wazuh-alerts*
+name: azure_pim_invalid_license
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

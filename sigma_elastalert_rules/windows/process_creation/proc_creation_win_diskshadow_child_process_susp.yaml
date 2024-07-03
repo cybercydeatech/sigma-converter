@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potentially suspicious child processes of "Diskshadow.exe". This
+  could be an attempt to bypass parent/child relationship detection or application
+  whitelisting rules.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\diskshadow.exe AND process_path.keyword:(*\\certutil.exe
+        OR *\\cscript.exe OR *\\mshta.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\regsvr32.exe
+        OR *\\rundll32.exe OR *\\wscript.exe))
+index: wazuh-alerts*
+name: proc_creation_win_diskshadow_child_process_susp
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

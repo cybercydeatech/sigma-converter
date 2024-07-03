@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious file type dropped by an Exchange component in IIS
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\w3wp.exe AND process_command_line.keyword:*MSExchange*
+        AND file_name.keyword:(*.aspx OR *.asp OR *.ashx OR *.ps1 OR *.bat OR *.exe
+        OR *.dll OR *.vbs))
+index: wazuh-alerts*
+name: file_event_win_exchange_webshell_drop_suspicious
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

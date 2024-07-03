@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects suspicious changes to the Windows Defender configuration
+filter:
+- query:
+    query_string:
+      query: (event_id:"5007" AND NewValue.keyword:(*\\Windows\ Defender\\DisableAntiSpyware\
+        * OR *\\Windows\ Defender\\Scan\\DisableRemovableDriveScanning\ * OR *\\Windows\
+        Defender\\Scan\\DisableScanningMappedNetworkDrivesForFullScan\ * OR *\\Windows\
+        Defender\\SpyNet\\DisableBlockAtFirstSeen\ * OR *\\Real\-Time\ Protection\\SpyNetReporting\
+        *))
+index: wazuh-alerts*
+name: win_defender_suspicious_features_tampering
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

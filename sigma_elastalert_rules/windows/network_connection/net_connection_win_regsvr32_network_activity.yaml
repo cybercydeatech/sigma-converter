@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects a network connection initiated by "Regsvr32.exe"
+filter:
+- query:
+    query_string:
+      query: (Initiated:"true" AND process_path.keyword:*\\regsvr32.exe)
+index: wazuh-alerts*
+name: net_connection_win_regsvr32_network_activity
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

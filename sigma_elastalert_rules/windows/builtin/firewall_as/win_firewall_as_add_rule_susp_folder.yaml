@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the addition of a new rule to the Windows Firewall exception
+  list for an application located in a potentially suspicious location.
+filter:
+- query:
+    query_string:
+      query: ((event_id:("2004" OR "2071" OR "2097") AND ApplicationPath.keyword:(*\:\\PerfLogs\\*
+        OR *\:\\Temp\\* OR *\:\\Tmp\\* OR *\:\\Users\\Public\\* OR *\:\\Windows\\Tasks\\*
+        OR *\:\\Windows\\Temp\\* OR *\\AppData\\Local\\Temp\\*)) AND (NOT ((Action:"2"))))
+index: wazuh-alerts*
+name: win_firewall_as_add_rule_susp_folder
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

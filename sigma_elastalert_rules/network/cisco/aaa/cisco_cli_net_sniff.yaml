@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Show when a monitor or a span/rspan is setup or modified
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*monitor\ capture\ point* OR *set\ span* OR *set\ rspan*)
+index: wazuh-alerts*
+name: cisco_cli_net_sniff
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

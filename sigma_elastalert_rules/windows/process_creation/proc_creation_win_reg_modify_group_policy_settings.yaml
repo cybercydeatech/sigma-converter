@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detect malicious GPO modifications can be used to implement many other
+  malicious behaviors.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\reg.exe OR file_name_original:"reg.exe") AND
+        process_command_line.keyword:*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System*
+        AND process_command_line.keyword:(*GroupPolicyRefreshTimeDC* OR *GroupPolicyRefreshTimeOffsetDC*
+        OR *GroupPolicyRefreshTime* OR *GroupPolicyRefreshTimeOffset* OR *EnableSmartScreen*
+        OR *ShellSmartScreenLevel*))
+index: wazuh-alerts*
+name: proc_creation_win_reg_modify_group_policy_settings
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

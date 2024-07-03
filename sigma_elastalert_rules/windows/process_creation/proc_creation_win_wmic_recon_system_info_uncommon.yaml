@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Detects the use of the WMI command-line (WMIC) utility to identify and display various system information,
+  including OS, CPU, GPU, and disk drive names; memory capacity; display resolution; and baseboard, BIOS,
+  and GPU driver products/versions.
+  Some of these commands were used by Aurora Stealer in late 2022/early 2023.
+filter:
+- query:
+    query_string:
+      query: ((file_description:"WMI\ Commandline\ Utility" OR file_name_original:"wmic.exe"
+        OR process_path.keyword:*\\WMIC.exe) AND process_command_line.keyword:(*LOGICALDISK\
+        get\ Name,Size,FreeSpace* OR *os\ get\ Caption,OSArchitecture,Version*))
+index: wazuh-alerts*
+name: proc_creation_win_wmic_recon_system_info_uncommon
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

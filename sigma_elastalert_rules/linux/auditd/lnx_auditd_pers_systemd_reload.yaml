@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a reload or a start of a service.
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0.keyword:*systemctl* AND a1.keyword:(*daemon\-reload*
+        OR *start*))
+index: wazuh-alerts*
+name: lnx_auditd_pers_systemd_reload
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims.
+  The Microsoft Windows Application Compatibility Infrastructure/Framework (Application Shim) was created to allow for backward compatibility of software as the operating system codebase changes over time
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*\\SOFTWARE\\Microsoft\\Windows\ NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\*
+        OR *\\SOFTWARE\\Microsoft\\Windows\ NT\\CurrentVersion\\AppCompatFlags\\Custom\\*)
+        AND (NOT ((Details:""))))
+index: wazuh-alerts*
+name: registry_set_persistence_shim_database
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

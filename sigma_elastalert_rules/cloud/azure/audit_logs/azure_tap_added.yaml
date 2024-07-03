@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a temporary access pass (TAP) is added to an account. TAPs
+  added to priv accounts should be investigated
+filter:
+- query:
+    query_string:
+      query: (properties.message:"Admin\ registered\ security\ info" AND event_status:"Admin\
+        registered\ temporary\ access\ pass\ method\ for\ user")
+index: wazuh-alerts*
+name: azure_tap_added
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects failed logon attempts from clients with external network IP to
+  an MSSQL server. This can be a sign of a bruteforce attack.
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"MSSQLSERVER" AND event_id:"18456") AND (NOT ((Data.keyword:(*CLIENT\:\
+        10.* OR *CLIENT\:\ 172.16.* OR *CLIENT\:\ 172.17.* OR *CLIENT\:\ 172.18.*
+        OR *CLIENT\:\ 172.19.* OR *CLIENT\:\ 172.20.* OR *CLIENT\:\ 172.21.* OR *CLIENT\:\
+        172.22.* OR *CLIENT\:\ 172.23.* OR *CLIENT\:\ 172.24.* OR *CLIENT\:\ 172.25.*
+        OR *CLIENT\:\ 172.26.* OR *CLIENT\:\ 172.27.* OR *CLIENT\:\ 172.28.* OR *CLIENT\:\
+        172.29.* OR *CLIENT\:\ 172.30.* OR *CLIENT\:\ 172.31.* OR *CLIENT\:\ 192.168.*
+        OR *CLIENT\:\ 127.* OR *CLIENT\:\ 169.254.*)))))
+index: wazuh-alerts*
+name: win_mssql_failed_logon_from_external_network
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

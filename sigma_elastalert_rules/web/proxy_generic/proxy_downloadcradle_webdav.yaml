@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects WebDav DownloadCradle
+filter:
+- query:
+    query_string:
+      query: (c-useragent.keyword:Microsoft\-WebDAV\-MiniRedir\/* AND cs-method:"GET")
+index: wazuh-alerts*
+name: proxy_downloadcradle_webdav
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects when an attempt at deactivating  or resetting MFA.
+filter:
+- query:
+    query_string:
+      query: eventtype:("user.mfa.factor.deactivate" OR "user.mfa.factor.reset_all")
+index: wazuh-alerts*
+name: okta_mfa_reset_or_deactivated
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects potential token impersonation and theft. Example, when using
+  "DuplicateToken(Ex)" and "ImpersonateLoggedOnUser" with the "LOGON32_LOGON_NEW_CREDENTIALS
+  flag".
+filter:
+- query:
+    query_string:
+      query: (event_id:"4624" AND logon_type:"9" AND logon_process_name:"Advapi" AND
+        logon_authentication_package:"Negotiate" AND ImpersonationLevel:"%%1833")
+index: wazuh-alerts*
+name: win_security_access_token_abuse
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

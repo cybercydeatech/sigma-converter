@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the setting of the REGISTERAPPRESTART compatibility layer on an application.
+  This compatibility layer allows an application to register for restart using the "RegisterApplicationRestart" API.
+  This can be potentially abused as a persistence mechanism.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\ NT\\CurrentVersion\\AppCompatFlags\\Layers\\*
+        AND Details.keyword:*REGISTERAPPRESTART*)
+index: wazuh-alerts*
+name: registry_set_persistence_app_cpmpat_layer_registerapprestart
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

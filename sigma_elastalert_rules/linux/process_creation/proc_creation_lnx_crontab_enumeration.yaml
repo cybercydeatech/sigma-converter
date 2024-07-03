@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of crontab to list the tasks of the user
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/crontab AND process_command_line.keyword:*\
+        \-l*)
+index: wazuh-alerts*
+name: proc_creation_lnx_crontab_enumeration
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

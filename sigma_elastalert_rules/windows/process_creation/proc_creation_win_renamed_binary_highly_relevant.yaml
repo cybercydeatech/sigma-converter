@@ -1,0 +1,25 @@
+alert:
+- debug
+description: Detects the execution of a renamed binary often used by attackers or
+  malware leveraging new Sysmon OriginalFileName datapoint.
+filter:
+- query:
+    query_string:
+      query: ((file_description:"Execute\ processes\ remotely" OR file_product:"Sysinternals\
+        PsExec" OR file_description.keyword:(Windows\ PowerShell* OR pwsh*) OR file_name_original:("certutil.exe"
+        OR "cmstp.exe" OR "cscript.exe" OR "mshta.exe" OR "msiexec.exe" OR "powershell_ise.exe"
+        OR "powershell.exe" OR "psexec.c" OR "psexec.exe" OR "psexesvc.exe" OR "pwsh.dll"
+        OR "reg.exe" OR "regsvr32.exe" OR "rundll32.exe" OR "WerMgr" OR "wmic.exe"
+        OR "wscript.exe")) AND (NOT (process_path.keyword:(*\\certutil.exe OR *\\cmstp.exe
+        OR *\\cscript.exe OR *\\mshta.exe OR *\\msiexec.exe OR *\\powershell_ise.exe
+        OR *\\powershell.exe OR *\\psexec.exe OR *\\psexec64.exe OR *\\PSEXESVC.exe
+        OR *\\pwsh.exe OR *\\reg.exe OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\wermgr.exe
+        OR *\\wmic.exe OR *\\wscript.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_binary_highly_relevant
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

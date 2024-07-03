@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "SolidPDFCreator.dll"
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\SolidPDFCreator.dll AND (NOT ((process_path.keyword:*\\SolidPDFCreator.exe
+        AND ImageLoaded.keyword:(C\:\\Program\ Files\ \(x86\)\\SolidDocuments\\SolidPDFCreator\\*
+        OR C\:\\Program\ Files\\SolidDocuments\\SolidPDFCreator\\*)))))
+index: wazuh-alerts*
+name: image_load_side_load_solidpdfcreator
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

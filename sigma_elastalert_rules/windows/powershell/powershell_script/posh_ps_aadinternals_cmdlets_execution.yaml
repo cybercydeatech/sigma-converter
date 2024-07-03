@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects ADDInternals Cmdlet execution. A tool for administering Azure
+  AD and Office 365. Which can be abused by threat actors to attack Azure AD or Office
+  365.
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*Add\-AADInt* OR *ConvertTo\-AADInt* OR *Disable\-AADInt*
+        OR *Enable\-AADInt* OR *Export\-AADInt* OR *Get\-AADInt* OR *Grant\-AADInt*
+        OR *Install\-AADInt* OR *Invoke\-AADInt* OR *Join\-AADInt* OR *New\-AADInt*
+        OR *Open\-AADInt* OR *Read\-AADInt* OR *Register\-AADInt* OR *Remove\-AADInt*
+        OR *Restore\-AADInt* OR *Search\-AADInt* OR *Send\-AADInt* OR *Set\-AADInt*
+        OR *Start\-AADInt* OR *Update\-AADInt*)
+index: wazuh-alerts*
+name: posh_ps_aadinternals_cmdlets_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

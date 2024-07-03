@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects when a user is potentially trying to bypass the Windows Defender AV by renaming a tool to dump64.exe and placing it in the Visual Studio folder.
+  Currently the rule is covering only usage of procdump but other utilities can be added in order to increase coverage.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:\:\\Program\ Files* AND process_path.keyword:*\\Microsoft\
+        Visual\ Studio\\* AND process_path.keyword:*\\dump64.exe) AND (file_name_original:"procdump"
+        OR process_command_line.keyword:(*\ \-ma\ * OR *\ \-mp\ *)))
+index: wazuh-alerts*
+name: proc_creation_win_dump64_defender_av_bypass_rename
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

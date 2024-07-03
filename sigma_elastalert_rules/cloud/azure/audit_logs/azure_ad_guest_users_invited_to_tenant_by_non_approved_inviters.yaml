@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects guest users being invited to tenant by non-approved inviters
+filter:
+- query:
+    query_string:
+      query: ((Category:"UserManagement" AND OperationName:"Invite\ external\ user")
+        AND (NOT (InitiatedBy.keyword:*<approved\ guest\ inviter\ use\ OR\ for\ multiple>*)))
+index: wazuh-alerts*
+name: azure_ad_guest_users_invited_to_tenant_by_non_approved_inviters
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

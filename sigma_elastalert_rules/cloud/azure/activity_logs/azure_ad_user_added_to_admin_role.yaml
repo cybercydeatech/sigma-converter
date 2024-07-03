@@ -1,0 +1,16 @@
+alert:
+- debug
+description: User Added to an Administrator's Azure AD Role
+filter:
+- query:
+    query_string:
+      query: (Operation:"Add\ member\ to\ role." AND Workload:"AzureActiveDirectory"
+        AND ModifiedProperties{}.NewValue.keyword:(*Admins OR *Administrator))
+index: wazuh-alerts*
+name: azure_ad_user_added_to_admin_role
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

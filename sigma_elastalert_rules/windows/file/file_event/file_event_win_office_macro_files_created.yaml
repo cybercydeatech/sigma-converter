@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the creation of a new office macro files on the systems
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:(*.docm OR *.dotm OR *.xlsm OR *.xltm OR *.potm OR
+        *.pptm)
+index: wazuh-alerts*
+name: file_event_win_office_macro_files_created
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

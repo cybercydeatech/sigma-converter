@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies modification of ld.so.preload for shared object injection.
+  This technique is used by attackers to load arbitrary code into processes.
+filter:
+- query:
+    query_string:
+      query: (type:"PATH" AND name:"\/etc\/ld.so.preload")
+index: wazuh-alerts*
+name: lnx_auditd_ld_so_preload_mod
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

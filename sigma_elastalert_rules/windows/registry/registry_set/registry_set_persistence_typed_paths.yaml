@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects modification addition to the 'TypedPaths' key in the user or
+  admin registry from a non standard application. Which might indicate persistence
+  attempt
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\TypedPaths\\*
+        AND (NOT (process_path:("C\:\\Windows\\explorer.exe" OR "C\:\\Windows\\SysWOW64\\explorer.exe"))))
+index: wazuh-alerts*
+name: registry_set_persistence_typed_paths
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

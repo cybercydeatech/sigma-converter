@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when an attacker registers a new AMSI provider in order to achieve
+  persistence
+filter:
+- query:
+    query_string:
+      query: ((event_category_type:"CreateKey" AND registry_key_path.keyword:(*\\SOFTWARE\\Microsoft\\AMSI\\Providers\\*
+        OR *\\SOFTWARE\\WOW6432Node\\Microsoft\\AMSI\\Providers\\*)) AND (NOT (process_path.keyword:(C\:\\Windows\\System32\\*
+        OR C\:\\Program\ Files\\* OR C\:\\Program\ Files\ \(x86\)\\*))))
+index: wazuh-alerts*
+name: registry_add_persistence_amsi_providers
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

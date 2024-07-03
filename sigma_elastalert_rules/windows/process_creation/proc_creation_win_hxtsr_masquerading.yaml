@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  HxTsr.exe is a Microsoft compressed executable file called Microsoft Outlook Communications.
+  HxTsr.exe is part of Outlook apps, because it resides in a hidden "WindowsApps" subfolder of "C:\Program Files".
+  Any instances of hxtsr.exe not in this folder may be malware camouflaging itself as HxTsr.exe
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\hxtsr.exe AND (NOT ((process_path.keyword:*\:\\program\
+        files\\windowsapps\\microsoft.windowscommunicationsapps_* AND process_path.keyword:*\\hxtsr.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_hxtsr_masquerading
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

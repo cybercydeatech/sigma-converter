@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when storage bucket is modified or deleted in Google Cloud.
+filter:
+- query:
+    query_string:
+      query: gcp.audit.method_name:("storage.buckets.delete" OR "storage.buckets.insert"
+        OR "storage.buckets.update" OR "storage.buckets.patch")
+index: wazuh-alerts*
+name: gcp_bucket_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

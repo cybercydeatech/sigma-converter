@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a Microsoft Cloud App Security reported when users were
+  active from an IP address that has been identified as an anonymous proxy IP address.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"SecurityComplianceCenter" AND eventName:"Activity\ from\
+        anonymous\ IP\ addresses" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_activity_from_anonymous_ip_addresses
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

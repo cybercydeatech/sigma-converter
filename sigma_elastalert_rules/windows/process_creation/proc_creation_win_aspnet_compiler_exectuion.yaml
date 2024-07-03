@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of "aspnet_compiler.exe" which can be abused to compile
+  and execute C# code.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*C\:\\Windows\\Microsoft.NET\\Framework\\* OR
+        *C\:\\Windows\\Microsoft.NET\\Framework64\\*) AND process_path.keyword:*\\aspnet_compiler.exe)
+index: wazuh-alerts*
+name: proc_creation_win_aspnet_compiler_exectuion
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

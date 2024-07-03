@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects default PsExec service filename which indicates PsExec service
+  installation and execution
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\PSEXESVC.exe
+index: wazuh-alerts*
+name: file_event_win_sysinternals_psexec_service
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious log entries in Linux log files
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*entered\ promiscuous\ mode* OR *Deactivating\ service* OR
+        *Oversized\ packet\ received\ from* OR *imuxsock\ begins\ to\ drop\ messages*)
+index: wazuh-alerts*
+name: lnx_shell_susp_log_entries
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

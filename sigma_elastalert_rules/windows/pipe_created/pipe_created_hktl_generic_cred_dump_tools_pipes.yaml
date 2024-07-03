@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects well-known credential dumping tools execution via specific named
+  pipe creation
+filter:
+- query:
+    query_string:
+      query: pipe_name.keyword:(*\\cachedump* OR *\\lsadump* OR *\\wceservicepipe*)
+index: wazuh-alerts*
+name: pipe_created_hktl_generic_cred_dump_tools_pipes
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Certain strings in the uri_query field when combined with null referer
+  and null user agent can indicate activity associated with the webshell ReGeorg.
+filter:
+- query:
+    query_string:
+      query: (cs-uri-query.keyword:(*cmd\=read* OR *connect&target* OR *cmd\=connect*
+        OR *cmd\=disconnect* OR *cmd\=forward*) AND NOT _exists_:cs-referer AND NOT
+        _exists_:cs-user-agent AND cs-method:"POST")
+index: wazuh-alerts*
+name: web_webshell_regeorg
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

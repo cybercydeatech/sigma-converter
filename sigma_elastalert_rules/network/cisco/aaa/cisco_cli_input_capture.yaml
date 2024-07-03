@@ -1,0 +1,16 @@
+alert:
+- debug
+description: See what commands are being input into the device by other people, full
+  credentials can be in the history
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*show\ history* OR *show\ history\ all* OR *show\ logging*)
+index: wazuh-alerts*
+name: cisco_cli_input_capture
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

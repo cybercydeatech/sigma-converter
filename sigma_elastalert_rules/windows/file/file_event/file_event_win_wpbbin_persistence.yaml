@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects creation of a file named "wpbbin" in the "%systemroot%\system32\"
+  directory. Which could be indicative of UEFI based persistence method
+filter:
+- query:
+    query_string:
+      query: file_name:"C\:\\Windows\\System32\\wpbbin.exe"
+index: wazuh-alerts*
+name: file_event_win_wpbbin_persistence
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the execution of the tool PowerTool which has the ability to
+  kill a process, delete its process file, unload drivers, and delete the driver files
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\PowerTool.exe OR *\\PowerTool64.exe) OR file_name_original:"PowerTool.exe")
+index: wazuh-alerts*
+name: proc_creation_win_hktl_powertool
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

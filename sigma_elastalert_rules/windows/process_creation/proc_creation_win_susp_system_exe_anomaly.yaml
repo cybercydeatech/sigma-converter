@@ -1,0 +1,30 @@
+alert:
+- debug
+description: Detects a Windows program executable started from a suspicious folder
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\svchost.exe OR *\\rundll32.exe OR *\\services.exe
+        OR *\\powershell.exe OR *\\powershell_ise.exe OR *\\pwsh.exe OR *\\regsvr32.exe
+        OR *\\spoolsv.exe OR *\\lsass.exe OR *\\smss.exe OR *\\csrss.exe OR *\\conhost.exe
+        OR *\\wininit.exe OR *\\lsm.exe OR *\\winlogon.exe OR *\\explorer.exe OR *\\taskhost.exe
+        OR *\\Taskmgr.exe OR *\\sihost.exe OR *\\RuntimeBroker.exe OR *\\smartscreen.exe
+        OR *\\dllhost.exe OR *\\audiodg.exe OR *\\wlanext.exe OR *\\dashost.exe OR
+        *\\schtasks.exe OR *\\cscript.exe OR *\\wscript.exe OR *\\wsl.exe OR *\\bitsadmin.exe
+        OR *\\atbroker.exe OR *\\bcdedit.exe OR *\\certutil.exe OR *\\certreq.exe
+        OR *\\cmstp.exe OR *\\consent.exe OR *\\defrag.exe OR *\\dism.exe OR *\\dllhst3g.exe
+        OR *\\eventvwr.exe OR *\\msiexec.exe OR *\\runonce.exe OR *\\winver.exe OR
+        *\\logonui.exe OR *\\userinit.exe OR *\\dwm.exe OR *\\LsaIso.exe OR *\\ntoskrnl.exe
+        OR *\\wsmprovhost.exe OR *\\dfrgui.exe) AND (NOT ((process_path.keyword:(C\:\\Windows\\System32\\*
+        OR C\:\\Windows\\SysWOW64\\* OR C\:\\Windows\\WinSxS\\*) OR process_path.keyword:*\\SystemRoot\\System32\\*
+        OR process_path:("C\:\\Windows\\explorer.exe" OR "C\:\\Program\ Files\\PowerShell\\7\\pwsh.exe"
+        OR "C\:\\Program\ Files\\PowerShell\\7\-preview\\pwsh.exe")) OR (process_path.keyword:C\:\\Program\
+        Files\\WindowsApps\\MicrosoftCorporationII.WindowsSubsystemForLinux* AND process_path.keyword:*\\wsl.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_system_exe_anomaly
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects the addition of a new file or path exclusion to MacOS Time Machine via the "tmutil" utility.
+  An adversary could exclude a path from Time Machine backups to prevent certain files from being backed up.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\/tmutil OR process_command_line.keyword:*tmutil*)
+        AND process_command_line.keyword:*addexclusion*)
+index: wazuh-alerts*
+name: proc_creation_macos_tmutil_exclude_file_from_backup
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

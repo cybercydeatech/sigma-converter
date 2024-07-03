@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects events with patterns found in commands used for reconnaissance
+  on linux systems
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*\ \-name\ .htpasswd* OR *\ \-perm\ \-4000\
+        *)
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_recon_indicators
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

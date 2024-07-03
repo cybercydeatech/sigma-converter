@@ -1,0 +1,17 @@
+alert:
+- debug
+description: |
+  Detects when a configuration change is made to an applications URI.
+  URIs for domain names that no longer exist (dangling URIs), not using HTTPS, wildcards at the end of the domain, URIs that are no unique to that app, or URIs that point to domains you do not control should be investigated.
+filter:
+- query:
+    query_string:
+      query: properties.message:"Update\ Application\ Sucess\-\ Property\ Name\ AppAddress"
+index: wazuh-alerts*
+name: azure_app_uri_modifications
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects disabling of the Windows Defender virus scanning feature
+filter:
+- query:
+    query_string:
+      query: event_id:"5012"
+index: wazuh-alerts*
+name: win_defender_virus_scan_disabled
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

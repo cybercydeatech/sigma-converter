@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects handles requested to SAM registry hive
+filter:
+- query:
+    query_string:
+      query: (event_id:"4656" AND object_type:"Key" AND object_name.keyword:*\\SAM)
+index: wazuh-alerts*
+name: win_security_sam_registry_hive_handle_request
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

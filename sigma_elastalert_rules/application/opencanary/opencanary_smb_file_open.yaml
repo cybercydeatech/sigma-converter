@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects instances where an SMB service on an OpenCanary node has had
+  a file open request.
+filter:
+- query:
+    query_string:
+      query: logtype:"5000"
+index: wazuh-alerts*
+name: opencanary_smb_file_open
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

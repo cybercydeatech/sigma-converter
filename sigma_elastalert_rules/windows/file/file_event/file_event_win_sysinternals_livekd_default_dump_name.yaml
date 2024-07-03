@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the creation of a file that has the same name as the default
+  LiveKD kernel memory dump.
+filter:
+- query:
+    query_string:
+      query: file_name:"C\:\\Windows\\livekd.dmp"
+index: wazuh-alerts*
+name: file_event_win_sysinternals_livekd_default_dump_name
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

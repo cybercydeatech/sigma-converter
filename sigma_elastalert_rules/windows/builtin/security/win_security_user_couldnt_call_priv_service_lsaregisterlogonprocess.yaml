@@ -1,0 +1,17 @@
+alert:
+- debug
+description: The 'LsaRegisterLogonProcess' function verifies that the application
+  making the function call is a logon process by checking that it has the SeTcbPrivilege
+  privilege set. Possible Rubeus tries to get a handle to LSA.
+filter:
+- query:
+    query_string:
+      query: (event_id:"4673" AND Service:"LsaRegisterLogonProcess\(\)" AND Keywords:"0x8010000000000000")
+index: wazuh-alerts*
+name: win_security_user_couldnt_call_priv_service_lsaregisterlogonprocess
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

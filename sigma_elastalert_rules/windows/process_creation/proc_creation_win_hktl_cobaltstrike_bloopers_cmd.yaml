@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects use of Cobalt Strike commands accidentally entered in the CMD
+  shell
+filter:
+- query:
+    query_string:
+      query: ((file_name_original:"Cmd.Exe" OR process_path.keyword:*\\cmd.exe) AND
+        (process_command_line.keyword:(cmd\ * OR cmd.exe* OR c\:\\windows\\system32\\cmd.exe*)
+        AND process_command_line.keyword:(*psinject* OR *spawnas* OR *make_token*
+        OR *remote\-exec* OR *rev2self* OR *dcsync* OR *logonpasswords* OR *execute\-assembly*
+        OR *getsystem*)))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_cobaltstrike_bloopers_cmd
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

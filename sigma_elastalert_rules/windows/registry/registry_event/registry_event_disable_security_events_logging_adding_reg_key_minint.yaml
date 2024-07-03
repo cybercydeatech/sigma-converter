@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the addition of a key 'MiniNt' to the registry. Upon a reboot,
+  Windows Event Log service will stopped write events.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path:"HKLM\\SYSTEM\\CurrentControlSet\\Control\\MiniNt"
+        AND event_category_type:"CreateKey") OR NewName:"HKLM\\SYSTEM\\CurrentControlSet\\Control\\MiniNt")
+index: wazuh-alerts*
+name: registry_event_disable_security_events_logging_adding_reg_key_minint
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

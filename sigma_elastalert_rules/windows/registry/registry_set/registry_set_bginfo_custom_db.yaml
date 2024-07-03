@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects setting of a new registry database value related to BgInfo configuration.
+  Attackers can for example set this value to save the results of the commands executed
+  by BgInfo in order to exfiltrate information.
+filter:
+- query:
+    query_string:
+      query: (event_category_type:"SetValue" AND registry_key_path.keyword:*\\Software\\Winternals\\BGInfo\\Database)
+index: wazuh-alerts*
+name: registry_set_bginfo_custom_db
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

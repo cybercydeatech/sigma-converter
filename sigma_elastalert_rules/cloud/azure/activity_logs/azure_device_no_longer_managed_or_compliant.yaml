@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when a device in azure is no longer managed or compliant
+filter:
+- query:
+    query_string:
+      query: properties.message:("Device\ no\ longer\ compliant" OR "Device\ no\ longer\
+        managed")
+index: wazuh-alerts*
+name: azure_device_no_longer_managed_or_compliant
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

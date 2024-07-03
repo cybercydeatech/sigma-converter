@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Addition of domains is seldom and should be verified for legitimacy.
+filter:
+- query:
+    query_string:
+      query: event_id:"4706"
+index: wazuh-alerts*
+name: win_security_susp_add_domain_trust
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

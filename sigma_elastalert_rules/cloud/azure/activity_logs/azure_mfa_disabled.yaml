@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detection for when multi factor authentication has been disabled, which
+  might indicate a malicious activity to bypass authentication mechanisms.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"AzureActiveDirectory" AND eventName:"Disable\ Strong\ Authentication."
+        AND status:"success")
+index: wazuh-alerts*
+name: azure_mfa_disabled
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

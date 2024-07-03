@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of ruby using the "-e" flag. This is could be used
+  as a way to launch a reverse shell or execute live ruby code.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\ruby.exe OR file_name_original:"ruby.exe")
+        AND process_command_line.keyword:*\ \-e*)
+index: wazuh-alerts*
+name: proc_creation_win_ruby_inline_command_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the deletion of IIS WebServer access logs which may indicate
+  an attempt to destroy forensic evidence
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\\inetpub\\logs\\LogFiles\\* AND file_name.keyword:*.log)
+index: wazuh-alerts*
+name: file_delete_win_delete_iis_access_logs
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

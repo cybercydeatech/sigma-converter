@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects remote RPC calls to read information about scheduled tasks
+filter:
+- query:
+    query_string:
+      query: ((EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:"86d35949\-83c9\-4044\-b424\-db363231fd0c")
+        AND (NOT (OpNum:("1" OR "3" OR "4" OR "10" OR "11" OR "12" OR "13" OR "14"
+        OR "15"))))
+index: wazuh-alerts*
+name: rpc_firewall_itaskschedulerservice_recon
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

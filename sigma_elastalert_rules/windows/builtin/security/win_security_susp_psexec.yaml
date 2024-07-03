@@ -1,0 +1,18 @@
+alert:
+- debug
+description: detects execution of psexec or paexec with renamed service name, this
+  rule helps to filter out the noise if psexec is used for legit purposes or if attacker
+  uses a different psexec client other than sysinternal one
+filter:
+- query:
+    query_string:
+      query: ((event_id:"5145" AND share_name.keyword:\\\\\*\\IPC$ AND share_relative_target_name.keyword:(*\-stdin
+        OR *\-stdout OR *\-stderr)) AND (NOT (share_relative_target_name.keyword:PSEXESVC*)))
+index: wazuh-alerts*
+name: win_security_susp_psexec
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

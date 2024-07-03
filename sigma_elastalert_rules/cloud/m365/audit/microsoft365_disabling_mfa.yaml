@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects disabling of Multi Factor Authentication.
+filter:
+- query:
+    query_string:
+      query: Operation.keyword:*Disable\ Strong\ Authentication.*
+index: wazuh-alerts*
+name: microsoft365_disabling_mfa
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

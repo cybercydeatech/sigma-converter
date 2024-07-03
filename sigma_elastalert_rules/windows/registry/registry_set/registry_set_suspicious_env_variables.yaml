@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects the creation of user-specific or system-wide environment variables
+  via the registry. Which contains suspicious commands and strings
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Environment\\* AND (Details:("powershell"
+        OR "pwsh") OR Details.keyword:(*\\AppData\\Local\\Temp\\* OR *C\:\\Users\\Public\\*
+        OR *TVqQAAMAAAAEAAAA* OR *TVpQAAIAAAAEAA8A* OR *TVqAAAEAAAAEABAA* OR *TVoAAAAAAAAAAAAA*
+        OR *TVpTAQEAAAAEAAAA* OR *SW52b2tlL* OR *ludm9rZS* OR *JbnZva2Ut* OR *SQBuAHYAbwBrAGUALQ*
+        OR *kAbgB2AG8AawBlAC0A* OR *JAG4AdgBvAGsAZQAtA*) OR Details.keyword:(SUVY*
+        OR SQBFAF* OR SQBuAH* OR cwBhA* OR aWV4* OR aQBlA* OR R2V0* OR dmFy* OR dgBhA*
+        OR dXNpbm* OR H4sIA* OR Y21k* OR cABhAH* OR Qzpc* OR Yzpc*)))
+index: wazuh-alerts*
+name: registry_set_suspicious_env_variables
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

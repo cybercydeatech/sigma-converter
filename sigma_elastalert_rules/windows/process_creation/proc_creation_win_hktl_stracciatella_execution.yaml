@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects Stracciatella which executes a Powershell runspace from within
+  C# (aka SharpPick technique) with AMSI, ETW and Script Block Logging disabled based
+  on PE metadata characteristics.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\Stracciatella.exe OR file_name_original:"Stracciatella.exe"
+        OR file_description:"Stracciatella" OR 
+        Hashes.keyword:(*SHA256\=9d25e61ec1527e2a69d7c2a4e3fe2fe15890710c198a66a9f25d99fdf6c7b956*
+        OR *SHA256\=fd16609bd9830c63b9413671678bb159b89c357d21942ddbb6b93add808d121a*)
+        OR sha256:("9d25e61ec1527e2a69d7c2a4e3fe2fe15890710c198a66a9f25d99fdf6c7b956"
+        OR "fd16609bd9830c63b9413671678bb159b89c357d21942ddbb6b93add808d121a"))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_stracciatella_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

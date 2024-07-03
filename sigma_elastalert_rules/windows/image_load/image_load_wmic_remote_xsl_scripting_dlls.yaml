@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects threat actors proxy executing code and bypassing application
+  controls by leveraging wmic and the `/FORMAT` argument switch to download and execute
+  an XSL file (i.e js, vbs, etc).
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\wmic.exe AND ImageLoaded.keyword:(*\\jscript.dll
+        OR *\\vbscript.dll))
+index: wazuh-alerts*
+name: image_load_wmic_remote_xsl_scripting_dlls
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

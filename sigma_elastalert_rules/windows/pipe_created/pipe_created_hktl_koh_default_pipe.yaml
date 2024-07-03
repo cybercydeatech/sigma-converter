@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects creation of default named pipes used by the Koh tool
+filter:
+- query:
+    query_string:
+      query: pipe_name.keyword:(*\\imposecost* OR *\\imposingcost*)
+index: wazuh-alerts*
+name: pipe_created_hktl_koh_default_pipe
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

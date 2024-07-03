@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Triggers on any Sysmon "FileExecutableDetected" event, which triggers
+  every time a PE that is monitored by the config is created.
+filter:
+- query:
+    query_string:
+      query: event_id:"29"
+index: wazuh-alerts*
+name: sysmon_file_executable_detected
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

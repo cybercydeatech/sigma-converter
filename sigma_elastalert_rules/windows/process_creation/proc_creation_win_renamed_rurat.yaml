@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of renamed Remote Utilities (RURAT) via Product PE
+  header field
+filter:
+- query:
+    query_string:
+      query: (file_product:"Remote\ Utilities" AND (NOT (process_path.keyword:(*\\rutserv.exe
+        OR *\\rfusclient.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_rurat
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

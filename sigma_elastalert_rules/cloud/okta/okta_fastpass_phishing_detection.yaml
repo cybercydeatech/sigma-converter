@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when Okta FastPass prevents a known phishing site.
+filter:
+- query:
+    query_string:
+      query: (outcome.reason:"FastPass\ declined\ phishing\ attempt" AND outcome.result:"FAILURE"
+        AND eventtype:"user.authentication.auth_via_mfa")
+index: wazuh-alerts*
+name: okta_fastpass_phishing_detection
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

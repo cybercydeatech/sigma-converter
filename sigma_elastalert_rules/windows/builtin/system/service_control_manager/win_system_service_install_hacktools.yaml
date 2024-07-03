@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects installation or execution of services
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:("7045" OR "7036"))
+        AND (service_name.keyword:(*cachedump* OR *DumpSvc* OR *gsecdump* OR *pwdump*
+        OR *UACBypassedService* OR *WCE\ SERVICE* OR *WCESERVICE* OR *winexesvc*)
+        OR ImagePath.keyword:*bypass*))
+index: wazuh-alerts*
+name: win_system_service_install_hacktools
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

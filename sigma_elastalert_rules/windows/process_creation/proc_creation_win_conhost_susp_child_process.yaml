@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects uncommon "conhost" child processes. This could be a sign of "conhost"
+  usage as a LOLBIN or potential process injection activity.
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:*\\conhost.exe AND (NOT ((process_path.keyword:*\:\\Windows\\System32\\conhost.exe)
+        OR (NOT _exists_:process_path) OR (process_path:"")))) AND (NOT ((Provider_Name:"SystemTraceProvider\-Process"))))
+index: wazuh-alerts*
+name: proc_creation_win_conhost_susp_child_process
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

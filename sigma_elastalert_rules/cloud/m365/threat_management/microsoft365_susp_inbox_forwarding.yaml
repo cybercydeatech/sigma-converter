@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when a Microsoft Cloud App Security reported suspicious email
+  forwarding rules, for example, if a user created an inbox rule that forwards a copy
+  of all emails to an external address.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"SecurityComplianceCenter" AND eventName:"Suspicious\ inbox\
+        forwarding" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_susp_inbox_forwarding
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

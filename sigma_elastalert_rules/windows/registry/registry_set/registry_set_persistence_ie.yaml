@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects modification of the registry settings used for Internet Explorer
+  and other Windows components that use these settings. An attacker can abuse this
+  registry key to add a domain to the trusted sites Zone or insert javascript for
+  persistence
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet\
+        Settings* AND (NOT ((Details.keyword:DWORD*) OR (Details:("Cookie\:" OR "Visited\:"
+        OR "\(Empty\)")) OR (registry_key_path.keyword:(*\\Cache* OR *\\ZoneMap* OR
+        *\\WpadDecision*)) OR (Details:"Binary\ Data") OR (registry_key_path.keyword:*\\Accepted\
+        Documents\\*))))
+index: wazuh-alerts*
+name: registry_set_persistence_ie
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

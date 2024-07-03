@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects suspicious mshta process execution patterns
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\mshta.exe OR file_name_original:"MSHTA.EXE")
+        AND (process_parent_path.keyword:(*\\cmd.exe OR *\\cscript.exe OR *\\powershell.exe
+        OR *\\pwsh.exe OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\wscript.exe) AND
+        process_command_line.keyword:(*\\AppData\\Local\\* OR *C\:\\ProgramData\\*
+        OR *C\:\\Users\\Public\\* OR *C\:\\Windows\\Temp\\*))) OR ((process_path.keyword:*\\mshta.exe
+        OR file_name_original:"MSHTA.EXE") AND (NOT (process_path.keyword:(C\:\\Windows\\System32\\*
+        OR C\:\\Windows\\SysWOW64\\*) OR process_command_line.keyword:(*.htm* OR *.hta*)
+        OR process_command_line.keyword:(*mshta.exe OR *mshta)))))
+index: wazuh-alerts*
+name: proc_creation_win_mshta_susp_pattern
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

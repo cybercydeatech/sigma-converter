@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects users trying to exploit sudo vulnerability reported in CVE-2019-14287
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:*\ \-u#*
+index: wazuh-alerts*
+name: proc_creation_lnx_sudo_cve_2019_14287
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

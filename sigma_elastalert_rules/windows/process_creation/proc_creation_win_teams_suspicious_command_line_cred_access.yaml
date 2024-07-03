@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects a commandline containing references to the Microsoft Teams database or cookies files from a process other than Teams.
+  The database might contain authentication tokens and other sensitive information about the logged in accounts.
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*\\Microsoft\\Teams\\Cookies* OR *\\Microsoft\\Teams\\Local\
+        Storage\\leveldb*) AND (NOT ((process_path.keyword:*\\Microsoft\\Teams\\current\\Teams.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_teams_suspicious_command_line_cred_access
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

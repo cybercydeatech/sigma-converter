@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious use of XORDump process memory dumping utility
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\xordump.exe OR process_command_line.keyword:(*\
+        \-process\ lsass.exe\ * OR *\ \-m\ comsvcs\ * OR *\ \-m\ dbghelp\ * OR *\
+        \-m\ dbgcore\ *))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_xordump
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

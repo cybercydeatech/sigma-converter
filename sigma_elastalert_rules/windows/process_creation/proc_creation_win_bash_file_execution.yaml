@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects execution of Microsoft bash launcher without any flags to execute the content of a bash script directly.
+  This can be used to potentially bypass defenses and execute Linux or Windows-based binaries directly via bash.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\:\\Windows\\System32\\bash.exe OR *\:\\Windows\\SysWOW64\\bash.exe)
+        OR file_name_original:"Bash.exe") AND (NOT ((process_command_line.keyword:(*bash.exe\
+        \-* OR *bash\ \-*)) OR (NOT _exists_:process_command_line) OR (process_command_line:"")
+        OR (process_command_line:("bash.exe" OR "bash")))))
+index: wazuh-alerts*
+name: proc_creation_win_bash_file_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

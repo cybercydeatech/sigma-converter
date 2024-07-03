@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious launch of a renamed version of the PSEXESVC service
+  with, which is not often used by legitimate administrators
+filter:
+- query:
+    query_string:
+      query: (file_name_original:"psexesvc.exe" AND (NOT (process_path:"C\:\\Windows\\PSEXESVC.exe")))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_sysinternals_psexec_service
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

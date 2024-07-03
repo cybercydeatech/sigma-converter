@@ -1,0 +1,15 @@
+alert:
+- debug
+description: An application has been removed. Check if it is critical.
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"MsiInstaller" AND event_id:("1034" OR "11724"))
+index: wazuh-alerts*
+name: win_builtin_remove_application
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

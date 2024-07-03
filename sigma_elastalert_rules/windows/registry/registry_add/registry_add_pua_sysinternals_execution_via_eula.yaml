@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the execution of a Sysinternals Tool via the creation of the
+  "accepteula" registry key
+filter:
+- query:
+    query_string:
+      query: (event_category_type:"CreateKey" AND registry_key_path.keyword:*\\EulaAccepted)
+index: wazuh-alerts*
+name: registry_add_pua_sysinternals_execution_via_eula
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

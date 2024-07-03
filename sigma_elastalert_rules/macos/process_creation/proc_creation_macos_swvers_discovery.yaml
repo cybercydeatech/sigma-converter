@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of "sw_vers" for system information discovery
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/sw_vers AND process_command_line.keyword:(*\-buildVersion*
+        OR *\-productName* OR *\-productVersion*))
+index: wazuh-alerts*
+name: proc_creation_macos_swvers_discovery
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

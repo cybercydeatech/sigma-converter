@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects loading of "Amsi.dll" by a living of the land process. This could
+  be an indication of a "PowerShell without PowerShell" attack
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\amsi.dll AND process_path.keyword:(*\\ExtExport.exe
+        OR *\\odbcconf.exe OR *\\regsvr32.exe OR *\\rundll32.exe))
+index: wazuh-alerts*
+name: image_load_dll_amsi_suspicious_process
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

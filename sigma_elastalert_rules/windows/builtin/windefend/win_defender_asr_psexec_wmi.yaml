@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects blocking of process creations originating from PSExec and WMI
+  commands
+filter:
+- query:
+    query_string:
+      query: (event_id:"1121" AND process_path.keyword:(*\\wmiprvse.exe OR *\\psexesvc.exe))
+index: wazuh-alerts*
+name: win_defender_asr_psexec_wmi
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

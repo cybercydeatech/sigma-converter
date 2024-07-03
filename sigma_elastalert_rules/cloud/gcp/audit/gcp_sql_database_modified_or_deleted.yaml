@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect when a Cloud SQL DB has been modified or deleted.
+filter:
+- query:
+    query_string:
+      query: gcp.audit.method_name:("cloudsql.instances.create" OR "cloudsql.instances.delete"
+        OR "cloudsql.users.update" OR "cloudsql.users.delete")
+index: wazuh-alerts*
+name: gcp_sql_database_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

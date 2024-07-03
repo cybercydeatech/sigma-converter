@@ -1,0 +1,43 @@
+alert:
+- debug
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\ NT\\CurrentVersion*
+        AND registry_key_path.keyword:(*\\Winlogon\\VmApplet* OR *\\Winlogon\\Userinit*
+        OR *\\Winlogon\\Taskman* OR *\\Winlogon\\Shell* OR *\\Winlogon\\GpExtensions*
+        OR *\\Winlogon\\AppSetup* OR *\\Winlogon\\AlternateShells\\AvailableShells*
+        OR *\\Windows\\IconServiceLib* OR *\\Windows\\Appinit_Dlls* OR *\\Image\ File\
+        Execution\ Options* OR *\\Font\ Drivers* OR *\\Drivers32* OR *\\Windows\\Run*
+        OR *\\Windows\\Load*)) AND (NOT ((Details:"\(Empty\)") OR (registry_key_path.keyword:*\\Image\
+        File\ Execution\ Options\\* AND registry_key_path.keyword:(*\\DisableExceptionChainValidation
+        OR *\\MitigationOptions)) OR (process_path.keyword:C\:\\Program\ Files\ \(x86\)\\Microsoft\\Temp\\*
+        AND process_path.keyword:*\\MicrosoftEdgeUpdate.exe) OR 
+        (registry_key_path.keyword:(*\\ClickToRunStore\\HKLM\\SOFTWARE\\Microsoft\\Windows\
+        NT\\CurrentVersion\\* OR *\\ClickToRun\\REGISTRY\\MACHINE\\Software\\Microsoft\\Windows\
+        NT\\CurrentVersion\\*) OR process_path:("C\:\\Program\ Files\\Microsoft\ Office\\root\\integration\\integrator.exe"
+        OR "C\:\\Program\ Files\ \(x86\)\\Microsoft\ Office\\root\\integration\\integrator.exe"))
+        OR (process_path.keyword:(C\:\\Program\ Files\\Common\ Files\\Microsoft\ Shared\\ClickToRun\\*
+        OR C\:\\Program\ Files\\Common\ Files\\Microsoft\ Shared\\ClickToRun\\Updates\\*)
+        AND process_path.keyword:*\\OfficeClickToRun.exe) OR (process_path:"C\:\\Windows\\system32\\svchost.exe"
+        AND 
+        registry_key_path.keyword:(*\\Winlogon\\GPExtensions\\\{827D319E\-6EAC\-11D2\-A4EA\-00C04F79F83A\}\\PreviousPolicyAreas*
+        OR 
+        *\\Winlogon\\GPExtensions\\\{827D319E\-6EAC\-11D2\-A4EA\-00C04F79F83A\}\\MaxNoGPOListChangesInterval*)
+        AND Details:("DWORD\ \(0x00000009\)" OR "DWORD\ \(0x000003c0\)")) OR (process_path.keyword:C\:\\Windows\\Microsoft.NET\\Framework*
+        AND process_path.keyword:*\\ngen.exe) OR 
+        (process_path.keyword:*\\AppData\\Local\\Microsoft\\OneDrive\\StandaloneUpdater\\OneDriveSetup.exe
+        AND 
+        registry_key_path.keyword:*\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\Delete\
+        Cached\ Update\ Binary AND Details.keyword:C\:\\Windows\\system32\\cmd.exe\
+        \/q\ \/c\ del\ \/q\ \"C\:\\Users\\* AND 
+        Details.keyword:*\\AppData\\Local\\Microsoft\\OneDrive\\Update\\OneDriveSetup.exe\"))))
+index: wazuh-alerts*
+name: registry_set_asep_reg_keys_modification_currentversion_nt
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

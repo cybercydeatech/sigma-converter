@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects file renames where the target filename uses an uncommon double
+  extension. Could indicate potential ransomware activity renaming files and adding
+  a custom extension to the encrypted files, such as ".jpg.crypted", ".docx.locky",
+  etc.
+filter:
+- query:
+    query_string:
+      query: (((SourceFilename.keyword:(*.doc OR *.docx OR *.jpeg OR *.jpg OR *.lnk
+        OR *.pdf OR *.png OR *.pst OR *.rtf OR *.xls OR *.xlsx) AND file_name.keyword:(*.doc.*
+        OR *.docx.* OR *.jpeg.* OR *.jpg.* OR *.lnk.* OR *.pdf.* OR *.png.* OR *.pst.*
+        OR *.rtf.* OR *.xls.* OR *.xlsx.*)) AND (NOT ((file_name.keyword:(*.backup
+        OR *.bak OR *.old OR *.orig OR *.temp OR *.tmp))))) AND (NOT ((file_name.keyword:*\:\\ProgramData\\Anaconda3\\*
+        AND file_name.keyword:*.c\~))))
+index: wazuh-alerts*
+name: file_rename_win_ransomware
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

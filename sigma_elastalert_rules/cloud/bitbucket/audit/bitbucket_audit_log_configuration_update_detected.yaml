@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects changes to the bitbucket audit log configuration.
+filter:
+- query:
+    query_string:
+      query: (auditType.category:"Auditing" AND auditType.action:"Audit\ log\ configuration\
+        updated")
+index: wazuh-alerts*
+name: bitbucket_audit_log_configuration_update_detected
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

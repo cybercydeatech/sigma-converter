@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Triggers on any Sysmon "FileBlockExecutable" event, which indicates a
+  violation of the configured block policy
+filter:
+- query:
+    query_string:
+      query: event_id:"27"
+index: wazuh-alerts*
+name: sysmon_file_block_executable
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

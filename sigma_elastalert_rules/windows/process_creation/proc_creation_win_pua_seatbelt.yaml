@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects the execution of the PUA/Recon tool Seatbelt via PE information
+  of command line parameters
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\Seatbelt.exe OR file_name_original:"Seatbelt.exe"
+        OR file_description:"Seatbelt" OR process_command_line.keyword:(*\ DpapiMasterKeys*
+        OR *\ InterestingProcesses* OR *\ InterestingFiles* OR *\ CertificateThumbprints*
+        OR *\ ChromiumBookmarks* OR *\ ChromiumHistory* OR *\ ChromiumPresence* OR
+        *\ CloudCredentials* OR *\ CredEnum* OR *\ CredGuard* OR *\ FirefoxHistory*
+        OR *\ ProcessCreationEvents*)) OR (process_command_line.keyword:(*\ \-group\=misc*
+        OR *\ \-group\=remote* OR *\ \-group\=chromium* OR *\ \-group\=slack* OR *\
+        \-group\=system* OR *\ \-group\=user* OR *\ \-group\=all*) AND process_command_line.keyword:*\
+        \-outputfile\=*))
+index: wazuh-alerts*
+name: proc_creation_win_pua_seatbelt
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

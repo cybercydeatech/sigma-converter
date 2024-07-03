@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential sideloading of "mpclient.dll" by Windows Defender processes
+  ("MpCmdRun" and "NisSrv") from their non-default directory.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\MpCmdRun.exe OR *\\NisSrv.exe) AND (NOT ((process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Windows\ Defender\\* OR C\:\\Program\ Files\\Microsoft\ Security\
+        Client\\* OR C\:\\Program\ Files\\Windows\ Defender\\* OR C\:\\ProgramData\\Microsoft\\Windows\
+        Defender\\Platform\\* OR C\:\\Windows\\WinSxS\\*)))))
+index: wazuh-alerts*
+name: proc_creation_win_mpcmdrun_dll_sideload_defender
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

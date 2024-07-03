@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects LOLBINs executing from an abnormal or uncommon drive such as
+  a mounted ISO.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\calc.exe OR *\\certutil.exe OR *\\cmstp.exe
+        OR *\\cscript.exe OR *\\installutil.exe OR *\\mshta.exe OR *\\regsvr32.exe
+        OR *\\rundll32.exe OR *\\wscript.exe) OR file_name_original:("CALC.EXE" OR
+        "CertUtil.exe" OR "CMSTP.EXE" OR "cscript.exe" OR "installutil.exe" OR "MSHTA.EXE"
+        OR "REGSVR32.EXE" OR "RUNDLL32.EXE" OR "wscript.exe")) AND (NOT ((process_current_directory.keyword:*C\:\\*)
+        OR (process_current_directory:"") OR (NOT _exists_:process_current_directory))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_lolbin_exec_from_non_c_drive
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

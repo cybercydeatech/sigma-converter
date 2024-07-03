@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Define a baseline threshold for failed sign-ins due to Conditional Access
+  failures
+filter:
+- query:
+    query_string:
+      query: (ResultType:"53003" AND Resultdescription:"Blocked\ by\ Conditional\
+        Access")
+index: wazuh-alerts*
+name: azure_conditional_access_failure
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

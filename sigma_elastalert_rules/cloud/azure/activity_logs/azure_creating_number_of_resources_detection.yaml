@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Number of VM creations or deployment activities occur in Azure via the
+  azureactivity log.
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*Microsoft.Compute\/virtualMachines\/write* OR *Microsoft.Resources\/deployments\/write*)
+index: wazuh-alerts*
+name: azure_creating_number_of_resources_detection
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

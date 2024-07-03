@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects process execution from a fake recycle bin folder, often used
+  to avoid security solution.
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:(*RECYCLERS.BIN\\* OR *RECYCLER.BIN\\*)
+index: wazuh-alerts*
+name: proc_creation_win_susp_recycle_bin_fake_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

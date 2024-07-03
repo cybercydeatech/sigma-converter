@@ -1,0 +1,22 @@
+alert:
+- debug
+description: |
+  Attackers may change the file creation time of a backdoor to make it look like it was installed with the operating system.
+  Note that many processes legitimately change the creation time of a file; it does not necessarily indicate malicious activity.
+filter:
+- query:
+    query_string:
+      query: (((PreviousCreationUtcTime.keyword:2022* AND (NOT (CreationUtcTime.keyword:2022*)))
+        OR (PreviousCreationUtcTime.keyword:202* AND (NOT (CreationUtcTime.keyword:202*))))
+        AND (NOT ((process_path:("C\:\\Windows\\system32\\ProvTool.exe" OR "C\:\\Windows\\System32\\usocoreworker.exe"
+        OR "C\:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe") OR file_name.keyword:C\:\\ProgramData\\USOPrivate\\UpdateStore\\*
+        OR file_name.keyword:(*.tmp OR *.temp)) OR (process_path.keyword:C\:\\WINDOWS\\*
+        AND process_path.keyword:*\\TiWorker.exe AND file_name.keyword:*.cab))))
+index: wazuh-alerts*
+name: file_change_win_2022_timestomping
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

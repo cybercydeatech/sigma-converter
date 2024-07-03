@@ -1,0 +1,16 @@
+alert:
+- debug
+description: "Detects DNS query requests to Visual Studio Code tunnel domains. Attackers
+  can abuse that feature to establish a reverse shell or persistence on a machine.\n"
+filter:
+- query:
+    query_string:
+      query: QueryName.keyword:*.tunnels.api.visualstudio.com
+index: wazuh-alerts*
+name: dns_query_win_vscode_tunnel_communication
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

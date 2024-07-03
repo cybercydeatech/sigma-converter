@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects the creation of a new office macro files on the systems via an
+  application (browser, mail client).
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\RuntimeBroker.exe OR *\\outlook.exe OR *\\thunderbird.exe
+        OR *\\brave.exe OR *\\chrome.exe OR *\\firefox.exe OR *\\iexplore.exe OR *\\maxthon.exe
+        OR *\\MicrosoftEdge.exe OR *\\msedge.exe OR *\\msedgewebview2.exe OR *\\opera.exe
+        OR *\\safari.exe OR *\\seamonkey.exe OR *\\vivaldi.exe OR *\\whale.exe) AND
+        (file_name.keyword:(*.docm OR *.dotm OR *.xlsm OR *.xltm OR *.potm OR *.pptm)
+        OR file_name.keyword:(*.docm\:Zone* OR *.dotm\:Zone* OR *.xlsm\:Zone* OR *.xltm\:Zone*
+        OR *.potm\:Zone* OR *.pptm\:Zone*)))
+index: wazuh-alerts*
+name: file_event_win_office_macro_files_downloaded
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false

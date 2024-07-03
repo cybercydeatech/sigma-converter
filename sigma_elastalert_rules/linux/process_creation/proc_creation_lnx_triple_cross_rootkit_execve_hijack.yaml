@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects execution of a the file "execve_hijack" which is used by the
+  Triple Cross rootkit as a way to elevate privileges
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/sudo AND process_command_line.keyword:*execve_hijack*)
+index: wazuh-alerts*
+name: proc_creation_lnx_triple_cross_rootkit_execve_hijack
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
