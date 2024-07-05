@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects when there is a interruption in the authentication process.
+filter:
+- query:
+    query_string:
+      query: ((ResultType:"50097" AND ResultDescription:"Device\ authentication\ is\
+        required") OR (ResultType:"50155" AND ResultDescription:"DeviceAuthenticationFailed")
+        OR (ResultType:"50158" AND ResultDescription:"ExternalSecurityChallenge\ \-\
+        External\ security\ challenge\ was\ not\ satisfied"))
+index: wazuh-alerts*
+name: azure_unusual_authentication_interruption
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

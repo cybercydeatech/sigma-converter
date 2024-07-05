@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the use of Moriya rootkit as described in the securelist's Operation
+  TunnelSnake report
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Service\ Control\ Manager" AND event_id:"7045" AND service_name:"ZzNetSvc")
+index: wazuh-alerts*
+name: win_system_moriya_rootkit
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

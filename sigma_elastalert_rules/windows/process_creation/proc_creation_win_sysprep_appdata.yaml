@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious sysprep process start with AppData folder as target
+  (as used by Trojan Syndicasec in Thrip report by Symantec)
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\sysprep.exe AND process_command_line.keyword:*\\AppData\\*)
+index: wazuh-alerts*
+name: proc_creation_win_sysprep_appdata
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

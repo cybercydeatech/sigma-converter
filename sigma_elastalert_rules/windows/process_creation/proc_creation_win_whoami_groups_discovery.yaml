@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the execution of whoami.exe with the /group command line flag
+  to show group membership for the current user, account type, security identifiers
+  (SID), and attributes.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\whoami.exe OR file_name_original:"whoami.exe")
+        AND process_command_line.keyword:(*\ \/groups* OR *\ \-groups*))
+index: wazuh-alerts*
+name: proc_creation_win_whoami_groups_discovery
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects usage of "xterm" as a potential reverse shell tunnel
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*xterm* AND process_command_line.keyword:*\-display*
+        AND process_command_line.keyword:*\:1)
+index: wazuh-alerts*
+name: proc_creation_lnx_xterm_reverse_shell
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

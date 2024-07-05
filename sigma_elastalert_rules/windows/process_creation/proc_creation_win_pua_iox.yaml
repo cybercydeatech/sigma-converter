@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects the use of IOX - a tool for port forwarding and intranet proxy
+  purposes
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\iox.exe OR process_command_line.keyword:(*.exe\
+        fwd\ \-l\ * OR *.exe\ fwd\ \-r\ * OR *.exe\ proxy\ \-l\ * OR *.exe\ proxy\
+        \-r\ *) OR Hashes.keyword:(*MD5\=9DB2D314DD3F704A02051EF5EA210993* OR *SHA1\=039130337E28A6623ECF9A0A3DA7D92C5964D8DD*
+        OR *SHA256\=C6CF82919B809967D9D90EA73772A8AA1C1EB3BC59252D977500F64F1A0D6731*)
+        OR md5:"9db2d314dd3f704a02051ef5ea210993" OR sha1:"039130337e28a6623ecf9a0a3da7d92c5964d8dd"
+        OR sha256:"c6cf82919b809967d9d90ea73772a8aa1c1eb3bc59252d977500f64f1a0d6731")
+index: wazuh-alerts*
+name: proc_creation_win_pua_iox
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

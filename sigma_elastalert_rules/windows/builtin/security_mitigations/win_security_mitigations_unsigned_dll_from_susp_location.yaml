@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects Code Integrity (CI) engine blocking processes from loading unsigned
+  DLLs residing in suspicious locations
+filter:
+- query:
+    query_string:
+      query: (event_id:("11" OR "12") AND ImageName.keyword:(*\\Users\\Public\\* OR
+        *\\PerfLogs\\* OR *\\Desktop\\* OR *\\Downloads\\* OR *\\AppData\\Local\\Temp\\*
+        OR *C\:\\Windows\\TEMP\\*))
+index: wazuh-alerts*
+name: win_security_mitigations_unsigned_dll_from_susp_location
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

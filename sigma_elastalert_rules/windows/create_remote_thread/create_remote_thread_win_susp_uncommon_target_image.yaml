@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects uncommon target processes for remote thread creation
+filter:
+- query:
+    query_string:
+      query: ((target_process_path.keyword:(*\\calc.exe OR *\\calculator.exe OR *\\mspaint.exe
+        OR *\\notepad.exe OR *\\ping.exe OR *\\sethc.exe OR *\\spoolsv.exe OR *\\wordpad.exe
+        OR *\\write.exe) AND (NOT ((process_path.keyword:*\:\\Windows\\System32\\csrss.exe))))
+        AND (NOT ((thread_start_function:"EtwpNotificationThread") OR (process_path.keyword:*unknown\
+        process*) OR (process_path.keyword:*\:\\Program\ Files\\VMware\\VMware\ Tools\\vmtoolsd.exe
+        AND thread_start_function:"GetCommandLineW" AND target_process_path.keyword:(*\:\\Windows\\System32\\notepad.exe
+        OR *\:\\Windows\\System32\\spoolsv.exe)) OR (process_path:"C\:\\Program\ 
+        Files\\Xerox\\XeroxPrintExperience\\CommonFiles\\XeroxPrintJobEventManagerService.exe"
+        AND thread_start_function:"LoadLibraryW" AND target_process_path:"C\:\\Windows\\System32\\spoolsv.exe"))))
+index: wazuh-alerts*
+name: create_remote_thread_win_susp_uncommon_target_image
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Find local accounts being created or modified as well as remote authentication
+  configurations
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*username* OR *aaa*)
+index: wazuh-alerts*
+name: cisco_cli_local_accounts
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

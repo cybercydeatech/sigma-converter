@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects usage of \"ProtocolHandler\" to download files. Downloaded files
+  will be located in the cache folder (for example - %LOCALAPPDATA%\\Microsoft\\Windows\\\
+  INetCache\\IE)\n"
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\protocolhandler.exe OR file_name_original:"ProtocolHandler.exe")
+        AND process_command_line.keyword:(*ftp\:\/\/* OR *http\:\/\/* OR *https\:\/\/*))
+index: wazuh-alerts*
+name: proc_creation_win_protocolhandler_download
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,37 @@
+alert:
+- debug
+description: Detects registry modifications that change features of internal Windows
+  tools (malware like Agent Tesla uses this technique)
+filter:
+- query:
+    query_string:
+      query: 
+        ((registry_key_path.keyword:(*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\StartMenuLogOff
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableChangePassword
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableLockWorkstation
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableTaskmgr
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\NoDispBackgroundPage
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\NoDispCPL
+        OR *SOFTWARE\\Policies\\Microsoft\\Windows\\Explorer\\DisableNotificationCenter
+        OR *SOFTWARE\\Policies\\Microsoft\\Windows\\System\\DisableCMD) AND Details:"DWORD\
+        \(0x00000001\)") OR 
+        (registry_key_path.keyword:(*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\ConsentPromptBehaviorAdmin
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\shutdownwithoutlogon
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\PushNotifications\\ToastEnabled
+        OR *SYSTEM\\CurrentControlSet\\Control\\Storage\\Write\ Protection OR *SYSTEM\\CurrentControlSet\\Control\\StorageDevicePolicies\\WriteProtect)
+        AND Details:"DWORD\ \(0x00000000\)"))
+index: wazuh-alerts*
+name: registry_set_disable_function_user
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

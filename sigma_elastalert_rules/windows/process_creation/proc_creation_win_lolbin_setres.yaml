@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the use of Setres.exe to set the screen resolution and then potentially
+  launch a file named "choice" (with any executable extension such as ".cmd" or ".exe")
+  from the current execution path
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\setres.exe AND process_path.keyword:*\\choice)
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_setres
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

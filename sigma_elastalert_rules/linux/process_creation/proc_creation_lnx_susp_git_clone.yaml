@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects execution of "git" in order to clone a remote repository that
+  contain suspicious keywords which might be suspicious
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/git AND process_command_line.keyword:*\ clone\
+        * AND process_command_line.keyword:(*exploit* OR *Vulns* OR *vulnerability*
+        OR *RCE* OR *RemoteCodeExecution* OR *Invoke\-* OR *CVE\-* OR *poc\-* OR *ProofOfConcept*
+        OR *proxyshell* OR *log4shell* OR *eternalblue* OR *eternal\-blue* OR *MS17\-*))
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_git_clone
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

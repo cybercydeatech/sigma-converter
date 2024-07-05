@@ -1,0 +1,33 @@
+alert:
+- debug
+description: |
+  Detects Non-Standard tools initiating a connection over port 3389 indicating possible lateral movement.
+  An initial baseline is required before using this utility to exclude third party RDP tooling that you might use.
+filter:
+- query:
+    query_string:
+      query: (((dst_port:"3389" AND Initiated:"true") AND (NOT ((process_path:("C\:\\Windows\\System32\\mstsc.exe"
+        OR "C\:\\Windows\\SysWOW64\\mstsc.exe"))))) AND (NOT ((process_path:"C\:\\Windows\\System32\\dns.exe"
+        AND src_port:"53" AND Protocol:"udp") OR (process_path.keyword:(*\\Avast\
+        Software\\Avast\\AvastSvc.exe OR *\\Avast\\AvastSvc.exe)) OR (process_path.keyword:*\\RDCMan.exe)
+        OR (process_path:"C\:\\Program\ Files\\Google\\Chrome\\Application\\chrome.exe")
+        OR (process_path.keyword:(*\\FSAssessment.exe OR *\\FSDiscovery.exe OR *\\MobaRTE.exe
+        OR *\\mRemote.exe OR *\\mRemoteNG.exe OR *\\Passwordstate.exe OR *\\RemoteDesktopManager.exe
+        OR *\\RemoteDesktopManager64.exe OR *\\RemoteDesktopManagerFree.exe OR *\\RSSensor.exe
+        OR *\\RTS2App.exe OR *\\RTSApp.exe OR *\\spiceworks\-finder.exe OR *\\Terminals.exe
+        OR *\\ws_TunnelService.exe)) OR (process_path.keyword:(*\\thor.exe OR *\\thor64.exe))
+        OR (process_path.keyword:C\:\\Program\ Files\\SplunkUniversalForwarder\\bin\\*)
+        OR (process_path.keyword:*\\Ranger\\SentinelRanger.exe) OR (process_path:"C\:\\Program\
+        Files\\Mozilla\ Firefox\\firefox.exe") OR (process_path:("C\:\\Program\ Files\\TSplus\\Java\\bin\\HTML5service.exe"
+        OR "C\:\\Program\ Files\ \(x86\)\\TSplus\\Java\\bin\\HTML5service.exe")) OR
+        (NOT _exists_:process_path) OR (process_path:"") OR (process_path:"<unknown\
+        process>"))))
+index: wazuh-alerts*
+name: net_connection_win_rdp_outbound_over_non_standard_tools
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

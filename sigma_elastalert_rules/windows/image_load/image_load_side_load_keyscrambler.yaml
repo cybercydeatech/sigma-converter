@@ -1,0 +1,23 @@
+alert:
+- debug
+description: |
+  Detects potential DLL side loading of "KeyScramblerIE.dll" by "KeyScrambler.exe".
+  Various threat actors and malware have been found side loading a masqueraded "KeyScramblerIE.dll" through "KeyScrambler.exe".
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\KeyScrambler.exe OR *\\KeyScramblerLogon.exe)
+        AND ImageLoaded.keyword:*\\KeyScramblerIE.dll) AND (NOT ((process_path.keyword:(*C\:\\Program\
+        Files\ \(x86\)\\KeyScrambler\\* OR *C\:\\Program\ Files\\KeyScrambler\\*)
+        AND ImageLoaded.keyword:(*C\:\\Program\ Files\ \(x86\)\\KeyScrambler\\* OR
+        *C\:\\Program\ Files\\KeyScrambler\\*)) OR (signature:"QFX\ Software\ Corporation"
+        AND signature_status:"Valid"))))
+index: wazuh-alerts*
+name: image_load_side_load_keyscrambler
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

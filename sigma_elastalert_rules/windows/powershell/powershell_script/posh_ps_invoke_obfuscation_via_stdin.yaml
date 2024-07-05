@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Obfuscated Powershell via Stdin in Scripts
+filter:
+- query:
+    query_string:
+      query: 
+        ScriptBlockText.keyword:/(?i)(set).*&&\s?set.*(environment|invoke|\$\{?input).*&&.*"/
+index: wazuh-alerts*
+name: posh_ps_invoke_obfuscation_via_stdin
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

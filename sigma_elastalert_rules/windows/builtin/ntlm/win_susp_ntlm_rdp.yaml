@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects logons using NTLM to hosts that are potentially not part of the
+  domain.
+filter:
+- query:
+    query_string:
+      query: (event_id:"8001" AND TargetName.keyword:TERMSRV*)
+index: wazuh-alerts*
+name: win_susp_ntlm_rdp
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

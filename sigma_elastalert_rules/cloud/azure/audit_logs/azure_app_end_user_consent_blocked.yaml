@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when end user consent is blocked due to risk-based consent.
+filter:
+- query:
+    query_string:
+      query: 
+        failure_status_reason:"Microsoft.online.Security.userConsentBlockedForRiskyAppsExceptions"
+index: wazuh-alerts*
+name: azure_app_end_user_consent_blocked
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

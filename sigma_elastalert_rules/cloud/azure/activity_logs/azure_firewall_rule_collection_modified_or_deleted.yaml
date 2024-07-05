@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Identifies when Rule Collections (Application, NAT, and Network) is being
+  modified or deleted.
+filter:
+- query:
+    query_string:
+      query: 
+        operationName:("MICROSOFT.NETWORK\/AZUREFIREWALLS\/APPLICATIONRULECOLLECTIONS\/WRITE"
+        OR "MICROSOFT.NETWORK\/AZUREFIREWALLS\/APPLICATIONRULECOLLECTIONS\/DELETE"
+        OR "MICROSOFT.NETWORK\/AZUREFIREWALLS\/NATRULECOLLECTIONS\/WRITE" OR "MICROSOFT.NETWORK\/AZUREFIREWALLS\/NATRULECOLLECTIONS\/DELETE"
+        OR "MICROSOFT.NETWORK\/AZUREFIREWALLS\/NETWORKRULECOLLECTIONS\/WRITE" OR "MICROSOFT.NETWORK\/AZUREFIREWALLS\/NETWORKRULECOLLECTIONS\/DELETE")
+index: wazuh-alerts*
+name: azure_firewall_rule_collection_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

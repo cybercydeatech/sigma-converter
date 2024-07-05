@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects disabling security tools
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*stopping\ iptables* OR *stopping\ ip6tables* OR *stopping\
+        firewalld* OR *stopping\ cbdaemon* OR *stopping\ falcon\-sensor*)
+index: wazuh-alerts*
+name: lnx_syslog_security_tools_disabling_syslog
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

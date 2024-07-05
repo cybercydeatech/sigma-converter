@@ -1,0 +1,30 @@
+alert:
+- debug
+description: |
+  Detects abusing Azure Browser SSO by requesting OAuth 2.0 refresh tokens for an Azure-AD-authenticated Windows user (i.e. the machine is joined to Azure AD and a user logs in with their Azure AD account) wanting to perform SSO authentication in the browser.
+  An attacker can use this to authenticate to Azure AD in a browser as that user.
+filter:
+- query:
+    query_string:
+      query: ((ImageLoaded:"C\:\\Windows\\System32\\MicrosoftAccountTokenProvider.dll"
+        AND (NOT ((process_path.keyword:(C\:\\Windows\\System32\\* OR C\:\\Windows\\SysWOW64\\*)
+        AND process_path.keyword:*\\BackgroundTaskHost.exe)))) AND (NOT ((process_path.keyword:(C\:\\Program\
+        Files\\Microsoft\ Visual\ Studio\\* OR C\:\\Program\ Files\ \(x86\)\\Microsoft\
+        Visual\ Studio\\*) AND process_path.keyword:*\\IDE\\devenv.exe) OR (process_path:("C\:\\Program\
+        Files\ \(x86\)\\Internet\ Explorer\\iexplore.exe" OR "C\:\\Program\ Files\\Internet\
+        Explorer\\iexplore.exe")) OR (process_path.keyword:C\:\\Program\ Files\ \(x86\)\\Microsoft\\EdgeWebView\\Application\\*
+        OR process_path.keyword:*\\WindowsApps\\MicrosoftEdge.exe OR process_path:("C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\Edge\\Application\\msedge.exe" OR "C\:\\Program\
+        Files\\Microsoft\\Edge\\Application\\msedge.exe")) OR (process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\EdgeCore\\* OR C\:\\Program\ Files\\Microsoft\\EdgeCore\\*)
+        AND process_path.keyword:(*\\msedge.exe OR *\\msedgewebview2.exe)) OR (process_path.keyword:*\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe)
+        OR (NOT _exists_:process_path))))
+index: wazuh-alerts*
+name: image_load_dll_azure_microsoft_account_token_provider_dll_load
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

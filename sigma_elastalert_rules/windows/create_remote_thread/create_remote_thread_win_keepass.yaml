@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects remote thread creation in "KeePass.exe" which could indicates
+  potential password dumping activity
+filter:
+- query:
+    query_string:
+      query: target_process_path.keyword:*\\KeePass.exe
+index: wazuh-alerts*
+name: create_remote_thread_win_keepass
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

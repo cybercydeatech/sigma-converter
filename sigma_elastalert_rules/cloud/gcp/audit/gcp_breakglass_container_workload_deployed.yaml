@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects the deployment of workloads that are deployed by using the break-glass
+  flag to override Binary Authorization controls.\n"
+filter:
+- query:
+    query_string:
+      query: ((data.protoPayload.resource.type:"k8s_cluster" AND data.protoPayload.logName:("cloudaudit.googleapis.com\/activity"
+        OR "cloudaudit.googleapis.com%2Factivity") AND data.protoPayload.methodName:"io.k8s.core.v1.pods.create")
+        AND "image\-policy.k8s.io\/break\-glass")
+index: wazuh-alerts*
+name: gcp_breakglass_container_workload_deployed
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

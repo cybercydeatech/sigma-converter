@@ -1,0 +1,23 @@
+alert:
+- debug
+description: |
+  Detects execution of "findstr" to search for common names of security tools. Attackers often pipe the results of recon commands such as "tasklist" or "whoami" to "findstr" in order to filter out the results.
+  This detection focuses on the keywords that the attacker might use as a filter.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\find.exe OR *\\findstr.exe) OR file_name_original:("FIND.EXE"
+        OR "FINDSTR.EXE")) AND process_command_line.keyword:(*\ avira OR *\ avira\"
+        OR *\ cb OR *\ cb\" OR *\ cylance OR *\ cylance\" OR *\ defender OR *\ defender\"
+        OR *\ kaspersky OR *\ kaspersky\" OR *\ kes OR *\ kes\" OR *\ mc OR *\ mc\"
+        OR *\ sec OR *\ sec\" OR *\ sentinel OR *\ sentinel\" OR *\ symantec OR *\
+        symantec\" OR *\ virus OR *\ virus\"))
+index: wazuh-alerts*
+name: proc_creation_win_findstr_security_keyword_lookup
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

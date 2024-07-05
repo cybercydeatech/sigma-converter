@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Masquerading occurs when the name or location of an executable, legitimate or malicious, is manipulated or abused for the sake of evading defenses and observation.
+  Several different variations of this technique have been observed.
+filter:
+- query:
+    query_string:
+      query: (type:"execve" AND a0:"cp" AND a1:"\/bin\/sh" AND a2.keyword:*\/crond)
+index: wazuh-alerts*
+name: lnx_auditd_masquerading_crond
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

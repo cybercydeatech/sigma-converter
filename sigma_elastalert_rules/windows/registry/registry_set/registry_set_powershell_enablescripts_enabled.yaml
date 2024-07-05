@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the enabling of the PowerShell script execution policy. Once
+  enabled, this policy allows scripts to be executed.
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\Policies\\Microsoft\\Windows\\PowerShell\\EnableScripts
+        AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_powershell_enablescripts_enabled
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

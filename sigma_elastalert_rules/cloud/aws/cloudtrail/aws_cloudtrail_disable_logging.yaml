@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects disabling, deleting and updating of a Trail
+filter:
+- query:
+    query_string:
+      query: (eventSource:"cloudtrail.amazonaws.com" AND eventName:("StopLogging"
+        OR "UpdateTrail" OR "DeleteTrail"))
+index: wazuh-alerts*
+name: aws_cloudtrail_disable_logging
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

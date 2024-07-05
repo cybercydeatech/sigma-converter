@@ -1,0 +1,17 @@
+alert:
+- debug
+description: A General detection for sdclt being spawned as an elevated process. This
+  could be an indicator of sdclt being used for bypass UAC techniques.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*sdclt.exe AND IntegrityLevel:"High")
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_sdclt
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

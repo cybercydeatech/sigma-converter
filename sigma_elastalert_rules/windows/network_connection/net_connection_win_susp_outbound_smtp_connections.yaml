@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Adversaries may steal data by exfiltrating it over an un-encrypted network protocol other than that of the existing command and control channel.
+  The data may also be sent to an alternate network location from the main command and control server.
+filter:
+- query:
+    query_string:
+      query: ((dst_port:("25" OR "587" OR "465" OR "2525") AND Initiated:"true") AND
+        (NOT ((process_path.keyword:(*\\thunderbird.exe OR *\\outlook.exe)) OR (process_path.keyword:C\:\\Program\
+        Files\\Microsoft\\Exchange\ Server\\*) OR (process_path.keyword:C\:\\Program\
+        Files\\WindowsApps\\microsoft.windowscommunicationsapps_* AND process_path.keyword:*\\HxTsr.exe))))
+index: wazuh-alerts*
+name: net_connection_win_susp_outbound_smtp_connections
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

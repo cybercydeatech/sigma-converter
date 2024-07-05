@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detect use of iptables to flush all firewall rules, tables and chains
+  and allow all network traffic
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\/iptables OR *\/xtables\-legacy\-multi OR *\/iptables\-legacy\-multi
+        OR *\/ip6tables OR *\/ip6tables\-legacy\-multi) AND process_command_line.keyword:(*\-F*
+        OR *\-Z* OR *\-X*) AND process_command_line.keyword:(*ufw\-logging\-deny*
+        OR *ufw\-logging\-allow* OR *ufw6\-logging\-deny* OR *ufw6\-logging\-allow*))
+index: wazuh-alerts*
+name: proc_creation_lnx_iptables_flush_ufw
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

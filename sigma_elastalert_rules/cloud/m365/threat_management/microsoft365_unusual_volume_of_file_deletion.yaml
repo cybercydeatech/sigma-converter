@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when a Microsoft Cloud App Security reported a user has deleted
+  a unusual a large volume of files.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"SecurityComplianceCenter" AND eventName:"Unusual\ volume\
+        of\ file\ deletion" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_unusual_volume_of_file_deletion
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

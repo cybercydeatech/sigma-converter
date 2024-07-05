@@ -1,0 +1,20 @@
+alert:
+- debug
+description: This rule detects suspicious processes with parent images located in
+  the C:\Users\Public folder
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:C\:\\Users\\Public\\* AND process_command_line.keyword:(*powershell*
+        OR *cmd.exe\ \/c\ * OR *cmd.exe\ \/r\ * OR *cmd.exe\ \/k\ * OR *cmd\ \/c\
+        * OR *cmd\ \/r\ * OR *cmd\ \/k\ * OR *wscript.exe* OR *cscript.exe* OR *bitsadmin*
+        OR *certutil* OR *mshta.exe*))
+index: wazuh-alerts*
+name: proc_creation_win_susp_execution_from_public_folder_as_parent
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

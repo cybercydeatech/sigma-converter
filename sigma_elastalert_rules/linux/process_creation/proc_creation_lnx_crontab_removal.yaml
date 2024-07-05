@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects usage of the 'crontab' utility to remove the current crontab.
+  This is a common occurrence where cryptocurrency miners compete against each other by removing traces of other miners to hijack the maximum amount of resources possible
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*crontab AND process_command_line.keyword:*\ \-r*)
+index: wazuh-alerts*
+name: proc_creation_lnx_crontab_removal
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

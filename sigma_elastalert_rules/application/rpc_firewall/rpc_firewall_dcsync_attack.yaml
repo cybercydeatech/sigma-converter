@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects remote RPC calls to MS-DRSR from non DC hosts, which could indicate
+  DCSync / DCShadow attacks.
+filter:
+- query:
+    query_string:
+      query: ((EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:"e3514235\-4b06\-11d1\-ab04\-00c04fc2dcd2")
+        AND (NOT (OpNum:("0" OR "1" OR "12"))))
+index: wazuh-alerts*
+name: rpc_firewall_dcsync_attack
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,25 @@
+alert:
+- debug
+description: Detects alternate PowerShell hosts potentially bypassing detections looking
+  for powershell.exe
+filter:
+- query:
+    query_string:
+      query: (ContextInfo.keyword:* AND (NOT ((ContextInfo.keyword:(*\=\ powershell*
+        OR *\=\ C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell* OR *\=\
+        C\:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell* OR *\=\ C\:\/Windows\/System32\/WindowsPowerShell\/v1.0\/powershell*
+        OR *\=\ C\:\/Windows\/SysWOW64\/WindowsPowerShell\/v1.0\/powershell*)) OR
+        (ContextInfo.keyword:*\=\ C\:\\WINDOWS\\System32\\sdiagnhost.exe\ \-Embedding*)
+        OR (ContextInfo.keyword:*ConfigSyncRun.exe*) OR (ContextInfo.keyword:*C\:\\Windows\\system32\\dsac.exe*)
+        OR (ContextInfo.keyword:*C\:\\Windows\\system32\\wsmprovhost.exe\ \-Embedding*)
+        OR (Payload.keyword:(*Update\-Help* OR *Failed\ to\ update\ Help\ for\ the\
+        module*)))))
+index: wazuh-alerts*
+name: posh_pm_alternate_powershell_hosts
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

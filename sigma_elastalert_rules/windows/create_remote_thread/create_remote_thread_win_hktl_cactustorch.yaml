@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects remote thread creation from CACTUSTORCH as described in references.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\System32\\cscript.exe OR *\\System32\\wscript.exe
+        OR *\\System32\\mshta.exe OR *\\winword.exe OR *\\excel.exe) AND target_process_path.keyword:*\\SysWOW64\\*
+        AND NOT _exists_:thread_start_module)
+index: wazuh-alerts*
+name: create_remote_thread_win_hktl_cactustorch
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects tampering with EventLog service "file" key. In order to change
+  the default location of an Evtx file. This technique is used to tamper with log
+  collection and alerting
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*\\SYSTEM\\CurrentControlSet\\Services\\EventLog\\*
+        AND registry_key_path.keyword:*\\File) AND (NOT (Details.keyword:*\\System32\\Winevt\\Logs\\*)))
+index: wazuh-alerts*
+name: registry_set_evtx_file_key_tamper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

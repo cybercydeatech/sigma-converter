@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects instances where a REDIS service on an OpenCanary node has had
+  an action command attempted.
+filter:
+- query:
+    query_string:
+      query: logtype:"17001"
+index: wazuh-alerts*
+name: opencanary_redis_command
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

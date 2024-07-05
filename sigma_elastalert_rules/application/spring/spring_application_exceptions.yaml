@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects suspicious Spring framework exceptions that could indicate exploitation
+  attempts
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*AccessDeniedException* OR *CsrfException* OR *InvalidCsrfTokenException*
+        OR *MissingCsrfTokenException* OR *CookieTheftException* OR *InvalidCookieException*
+        OR *RequestRejectedException*)
+index: wazuh-alerts*
+name: spring_application_exceptions
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

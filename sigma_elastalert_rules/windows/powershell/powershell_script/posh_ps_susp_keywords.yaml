@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potentially suspicious keywords that could indicate the use of
+  a PowerShell exploitation framework
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*System.Reflection.Assembly.Load\($* OR *\[System.Reflection.Assembly\]\:\:Load\($*
+        OR *\[Reflection.Assembly\]\:\:Load\($* OR *System.Reflection.AssemblyName*
+        OR *Reflection.Emit.AssemblyBuilderAccess* OR *Reflection.Emit.CustomAttributeBuilder*
+        OR *Runtime.InteropServices.UnmanagedType* OR *Runtime.InteropServices.DllImportAttribute*
+        OR *SuspendThread* OR *rundll32*)
+index: wazuh-alerts*
+name: posh_ps_susp_keywords
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

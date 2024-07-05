@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Adversaries may modify file time attributes to hide new or changes to existing files.
+  Timestomping is a technique that modifies the timestamps of a file (the modify, access, create, and change times), often to mimic files that are in the same folder.
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*.CreationTime\ \=* OR *.LastWriteTime\ \=*
+        OR *.LastAccessTime\ \=* OR *\[IO.File\]\:\:SetCreationTime* OR *\[IO.File\]\:\:SetLastAccessTime*
+        OR *\[IO.File\]\:\:SetLastWriteTime*)
+index: wazuh-alerts*
+name: posh_ps_timestomp
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

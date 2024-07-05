@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Uses PowerShell to install/copy a file into a system directory such as
+  "System32" or "SysWOW64"
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:/(Copy-Item|cpi) .{2,128} -Destination .{1,32}\\Windows\\(System32|SysWOW64)/
+index: wazuh-alerts*
+name: posh_ps_copy_item_system_directory
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

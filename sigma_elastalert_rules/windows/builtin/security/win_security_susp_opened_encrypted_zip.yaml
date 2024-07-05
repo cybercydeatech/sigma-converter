@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the extraction of password protected ZIP archives. See the filename
+  variable for more details on which file has been opened.
+filter:
+- query:
+    query_string:
+      query: ((event_id:"5379" AND TargetName.keyword:*Microsoft_Windows_Shell_ZipFolder\:filename*)
+        AND (NOT (TargetName.keyword:*\\Temporary\ Internet\ Files\\Content.Outlook*)))
+index: wazuh-alerts*
+name: win_security_susp_opened_encrypted_zip
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

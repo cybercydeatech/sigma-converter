@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a user that doesn't have permissions to invite a guest user
+  attempts to invite one.
+filter:
+- query:
+    query_string:
+      query: (properties.message:"Invite\ external\ user" AND event_status:"failure")
+index: wazuh-alerts*
+name: azure_guest_invite_failure
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

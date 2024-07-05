@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Find information about network devices that is not stored in config files
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*dir* OR *show\ arp* OR *show\ cdp* OR *show\ clock* OR *show\
+        ip\ interface* OR *show\ ip\ route* OR *show\ ip\ sockets* OR *show\ processes*
+        OR *show\ ssh* OR *show\ users* OR *show\ version*)
+index: wazuh-alerts*
+name: cisco_cli_discovery
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

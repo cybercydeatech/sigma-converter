@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when an Okta user session starts where the user is behind an
+  anonymising proxy service.
+filter:
+- query:
+    query_string:
+      query: (eventtype:"user.session.start" AND securitycontext.isproxy:"true")
+index: wazuh-alerts*
+name: okta_user_session_start_via_anonymised_proxy
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

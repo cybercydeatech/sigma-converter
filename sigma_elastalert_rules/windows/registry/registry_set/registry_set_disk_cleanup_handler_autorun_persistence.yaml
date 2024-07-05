@@ -1,0 +1,31 @@
+alert:
+- debug
+description: "Detects when an attacker modifies values of the Disk Cleanup Handler
+  in the registry to achieve persistence via autorun.\nThe disk cleanup manager is
+  part of the operating system.\nIt displays the dialog box […] The user has the option
+  of enabling or disabling individual handlers by selecting or clearing their check
+  box in the disk cleanup manager's UI.\nAlthough Windows comes with a number of disk
+  cleanup handlers, they aren't designed to handle files produced by other applications.\n
+  Instead, the disk cleanup manager is designed to be flexible and extensible by enabling
+  any developer to implement and register their own disk cleanup handler.\nAny developer
+  can extend the available disk cleanup services by implementing and registering a
+  disk cleanup handler.\n"
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VolumeCaches\\*
+        AND ((registry_key_path.keyword:*\\Autorun* AND Details:"DWORD\ \(0x00000001\)")
+        OR (registry_key_path.keyword:(*\\CleanupString* OR *\\PreCleanupString*)
+        AND Details.keyword:(*cmd* OR *powershell* OR *rundll32* OR *mshta* OR *cscript*
+        OR *wscript* OR *wsl* OR *\\Users\\Public\\* OR *\\Windows\\TEMP\\* OR *\\Microsoft\\Windows\\Start\
+        Menu\\Programs\\Startup\\*))))
+index: wazuh-alerts*
+name: registry_set_disk_cleanup_handler_autorun_persistence
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

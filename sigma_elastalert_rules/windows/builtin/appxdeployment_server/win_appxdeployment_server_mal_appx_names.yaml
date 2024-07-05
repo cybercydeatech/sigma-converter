@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential installation or installation attempts of known malicious
+  appx packages
+filter:
+- query:
+    query_string:
+      query: (event_id:("400" OR "401") AND PackageFullName.keyword:*3669e262\-ec02\-4e9d\-bcb4\-3d008b4afac9*)
+index: wazuh-alerts*
+name: win_appxdeployment_server_mal_appx_names
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

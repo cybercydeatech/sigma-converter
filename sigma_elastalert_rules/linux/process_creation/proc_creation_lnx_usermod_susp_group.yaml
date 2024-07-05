@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of the "usermod" binary to add users add users to the root
+  or suoders groups
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/usermod AND process_command_line.keyword:(*\-aG\
+        root* OR *\-aG\ sudoers*))
+index: wazuh-alerts*
+name: proc_creation_lnx_usermod_susp_group
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

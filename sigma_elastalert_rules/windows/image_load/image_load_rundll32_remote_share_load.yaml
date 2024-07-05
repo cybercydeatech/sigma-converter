@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a remote DLL load event via "rundll32.exe".
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\rundll32.exe AND ImageLoaded.keyword:\\\\\*)
+index: wazuh-alerts*
+name: image_load_rundll32_remote_share_load
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

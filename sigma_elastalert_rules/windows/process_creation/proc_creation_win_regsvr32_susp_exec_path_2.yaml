@@ -1,0 +1,29 @@
+alert:
+- debug
+description: Detects execution of regsvr32 where the DLL is located in a highly suspicious
+  locations
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\regsvr32.exe OR file_name_original:"REGSVR32.EXE")
+        AND (process_command_line.keyword:(*\:\\PerfLogs\\* OR *\:\\Temp\\* OR *\\Windows\\Registration\\CRMLog*
+        OR *\\Windows\\System32\\com\\dmp\\* OR *\\Windows\\System32\\FxsTmp\\* OR
+        *\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\* OR *\\Windows\\System32\\spool\\drivers\\color\\*
+        OR *\\Windows\\System32\\spool\\PRINTERS\\* OR *\\Windows\\System32\\spool\\SERVERS\\*
+        OR *\\Windows\\System32\\Tasks_Migrated\\* OR *\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SyncCenter\\*
+        OR *\\Windows\\SysWOW64\\com\\dmp\\* OR *\\Windows\\SysWOW64\\FxsTmp\\* OR
+        *\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\* OR *\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\SyncCenter\\*
+        OR *\\Windows\\Tasks\\* OR *\\Windows\\Tracing\\*) OR (process_command_line.keyword:(*\
+        \"C\:\\* OR *\ C\:\\* OR *\ 'C\:\\* OR *D\:\\*) AND (NOT (process_command_line.keyword:(*C\:\\Program\
+        Files\ \(x86\)\\* OR *C\:\\Program\ Files\\* OR *C\:\\ProgramData\\* OR *C\:\\Users\\*
+        OR *\ C\:\\Windows\\* OR *\ \"C\:\\Windows\\* OR *\ 'C\:\\Windows\\*))))))
+        AND (NOT ((process_command_line:"") OR (NOT _exists_:process_command_line))))
+index: wazuh-alerts*
+name: proc_creation_win_regsvr32_susp_exec_path_2
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

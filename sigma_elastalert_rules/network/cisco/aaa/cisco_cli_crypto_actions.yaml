@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Show when private keys are being exported from the device, or when new
+  certificates are installed
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*crypto\ pki\ export* OR *crypto\ pki\ import* OR *crypto\
+        pki\ trustpoint*)
+index: wazuh-alerts*
+name: cisco_cli_crypto_actions
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

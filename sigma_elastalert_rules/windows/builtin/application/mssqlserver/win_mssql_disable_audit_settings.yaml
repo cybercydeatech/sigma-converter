@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when an attacker calls the "ALTER SERVER AUDIT" or "DROP SERVER
+  AUDIT" transaction in order to delete or disable audit logs on the server
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"MSSQLSERVER" AND event_id:"33205" AND Data.keyword:(*statement\:ALTER\
+        SERVER\ AUDIT* OR *statement\:DROP\ SERVER\ AUDIT*))
+index: wazuh-alerts*
+name: win_mssql_disable_audit_settings
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of Impacket's psexec.py.
+filter:
+- query:
+    query_string:
+      query: (event_id:"5145" AND share_name.keyword:\\\\\*\\IPC$ AND share_relative_target_name.keyword:(*RemCom_stdin*
+        OR *RemCom_stdout* OR *RemCom_stderr*))
+index: wazuh-alerts*
+name: win_security_impacket_psexec
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects executions of scripts located in potentially suspicious locations
+  such as "/tmp" via a shell such as "bash", "sh", etc.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\/bash OR *\/csh OR *\/dash OR *\/fish OR *\/ksh
+        OR *\/sh OR *\/zsh) AND process_command_line.keyword:*\ \-c\ * AND process_command_line.keyword:*\/tmp\/*)
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_shell_script_exec_from_susp_location
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

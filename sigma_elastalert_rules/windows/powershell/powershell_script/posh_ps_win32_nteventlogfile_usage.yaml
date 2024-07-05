@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects usage of the WMI class "Win32_NTEventlogFile" in a potentially
+  suspicious way (delete, backup, change permissions, etc.) from a PowerShell script
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:*Win32_NTEventlogFile* AND ScriptBlockText.keyword:(*.BackupEventlog\(*
+        OR *.ChangeSecurityPermissions\(* OR *.ChangeSecurityPermissionsEx\(* OR *.ClearEventLog\(*
+        OR *.Delete\(* OR *.DeleteEx\(* OR *.Rename\(* OR *.TakeOwnerShip\(* OR *.TakeOwnerShipEx\(*))
+index: wazuh-alerts*
+name: posh_ps_win32_nteventlogfile_usage
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

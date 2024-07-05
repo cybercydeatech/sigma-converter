@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when a service principal is created in Azure.
+filter:
+- query:
+    query_string:
+      query: properties.message:"Add\ service\ principal"
+index: wazuh-alerts*
+name: azure_service_principal_created
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects PsExec service installation and execution events
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:"7045") AND
+        (service_name:"PSEXESVC" OR ImagePath.keyword:*\\PSEXESVC.exe))
+index: wazuh-alerts*
+name: win_system_service_install_sysinternals_psexec
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

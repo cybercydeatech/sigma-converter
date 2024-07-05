@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects activity when a security-enabled global group is deleted
+filter:
+- query:
+    query_string:
+      query: event_id:("4730" OR "634")
+index: wazuh-alerts*
+name: win_security_security_enabled_global_group_deleted
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

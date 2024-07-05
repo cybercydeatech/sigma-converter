@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the Setting of Windows Defender Exclusions
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*\\Microsoft\\Windows\ Defender\\Exclusions*
+index: wazuh-alerts*
+name: registry_set_defender_exclusions
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

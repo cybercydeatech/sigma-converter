@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Well-known TAP software installation. Possible preparation for data exfiltration
+  using tunneling techniques
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\tapinstall.exe AND (NOT ((process_path.keyword:(*\:\\Program\
+        Files\\Avast\ Software\\SecureLine\ VPN\\* OR *\:\\Program\ Files\ \(x86\)\\Avast\
+        Software\\SecureLine\ VPN\\*)) OR (process_path.keyword:*\:\\Program\ Files\\OpenVPN\
+        Connect\\drivers\\tap\\*) OR (process_path.keyword:*\:\\Program\ Files\ \(x86\)\\Proton\
+        Technologies\\ProtonVPNTap\\installer\\*))))
+index: wazuh-alerts*
+name: proc_creation_win_tapinstall_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

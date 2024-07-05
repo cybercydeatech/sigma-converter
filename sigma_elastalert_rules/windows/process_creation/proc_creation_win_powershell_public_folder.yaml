@@ -1,0 +1,22 @@
+alert:
+- debug
+description: This rule detects execution of PowerShell scripts located in the "C:\Users\Public"
+  folder
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) AND process_command_line.keyword:(*\-f\
+        C\:\\Users\\Public* OR *\-f\ \"C\:\\Users\\Public* OR *\-f\ %Public%* OR *\-fi\
+        C\:\\Users\\Public* OR *\-fi\ \"C\:\\Users\\Public* OR *\-fi\ %Public%* OR
+        *\-fil\ C\:\\Users\\Public* OR *\-fil\ \"C\:\\Users\\Public* OR *\-fil\ %Public%*
+        OR *\-file\ C\:\\Users\\Public* OR *\-file\ \"C\:\\Users\\Public* OR *\-file\
+        %Public%*))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_public_folder
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

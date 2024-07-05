@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects execution of PktMon, a tool that captures network packets.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\pktmon.exe OR file_name_original:"PktMon.exe")
+index: wazuh-alerts*
+name: proc_creation_win_pktmon_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

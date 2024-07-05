@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a user disables a critical security feature for an organization.
+filter:
+- query:
+    query_string:
+      query: action:("org.advanced_security_policy_selected_member_disabled" OR "org.disable_oauth_app_restrictions"
+        OR "org.disable_two_factor_requirement" OR "repo.advanced_security_disabled")
+index: wazuh-alerts*
+name: github_disable_high_risk_configuration
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an user account is locked or suspended.
+filter:
+- query:
+    query_string:
+      query: (event_type_id:"532" OR event_type_id:"553" OR event_type_id:"551")
+index: wazuh-alerts*
+name: onelogin_user_account_locked
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

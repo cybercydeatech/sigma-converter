@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects adversary creating hidden file or directory, by detecting directories
+  or files with . as the first character
+filter:
+- query:
+    query_string:
+      query: ((type:"EXECVE" AND a0:("mkdir" OR "touch" OR "vim" OR "nano" OR "vi"))
+        AND (a1.keyword:*\/.* OR a1.keyword:.* OR a2.keyword:*\/.* OR a2.keyword:.*))
+index: wazuh-alerts*
+name: lnx_auditd_hidden_files_directories
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

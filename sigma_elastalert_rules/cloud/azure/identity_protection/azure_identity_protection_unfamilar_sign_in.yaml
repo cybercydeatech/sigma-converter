@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects sign-in with properties that are unfamiliar to the user. The
+  detection considers past sign-in history to look for anomalous sign-ins.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"unfamiliarFeatures"
+index: wazuh-alerts*
+name: azure_identity_protection_unfamilar_sign_in
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

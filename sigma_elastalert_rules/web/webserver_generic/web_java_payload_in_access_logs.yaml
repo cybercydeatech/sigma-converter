@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects possible Java payloads in web access logs
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*%24%7B%28%23a%3D%40* OR *$\{\(#a\=@* OR *%24%7B%40java*
+        OR *$\{@java* OR *u0022java* OR *%2F%24%7B%23* OR *\/$\{#* OR *new\+java.*
+        OR *getRuntime\(\).exec\(* OR *getRuntime%28%29.exec%28*)
+index: wazuh-alerts*
+name: web_java_payload_in_access_logs
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

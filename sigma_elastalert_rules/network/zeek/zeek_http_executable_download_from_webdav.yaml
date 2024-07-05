@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects executable access via webdav6. Can be seen in APT 29 such as
+  from the emulated APT 29 hackathon https://github.com/OTRF/detection-hackathon-apt29/
+filter:
+- query:
+    query_string:
+      query: ((c-useragent.keyword:*WebDAV* OR c-uri.keyword:*webdav*) AND (resp_mime_types.keyword:*dosexec*
+        OR c-uri.keyword:*.exe))
+index: wazuh-alerts*
+name: zeek_http_executable_download_from_webdav
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

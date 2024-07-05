@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Monitor and alert for sign-ins where the device was non-compliant.
+filter:
+- query:
+    query_string:
+      query: DeviceDetail.isCompliant:"false"
+index: wazuh-alerts*
+name: azure_ad_sign_ins_from_noncompliant_devices
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

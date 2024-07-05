@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies when the same privilege role has multiple activations by the
+  same user.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"sequentialActivationRenewalsAlertIncident"
+index: wazuh-alerts*
+name: azure_pim_role_frequent_activation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

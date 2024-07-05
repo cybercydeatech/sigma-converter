@@ -1,0 +1,20 @@
+alert:
+- debug
+description: During exploitation of this vulnerability, two logs (Provider_Name:Microsoft-Windows-User
+  Profiles Service) with EventID 1511 and 1515 (maybe lot of false positives with
+  this event) are created. Moreover, it appears the directory \Users\TEMP is created
+  may be created during the exploitation. Viewed on 2008 Server
+filter:
+- query:
+    query_string:
+      query: (event_id:"1511" AND Provider_Name:"Microsoft\-Windows\-User\ Profiles\
+        Service")
+index: wazuh-alerts*
+name: win_system_susp_vuln_cve_2022_21919_or_cve_2021_34484
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect Attempt PrintNightmare (CVE-2021-1675) Remote code execution in
+  Windows Spooler Service
+filter:
+- query:
+    query_string:
+      query: (event_id:"31017" AND user_name:"" AND ServerName.keyword:\\1*)
+index: wazuh-alerts*
+name: win_smbclient_security_susp_failed_guest_logon
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

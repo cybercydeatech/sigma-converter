@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an user assumed another user account.
+filter:
+- query:
+    query_string:
+      query: event_type_id:"3"
+index: wazuh-alerts*
+name: onelogin_assumed_another_user
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects wceaux.dll access while WCE pass-the-hash remote command execution
+  on source host
+filter:
+- query:
+    query_string:
+      query: (event_id:("4656" OR "4658" OR "4660" OR "4663") AND object_name.keyword:*\\wceaux.dll)
+index: wazuh-alerts*
+name: win_security_mal_wceaux_dll
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

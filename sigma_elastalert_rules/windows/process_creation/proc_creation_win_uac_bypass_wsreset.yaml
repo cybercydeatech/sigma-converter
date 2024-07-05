@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects use of WSReset.exe to bypass User Account Control (UAC). Adversaries
+  use this technique to execute privileged processes.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\wsreset.exe AND (NOT (process_path.keyword:*\\conhost.exe
+        OR file_name_original:"CONHOST.EXE")))
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_wsreset
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

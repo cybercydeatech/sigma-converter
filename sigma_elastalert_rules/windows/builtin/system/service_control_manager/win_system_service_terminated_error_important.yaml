@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects important or interesting Windows services that got terminated
+  for whatever reason
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:"7023") AND
+        (param1.keyword:(*\ Antivirus* OR *\ Firewall* OR *Application\ Guard* OR
+        *BitLocker\ Drive\ Encryption\ Service* OR *Encrypting\ File\ System* OR *Microsoft\
+        Defender* OR *Threat\ Protection* OR *Windows\ Event\ Log*) OR Binary.keyword:(*770069006e0064006500660065006e006400*
+        OR *4500760065006e0074004c006f006700* OR *6d0070007300730076006300* OR *530065006e0073006500*
+        OR *450046005300* OR *420044004500530056004300*)))
+index: wazuh-alerts*
+name: win_system_service_terminated_error_important
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

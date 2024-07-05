@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detection use of the command "split" to split files into parts and possible
+  transfer.
+filter:
+- query:
+    query_string:
+      query: (type:"SYSCALL" AND comm:"split")
+index: wazuh-alerts*
+name: lnx_auditd_split_file_into_pieces
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

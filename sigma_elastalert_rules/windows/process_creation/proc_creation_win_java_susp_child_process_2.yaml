@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects shell spawned from Java host process, which could be a sign of
+  exploitation (e.g. log4j exploitation)
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:*\\java.exe AND process_path.keyword:(*\\bash.exe
+        OR *\\cmd.exe OR *\\powershell.exe OR *\\pwsh.exe)) AND (NOT ((process_parent_path.keyword:*build*
+        AND process_command_line.keyword:*build*))))
+index: wazuh-alerts*
+name: proc_creation_win_java_susp_child_process_2
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

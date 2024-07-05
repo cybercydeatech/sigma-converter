@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects blocked attempts to change any of Defender's settings such as
+  "Real Time Monitoring" and "Behavior Monitoring"
+filter:
+- query:
+    query_string:
+      query: (event_id:"5013" AND Value.keyword:(*\\Windows\ Defender\\DisableAntiSpyware
+        OR *\\Windows\ Defender\\DisableAntiVirus OR *\\Windows\ Defender\\Scan\\DisableArchiveScanning
+        OR *\\Windows\ Defender\\Scan\\DisableScanningNetworkFiles OR *\\Real\-Time\
+        Protection\\DisableRealtimeMonitoring OR *\\Real\-Time\ Protection\\DisableBehaviorMonitoring
+        OR *\\Real\-Time\ Protection\\DisableIOAVProtection OR *\\Real\-Time\ Protection\\DisableScriptScanning))
+index: wazuh-alerts*
+name: win_defender_tamper_protection_trigger
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

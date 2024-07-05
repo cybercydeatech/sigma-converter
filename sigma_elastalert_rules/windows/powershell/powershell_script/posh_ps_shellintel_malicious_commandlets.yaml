@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Commandlet names from ShellIntel exploitation scripts.
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*Invoke\-SMBAutoBrute* OR *Invoke\-GPOLinks*
+        OR *Invoke\-Potato*)
+index: wazuh-alerts*
+name: posh_ps_shellintel_malicious_commandlets
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

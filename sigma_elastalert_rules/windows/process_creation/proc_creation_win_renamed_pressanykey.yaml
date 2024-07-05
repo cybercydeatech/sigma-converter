@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects renamed execution of "Microsoft.NodejsTools.PressAnyKey.exe",
+  which can be abused as a LOLBIN to execute arbitrary binaries
+filter:
+- query:
+    query_string:
+      query: (file_name_original:"Microsoft.NodejsTools.PressAnyKey.exe" AND (NOT
+        ((process_path.keyword:*\\Microsoft.NodejsTools.PressAnyKey.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_pressanykey
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

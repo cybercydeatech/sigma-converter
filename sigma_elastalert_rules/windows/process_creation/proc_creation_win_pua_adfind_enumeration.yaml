@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects active directory enumeration activity using known AdFind CLI
+  flags
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*lockoutduration* OR *lockoutthreshold*
+        OR *lockoutobservationwindow* OR *maxpwdage* OR *minpwdage* OR *minpwdlength*
+        OR *pwdhistorylength* OR *pwdproperties*) OR process_command_line.keyword:*\-sc\
+        admincountdmp* OR process_command_line.keyword:*\-sc\ exchaddresses*)
+index: wazuh-alerts*
+name: proc_creation_win_pua_adfind_enumeration
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

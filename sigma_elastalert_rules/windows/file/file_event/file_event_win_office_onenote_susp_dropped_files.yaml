@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects suspicious files created via the OneNote application. This could
+  indicate a potential malicious ".one"/".onepkg" file was executed as seen being
+  used in malware activity in the wild
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\onenote.exe OR *\\onenotem.exe OR *\\onenoteim.exe)
+        AND file_name.keyword:*\\AppData\\Local\\Temp\\OneNote\\* AND file_name.keyword:(*.bat
+        OR *.chm OR *.cmd OR *.dll OR *.exe OR *.hta OR *.htm OR *.html OR *.js OR
+        *.lnk OR *.ps1 OR *.vbe OR *.vbs OR *.wsf))
+index: wazuh-alerts*
+name: file_event_win_office_onenote_susp_dropped_files
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a flashplayer update from an unofficial location
+filter:
+- query:
+    query_string:
+      query: ((c-uri.keyword:*\/flash_install.php* OR c-uri.keyword:*\/install_flash_player.exe)
+        AND (NOT (cs-host.keyword:*.adobe.com)))
+index: wazuh-alerts*
+name: proxy_susp_flash_download_loc
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

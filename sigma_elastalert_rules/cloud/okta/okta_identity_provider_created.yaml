@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when a new identity provider is created for Okta.
+filter:
+- query:
+    query_string:
+      query: eventtype:"system.idp.lifecycle.create"
+index: wazuh-alerts*
+name: okta_identity_provider_created
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

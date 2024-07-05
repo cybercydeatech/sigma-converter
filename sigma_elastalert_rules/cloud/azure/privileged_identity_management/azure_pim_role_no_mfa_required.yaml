@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies when a privilege role can be activated without performing
+  mfa.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"noMfaOnRoleActivationAlertIncident"
+index: wazuh-alerts*
+name: azure_pim_role_no_mfa_required
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potentially suspicious changes to the SentinelOne context menu
+  scan command by a process other than SentinelOne.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\shell\\SentinelOneScan\\command\\* AND
+        (NOT ((Details.keyword:(C\:\\Program\ Files\\SentinelOne\\Sentinel\ Agent*
+        OR C\:\\Program\ Files\ \(x86\)\\SentinelOne\\Sentinel\ Agent*) AND Details.keyword:*\\SentinelScanFromContextMenu.exe*)
+        OR (process_path.keyword:(*C\:\\Program\ Files\\SentinelOne\\ OR *C\:\\Program\
+        Files\ \(x86\)\\SentinelOne\\)))))
+index: wazuh-alerts*
+name: registry_set_sentinelone_shell_context_tampering
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects basic PowerShell Remoting (WinRM) by monitoring for network inbound
+  connections to ports 5985 OR 5986
+filter:
+- query:
+    query_string:
+      query: (event_id:"5156" AND DestPort:("5985" OR "5986") AND LayerRTID:"44")
+index: wazuh-alerts*
+name: win_security_remote_powershell_session
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

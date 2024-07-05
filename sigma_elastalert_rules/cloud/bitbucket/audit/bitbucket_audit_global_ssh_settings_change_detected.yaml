@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Bitbucket global SSH access configuration changes.
+filter:
+- query:
+    query_string:
+      query: (auditType.category:"Global\ administration" AND auditType.action:"SSH\
+        settings\ changed")
+index: wazuh-alerts*
+name: bitbucket_audit_global_ssh_settings_change_detected
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects PowerShell downgrade attack by comparing the host versions with
+  the actually used engine version 2.0
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\powershell.exe AND process_command_line.keyword:(*\
+        \-version\ 2\ * OR *\ \-versio\ 2\ * OR *\ \-versi\ 2\ * OR *\ \-vers\ 2\
+        * OR *\ \-ver\ 2\ * OR *\ \-ve\ 2\ * OR *\ \-v\ 2\ *))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_downgrade_attack
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

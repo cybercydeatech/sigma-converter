@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects the addition of a new "Allow" firewall rule by the WMI process (WmiPrvSE.EXE).
+  This can occur if an attacker leverages PowerShell cmdlets such as "New-NetFirewallRule", or directly uses WMI CIM classes such as "MSFT_NetFirewallRule".
+filter:
+- query:
+    query_string:
+      query: (event_id:("2004" OR "2071" OR "2097") AND Action:"3" AND ModifyingApplication.keyword:*\:\\Windows\\System32\\wbem\\WmiPrvSE.exe)
+index: wazuh-alerts*
+name: win_firewall_as_add_rule_wmiprvse
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

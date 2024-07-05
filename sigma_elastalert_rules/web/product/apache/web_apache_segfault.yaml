@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a segmentation fault error message caused by a crashing apache
+  worker process
+filter:
+- query:
+    query_string:
+      query: exit\ signal\ Segmentation\ Fault
+index: wazuh-alerts*
+name: web_apache_segfault
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

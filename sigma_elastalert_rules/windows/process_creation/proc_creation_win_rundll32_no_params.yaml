@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects suspicious start of rundll32.exe without any parameters as found
+  in CobaltStrike beacon activity
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*\\rundll32.exe OR *\\rundll32.exe\" OR
+        *\\rundll32) AND (NOT (process_parent_path.keyword:(*\\AppData\\Local\\* OR
+        *\\Microsoft\\Edge\\*))))
+index: wazuh-alerts*
+name: proc_creation_win_rundll32_no_params
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

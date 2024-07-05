@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Attempts to access unattend.xml, where credentials are commonly stored, within the Panther directory where installation logs are stored.
+  If these files exist, their contents will be displayed. They are used to store credentials/answers during the unattended windows install process
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\unattend.xml
+index: wazuh-alerts*
+name: file_event_win_access_susp_unattend_xml
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

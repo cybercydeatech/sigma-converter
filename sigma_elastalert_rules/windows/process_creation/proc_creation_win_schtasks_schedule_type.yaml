@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects scheduled task creations or modification on a suspicious schedule
+  type
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\schtasks.exe OR file_name_original:"schtasks.exe")
+        AND process_command_line.keyword:(*\ ONLOGON\ * OR *\ ONSTART\ * OR *\ ONCE\
+        * OR *\ ONIDLE\ *)) AND (NOT ((process_command_line.keyword:(*NT\ AUT* OR
+        *\ SYSTEM* OR *HIGHEST*)))))
+index: wazuh-alerts*
+name: proc_creation_win_schtasks_schedule_type
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

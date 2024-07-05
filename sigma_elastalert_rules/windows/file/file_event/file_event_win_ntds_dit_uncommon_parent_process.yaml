@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects creation of a file named "ntds.dit" (Active Directory Database)
+  by an uncommon parent process or directory
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\\ntds.dit AND (process_parent_path.keyword:(*\\cscript.exe
+        OR *\\httpd.exe OR *\\nginx.exe OR *\\php\-cgi.exe OR *\\powershell.exe OR
+        *\\pwsh.exe OR *\\w3wp.exe OR *\\wscript.exe) OR process_parent_path.keyword:(*\\apache*
+        OR *\\tomcat* OR *\\AppData\\* OR *\\Temp\\* OR *\\Public\\* OR *\\PerfLogs\\*)))
+index: wazuh-alerts*
+name: file_event_win_ntds_dit_uncommon_parent_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential tampering with Windows Defender settings such as adding
+  exclusion using wmic
+filter:
+- query:
+    query_string:
+      query: ((file_name_original:"wmic.exe" OR process_path.keyword:*\\WMIC.exe)
+        AND 
+        process_command_line.keyword:*\/Namespace\:\\\\root\\Microsoft\\Windows\\Defender*)
+index: wazuh-alerts*
+name: proc_creation_win_wmic_namespace_defender
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

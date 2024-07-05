@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies an event where there are there are too many accounts assigned
+  the Global Administrator role.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"tooManyGlobalAdminsAssignedToTenantAlertIncident"
+index: wazuh-alerts*
+name: azure_pim_too_many_global_admins
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

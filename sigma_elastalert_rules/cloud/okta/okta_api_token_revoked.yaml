@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when a API Token is revoked.
+filter:
+- query:
+    query_string:
+      query: eventtype:"system.api_token.revoke"
+index: wazuh-alerts*
+name: okta_api_token_revoked
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

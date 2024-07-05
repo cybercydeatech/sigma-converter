@@ -1,0 +1,24 @@
+alert:
+- debug
+description: "Detects processes spawned from web servers (PHP, Tomcat, IIS, etc.)
+  that perform reconnaissance looking for the existence of popular scripting tools
+  (perl, python, wget) on the system via the help commands\n"
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:(*\\caddy.exe OR *\\httpd.exe OR *\\nginx.exe
+        OR *\\php\-cgi.exe OR *\\w3wp.exe OR *\\ws_tomcatservice.exe) OR (process_parent_path.keyword:(*\\java.exe
+        OR *\\javaw.exe) AND process_parent_path.keyword:(*\-tomcat\-* OR *\\tomcat*))
+        OR (process_parent_path.keyword:(*\\java.exe OR *\\javaw.exe) AND process_command_line.keyword:(*CATALINA_HOME*
+        OR *catalina.jar*))) AND process_command_line.keyword:(*perl\ \-\-help* OR
+        *perl\ \-h* OR *python\ \-\-help* OR *python\ \-h* OR *python3\ \-\-help*
+        OR *python3\ \-h* OR *wget\ \-\-help*))
+index: wazuh-alerts*
+name: proc_creation_win_webshell_tool_recon
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

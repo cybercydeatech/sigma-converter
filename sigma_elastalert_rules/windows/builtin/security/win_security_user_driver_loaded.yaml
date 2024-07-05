@@ -1,0 +1,29 @@
+alert:
+- debug
+description: |
+  Detects the usage of the 'SeLoadDriverPrivilege' privilege. This privilege is required to load or unload a device driver.
+  With this privilege, the user can dynamically load and unload device drivers or other code in to kernel mode.
+  This user right does not apply to Plug and Play device drivers.
+  If you exclude privileged users/admins and processes, which are allowed to do so, you are maybe left with bad programs trying to load malicious kernel drivers.
+  This will detect Ghost-In-The-Logs (https://github.com/bats3c/Ghost-In-The-Logs) and the usage of Sysinternals and various other tools. So you have to work with a whitelist to find the bad stuff.
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4673" AND service_privilege_list:"SeLoadDriverPrivilege"
+        AND Service:"\-") AND (NOT ((process_path:("C\:\\Windows\\System32\\Dism.exe"
+        OR "C\:\\Windows\\System32\\rundll32.exe" OR "C\:\\Windows\\System32\\fltMC.exe"
+        OR "C\:\\Windows\\HelpPane.exe" OR "C\:\\Windows\\System32\\mmc.exe" OR "C\:\\Windows\\System32\\svchost.exe"
+        OR "C\:\\Windows\\System32\\wimserv.exe" OR "C\:\\Windows\\System32\\RuntimeBroker.exe"
+        OR "C\:\\Windows\\System32\\SystemSettingsBroker.exe" OR "C\:\\Windows\\explorer.exe"))
+        OR (process_path.keyword:(*\\procexp64.exe OR *\\procexp.exe OR *\\procmon64.exe
+        OR *\\procmon.exe OR *\\Google\\Chrome\\Application\\chrome.exe OR *\\AppData\\Local\\Microsoft\\Teams\\current\\Teams.exe))
+        OR (process_path.keyword:C\:\\Program\ Files\\WindowsApps\\Microsoft*))))
+index: wazuh-alerts*
+name: win_security_user_driver_loaded
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

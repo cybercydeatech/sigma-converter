@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects changes to the AMSI come server registry key in order disable
+  AMSI scanning functionalities. When AMSI attempts to starts its COM component, it
+  will query its registered CLSID and return a non-existent COM server. This causes
+  a load failure and prevents any scanning methods from being accessed, ultimately
+  rendering AMSI useless
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\CLSID\\\{fdb00e52\-a214\-4aa1\-8fba\-4357bb0072ec\}\\InProcServer32\\\(Default\)
+        AND (NOT (Details:"%windir%\\system32\\amsi.dll")))
+index: wazuh-alerts*
+name: registry_set_amsi_com_hijack
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

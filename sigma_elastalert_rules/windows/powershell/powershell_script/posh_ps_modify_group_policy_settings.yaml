@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detect malicious GPO modifications can be used to implement many other
+  malicious behaviors.
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:*\\SOFTWARE\\Policies\\Microsoft\\Windows\\System*
+        AND ScriptBlockText.keyword:(*GroupPolicyRefreshTimeDC* OR *GroupPolicyRefreshTimeOffsetDC*
+        OR *GroupPolicyRefreshTime* OR *GroupPolicyRefreshTimeOffset* OR *EnableSmartScreen*
+        OR *ShellSmartScreenLevel*))
+index: wazuh-alerts*
+name: posh_ps_modify_group_policy_settings
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

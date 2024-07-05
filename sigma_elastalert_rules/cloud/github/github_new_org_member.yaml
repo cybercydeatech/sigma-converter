@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when a new member is added or invited to a github organization.
+filter:
+- query:
+    query_string:
+      query: action:("org.add_member" OR "org.invite_member")
+index: wazuh-alerts*
+name: github_new_org_member
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

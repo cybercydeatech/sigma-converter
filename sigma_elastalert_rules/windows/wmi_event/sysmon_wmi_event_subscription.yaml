@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects creation of WMI event subscription persistence method
+filter:
+- query:
+    query_string:
+      query: event_id:("19" OR "20" OR "21")
+index: wazuh-alerts*
+name: sysmon_wmi_event_subscription
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

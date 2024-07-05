@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the execution of a renamed "Msdt.exe" binary
+filter:
+- query:
+    query_string:
+      query: (file_name_original:"msdt.exe" AND (NOT (process_path.keyword:*\\msdt.exe)))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_msdt
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

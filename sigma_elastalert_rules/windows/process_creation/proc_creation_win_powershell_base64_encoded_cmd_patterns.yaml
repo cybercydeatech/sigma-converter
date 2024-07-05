@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects PowerShell command line patterns in combincation with encoded
+  commands that often appear in malware infection chains
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) OR file_name_original:("PowerShell.Exe"
+        OR "pwsh.dll")) AND process_command_line.keyword:(*\ \-e\ * OR *\ \-en\ *
+        OR *\ \-enc\ * OR *\ \-enco*) AND process_command_line.keyword:(*\ JAB* OR
+        *\ SUVYI* OR *\ SQBFAFgA* OR *\ aWV4I* OR *\ IAB* OR *\ PAA* OR *\ aQBlAHgA*))
+        AND (NOT 
+        ((process_parent_path.keyword:(*C\:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*
+        OR *\\gc_worker.exe*)))))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_base64_encoded_cmd_patterns
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

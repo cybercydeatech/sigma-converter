@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Set-Alias or New-Alias cmdlet usage. Which can be use as a mean
+  to obfuscate PowerShell scripts
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*Set\-Alias\ * OR *New\-Alias\ *)
+index: wazuh-alerts*
+name: posh_ps_susp_set_alias
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,30 @@
+alert:
+- debug
+description: Detects an a non-browser process interacting with the Telegram API which
+  could indicate use of a covert C2
+filter:
+- query:
+    query_string:
+      query: (dst_host_name.keyword:*api.telegram.org* AND (NOT ((process_path.keyword:*\\brave.exe)
+        OR (process_path:("C\:\\Program\ Files\\Google\\Chrome\\Application\\chrome.exe"
+        OR "C\:\\Program\ Files\ \(x86\)\\Google\\Chrome\\Application\\chrome.exe"))
+        OR (process_path:("C\:\\Program\ Files\\Mozilla\ Firefox\\firefox.exe" OR
+        "C\:\\Program\ Files\ \(x86\)\\Mozilla\ Firefox\\firefox.exe")) OR (process_path:("C\:\\Program\
+        Files\ \(x86\)\\Internet\ Explorer\\iexplore.exe" OR "C\:\\Program\ Files\\Internet\
+        Explorer\\iexplore.exe")) OR (process_path.keyword:*\\maxthon.exe) OR (process_path.keyword:C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\EdgeWebView\\Application\\* OR process_path.keyword:*\\WindowsApps\\MicrosoftEdge.exe
+        OR process_path:("C\:\\Program\ Files\ \(x86\)\\Microsoft\\Edge\\Application\\msedge.exe"
+        OR "C\:\\Program\ Files\\Microsoft\\Edge\\Application\\msedge.exe")) OR (process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\EdgeCore\\* OR C\:\\Program\ Files\\Microsoft\\EdgeCore\\*)
+        AND process_path.keyword:(*\\msedge.exe OR *\\msedgewebview2.exe)) OR (process_path.keyword:*\\opera.exe)
+        OR (process_path.keyword:*\\safari.exe) OR (process_path.keyword:*\\seamonkey.exe)
+        OR (process_path.keyword:*\\vivaldi.exe) OR (process_path.keyword:*\\whale.exe))))
+index: wazuh-alerts*
+name: net_connection_win_domain_telegram_api_non_browser_access
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect changes of syslog daemons configuration files
+filter:
+- query:
+    query_string:
+      query: (type:"PATH" AND name:("\/etc\/syslog.conf" OR "\/etc\/rsyslog.conf"
+        OR "\/etc\/syslog\-ng\/syslog\-ng.conf"))
+index: wazuh-alerts*
+name: lnx_auditd_logging_config_change
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

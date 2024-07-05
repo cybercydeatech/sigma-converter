@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the creation or modification of the Windows Terminal Profile
+  settings file "settings.json" by an uncommon process.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\cmd.exe OR *\\cscript.exe OR *\\mshta.exe OR
+        *\\powershell.exe OR *\\pwsh.exe OR *\\wscript.exe) AND 
+        file_name.keyword:*\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json)
+index: wazuh-alerts*
+name: file_event_win_susp_windows_terminal_profile
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

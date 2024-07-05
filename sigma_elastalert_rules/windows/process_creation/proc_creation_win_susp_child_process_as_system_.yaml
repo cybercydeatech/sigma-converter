@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detection of child processes spawned with SYSTEM privileges by parents
+  with LOCAL SERVICE or NETWORK SERVICE accounts
+filter:
+- query:
+    query_string:
+      query: ((ParentUser.keyword:(*AUTHORI* OR *AUTORI*) AND ParentUser.keyword:(*\\NETWORK\
+        SERVICE OR *\\LOCAL\ SERVICE) AND user_account.keyword:(*AUTHORI* OR *AUTORI*)
+        AND user_account.keyword:(*\\SYSTEM OR *\\Système OR *\\СИСТЕМА) AND IntegrityLevel:"System")
+        AND (NOT ((process_path.keyword:*\\rundll32.exe AND process_command_line.keyword:*DavSetCookie*))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_child_process_as_system_
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

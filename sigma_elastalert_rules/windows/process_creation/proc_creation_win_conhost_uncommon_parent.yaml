@@ -1,0 +1,28 @@
+alert:
+- debug
+description: Detects when the Console Window Host (conhost.exe) process is spawned
+  by an uncommon parent process, which could be indicative of potential code injection
+  activity.
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\conhost.exe AND process_parent_path.keyword:(*\\explorer.exe
+        OR *\\lsass.exe OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\services.exe OR
+        *\\smss.exe OR *\\spoolsv.exe OR *\\svchost.exe OR *\\userinit.exe OR *\\wininit.exe
+        OR *\\winlogon.exe)) AND (NOT ((process_parent_command_line.keyword:(*\-k\
+        apphost\ \-s\ AppHostSvc* OR *\-k\ imgsvc* OR *\-k\ localService\ \-p\ \-s\
+        RemoteRegistry* OR *\-k\ LocalSystemNetworkRestricted\ \-p\ \-s\ NgcSvc* OR
+        *\-k\ NetSvcs\ \-p\ \-s\ NcaSvc* OR *\-k\ netsvcs\ \-p\ \-s\ NetSetupSvc*
+        OR *\-k\ netsvcs\ \-p\ \-s\ wlidsvc* OR *\-k\ NetworkService\ \-p\ \-s\ DoSvc*
+        OR *\-k\ wsappx\ \-p\ \-s\ AppXSvc* OR *\-k\ wsappx\ \-p\ \-s\ ClipSVC*)))))
+        AND (NOT ((process_parent_command_line.keyword:(*C\:\\Program\ Files\ \(x86\)\\Dropbox\\Client\\*
+        OR *C\:\\Program\ Files\\Dropbox\\Client\\*)))))
+index: wazuh-alerts*
+name: proc_creation_win_conhost_uncommon_parent
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

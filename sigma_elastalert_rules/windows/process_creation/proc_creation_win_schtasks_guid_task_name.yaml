@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects creation of a scheduled task with a GUID like name
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\schtasks.exe AND process_command_line.keyword:*\/Create\
+        * AND process_command_line.keyword:(*\/TN\ \"\{* OR *\/TN\ '\{* OR *\/TN\
+        \{*) AND process_command_line.keyword:(*\}\"* OR *\}'* OR *\}\ *))
+index: wazuh-alerts*
+name: proc_creation_win_schtasks_guid_task_name
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

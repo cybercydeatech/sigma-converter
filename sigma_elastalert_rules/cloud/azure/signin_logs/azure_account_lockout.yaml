@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies user account which has been locked because the user tried
+  to sign in too many times with an incorrect user ID or password.
+filter:
+- query:
+    query_string:
+      query: ResultType:"50053"
+index: wazuh-alerts*
+name: azure_account_lockout
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

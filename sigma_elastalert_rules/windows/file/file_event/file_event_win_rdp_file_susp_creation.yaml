@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects Rclone config file being created
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\brave.exe OR *\\CCleaner\ Browser\\Application\\CCleanerBrowser.exe
+        OR *\\chromium.exe OR *\\firefox.exe OR *\\Google\\Chrome\\Application\\chrome.exe
+        OR *\\iexplore.exe OR *\\microsoftedge.exe OR *\\msedge.exe OR *\\Opera.exe
+        OR *\\Vivaldi.exe OR *\\Whale.exe OR *\\Outlook.exe OR *\\RuntimeBroker.exe
+        OR *\\Thunderbird.exe OR *\\Discord.exe OR *\\Keybase.exe OR *\\msteams.exe
+        OR *\\Slack.exe OR *\\teams.exe) AND file_name.keyword:*.rdp*)
+index: wazuh-alerts*
+name: file_event_win_rdp_file_susp_creation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

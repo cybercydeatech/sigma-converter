@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the load of a signed WinRing0 driver often used by threat actors,
+  crypto miners (XMRIG) or malware for privilege escalation
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:(*\\WinRing0x64.sys OR *\\WinRing0.sys OR *\\WinRing0.dll
+        OR *\\WinRing0x64.dll OR *\\winring00x64.sys) OR Hashes.keyword:*IMPHASH\=D41FA95D4642DC981F10DE36F4DC8CD7*
+        OR hash_imphash:"d41fa95d4642dc981f10de36f4dc8cd7")
+index: wazuh-alerts*
+name: driver_load_win_vuln_winring0_driver
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

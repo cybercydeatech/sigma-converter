@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects patterns found in process executions cause by China Chopper like
+  tiny (ASPX) webshells
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\w3wp.exe OR process_parent_path.keyword:*\\w3wp.exe)
+        AND process_command_line.keyword:(*&ipconfig&echo* OR *&quser&echo* OR *&whoami&echo*
+        OR *&c\:&echo* OR *&cd&echo* OR *&dir&echo* OR *&echo\ \[E\]* OR *&echo\ \[S\]*))
+index: wazuh-alerts*
+name: proc_creation_win_webshell_chopper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

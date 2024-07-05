@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects file being transferred via ScreenConnect RMM
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"ScreenConnect" AND event_id:"201" AND Data.keyword:*Transferred\
+        files\ with\ action*)
+index: wazuh-alerts*
+name: win_app_remote_access_tools_screenconnect_file_transfer
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

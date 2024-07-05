@@ -1,0 +1,20 @@
+alert:
+- debug
+description: "Detects changes to the Internet Explorer \"DisableFirstRunCustomize\"\
+  \ value, which prevents Internet Explorer from running the first run wizard the
+  first time a user starts the browser after installing Internet Explorer or Windows.\n"
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*\\Microsoft\\Internet\ Explorer\\Main\\DisableFirstRunCustomize
+        AND Details:("DWORD\ \(0x00000001\)" OR "DWORD\ \(0x00000002\)")) AND (NOT
+        ((process_path:("C\:\\Windows\\explorer.exe" OR "C\:\\Windows\\System32\\ie4uinit.exe")))))
+index: wazuh-alerts*
+name: registry_set_internet_explorer_disable_first_run_customize
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

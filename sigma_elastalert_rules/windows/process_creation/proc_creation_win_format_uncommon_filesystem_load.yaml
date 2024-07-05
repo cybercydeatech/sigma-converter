@@ -1,0 +1,20 @@
+alert:
+- debug
+description: "Detects the execution of format.com with an uncommon filesystem selection
+  that could indicate a defense evasion activity in which \"format.com\" is used to
+  load malicious DLL files or other programs.\n"
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\format.com AND process_command_line.keyword:*\/fs\:*)
+        AND (NOT ((process_command_line.keyword:(*\/fs\:exFAT* OR *\/fs\:FAT* OR *\/fs\:NTFS*
+        OR *\/fs\:ReFS* OR *\/fs\:UDF*)))))
+index: wazuh-alerts*
+name: proc_creation_win_format_uncommon_filesystem_load
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

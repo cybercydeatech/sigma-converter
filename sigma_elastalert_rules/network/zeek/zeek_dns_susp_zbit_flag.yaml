@@ -1,0 +1,24 @@
+alert:
+- debug
+description: |
+  The DNS Z flag is bit within the DNS protocol header that is, per the IETF design, meant to be used reserved (unused).
+  Although recently it has been used in DNSSec, the value being set to anything other than 0 should be rare.
+  Otherwise if it is set to non 0 and DNSSec is being used, then excluding the legitimate domains is low effort and high reward.
+  Determine if multiple of these files were accessed in a short period of time to further enhance the possibility of seeing if this was a one off or the possibility of larger sensitive file gathering.
+  This Sigma query is designed to accompany the Corelight Threat Hunting Guide, which can be found here: https://www3.corelight.com/corelights-introductory-guide-to-threat-hunting-with-zeek-bro-logs'
+filter:
+- query:
+    query_string:
+      query: (((NOT (Z:"0")) AND query.keyword:*.*) AND (NOT ((query.keyword:(*.arpa
+        OR *.local OR *.ultradns.net OR *.twtrdns.net OR *.azuredns\-prd.info OR *.azure\-dns.com
+        OR *.azuredns\-ff.info OR *.azuredns\-ff.org OR *.azuregov\-dns.org) OR qtype_name:("ns"
+        OR "mx") OR answers.keyword:*\\x00 OR id.resp_p:("137" OR "138" OR "139")))))
+index: wazuh-alerts*
+name: zeek_dns_susp_zbit_flag
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

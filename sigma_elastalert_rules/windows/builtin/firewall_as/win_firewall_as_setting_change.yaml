@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects activity when the settings of the Windows firewall have been
+  changed
+filter:
+- query:
+    query_string:
+      query: event_id:("2002" OR "2083" OR "2003" OR "2082" OR "2008")
+index: wazuh-alerts*
+name: win_firewall_as_setting_change
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

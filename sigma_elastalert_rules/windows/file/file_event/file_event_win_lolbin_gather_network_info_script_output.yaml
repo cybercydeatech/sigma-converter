@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects creation of files which are the results of executing the built-in
+  reconnaissance script "C:\Windows\System32\gatherNetworkInfo.vbs".
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:C\:\\Windows\\System32\\config* AND file_name.keyword:(*\\Hotfixinfo.txt
+        OR *\\netiostate.txt OR *\\sysportslog.txt OR *\\VmSwitchLog.evtx))
+index: wazuh-alerts*
+name: file_event_win_lolbin_gather_network_info_script_output
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

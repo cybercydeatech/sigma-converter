@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects potential "ShellDispatch.dll" functionality abuse to execute
+  arbitrary binaries via "ShellExecute"
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\rundll32.exe OR file_name_original:"RUNDLL32.EXE")
+        AND process_command_line.keyword:*RunDll_ShellExecuteW*)
+index: wazuh-alerts*
+name: proc_creation_win_rundll32_shelldispatch_potential_abuse
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

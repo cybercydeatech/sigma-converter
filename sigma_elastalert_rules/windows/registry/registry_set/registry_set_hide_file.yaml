@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Detects modifications to the "Hidden" and "ShowSuperHidden" explorer registry values in order to disable showing of hidden files and system files.
+  This technique is abused by several malware families to hide their files from normal users.
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:(*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowSuperHidden
+        OR *\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden) AND
+        Details:"DWORD\ \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_hide_file
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

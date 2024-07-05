@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Azure Hybrid Connection Manager services querying the Azure service
+  bus service
+filter:
+- query:
+    query_string:
+      query: (QueryName.keyword:*servicebus.windows.net* AND process_path.keyword:*HybridConnectionManager*)
+index: wazuh-alerts*
+name: dns_query_win_hybridconnectionmgr_servicebus
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

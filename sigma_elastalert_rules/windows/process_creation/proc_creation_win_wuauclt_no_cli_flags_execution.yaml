@@ -1,0 +1,18 @@
+alert:
+- debug
+description: "Detects suspicious Windows Update Agent activity in which a wuauclt.exe
+  process command line doesn't contain any command line flags\n"
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\Wuauclt.exe OR file_name_original:"Wuauclt.exe")
+        AND process_command_line.keyword:(*Wuauclt OR *Wuauclt.exe))
+index: wazuh-alerts*
+name: proc_creation_win_wuauclt_no_cli_flags_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Alerts on trust record modification within the registry, indicating usage
+  of macros
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*\\Security\\Trusted\ Documents\\TrustRecords*
+index: wazuh-alerts*
+name: registry_event_office_trust_record_modification
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

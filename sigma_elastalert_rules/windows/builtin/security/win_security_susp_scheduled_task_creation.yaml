@@ -1,0 +1,25 @@
+alert:
+- debug
+description: Detects suspicious scheduled task creation events. Based on attributes
+  such as paths, commands line flags, etc.
+filter:
+- query:
+    query_string:
+      query: (event_id:"4698" AND TaskContent.keyword:(*\\AppData\\Local\\Temp\\*
+        OR *\\AppData\\Roaming\\* OR *\\Users\\Public\\* OR *\\WINDOWS\\Temp\\* OR
+        *C\:\\Temp\\* OR *\\Desktop\\* OR *\\Downloads\\* OR *\\Temporary\ Internet*
+        OR *C\:\\ProgramData\\* OR *C\:\\Perflogs\\*) AND TaskContent.keyword:(*regsvr32*
+        OR *rundll32* OR *cmd.exe<\/Command>* OR *cmd<\/Command>* OR *<Arguments>\/c\
+        * OR *<Arguments>\/k\ * OR *<Arguments>\/r\ * OR *powershell* OR *pwsh* OR
+        *mshta* OR *wscript* OR *cscript* OR *certutil* OR *bitsadmin* OR *bash.exe*
+        OR *bash\ * OR *scrcons* OR *wmic\ * OR *wmic.exe* OR *forfiles* OR *scriptrunner*
+        OR *hh.exe*))
+index: wazuh-alerts*
+name: win_security_susp_scheduled_task_creation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

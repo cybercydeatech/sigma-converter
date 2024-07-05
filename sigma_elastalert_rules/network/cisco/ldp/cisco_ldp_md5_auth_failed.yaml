@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects LDP failures which may be indicative of brute force attacks to
+  manipulate MPLS labels
+filter:
+- query:
+    query_string:
+      query: (LDP AND \*.keyword:(*SOCKET_TCP_PACKET_MD5_AUTHEN_FAIL* OR *TCPMD5AuthenFail*))
+index: wazuh-alerts*
+name: cisco_ldp_md5_auth_failed
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

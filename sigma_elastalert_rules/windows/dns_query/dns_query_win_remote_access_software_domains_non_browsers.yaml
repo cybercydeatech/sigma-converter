@@ -1,0 +1,61 @@
+alert:
+- debug
+description: |
+  An adversary may use legitimate desktop support and remote access software, such as Team Viewer, Go2Assist, LogMein, AmmyyAdmin, etc, to establish an interactive command and control channel to target systems within networks.
+  These services are commonly used as legitimate technical support software, and may be allowed by application control within a target environment.
+  Remote access tools like VNC, Ammyy, and Teamviewer are used frequently when compared with other legitimate software commonly used by adversaries. (Citation: Symantec Living off the Land)
+filter:
+- query:
+    query_string:
+      query: ((QueryName.keyword:(*agent.jumpcloud.com OR *agentreporting.atera.com
+        OR *ammyy.com OR *api.parsec.app OR *api.playanext.com OR *api.splashtop.com
+        OR *app.atera.com OR *assist.zoho.com OR *authentication.logmeininc.com OR
+        *beyondtrustcloud.com OR *cdn.kaseya.net OR *client.teamviewer.com OR *comserver.corporate.beanywhere.com
+        OR *control.connectwise.com OR *downloads.zohocdn.com OR *dwservice.net OR
+        *express.gotoassist.com OR *getgo.com OR *integratedchat.teamviewer.com OR
+        *join.zoho.com OR *kickstart.jumpcloud.com OR *license.bomgar.com OR *logmein\-gateway.com
+        OR *logmein.com OR *logmeincdn.http.internapcdn.net OR *n\-able.com OR *net.anydesk.com
+        OR *netsupportsoftware.com OR *parsecusercontent.com OR *pubsub.atera.com
+        OR *relay.kaseya.net OR *relay.screenconnect.com OR *relay.splashtop.com OR
+        *remotedesktop\-pa.googleapis.com OR *remoteutilities.com OR *secure.logmeinrescue.com
+        OR *services.vnc.com OR *static.remotepc.com OR *swi\-rc.com OR *swi\-tc.com
+        OR *telemetry.servers.qetqo.com OR *tmate.io OR *zohoassist.com) OR (QueryName.keyword:*.rustdesk.com
+        AND QueryName.keyword:rs\-*)) AND (NOT ((process_path:("C\:\\Program\ Files\\Google\\Chrome\\Application\\chrome.exe"
+        OR "C\:\\Program\ Files\ \(x86\)\\Google\\Chrome\\Application\\chrome.exe"))
+        OR (process_path:("C\:\\Program\ Files\\Mozilla\ Firefox\\firefox.exe" OR
+        "C\:\\Program\ Files\ \(x86\)\\Mozilla\ Firefox\\firefox.exe")) OR (process_path:("C\:\\Program\
+        Files\ \(x86\)\\Internet\ Explorer\\iexplore.exe" OR "C\:\\Program\ Files\\Internet\
+        Explorer\\iexplore.exe")) OR (process_path.keyword:C\:\\Program\ Files\ \(x86\)\\Microsoft\\EdgeWebView\\Application\\*
+        OR process_path.keyword:*\\WindowsApps\\MicrosoftEdge.exe OR process_path:("C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\Edge\\Application\\msedge.exe" OR "C\:\\Program\
+        Files\\Microsoft\\Edge\\Application\\msedge.exe")) OR (process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Microsoft\\EdgeCore\\* OR C\:\\Program\ Files\\Microsoft\\EdgeCore\\*)
+        AND process_path.keyword:(*\\msedge.exe OR *\\msedgewebview2.exe)) OR (process_path.keyword:*\\safari.exe)
+        OR (process_path.keyword:(*\\MsMpEng.exe OR *\\MsSense.exe)) OR (process_path.keyword:*\\brave.exe
+        AND process_path.keyword:C\:\\Program\ Files\\BraveSoftware\\*) OR (process_path.keyword:*\\AppData\\Local\\Maxthon\\*
+        AND process_path.keyword:*\\maxthon.exe) OR (process_path.keyword:*\\AppData\\Local\\Programs\\Opera\\*
+        AND process_path.keyword:*\\opera.exe) OR (process_path.keyword:(C\:\\Program\
+        Files\\SeaMonkey\\* OR C\:\\Program\ Files\ \(x86\)\\SeaMonkey\\*) AND process_path.keyword:*\\seamonkey.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Vivaldi\\* AND process_path.keyword:*\\vivaldi.exe)
+        OR (process_path.keyword:(C\:\\Program\ Files\\Naver\\Naver\ Whale\\* OR C\:\\Program\
+        Files\ \(x86\)\\Naver\\Naver\ Whale\\*) AND process_path.keyword:*\\whale.exe)
+        OR (process_path.keyword:*\\Tor\ Browser\\*) OR (process_path.keyword:(C\:\\Program\
+        Files\\Waterfox\\* OR C\:\\Program\ Files\ \(x86\)\\Waterfox\\*) AND process_path.keyword:*\\Waterfox.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Programs\\midori\-ng\\* AND process_path.keyword:*\\Midori\
+        Next\ Generation.exe) OR (process_path.keyword:(C\:\\Program\ Files\\SlimBrowser\\*
+        OR C\:\\Program\ Files\ \(x86\)\\SlimBrowser\\*) AND process_path.keyword:*\\slimbrowser.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Flock\\* AND process_path.keyword:*\\Flock.exe)
+        OR (process_path.keyword:*\\AppData\\Local\\Phoebe\\* AND process_path.keyword:*\\Phoebe.exe)
+        OR (process_path.keyword:(C\:\\Program\ Files\\Falkon\\* OR C\:\\Program\
+        Files\ \(x86\)\\Falkon\\*) AND process_path.keyword:*\\falkon.exe) OR (process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Avant\ Browser\\* OR C\:\\Program\ Files\\Avant\ Browser\\*)
+        AND process_path.keyword:*\\avant.exe))))
+index: wazuh-alerts*
+name: dns_query_win_remote_access_software_domains_non_browsers
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

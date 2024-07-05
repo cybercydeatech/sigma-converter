@@ -1,0 +1,25 @@
+alert:
+- debug
+description: Detects loading of "credui.dll" and related DLLs by an uncommon process.
+  Attackers might leverage this DLL for potential use of "CredUIPromptForCredentials"
+  or "CredUnPackAuthenticationBufferW".
+filter:
+- query:
+    query_string:
+      query: (((ImageLoaded.keyword:(*\\credui.dll OR *\\wincredui.dll) OR file_name_original:("credui.dll"
+        OR "wincredui.dll")) AND (NOT ((process_path.keyword:(C\:\\Program\ Files\
+        \(x86\)\\* OR C\:\\Program\ Files\\* OR C\:\\Windows\\System32\\* OR C\:\\Windows\\SysWOW64\\*))
+        OR (process_path:("C\:\\Windows\\explorer.exe" OR "C\:\\Windows\\ImmersiveControlPanel\\SystemSettings.exe"
+        OR "C\:\\Windows\\regedit.exe"))))) AND (NOT ((process_path.keyword:*\\opera_autoupdate.exe)
+        OR (process_path.keyword:(*\\procexp64.exe OR *\\procexp.exe)) OR (process_path.keyword:C\:\\Users\\*
+        AND process_path.keyword:*\\AppData\\Local\\Microsoft\\Teams\\* AND process_path.keyword:*\\Teams.exe)
+        OR (process_path.keyword:C\:\\Users\\* AND process_path.keyword:*\\AppData\\Local\\Microsoft\\OneDrive\\*))))
+index: wazuh-alerts*
+name: image_load_dll_credui_uncommon_process_load
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects potential abuse of the provisioning registry key for indirect
+  command execution through "Provlaunch.exe".
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:*SOFTWARE\\Microsoft\\Provisioning\\Commands\\*
+index: wazuh-alerts*
+name: proc_creation_win_registry_provlaunch_provisioning_command
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

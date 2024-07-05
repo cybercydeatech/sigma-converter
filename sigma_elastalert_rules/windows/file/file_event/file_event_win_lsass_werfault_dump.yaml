@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects WerFault creating a dump file with a name that indicates that
+  the dump file could be an LSASS process memory, which contains user credentials
+filter:
+- query:
+    query_string:
+      query: (process_path:"C\:\\WINDOWS\\system32\\WerFault.exe" AND file_name.keyword:(*\\lsass*
+        OR *lsass.exe*))
+index: wazuh-alerts*
+name: file_event_win_lsass_werfault_dump
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

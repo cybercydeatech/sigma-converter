@@ -1,0 +1,36 @@
+alert:
+- debug
+description: Detects a suspicious process creation as SYSTEM user (suspicious program
+  or command line parameter)
+filter:
+- query:
+    query_string:
+      query: (((IntegrityLevel:"System" AND user_account.keyword:(*AUTHORI* OR *AUTORI*))
+        AND (process_path.keyword:(*\\calc.exe OR *\\wscript.exe OR *\\cscript.exe
+        OR *\\hh.exe OR *\\mshta.exe OR *\\forfiles.exe OR *\\ping.exe) OR process_command_line.keyword:(*\
+        \-NoP\ * OR *\ \-W\ Hidden\ * OR *\ \-decode\ * OR *\ \/decode\ * OR *\ \/urlcache\
+        * OR *\ \-urlcache\ * OR *\ \-e*\ JAB* OR *\ \-e*\ SUVYI* OR *\ \-e*\ SQBFAFgA*
+        OR *\ \-e*\ aWV4I* OR *\ \-e*\ IAB* OR *\ \-e*\ PAA* OR *\ \-e*\ aQBlAHgA*
+        OR *vssadmin\ delete\ shadows* OR *reg\ SAVE\ HKLM* OR *\ \-ma\ * OR *Microsoft\\Windows\\CurrentVersion\\Run*
+        OR *.downloadstring\(* OR *.downloadfile\(* OR *\ \/ticket\:* OR *dpapi\:\:*
+        OR *event\:\:clear* OR *event\:\:drop* OR *id\:\:modify* OR *kerberos\:\:*
+        OR *lsadump\:\:* OR *misc\:\:* OR *privilege\:\:* OR *rpc\:\:* OR *sekurlsa\:\:*
+        OR *sid\:\:* OR *token\:\:* OR *vault\:\:cred* OR *vault\:\:list* OR *\ p\:\:d\
+        * OR *;iex\(* OR *MiniDump* OR *net\ user\ *))) AND (NOT ((process_command_line:"ping\
+        127.0.0.1\ \-n\ 5") OR (process_path.keyword:*\\PING.EXE AND process_parent_command_line.keyword:*\\DismFoDInstall.cmd*)
+        OR 
+        (process_parent_path.keyword:*\:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*)
+        OR (process_parent_path.keyword:(*\:\\Program\ Files\ \(x86\)\\Java\\* OR
+        *\:\\Program\ Files\\Java\\*) AND process_parent_path.keyword:*\\bin\\javaws.exe
+        AND process_path.keyword:(*\:\\Program\ Files\ \(x86\)\\Java\\* OR *\:\\Program\
+        Files\\Java\\*) AND process_path.keyword:*\\bin\\jp2launcher.exe AND process_command_line.keyword:*\
+        \-ma\ *))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_system_user_anomaly
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

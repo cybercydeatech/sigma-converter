@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects creation of files with the ".one"/".onepkg" extension in suspicious
+  or uncommon locations. This could be a sign of attackers abusing OneNote attachments
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:(*\\AppData\\Local\\Temp\\* OR *\\Users\\Public\\*
+        OR *\\Windows\\Temp\\* OR *\:\\Temp\\*) AND file_name.keyword:(*.one OR *.onepkg))
+        AND (NOT ((process_path.keyword:*\:\\Program\ Files\\Microsoft\ Office\\*
+        AND process_path.keyword:*\\ONENOTE.EXE))))
+index: wazuh-alerts*
+name: file_event_win_office_onenote_files_in_susp_locations
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

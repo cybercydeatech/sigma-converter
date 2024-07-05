@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detection well-known mimikatz command line arguments
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*DumpCreds* OR *mimikatz*) OR process_command_line.keyword:(*\:\:aadcookie*
+        OR *\:\:detours* OR *\:\:memssp* OR *\:\:mflt* OR *\:\:ncroutemon* OR *\:\:ngcsign*
+        OR *\:\:printnightmare* OR *\:\:skeleton* OR *\:\:preshutdown* OR *\:\:mstsc*
+        OR *\:\:multirdp*) OR process_command_line.keyword:(*rpc\:\:* OR *token\:\:*
+        OR *crypto\:\:* OR *dpapi\:\:* OR *sekurlsa\:\:* OR *kerberos\:\:* OR *lsadump\:\:*
+        OR *privilege\:\:* OR *process\:\:* OR *vault\:\:*))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_mimikatz_command_line
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

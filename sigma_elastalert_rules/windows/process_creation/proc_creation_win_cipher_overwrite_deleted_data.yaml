@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects usage of the "cipher" built-in utility in order to overwrite deleted data from disk.
+  Adversaries may destroy data and files on specific systems or in large numbers on a network to interrupt availability to systems, services, and network resources.
+  Data destruction is likely to render stored data irrecoverable by forensic techniques through overwriting files or data on local and remote drives
+filter:
+- query:
+    query_string:
+      query: ((file_name_original:"CIPHER.EXE" OR process_path.keyword:*\\cipher.exe)
+        AND process_command_line.keyword:*\ \/w\:*)
+index: wazuh-alerts*
+name: proc_creation_win_cipher_overwrite_deleted_data
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

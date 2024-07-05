@@ -1,0 +1,16 @@
+alert:
+- debug
+description: See what files are being deleted from flash file systems
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*erase* OR *delete* OR *format*)
+index: wazuh-alerts*
+name: cisco_cli_file_deletion
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

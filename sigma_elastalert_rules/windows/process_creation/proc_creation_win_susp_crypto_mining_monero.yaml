@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects command line parameters or strings often used by crypto miners
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*\ \-\-cpu\-priority\=* OR *\-\-donate\-level\=0*
+        OR *\ \-o\ pool.* OR *\ \-\-nicehash* OR *\ \-\-algo\=rx\/0\ * OR *stratum\+tcp\:\/\/*
+        OR *stratum\+udp\:\/\/* OR *LS1kb25hdGUtbGV2ZWw9* OR *0tZG9uYXRlLWxldmVsP*
+        OR *tLWRvbmF0ZS1sZXZlbD* OR *c3RyYXR1bSt0Y3A6Ly* OR *N0cmF0dW0rdGNwOi8v* OR
+        *zdHJhdHVtK3RjcDovL* OR *c3RyYXR1bSt1ZHA6Ly* OR *N0cmF0dW0rdWRwOi8v* OR *zdHJhdHVtK3VkcDovL*)
+        AND (NOT (process_command_line.keyword:(*\ pool.c\ * OR *\ pool.o\ * OR *gcc\
+        \-*))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_crypto_mining_monero
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

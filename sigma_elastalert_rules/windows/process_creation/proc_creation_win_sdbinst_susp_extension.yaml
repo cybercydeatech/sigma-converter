@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Detects installation of a potentially suspicious new shim with an uncommon extension using sdbinst.exe.
+  Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\sdbinst.exe OR file_name_original:"sdbinst.exe")
+        AND (NOT ((process_command_line.keyword:*.sdb*) OR (process_command_line.keyword:(*\
+        \-c OR *\ \-f OR *\ \-mm OR *\ \-t) OR process_command_line.keyword:*\ \-m\
+        \-bg*) OR (NOT _exists_:process_command_line) OR (process_command_line:""))))
+index: wazuh-alerts*
+name: proc_creation_win_sdbinst_susp_extension
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

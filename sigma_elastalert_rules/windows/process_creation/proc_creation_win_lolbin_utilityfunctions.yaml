@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the use of a Microsoft signed script executing a managed DLL
+  with PowerShell.
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*UtilityFunctions.ps1* OR *RegSnapin\ *)
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_utilityfunctions
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

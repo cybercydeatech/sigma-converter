@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects execution of python using the "-c" flag. This is could be used
+  as a way to launch a reverse shell or execute live python code.
+filter:
+- query:
+    query_string:
+      query: (((file_name_original:"python.exe" OR process_path.keyword:(*python.exe
+        OR *python3.exe OR *python2.exe)) AND process_command_line.keyword:*\ \-c*)
+        AND (NOT ((process_parent_path.keyword:C\:\\Program\ Files\\Python* AND process_parent_path.keyword:*\\python.exe
+        AND process_parent_command_line.keyword:*\-E\ \-s\ \-m\ ensurepip\ \-U\ \-\-default\-pip*)
+        OR (process_parent_path.keyword:*\\AppData\\Local\\Programs\\Microsoft\ VS\
+        Code\\Code.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_python_inline_command_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

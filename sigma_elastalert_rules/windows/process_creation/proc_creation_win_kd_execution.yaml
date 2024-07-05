@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects execution of the Windows Kernel Debugger "kd.exe".
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\kd.exe OR file_name_original:"kd.exe")
+index: wazuh-alerts*
+name: proc_creation_win_kd_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

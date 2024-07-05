@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects registry modifications that disable internal tools or functions
+  in explorer (malware like Agent Tesla uses this technique)
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:(*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoLogOff
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoDesktop
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFind
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFileMenu
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoClose
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoSetTaskbar
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoPropertiesMyDocuments
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoTrayContextMenu)
+        AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_set_nopolicies_user
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

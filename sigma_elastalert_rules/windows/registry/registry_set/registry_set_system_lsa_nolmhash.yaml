@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects changes to the "NoLMHash" registry value in order to allow Windows to store LM Hashes.
+  By setting this registry value to "0" (DWORD), Windows will be allowed to store a LAN manager hash of your password in Active Directory and local SAM databases.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*System\\CurrentControlSet\\Control\\Lsa\\NoLMHash
+        AND Details:"DWORD\ \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_system_lsa_nolmhash
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

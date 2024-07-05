@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the use of Dumpert process dumper, which dumps the lsass.exe
+  process memory
+filter:
+- query:
+    query_string:
+      query: (Hashes.keyword:*09D278F9DE118EF09163C6140255C690* OR process_command_line.keyword:*Dumpert.dll*)
+index: wazuh-alerts*
+name: proc_creation_win_hktl_dumpert
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

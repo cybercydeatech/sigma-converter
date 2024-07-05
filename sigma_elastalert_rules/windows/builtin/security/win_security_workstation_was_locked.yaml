@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects locked workstation session events that occur automatically after
+  a standard period of inactivity.
+filter:
+- query:
+    query_string:
+      query: event_id:"4800"
+index: wazuh-alerts*
+name: win_security_workstation_was_locked
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

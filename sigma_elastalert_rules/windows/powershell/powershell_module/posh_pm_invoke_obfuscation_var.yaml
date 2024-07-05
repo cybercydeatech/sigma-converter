@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Obfuscated use of Environment Variables to execute PowerShell
+filter:
+- query:
+    query_string:
+      query: 
+        Payload.keyword:/cmd.{0,5}(?:/c|/r)(?:\s|)"set\s[a-zA-Z]{3,6}.*(?:\{\d\}){1,}\\"\s+?-f(?:.*\)){1,}.*"/
+index: wazuh-alerts*
+name: posh_pm_invoke_obfuscation_var
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

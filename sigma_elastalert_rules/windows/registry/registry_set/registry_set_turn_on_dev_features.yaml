@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects when the enablement of developer features such as "Developer
+  Mode" or "Application Sideloading". Which allows the user to install untrusted packages.
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:(*\\Microsoft\\Windows\\CurrentVersion\\AppModelUnlock*
+        OR *\\Policies\\Microsoft\\Windows\\Appx\\*) AND registry_key_path.keyword:(*\\AllowAllTrustedApps
+        OR *\\AllowDevelopmentWithoutDevLicense) AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_turn_on_dev_features
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

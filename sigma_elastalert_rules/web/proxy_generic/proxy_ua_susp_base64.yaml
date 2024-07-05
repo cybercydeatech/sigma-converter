@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects User Agent strings that end with an equal sign, which can be
+  a sign of base64 encoding.
+filter:
+- query:
+    query_string:
+      query: c-useragent.keyword:*\=
+index: wazuh-alerts*
+name: proxy_ua_susp_base64
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

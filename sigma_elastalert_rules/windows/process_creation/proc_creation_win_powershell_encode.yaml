@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Commandline to launch powershell with a base64 payload
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) AND process_command_line.keyword:(*\
+        \-e\ * OR *\ \-en\ * OR *\ \-enc\ * OR *\ \-enco* OR *\ \-ec\ *)) AND (NOT
+        ((process_command_line.keyword:*\ \-Encoding\ *) OR 
+        (process_parent_path.keyword:(*C\:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*
+        OR *\\gc_worker.exe*)))))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_encode
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

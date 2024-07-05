@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects when attackers or tools disable Windows Defender functionalities
+  via the Windows registry
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*\\SOFTWARE\\Microsoft\\Windows\ Defender\\*
+        OR *\\SOFTWARE\\Policies\\Microsoft\\Windows\ Defender\ Security\ Center\\*
+        OR *\\SOFTWARE\\Policies\\Microsoft\\Windows\ Defender\\*) AND ((registry_key_path.keyword:(*\\DisableAntiSpyware
+        OR *\\DisableAntiVirus OR *\\Real\-Time\ Protection\\DisableBehaviorMonitoring
+        OR *\\Real\-Time\ Protection\\DisableIntrusionPreventionSystem OR *\\Real\-Time\
+        Protection\\DisableIOAVProtection OR *\\Real\-Time\ Protection\\DisableOnAccessProtection
+        OR *\\Real\-Time\ Protection\\DisableRealtimeMonitoring OR *\\Real\-Time\
+        Protection\\DisableScanOnRealtimeEnable OR *\\Real\-Time\ Protection\\DisableScriptScanning
+        OR *\\Reporting\\DisableEnhancedNotifications OR *\\SpyNet\\DisableBlockAtFirstSeen)
+        AND Details:"DWORD\ \(0x00000001\)") OR (registry_key_path.keyword:(*\\App\
+        and\ Browser\ protection\\DisallowExploitProtectionOverride OR *\\Features\\TamperProtection
+        OR *\\MpEngine\\MpEnablePus OR *\\PUAProtection OR *\\Signature\ Update\\ForceUpdateFromMU
+        OR *\\SpyNet\\SpynetReporting OR *\\SpyNet\\SubmitSamplesConsent OR *\\Windows\
+        Defender\ Exploit\ Guard\\Controlled\ Folder\ Access\\EnableControlledFolderAccess)
+        AND Details:"DWORD\ \(0x00000000\)")))
+index: wazuh-alerts*
+name: registry_set_windows_defender_tamper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

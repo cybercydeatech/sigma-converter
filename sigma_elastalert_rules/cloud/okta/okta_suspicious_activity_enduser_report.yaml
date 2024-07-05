@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when an Okta end-user reports activity by their account as being
+  potentially suspicious.
+filter:
+- query:
+    query_string:
+      query: eventtype:"user.account.report_suspicious_activity_by_enduser"
+index: wazuh-alerts*
+name: okta_suspicious_activity_enduser_report
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

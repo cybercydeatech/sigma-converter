@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious command lines that look as if they would create symbolic
+  links to /etc/passwd
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*ln\ \-s\ \-f\ \/etc\/passwd* OR *ln\ \-s\ \/etc\/passwd*)
+index: wazuh-alerts*
+name: lnx_symlink_etc_passwd
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

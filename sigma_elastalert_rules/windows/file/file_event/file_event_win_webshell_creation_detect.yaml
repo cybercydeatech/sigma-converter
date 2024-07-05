@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the creation of files with certain extensions on a static web
+  site. This can be indicative of potential uploads of a web shell.
+filter:
+- query:
+    query_string:
+      query: (((file_name.keyword:*\\inetpub\\wwwroot\\* AND file_name.keyword:(*.ashx*
+        OR *.asp* OR *.ph* OR *.soap*)) OR (file_name.keyword:(*\\www\\* OR *\\htdocs\\*
+        OR *\\html\\*) AND file_name.keyword:*.ph*)) AND (NOT ((file_name.keyword:(*\\AppData\\Local\\Temp\\*
+        OR *\\Windows\\Temp\\*)) OR (process_path:"System") OR (file_name.keyword:*\\xampp*))))
+index: wazuh-alerts*
+name: file_event_win_webshell_creation_detect
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

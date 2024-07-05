@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects blocked load attempts of revoked drivers
+filter:
+- query:
+    query_string:
+      query: event_id:"3023"
+index: wazuh-alerts*
+name: win_codeintegrity_revoked_driver_blocked
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

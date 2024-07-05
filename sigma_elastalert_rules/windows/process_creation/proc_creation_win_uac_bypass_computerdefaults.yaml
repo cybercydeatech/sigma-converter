@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects tools such as UACMe used to bypass UAC with computerdefaults.exe
+  (UACMe 59)
+filter:
+- query:
+    query_string:
+      query: ((IntegrityLevel:("High" OR "System") AND process_path:"C\:\\Windows\\System32\\ComputerDefaults.exe")
+        AND (NOT (process_parent_path.keyword:(*\:\\Windows\\System32* OR *\:\\Program\
+        Files*))))
+index: wazuh-alerts*
+name: proc_creation_win_uac_bypass_computerdefaults
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

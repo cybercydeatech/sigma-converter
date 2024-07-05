@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects process LSASS memory dump using Mimikatz, NanoDump, Invoke-Mimikatz,
+  Procdump or Taskmgr based on the CallTrace pointing to ntdll.dll, dbghelp.dll or
+  dbgcore.dll for win10, server2016 and up.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\WerFault.exe AND target_process_path.keyword:*\\lsass.exe
+        AND process_granted_access:"0x1FFFFF")
+index: wazuh-alerts*
+name: proc_access_win_lsass_werfault
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

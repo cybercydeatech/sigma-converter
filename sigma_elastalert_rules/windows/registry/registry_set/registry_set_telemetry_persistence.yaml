@@ -1,0 +1,24 @@
+alert:
+- debug
+description: |
+  Detects potential persistence behavior using the windows telemetry registry key.
+  Windows telemetry makes use of the binary CompatTelRunner.exe to run a variety of commands and perform the actual telemetry collections.
+  This binary was created to be easily extensible, and to that end, it relies on the registry to instruct on which commands to run.
+  The problem is, it will run any arbitrary command without restriction of location or type.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*\\SOFTWARE\\Microsoft\\Windows\ NT\\CurrentVersion\\AppCompatFlags\\TelemetryController\\*
+        AND registry_key_path.keyword:*\\Command AND Details.keyword:(*.bat* OR *.bin*
+        OR *.cmd* OR *.dat* OR *.dll* OR *.exe* OR *.hta* OR *.jar* OR *.js* OR *.msi*
+        OR *.ps* OR *.sh* OR *.vb*)) AND (NOT ((Details.keyword:(*\\system32\\CompatTelRunner.exe*
+        OR *\\system32\\DeviceCensus.exe*)))))
+index: wazuh-alerts*
+name: registry_set_telemetry_persistence
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

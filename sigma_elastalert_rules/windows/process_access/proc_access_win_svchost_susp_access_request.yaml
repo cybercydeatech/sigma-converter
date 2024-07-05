@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects suspicious access to the "svchost" process such as that used
+  by Invoke-Phantom to kill the thread of the Windows event logging service.
+filter:
+- query:
+    query_string:
+      query: ((target_process_path.keyword:*\:\\Windows\\System32\\svchost.exe AND
+        process_granted_access:"0x1F3FFF" AND process_call_trace.keyword:*UNKNOWN*)
+        AND (NOT ((process_path.keyword:*\:\\Program\ Files\\Microsoft\ Visual\ Studio\\*
+        AND process_path.keyword:*\\MSBuild\\Current\\Bin\\MSBuild.exe AND process_call_trace.keyword:(*Microsoft.Build.ni.dll*
+        OR *System.ni.dll*)))))
+index: wazuh-alerts*
+name: proc_access_win_svchost_susp_access_request
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

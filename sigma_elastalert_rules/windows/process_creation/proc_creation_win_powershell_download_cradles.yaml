@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious ways to download files or content using PowerShell
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*.DownloadString\(* OR *.DownloadFile\(*
+        OR *Invoke\-WebRequest\ * OR *iwr\ *)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_download_cradles
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

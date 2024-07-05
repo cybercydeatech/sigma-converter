@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Identifies when suspicious SAML activity has occurred in AWS. An adversary
+  could gain backdoor access via SAML.
+filter:
+- query:
+    query_string:
+      query: ((eventSource:"sts.amazonaws.com" AND eventName:"AssumeRoleWithSAML")
+        OR (eventSource:"iam.amazonaws.com" AND eventName:"UpdateSAMLProvider"))
+index: wazuh-alerts*
+name: aws_susp_saml_activity
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

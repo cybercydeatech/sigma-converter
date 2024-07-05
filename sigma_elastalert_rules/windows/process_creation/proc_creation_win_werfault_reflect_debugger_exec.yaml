@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects execution of "WerFault.exe" with the "-pr" commandline flag that
+  is used to run files stored in the ReflectDebugger key which could be used to store
+  the path to the malware in order to masquerade the execution flow
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\WerFault.exe OR file_name_original:"WerFault.exe")
+        AND process_command_line.keyword:*\ \-pr\ *)
+index: wazuh-alerts*
+name: proc_creation_win_werfault_reflect_debugger_exec
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

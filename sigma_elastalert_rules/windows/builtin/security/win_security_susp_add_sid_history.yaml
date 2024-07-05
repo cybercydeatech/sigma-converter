@@ -1,0 +1,17 @@
+alert:
+- debug
+description: An attacker can use the SID history attribute to gain additional privileges.
+filter:
+- query:
+    query_string:
+      query: (event_id:("4765" OR "4766") OR ((event_id:"4738" AND (NOT (SidHistory:("\-"
+        OR "%%1793")))) AND (NOT (NOT _exists_:SidHistory))))
+index: wazuh-alerts*
+name: win_security_susp_add_sid_history
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

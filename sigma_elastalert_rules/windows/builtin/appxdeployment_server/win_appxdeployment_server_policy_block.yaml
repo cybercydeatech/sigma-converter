@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects an appx package deployment that was blocked by the local computer
+  policy
+filter:
+- query:
+    query_string:
+      query: event_id:("441" OR "442" OR "453" OR "454")
+index: wazuh-alerts*
+name: win_appxdeployment_server_policy_block
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

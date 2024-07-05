@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects different hacktools used for relay attacks on Windows for privilege
+  escalation
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*PetitPotam* OR *RottenPotato* OR *HotPotato*
+        OR *JuicyPotato* OR *\\just_dce_* OR *Juicy\ Potato* OR *\\temp\\rot.exe*
+        OR *\\Potato.exe* OR *\\SpoolSample.exe* OR *\\Responder.exe* OR *\\smbrelayx*
+        OR *\\ntlmrelayx* OR *\\LocalPotato*) OR process_command_line.keyword:(*Invoke\-Tater*
+        OR *\ smbrelay* OR *\ ntlmrelay* OR *cme\ smb\ * OR *\ \/ntlm\:NTLMhash\ *
+        OR *Invoke\-PetitPotam* OR *.exe\ \-t\ *\ \-p\ *) OR (process_command_line.keyword:*.exe\
+        \-c\ \"\{* AND process_command_line.keyword:*\}\"\ \-z)) AND (NOT ((process_path.keyword:(*HotPotatoes6*
+        OR *HotPotatoes7* OR *HotPotatoes\ *)))))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_relay_attacks_tools
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects launch of the PSEXESVC service, which means that this system
+  was the target of a psexec remote execution
+filter:
+- query:
+    query_string:
+      query: (process_path:"C\:\\Windows\\PSEXESVC.exe" OR file_name_original:"psexesvc.exe")
+index: wazuh-alerts*
+name: proc_creation_win_sysinternals_psexesvc
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

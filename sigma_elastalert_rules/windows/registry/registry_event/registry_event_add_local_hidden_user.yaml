@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Sysmon registry detection of a local hidden user account.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\SAM\\SAM\\Domains\\Account\\Users\\Names\\*
+        AND registry_key_path.keyword:*$ AND process_path.keyword:*\\lsass.exe)
+index: wazuh-alerts*
+name: registry_event_add_local_hidden_user
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

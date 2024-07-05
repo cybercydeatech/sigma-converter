@@ -1,0 +1,22 @@
+alert:
+- debug
+description: |
+  Detects execution of the builtin "rmdir" command in order to delete directories.
+  Adversaries may delete files left behind by the actions of their intrusion activity.
+  Malware, tools, or other non-native files dropped or created on a system by an adversary may leave traces to indicate to what was done within a network and how.
+  Removal of these files can occur during an intrusion, or as part of a post-intrusion process to minimize the adversary's footprint.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\cmd.exe OR file_name_original:"Cmd.Exe") AND
+        process_command_line.keyword:*rmdir* AND process_command_line.keyword:(*\/s*
+        OR *\/q*))
+index: wazuh-alerts*
+name: proc_creation_win_cmd_rmdir_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

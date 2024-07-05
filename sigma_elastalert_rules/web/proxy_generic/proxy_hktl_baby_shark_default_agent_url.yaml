@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects Baby Shark C2 Framework default communication patterns
+filter:
+- query:
+    query_string:
+      query: c-uri.keyword:*momyshark\?key\=*
+index: wazuh-alerts*
+name: proxy_hktl_baby_shark_default_agent_url
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

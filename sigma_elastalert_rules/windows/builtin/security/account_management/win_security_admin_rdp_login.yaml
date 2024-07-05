@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect remote login by Administrator user (depending on internal pattern).
+filter:
+- query:
+    query_string:
+      query: (event_id:"4624" AND logon_type:"10" AND logon_authentication_package:"Negotiate"
+        AND TargetUserName.keyword:Admin*)
+index: wazuh-alerts*
+name: win_security_admin_rdp_login
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

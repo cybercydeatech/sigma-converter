@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when a application gateway is modified or deleted.
+filter:
+- query:
+    query_string:
+      query: operationName:("MICROSOFT.NETWORK\/APPLICATIONGATEWAYS\/WRITE" OR "MICROSOFT.NETWORK\/APPLICATIONGATEWAYS\/DELETE")
+index: wazuh-alerts*
+name: azure_application_gateway_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

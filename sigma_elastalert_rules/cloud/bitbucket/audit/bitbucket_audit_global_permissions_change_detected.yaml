@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects global permissions change activity.
+filter:
+- query:
+    query_string:
+      query: (auditType.category:"Permissions" AND auditType.action:("Global\ permission\
+        remove\ request" OR "Global\ permission\ removed" OR "Global\ permission\
+        granted" OR "Global\ permission\ requested"))
+index: wazuh-alerts*
+name: bitbucket_audit_global_permissions_change_detected
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

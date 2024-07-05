@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects CSExec service installation and execution events
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:"7045") AND
+        (service_name:"csexecsvc" OR ImagePath.keyword:*\\csexecsvc.exe))
+index: wazuh-alerts*
+name: win_system_service_install_csexecsvc
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

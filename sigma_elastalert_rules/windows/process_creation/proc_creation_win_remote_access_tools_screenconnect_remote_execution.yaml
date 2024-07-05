@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the execution of a system command via the ScreenConnect RMM service.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\ScreenConnect.ClientService.exe AND (process_path.keyword:*\\cmd.exe
+        OR file_name_original:"Cmd.Exe") AND process_command_line.keyword:*\\TEMP\\ScreenConnect\\*)
+index: wazuh-alerts*
+name: proc_creation_win_remote_access_tools_screenconnect_remote_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

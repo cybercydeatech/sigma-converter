@@ -1,0 +1,28 @@
+alert:
+- debug
+description: |
+  Detects Windows command lines that miss a space before or after the /c flag when running a command using the cmd.exe.
+  This could be a sign of obfuscation of a fat finger problem (typo by the developer).
+filter:
+- query:
+    query_string:
+      query: ((process_command_line.keyword:(*cmd.exe\/c* OR *\\cmd\/c* OR *\"cmd\/c*
+        OR *cmd.exe\/k* OR *\\cmd\/k* OR *\"cmd\/k* OR *cmd.exe\/r* OR *\\cmd\/r*
+        OR *\"cmd\/r*) OR process_command_line.keyword:(*\/cwhoami* OR *\/cpowershell*
+        OR *\/cschtasks* OR *\/cbitsadmin* OR *\/ccertutil* OR *\/kwhoami* OR *\/kpowershell*
+        OR *\/kschtasks* OR *\/kbitsadmin* OR *\/kcertutil*) OR process_command_line.keyword:(*cmd.exe\
+        \/c* OR *cmd\ \/c* OR *cmd.exe\ \/k* OR *cmd\ \/k* OR *cmd.exe\ \/r* OR *cmd\
+        \/r*)) AND (NOT ((process_command_line.keyword:(*cmd.exe\ \/c\ * OR *cmd\
+        \/c\ * OR *cmd.exe\ \/k\ * OR *cmd\ \/k\ * OR *cmd.exe\ \/r\ * OR *cmd\ \/r\
+        *)) OR (process_command_line.keyword:*AppData\\Local\\Programs\\Microsoft\
+        VS\ Code\\resources\\app\\node_modules* OR process_command_line.keyword:*cmd.exe\/c\
+        . OR process_command_line:"cmd.exe\ \/c"))))
+index: wazuh-alerts*
+name: proc_creation_win_cmd_no_space_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

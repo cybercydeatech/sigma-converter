@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects commandline operations on shell history files
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND \*.keyword:(*.bash_history* OR *.zsh_history* OR *.zhistory*
+        OR *.history* OR *.sh_history* OR *fish_history*))
+index: wazuh-alerts*
+name: lnx_auditd_susp_histfile_operations
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

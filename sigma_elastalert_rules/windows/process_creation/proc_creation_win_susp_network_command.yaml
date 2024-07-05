@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Adversaries may look for details about the network configuration and
+  settings of systems they access or through information discovery of remote systems
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*ipconfig\ \/all* OR *netsh\ interface\
+        show\ interface* OR *arp\ \-a* OR *nbtstat\ \-n* OR *net\ config* OR *route\
+        print*)
+index: wazuh-alerts*
+name: proc_creation_win_susp_network_command
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

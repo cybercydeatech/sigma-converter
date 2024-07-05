@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects DCShadow via create new SPN
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4742" AND ServicePrincipalNames.keyword:*GC\/*) OR (event_id:"5136"
+        AND dsobject_attribute_name:"servicePrincipalName" AND dsobject_attribute_value.keyword:GC\/*))
+index: wazuh-alerts*
+name: win_security_possible_dc_shadow
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

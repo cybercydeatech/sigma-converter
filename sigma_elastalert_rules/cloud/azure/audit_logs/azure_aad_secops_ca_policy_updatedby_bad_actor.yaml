@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Monitor and alert on conditional access changes. Is Initiated by (actor)
+  approved to make changes? Review Modified Properties and compare "old" vs "new"
+  value.
+filter:
+- query:
+    query_string:
+      query: properties.message:"Update\ conditional\ access\ policy"
+index: wazuh-alerts*
+name: azure_aad_secops_ca_policy_updatedby_bad_actor
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects the execution of suspicious child processes from macOS installer
+  package parent process. This includes osascript, JXA, curl and wget amongst other
+  interpreters
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:(*\/package_script_service OR *\/installer)
+        AND process_path.keyword:(*\/sh OR *\/bash OR *\/dash OR *\/python OR *\/ruby
+        OR *\/perl OR *\/php OR *\/javascript OR *\/osascript OR *\/tclsh OR *\/curl
+        OR *\/wget) AND process_command_line.keyword:(*preinstall* OR *postinstall*))
+index: wazuh-alerts*
+name: proc_creation_macos_installer_susp_child_process
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

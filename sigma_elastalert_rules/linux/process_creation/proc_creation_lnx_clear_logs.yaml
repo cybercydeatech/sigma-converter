@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects attempts to clear logs on the system. Adversaries may clear system
+  logs to hide evidence of an intrusion
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\/rm OR *\/shred OR *\/unlink) AND process_command_line.keyword:(*\/var\/log*
+        OR *\/var\/spool\/mail*))
+index: wazuh-alerts*
+name: proc_creation_lnx_clear_logs
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Indicates sign-in from a malicious IP address known to be malicious at
+  time of sign-in.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"suspiciousIPAddress"
+index: wazuh-alerts*
+name: azure_identity_protection_malicious_ip_address_suspicious
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

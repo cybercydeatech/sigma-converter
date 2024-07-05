@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the creation of copy of suspicious files (EXE/DLL) to the default
+  GPO storage folder
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\\Policies\\\{31B2F340\-016D\-11D2\-945F\-00C04FB984F9\}\\*
+        AND file_name.keyword:(*.dll OR *.exe))
+index: wazuh-alerts*
+name: file_event_win_susp_default_gpo_dir_write
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

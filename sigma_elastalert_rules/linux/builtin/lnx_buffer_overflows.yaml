@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects buffer overflow attempts in Unix system log files
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*attempt\ to\ execute\ code\ on\ stack\ by* OR *FTP\ LOGIN\
+        FROM\ .*\ 0bin0sh* OR *rpc.statd\[\\d\+\]\:\ gethostbyname\ error\ for* OR
+        *AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*)
+index: wazuh-alerts*
+name: lnx_buffer_overflows
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

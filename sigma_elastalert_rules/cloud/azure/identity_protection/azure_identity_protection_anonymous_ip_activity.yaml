@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies that users were active from an IP address that has been identified
+  as an anonymous proxy IP address.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"riskyIPAddress"
+index: wazuh-alerts*
+name: azure_identity_protection_anonymous_ip_activity
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects regsvr32 execution to download/install/register new DLLs that
+  are hosted on Web or FTP servers.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\regsvr32.exe OR file_name_original:"REGSVR32.EXE")
+        AND process_command_line.keyword:(*\ \/i* OR *\ \-i*) AND process_command_line.keyword:(*ftp*
+        OR *http*))
+index: wazuh-alerts*
+name: proc_creation_win_regsvr32_network_pattern
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

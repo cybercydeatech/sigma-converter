@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects PowerShell creating a PowerShell file (.ps1). While often times
+  this behavior is benign, sometimes it can be a sign of a dropper script trying to
+  achieve persistence.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) AND file_name.keyword:*.ps1)
+        AND (NOT ((file_name.keyword:*__PSScriptPolicyTest_*) OR (file_name.keyword:C\:\\Users\\*
+        AND file_name.keyword:*\\AppData\\Local\\Temp\\*) OR (file_name.keyword:C\:\\Windows\\Temp\\*))))
+index: wazuh-alerts*
+name: file_event_win_powershell_drop_powershell
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

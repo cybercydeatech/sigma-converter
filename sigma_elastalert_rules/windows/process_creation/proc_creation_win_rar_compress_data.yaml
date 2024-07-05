@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects usage of "rar" to add files to an archive for potential compression.
+  An adversary may compress data (e.g. sensitive documents) that is collected prior
+  to exfiltration in order to make it portable and minimize the amount of data sent
+  over the network.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\rar.exe AND process_command_line.keyword:*\
+        a\ *)
+index: wazuh-alerts*
+name: proc_creation_win_rar_compress_data
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

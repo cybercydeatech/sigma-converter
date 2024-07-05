@@ -1,0 +1,18 @@
+alert:
+- debug
+description: An attempt to export an AWS EC2 instance has been detected. A VM Export
+  might indicate an attempt to extract information from an instance.
+filter:
+- query:
+    query_string:
+      query: ((eventName:"CreateInstanceExportTask" AND eventSource:"ec2.amazonaws.com")
+        AND (NOT ((errorMessage.keyword:*) OR (errorCode.keyword:*) OR (responseElements.keyword:*Failure*))))
+index: wazuh-alerts*
+name: aws_ec2_vm_export_failure
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when Events are deleted in Azure Kubernetes. An adversary may
+  delete events in Azure Kubernetes in an attempt to evade detection.
+filter:
+- query:
+    query_string:
+      query: 
+        operationName:"MICROSOFT.KUBERNETES\/CONNECTEDCLUSTERS\/EVENTS.K8S.IO\/EVENTS\/DELETE"
+index: wazuh-alerts*
+name: azure_kubernetes_events_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

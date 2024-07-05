@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of "Tpmvscmgr.exe" to create a new virtual smart card.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\tpmvscmgr.exe AND file_name_original:"TpmVscMgr.exe"
+        AND process_command_line.keyword:*create*)
+index: wazuh-alerts*
+name: proc_creation_win_tpmvscmgr_add_virtual_smartcard
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

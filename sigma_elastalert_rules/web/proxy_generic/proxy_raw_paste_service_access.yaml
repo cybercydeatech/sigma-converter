@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects direct access to raw pastes in different paste services often
+  used by malware in their second stages to download malicious code in encrypted or
+  encoded form
+filter:
+- query:
+    query_string:
+      query: c-uri.keyword:(*.paste.ee\/r\/* OR *.pastebin.com\/raw\/* OR *.hastebin.com\/raw\/*
+        OR *.ghostbin.co\/paste\/*\/raw\/* OR *pastetext.net\/* OR *pastebin.pl\/*
+        OR *paste.ee\/*)
+index: wazuh-alerts*
+name: proxy_raw_paste_service_access
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

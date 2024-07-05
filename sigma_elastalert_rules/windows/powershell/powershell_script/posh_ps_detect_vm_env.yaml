@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Adversaries may employ various system checks to detect and avoid virtualization and analysis environments.
+  This may include changing behaviors based on the results of checks for the presence of artifacts indicative of a virtual machine environment (VME) or sandbox
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:(*Get\-WmiObject* OR *gwmi*) AND ScriptBlockText.keyword:(*MSAcpi_ThermalZoneTemperature*
+        OR *Win32_ComputerSystem*))
+index: wazuh-alerts*
+name: posh_ps_detect_vm_env
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

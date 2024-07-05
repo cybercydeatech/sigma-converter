@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Exports the target Registry key and hides it in the specified alternate
+  data stream.
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\\regedit.exe
+index: wazuh-alerts*
+name: create_stream_hash_regedit_export_to_ads
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

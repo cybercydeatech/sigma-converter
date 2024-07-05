@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects the command line executed when TeamViewer starts a session started by a remote host.
+  Once a connection has been started, an investigator can verify the connection details by viewing the "incoming_connections.txt" log file in the TeamViewer folder.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\/TeamViewer_Service AND process_path.keyword:*\/TeamViewer_Desktop
+        AND process_command_line.keyword:*\/TeamViewer_Desktop\ \-\-IPCport\ 5939\
+        \-\-Module\ 1)
+index: wazuh-alerts*
+name: proc_creation_lnx_remote_access_tools_teamviewer_incoming_connection
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

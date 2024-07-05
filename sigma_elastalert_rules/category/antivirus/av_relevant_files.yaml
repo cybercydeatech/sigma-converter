@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects an Antivirus alert in a highly relevant file path or with a relevant
+  file name
+filter:
+- query:
+    query_string:
+      query: (Filename.keyword:(*\:\\Windows\\* OR *\:\\Temp\\* OR *\:\\PerfLogs\\*
+        OR *\:\\Users\\Public\\* OR *\:\\Users\\Default\\* OR *\\Client\\* OR *\\tsclient\\*
+        OR *\\inetpub\\* OR *\/www\/* OR *apache* OR *tomcat* OR *nginx* OR *weblogic*)
+        OR Filename.keyword:(*.asax OR *.ashx OR *.asmx OR *.asp OR *.aspx OR *.bat
+        OR *.cfm OR *.cgi OR *.chm OR *.cmd OR *.dat OR *.ear OR *.gif OR *.hta OR
+        *.jpeg OR *.jpg OR *.jsp OR *.jspx OR *.lnk OR *.php OR *.pl OR *.png OR *.ps1
+        OR *.psm1 OR *.py OR *.pyc OR *.rb OR *.scf OR *.sct OR *.sh OR *.svg OR *.txt
+        OR *.vbe OR *.vbs OR *.war OR *.wsf OR *.wsh OR *.xml))
+index: wazuh-alerts*
+name: av_relevant_files
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

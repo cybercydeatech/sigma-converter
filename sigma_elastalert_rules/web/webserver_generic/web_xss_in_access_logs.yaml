@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects XSS attempts injected via GET requests in access logs
+filter:
+- query:
+    query_string:
+      query: ((cs-method:"GET" AND \*.keyword:(*\=<script>* OR *\=%3Cscript%3E* OR
+        *\=%253Cscript%253E* OR *<iframe\ * OR *%3Ciframe\ * OR *<svg\ * OR *%3Csvg\
+        * OR *document.cookie* OR *document.domain* OR *\ onerror\=* OR *\ onresize\=*
+        OR *\ onload\=\"* OR *onmouseover\=* OR *$\{alert* OR *javascript\:alert*
+        OR *javascript%3Aalert*)) AND (NOT (sc-status:"404")))
+index: wazuh-alerts*
+name: web_xss_in_access_logs
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

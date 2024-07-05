@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects suspicious child processes spawning from microsoft office suite
+  applications such as word or excel. This could indicates malicious macro execution
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:(*Microsoft\ Word* OR *Microsoft\ Excel*
+        OR *Microsoft\ PowerPoint* OR *Microsoft\ OneNote*) AND process_path.keyword:(*\/bash
+        OR *\/curl OR *\/dash OR *\/fish OR *\/osacompile OR *\/osascript OR *\/sh
+        OR *\/zsh OR *\/python OR *\/python3 OR *\/wget))
+index: wazuh-alerts*
+name: proc_creation_macos_office_susp_child_processes
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

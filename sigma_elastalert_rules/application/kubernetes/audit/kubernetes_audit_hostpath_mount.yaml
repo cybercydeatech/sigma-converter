@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects creation of a container with a hostPath mount.
+  A hostPath volume mounts a directory or a file from the node to the container.
+  Attackers who have permissions to create a new pod in the cluster may create one with a writable hostPath volume and chroot to escape to the underlying node.
+filter:
+- query:
+    query_string:
+      query: (verb:"create" AND objectRef.resource:"pods" AND hostPath.keyword:*)
+index: wazuh-alerts*
+name: kubernetes_audit_hostpath_mount
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

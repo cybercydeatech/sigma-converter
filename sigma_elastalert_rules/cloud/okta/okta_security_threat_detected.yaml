@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an security threat is detected in Okta.
+filter:
+- query:
+    query_string:
+      query: eventtype:"security.threat.detected"
+index: wazuh-alerts*
+name: okta_security_threat_detected
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

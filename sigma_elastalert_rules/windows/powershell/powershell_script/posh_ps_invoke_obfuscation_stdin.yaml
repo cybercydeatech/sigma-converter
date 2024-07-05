@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Obfuscated use of stdin to execute PowerShell
+filter:
+- query:
+    query_string:
+      query: 
+        ScriptBlockText.keyword:/cmd.{0,5}(?:/c|/r).+powershell.+(?:\$?\{?input\}?|noexit).+"/
+index: wazuh-alerts*
+name: posh_ps_invoke_obfuscation_stdin
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects changes to the PSFactory COM InProcServer32 registry. This technique
+  was used by RomCom to create persistence storing a malicious DLL.
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\CLSID\\\{c90250f3\-4d7d\-4991\-9b69\-a5c5bc1c2ae6\}\\InProcServer32\\\(Default\)
+        AND (NOT (Details:("%windir%\\System32\\ActXPrxy.dll" OR "C\:\\Windows\\System32\\ActXPrxy.dll"))))
+index: wazuh-alerts*
+name: registry_set_persistence_comhijack_psfactorybuffer
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,23 @@
+alert:
+- debug
+description: |
+  Detects the execution of an AnyDesk binary with a version prior to 8.0.8.
+  Prior to version 8.0.8, the Anydesk application used a signing certificate that got compromised by threat actors.
+  Use this rule to detect instances of older versions of Anydesk using the compromised certificate
+  This is recommended in order to avoid attackers leveraging the certificate and signing their binaries to bypass detections.
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\AnyDesk.exe OR file_description:"AnyDesk"
+        OR file_product:"AnyDesk" OR file_company:"AnyDesk\ Software\ GmbH") AND file_version.keyword:(7.0.*
+        OR 7.1.* OR 8.0.1* OR 8.0.2* OR 8.0.3* OR 8.0.4* OR 8.0.5* OR 8.0.6* OR 8.0.7*))
+        AND (NOT ((process_command_line.keyword:(*\ \-\-remove* OR *\ \-\-uninstall*)))))
+index: wazuh-alerts*
+name: proc_creation_win_remote_access_tools_anydesk_revoked_cert
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

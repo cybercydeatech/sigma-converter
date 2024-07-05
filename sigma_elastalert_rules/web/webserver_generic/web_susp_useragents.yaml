@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects known suspicious (default) user-agents related to scanning/recon
+  tools
+filter:
+- query:
+    query_string:
+      query: cs-user-agent.keyword:(*Wfuzz\/* OR *WPScan\ v* OR *Recon\-ng\/v* OR
+        *GIS\ \-\ AppSec\ Team\ \-\ Project\ Vision*)
+index: wazuh-alerts*
+name: web_susp_useragents
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects unauthorized access attempts to a resource.
+filter:
+- query:
+    query_string:
+      query: (auditType.category:"Security" AND auditType.action:"Unauthorized\ access\
+        to\ a\ resource")
+index: wazuh-alerts*
+name: bitbucket_audit_unauthorized_access_detected
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

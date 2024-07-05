@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects program executions in suspicious non-program folders related
+  to malware or hacking activity
+filter:
+- query:
+    query_string:
+      query: (type:"SYSCALL" AND exe.keyword:(\/tmp\/* OR \/var\/www\/* OR \/home\/*\/public_html\/*
+        OR \/usr\/local\/apache2\/* OR \/usr\/local\/httpd\/* OR \/var\/apache\/*
+        OR \/srv\/www\/* OR \/home\/httpd\/html\/* OR \/srv\/http\/* OR \/usr\/share\/nginx\/html\/*
+        OR \/var\/lib\/pgsql\/data\/* OR \/usr\/local\/mysql\/data\/* OR \/var\/lib\/mysql\/*
+        OR \/var\/vsftpd\/* OR \/etc\/bind\/* OR \/var\/named\/*))
+index: wazuh-alerts*
+name: lnx_auditd_susp_exe_folders
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

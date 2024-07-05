@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects when an adversary uses the reg.exe utility to add or modify new
+  keys or subkeys
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\reg.exe OR file_name_original:"reg.exe") AND
+        process_command_line.keyword:(*\\AppDataLow\\Software\\Microsoft\\* OR *\\Policies\\Microsoft\\Windows\\OOBE*
+        OR *\\Policies\\Microsoft\\Windows\ NT\\CurrentVersion\\Winlogon* OR *\\SOFTWARE\\Microsoft\\Windows\
+        NT\\Currentversion\\Winlogon* OR *\\CurrentControlSet\\Control\\SecurityProviders\\WDigest*
+        OR *\\Microsoft\\Windows\ Defender\\*))
+index: wazuh-alerts*
+name: proc_creation_win_reg_susp_paths
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

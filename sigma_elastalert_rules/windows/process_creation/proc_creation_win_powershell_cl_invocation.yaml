@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects calls to "SyncInvoke" that is part of the "CL_Invocation.ps1"
+  script to proxy execution using "System.Diagnostics.Process"
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:*SyncInvoke\ *
+index: wazuh-alerts*
+name: proc_creation_win_powershell_cl_invocation
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

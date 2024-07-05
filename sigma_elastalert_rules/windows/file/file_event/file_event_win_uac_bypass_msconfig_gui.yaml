@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the pattern of UAC Bypass using a msconfig GUI hack (UACMe 55)
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:C\:\\Users\\* AND file_name.keyword:*\\AppData\\Local\\Temp\\pkgmgr.exe)
+index: wazuh-alerts*
+name: file_event_win_uac_bypass_msconfig_gui
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

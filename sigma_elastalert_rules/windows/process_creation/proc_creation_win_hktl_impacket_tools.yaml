@@ -1,0 +1,27 @@
+alert:
+- debug
+description: Detects the execution of different compiled Windows binaries of the impacket
+  toolset (based on names or part of their names - could lead to false positives)
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\goldenPac* OR *\\karmaSMB* OR *\\kintercept*
+        OR *\\ntlmrelayx* OR *\\rpcdump* OR *\\samrdump* OR *\\secretsdump* OR *\\smbexec*
+        OR *\\smbrelayx* OR *\\wmiexec* OR *\\wmipersist*) OR process_path.keyword:(*\\atexec_windows.exe
+        OR *\\dcomexec_windows.exe OR *\\dpapi_windows.exe OR *\\findDelegation_windows.exe
+        OR *\\GetADUsers_windows.exe OR *\\GetNPUsers_windows.exe OR *\\getPac_windows.exe
+        OR *\\getST_windows.exe OR *\\getTGT_windows.exe OR *\\GetUserSPNs_windows.exe
+        OR *\\ifmap_windows.exe OR *\\mimikatz_windows.exe OR *\\netview_windows.exe
+        OR *\\nmapAnswerMachine_windows.exe OR *\\opdump_windows.exe OR *\\psexec_windows.exe
+        OR *\\rdp_check_windows.exe OR *\\sambaPipe_windows.exe OR *\\smbclient_windows.exe
+        OR *\\smbserver_windows.exe OR *\\sniff_windows.exe OR *\\sniffer_windows.exe
+        OR *\\split_windows.exe OR *\\ticketer_windows.exe))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_impacket_tools
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

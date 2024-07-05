@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Identifies disabling of default Amazon Elastic Block Store (EBS) encryption in the current region.
+  Disabling default encryption does not change the encryption status of your existing volumes.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"ec2.amazonaws.com" AND eventName:"DisableEbsEncryptionByDefault")
+index: wazuh-alerts*
+name: aws_ec2_disable_encryption
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

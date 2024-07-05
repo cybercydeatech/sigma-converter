@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects any GAC DLL being loaded by an Office Product
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\excel.exe OR *\\mspub.exe OR *\\onenote.exe
+        OR *\\onenoteim.exe OR *\\outlook.exe OR *\\powerpnt.exe OR *\\winword.exe)
+        AND ImageLoaded.keyword:C\:\\Windows\\Microsoft.NET\\assembly\\GAC_MSIL*)
+index: wazuh-alerts*
+name: image_load_office_dotnet_gac_dll_load
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

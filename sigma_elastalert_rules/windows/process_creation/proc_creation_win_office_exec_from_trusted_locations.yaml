@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects the execution of an Office application that points to a document
+  that is located in a trusted location. Attackers often used this to avoid macro
+  security and execute their malicious code.
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:(*\\explorer.exe OR *\\dopus.exe) AND (process_path.keyword:(*\\EXCEL.EXE
+        OR *\\POWERPNT.EXE OR *\\WINWORD.exe) OR file_name_original:("Excel.exe" OR
+        "POWERPNT.EXE" OR "WinWord.exe")) AND process_command_line.keyword:(*\\AppData\\Roaming\\Microsoft\\Templates*
+        OR *\\AppData\\Roaming\\Microsoft\\Word\\Startup\\* OR *\\Microsoft\ Office\\root\\Templates\\*
+        OR *\\Microsoft\ Office\\Templates\\*)) AND (NOT ((process_command_line.keyword:(*.dotx
+        OR *.xltx OR *.potx)))))
+index: wazuh-alerts*
+name: proc_creation_win_office_exec_from_trusted_locations
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Get-Variable is a valid PowerShell cmdlet
+  WindowsApps is by default in the path where PowerShell is executed.
+  So when the Get-Variable command is issued on PowerShell execution, the system first looks for the Get-Variable executable in the path and executes the malicious binary instead of looking for the PowerShell cmdlet.
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*Local\\Microsoft\\WindowsApps\\Get\-Variable.exe
+index: wazuh-alerts*
+name: file_event_win_susp_get_variable
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects instances where a Telnet service on an OpenCanary node has had
+  a login attempt.
+filter:
+- query:
+    query_string:
+      query: logtype:"6001"
+index: wazuh-alerts*
+name: opencanary_telnet_login_attempt
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

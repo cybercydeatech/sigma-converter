@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects modification of autostart extensibility point (ASEP) in registry.
+filter:
+- query:
+    query_string:
+      query: 
+        ((registry_key_path.keyword:*\\System\\CurrentControlSet\\Services\\WinSock2\\Parameters*
+        AND registry_key_path.keyword:(*\\Protocol_Catalog9\\Catalog_Entries* OR *\\NameSpace_Catalog5\\Catalog_Entries*))
+        AND (NOT (Details:"\(Empty\)" OR process_path:"C\:\\Windows\\System32\\MsiExec.exe"
+        OR process_path:"C\:\\Windows\\syswow64\\MsiExec.exe")))
+index: wazuh-alerts*
+name: registry_set_asep_reg_keys_modification_winsock2
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

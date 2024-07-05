@@ -1,0 +1,18 @@
+alert:
+- debug
+description: "Detect access has been blocked by Conditional Access policies.\nThe
+  access policy does not allow token issuance which might be sights≈ of unauthorizeed
+  login to valid accounts.\n"
+filter:
+- query:
+    query_string:
+      query: ResultType:"53003"
+index: wazuh-alerts*
+name: azure_user_login_blocked_by_conditional_access
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

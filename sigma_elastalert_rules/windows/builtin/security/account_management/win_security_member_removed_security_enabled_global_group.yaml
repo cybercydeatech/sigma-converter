@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects activity when a member is removed from a security-enabled global
+  group
+filter:
+- query:
+    query_string:
+      query: event_id:("633" OR "4729")
+index: wazuh-alerts*
+name: win_security_member_removed_security_enabled_global_group
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

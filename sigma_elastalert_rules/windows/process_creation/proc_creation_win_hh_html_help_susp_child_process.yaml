@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects a suspicious child process of a Microsoft HTML Help (HH.exe)
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\hh.exe AND process_path.keyword:(*\\CertReq.exe
+        OR *\\CertUtil.exe OR *\\cmd.exe OR *\\cscript.exe OR *\\installutil.exe OR
+        *\\MSbuild.exe OR *\\MSHTA.EXE OR *\\msiexec.exe OR *\\powershell.exe OR *\\pwsh.exe
+        OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\schtasks.exe OR *\\wmic.exe OR
+        *\\wscript.exe))
+index: wazuh-alerts*
+name: proc_creation_win_hh_html_help_susp_child_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

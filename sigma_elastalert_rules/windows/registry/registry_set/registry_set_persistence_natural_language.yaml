@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects when an attacker adds a new "DLLPathOverride" value to the "Natural
+  Language" key in order to achieve persistence which will get invoked by "SearchIndexer.exe"
+  process
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\SYSTEM\\CurrentControlSet\\Control\\ContentIndex\\Language\\*
+        AND registry_key_path.keyword:(*\\StemmerDLLPathOverride* OR *\\WBDLLPathOverride*
+        OR *\\StemmerClass* OR *\\WBreakerClass*))
+index: wazuh-alerts*
+name: registry_set_persistence_natural_language
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

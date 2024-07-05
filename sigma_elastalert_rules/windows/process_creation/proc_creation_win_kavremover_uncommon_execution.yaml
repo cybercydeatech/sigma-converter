@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the execution of a signed binary dropped by Kaspersky Lab Products
+  Remover (kavremover) which can be abused as a LOLBIN to execute arbitrary commands
+  and binaries.
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*\ run\ run\-cmd\ * AND (NOT ((process_parent_path.keyword:(*\\cleanapi.exe
+        OR *\\kavremover.exe)))))
+index: wazuh-alerts*
+name: proc_creation_win_kavremover_uncommon_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

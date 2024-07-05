@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of the "userdel" binary. Which is used to delete a
+  user account and related files. This is sometimes abused by threat actors in order
+  to cover their tracks
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\/userdel
+index: wazuh-alerts*
+name: proc_creation_lnx_userdel
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,23 @@
+alert:
+- debug
+description: This method detects mimikatz keywords in different Eventlogs (some of
+  them only appear in older Mimikatz version that are however still used by different
+  threat groups)
+filter:
+- query:
+    query_string:
+      query: (\*.keyword:(*dpapi\:\:masterkey* OR *eo.oe.kiwi* OR *event\:\:clear*
+        OR *event\:\:drop* OR *gentilkiwi.com* OR *kerberos\:\:golden* OR *kerberos\:\:ptc*
+        OR *kerberos\:\:ptt* OR *kerberos\:\:tgt* OR *Kiwi\ Legit\ Printer* OR *lsadump\:\:*
+        OR *mimidrv.sys* OR *\\mimilib.dll* OR *misc\:\:printnightmare* OR *misc\:\:shadowcopies*
+        OR *misc\:\:skeleton* OR *privilege\:\:backup* OR *privilege\:\:debug* OR
+        *privilege\:\:driver* OR *sekurlsa\:\:*) AND (NOT (event_id:"15")))
+index: wazuh-alerts*
+name: win_alert_mimikatz_keywords
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

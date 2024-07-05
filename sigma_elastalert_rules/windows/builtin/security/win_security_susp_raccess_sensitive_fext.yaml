@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects known sensitive file extensions accessed on a network share
+filter:
+- query:
+    query_string:
+      query: (event_id:"5145" AND share_relative_target_name.keyword:(*.bak OR *.dmp
+        OR *.edb OR *.kirbi OR *.msg OR *.nsf OR *.nst OR *.oab OR *.ost OR *.pst
+        OR *.rdp OR *\\groups.xml))
+index: wazuh-alerts*
+name: win_security_susp_raccess_sensitive_fext
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

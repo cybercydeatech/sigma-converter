@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when certificate based authentication has been enabled in an
+  Azure Active Directory tenant.
+filter:
+- query:
+    query_string:
+      query: (OperationName:"Authentication\ Methods\ Policy\ Update" AND TargetResources.modifiedProperties.keyword:*AuthenticationMethodsPolicy*)
+index: wazuh-alerts*
+name: azure_ad_certificate_based_authencation_enabled
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

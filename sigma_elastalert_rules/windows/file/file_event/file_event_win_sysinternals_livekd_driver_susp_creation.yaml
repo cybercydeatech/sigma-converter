@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the creation of the LiveKD driver by a process image other than
+  "livekd.exe".
+filter:
+- query:
+    query_string:
+      query: (file_name:"C\:\\Windows\\System32\\drivers\\LiveKdD.SYS" AND (NOT ((process_path.keyword:(*\\livekd.exe
+        OR *\\livek64.exe)))))
+index: wazuh-alerts*
+name: file_event_win_sysinternals_livekd_driver_susp_creation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

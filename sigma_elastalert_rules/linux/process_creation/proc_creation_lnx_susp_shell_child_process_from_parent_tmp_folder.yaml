@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of shells from a parent process located in a temporary
+  (/tmp) directory
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:\/tmp\/* AND process_path.keyword:(*\/bash
+        OR *\/csh OR *\/dash OR *\/fish OR *\/ksh OR *\/sh OR *\/zsh))
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_shell_child_process_from_parent_tmp_folder
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

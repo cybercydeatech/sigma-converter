@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects rundll32 execution without parameters as observed when running
+  Metasploit windows/smb/psexec exploit module
+filter:
+- query:
+    query_string:
+      query: process_command_line:("rundll32.exe" OR "rundll32")
+index: wazuh-alerts*
+name: proc_creation_win_rundll32_without_parameters
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

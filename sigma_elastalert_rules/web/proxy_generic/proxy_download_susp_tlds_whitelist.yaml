@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects executable downloads from suspicious remote systems
+filter:
+- query:
+    query_string:
+      query: (c-uri-extension:("exe" OR "vbs" OR "bat" OR "rar" OR "ps1" OR "doc"
+        OR "docm" OR "xls" OR "xlsm" OR "pptm" OR "rtf" OR "hta" OR "dll" OR "ws"
+        OR "wsf" OR "sct" OR "zip") AND (NOT (cs-host.keyword:(*.com OR *.org OR *.net
+        OR *.edu OR *.gov OR *.uk OR *.ca OR *.de OR *.jp OR *.fr OR *.au OR *.us
+        OR *.ch OR *.it OR *.nl OR *.se OR *.no OR *.es))))
+index: wazuh-alerts*
+name: proxy_download_susp_tlds_whitelist
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

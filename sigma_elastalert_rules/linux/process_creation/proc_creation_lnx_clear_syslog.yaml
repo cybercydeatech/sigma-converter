@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects specific commands commonly used to remove or empty the syslog.
+  Which is often used by attacker as a method to hide their tracks
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*rm\ \/var\/log\/syslog* OR *rm\ \-r\ \/var\/log\/syslog*
+        OR *rm\ \-f\ \/var\/log\/syslog* OR *rm\ \-rf\ \/var\/log\/syslog* OR *unlink\
+        \/var\/log\/syslog* OR *unlink\ \-r\ \/var\/log\/syslog* OR *unlink\ \-f\
+        \/var\/log\/syslog* OR *unlink\ \-rf\ \/var\/log\/syslog* OR *mv\ \/var\/log\/syslog*
+        OR *\ >\/var\/log\/syslog* OR *\ >\ \/var\/log\/syslog*)
+index: wazuh-alerts*
+name: proc_creation_lnx_clear_syslog
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

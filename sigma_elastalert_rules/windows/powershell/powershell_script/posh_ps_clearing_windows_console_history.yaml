@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Identifies when a user attempts to clear console history. An adversary
+  may clear the command history of a compromised account to conceal the actions undertaken
+  during an intrusion.
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:*Clear\-History* OR (ScriptBlockText.keyword:(*Remove\-Item*
+        OR *rm*) AND ScriptBlockText.keyword:(*ConsoleHost_history.txt* OR *\(Get\-PSReadlineOption\).HistorySavePath*)))
+index: wazuh-alerts*
+name: posh_ps_clearing_windows_console_history
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

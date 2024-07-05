@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "RjvPlatform.dll" by "SystemResetPlatform.exe"
+  located in a non-default location.
+filter:
+- query:
+    query_string:
+      query: ((ImageLoaded.keyword:*\\RjvPlatform.dll AND process_path:"\\SystemResetPlatform.exe")
+        AND (NOT ((process_path.keyword:C\:\\Windows\\System32\\SystemResetPlatform\\*))))
+index: wazuh-alerts*
+name: image_load_side_load_rjvplatform_non_default_location
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

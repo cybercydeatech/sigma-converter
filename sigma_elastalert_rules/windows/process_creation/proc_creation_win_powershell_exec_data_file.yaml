@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects inline execution of PowerShell code from a file
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*iex\ * OR *Invoke\-Expression\ * OR *Invoke\-Command\
+        * OR *icm\ *) AND process_command_line.keyword:(*cat\ * OR *get\-content\
+        * OR *type\ *) AND process_command_line.keyword:*\ \-raw*)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_exec_data_file
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

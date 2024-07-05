@@ -1,0 +1,33 @@
+alert:
+- debug
+description: Detects certain command line parameters often used during reconnaissance
+  activity via web shells
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:(*\\w3wp.exe OR *\\php\-cgi.exe OR *\\nginx.exe
+        OR *\\httpd.exe OR *\\caddy.exe OR *\\ws_tomcatservice.exe) OR (process_parent_path.keyword:(*\\java.exe
+        OR *\\javaw.exe) AND process_parent_path.keyword:(*\-tomcat\-* OR *\\tomcat*))
+        OR (process_parent_path.keyword:(*\\java.exe OR *\\javaw.exe) AND process_command_line.keyword:(*catalina.jar*
+        OR *CATALINA_HOME*))) AND ((file_name_original:("net.exe" OR "net1.exe") AND
+        process_command_line.keyword:(*\ user\ * OR *\ use\ * OR *\ group\ *)) OR
+        (file_name_original:"ping.exe" AND process_command_line.keyword:*\ \-n\ *)
+        OR process_command_line.keyword:(*&cd&echo* OR *cd\ \/d\ *) OR (file_name_original:"wmic.exe"
+        AND process_command_line.keyword:*\ \/node\:*) OR (process_path.keyword:(*\\dsquery.exe
+        OR *\\find.exe OR *\\findstr.exe OR *\\ipconfig.exe OR *\\netstat.exe OR *\\nslookup.exe
+        OR *\\pathping.exe OR *\\quser.exe OR *\\schtasks.exe OR *\\systeminfo.exe
+        OR *\\tasklist.exe OR *\\tracert.exe OR *\\ver.exe OR *\\wevtutil.exe OR *\\whoami.exe)
+        OR file_name_original:("dsquery.exe" OR "find.exe" OR "findstr.exe" OR "ipconfig.exe"
+        OR "netstat.exe" OR "nslookup.exe" OR "pathping.exe" OR "quser.exe" OR "schtasks.exe"
+        OR "sysinfo.exe" OR "tasklist.exe" OR "tracert.exe" OR "ver.exe" OR "VSSADMIN.EXE"
+        OR "wevtutil.exe" OR "whoami.exe")) OR process_command_line.keyword:(*\ Test\-NetConnection\
+        * OR *dir\ \\*)))
+index: wazuh-alerts*
+name: proc_creation_win_webshell_recon_commands_and_processes
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

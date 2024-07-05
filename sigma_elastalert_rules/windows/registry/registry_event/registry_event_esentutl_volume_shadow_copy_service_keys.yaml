@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the volume shadow copy service initialization and processing
+  via esentutl. Registry keys such as HKLM\\System\\CurrentControlSet\\Services\\VSS\\Diag\\VolSnap\\Volume
+  are captured.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*System\\CurrentControlSet\\Services\\VSS*
+        AND process_path.keyword:*esentutl.exe) AND (NOT (registry_key_path.keyword:*System\\CurrentControlSet\\Services\\VSS\\Start*)))
+index: wazuh-alerts*
+name: registry_event_esentutl_volume_shadow_copy_service_keys
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

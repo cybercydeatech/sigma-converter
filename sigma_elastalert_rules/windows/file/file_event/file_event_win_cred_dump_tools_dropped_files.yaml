@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Files with well-known filenames (parts of credential dump software or
+  files produced by them) creation
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\\fgdump\-log* OR *\\kirbi* OR *\\pwdump* OR *\\pwhashes*
+        OR *\\wce_ccache* OR *\\wce_krbtkts*) OR file_name.keyword:(*\\cachedump.exe
+        OR *\\cachedump64.exe OR *\\DumpExt.dll OR *\\DumpSvc.exe OR *\\Dumpy.exe
+        OR *\\fgexec.exe OR *\\lsremora.dll OR *\\lsremora64.dll OR *\\NTDS.out OR
+        *\\procdump64.exe OR *\\pstgdump.exe OR *\\pwdump.exe OR *\\SAM.out OR *\\SECURITY.out
+        OR *\\servpw.exe OR *\\servpw64.exe OR *\\SYSTEM.out OR *\\test.pwd OR *\\wceaux.dll))
+index: wazuh-alerts*
+name: file_event_win_cred_dump_tools_dropped_files
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

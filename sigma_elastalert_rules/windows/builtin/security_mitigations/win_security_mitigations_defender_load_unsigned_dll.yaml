@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects Code Integrity (CI) engine blocking Microsoft Defender's processes
+  (MpCmdRun and NisSrv) from loading unsigned DLLs which may be an attempt to sideload
+  arbitrary DLL
+filter:
+- query:
+    query_string:
+      query: (event_id:("11" OR "12") AND process_path.keyword:(*\\MpCmdRun.exe OR
+        *\\NisSrv.exe))
+index: wazuh-alerts*
+name: win_security_mitigations_defender_load_unsigned_dll
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

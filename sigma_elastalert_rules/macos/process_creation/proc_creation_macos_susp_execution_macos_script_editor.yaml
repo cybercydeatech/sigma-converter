@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects when the macOS Script Editor utility spawns an unusual child
+  process.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\/Script\ Editor AND (process_path.keyword:(*\/curl
+        OR *\/bash OR *\/sh OR *\/zsh OR *\/dash OR *\/fish OR *\/osascript OR *\/mktemp
+        OR *\/chmod OR *\/php OR *\/nohup OR *\/openssl OR *\/plutil OR *\/PlistBuddy
+        OR *\/xattr OR *\/sqlite OR *\/funzip OR *\/popen) OR process_path.keyword:(*python*
+        OR *perl*)))
+index: wazuh-alerts*
+name: proc_creation_macos_susp_execution_macos_script_editor
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of shell scripts under the "profile.d" path.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\/etc\/profile.d\/* AND file_name.keyword:(*.csh
+        OR *.sh))
+index: wazuh-alerts*
+name: file_event_lnx_susp_shell_script_under_profile_directory
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

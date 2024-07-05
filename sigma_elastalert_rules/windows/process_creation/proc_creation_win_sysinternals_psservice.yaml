@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of Sysinternals PsService which can be abused for service
+  reconnaissance and tampering
+filter:
+- query:
+    query_string:
+      query: (file_name_original:"psservice.exe" OR process_path.keyword:(*\\PsService.exe
+        OR *\\PsService64.exe))
+index: wazuh-alerts*
+name: proc_creation_win_sysinternals_psservice
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

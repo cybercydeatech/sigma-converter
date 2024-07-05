@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects persistence via Visual Studio Tools for Office (VSTO) add-ins
+  in Office applications.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*\\Software\\Microsoft\\Office\\Outlook\\Addins\\*
+        OR *\\Software\\Microsoft\\Office\\Word\\Addins\\* OR *\\Software\\Microsoft\\Office\\Excel\\Addins\\*
+        OR *\\Software\\Microsoft\\Office\\Powerpoint\\Addins\\* OR *\\Software\\Microsoft\\VSTO\\Security\\Inclusion\\*)
+        AND (NOT ((process_path.keyword:(*\\msiexec.exe OR *\\regsvr32.exe)) OR (process_path.keyword:(*\\excel.exe
+        OR *\\integrator.exe OR *\\OfficeClickToRun.exe OR *\\winword.exe OR *\\visio.exe))
+        OR (process_path.keyword:*\\Teams.exe) OR (process_path:"C\:\\Program\ Files\\AVG\\Antivirus\\RegSvr.exe"
+        AND 
+        registry_key_path.keyword:*\\Microsoft\\Office\\Outlook\\Addins\\Antivirus.AsOutExt\\*))))
+index: wazuh-alerts*
+name: registry_set_persistence_office_vsto
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

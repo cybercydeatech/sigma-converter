@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the use of Windows Credential Editor (WCE)
+filter:
+- query:
+    query_string:
+      query: (((hash_imphash:("a53a02b997935fd8eedcb5f7abab9b9f" OR "e96a73c7bf33a464c510ede582318bf2")
+        OR Hashes.keyword:(*IMPHASH\=a53a02b997935fd8eedcb5f7abab9b9f* OR *IMPHASH\=e96a73c7bf33a464c510ede582318bf2*))
+        OR (process_command_line.keyword:*.exe\ \-S AND process_parent_path.keyword:*\\services.exe))
+        AND (NOT (process_path.keyword:*\\clussvc.exe)))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_wce
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

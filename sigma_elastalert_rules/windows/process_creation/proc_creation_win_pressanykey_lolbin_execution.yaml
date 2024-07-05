@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects child processes of Microsoft.NodejsTools.PressAnyKey.exe that
+  can be used to execute any other binary
+filter:
+- query:
+    query_string:
+      query: process_parent_path.keyword:*\\Microsoft.NodejsTools.PressAnyKey.exe
+index: wazuh-alerts*
+name: proc_creation_win_pressanykey_lolbin_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects usage of the "Add-WindowsCapability" cmdlet to add Windows capabilities.
+  Notable capabilities could be "OpenSSH" and others.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) OR file_name_original:("PowerShell.EXE"
+        OR "pwsh.dll")) AND process_command_line.keyword:*Add\-WindowsCapability*
+        AND process_command_line.keyword:*OpenSSH.*)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_add_windows_capability
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

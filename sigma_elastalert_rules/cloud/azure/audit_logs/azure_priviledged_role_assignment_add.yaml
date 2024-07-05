@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a user is added to a privileged role.
+filter:
+- query:
+    query_string:
+      query: properties.message:("Add\ eligible\ member\ \(permanent\)" OR "Add\ eligible\
+        member\ \(eligible\)")
+index: wazuh-alerts*
+name: azure_priviledged_role_assignment_add
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects creation of a file named "ntds.dit" (Active Directory Database)
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*ntds.dit
+index: wazuh-alerts*
+name: file_event_win_ntds_dit_creation
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

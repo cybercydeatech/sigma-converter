@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects Certipy a tool for Active Directory Certificate Services enumeration
+  and abuse based on PE metadata characteristics and common command line arguments.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\Certipy.exe OR file_name_original:"Certipy.exe"
+        OR file_description.keyword:*Certipy*) OR (process_command_line.keyword:(*\
+        auth\ * OR *\ find\ * OR *\ forge\ * OR *\ relay\ * OR *\ req\ * OR *\ shadow\
+        *) AND process_command_line.keyword:(*\ \-bloodhound* OR *\ \-ca\-pfx\ * OR
+        *\ \-dc\-ip\ * OR *\ \-kirbi* OR *\ \-old\-bloodhound* OR *\ \-pfx\ * OR *\
+        \-target* OR *\ \-username\ * OR *\ \-vulnerable* OR *auth\ \-pfx* OR *shadow\
+        auto* OR *shadow\ list*)))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_certipy
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

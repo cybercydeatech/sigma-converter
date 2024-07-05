@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the addition of a new Federated Domain.
+filter:
+- query:
+    query_string:
+      query: (Operation.keyword:*domain* AND Operation.keyword:(*add* OR *new*))
+index: wazuh-alerts*
+name: microsoft365_new_federated_domain_added_audit
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects child processes of "provlaunch.exe" which might indicate potential
+  abuse to proxy execution.
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\provlaunch.exe AND (NOT ((process_path.keyword:(*\\calc.exe
+        OR *\\cmd.exe OR *\\cscript.exe OR *\\mshta.exe OR *\\notepad.exe OR *\\powershell.exe
+        OR *\\pwsh.exe OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\wscript.exe) OR
+        process_path.keyword:(*\:\\PerfLogs\\* OR *\:\\Temp\\* OR *\:\\Users\\Public\\*
+        OR *\\AppData\\Temp\\* OR *\\Windows\\System32\\Tasks\\* OR *\\Windows\\Tasks\\*
+        OR *\\Windows\\Temp\\*)))))
+index: wazuh-alerts*
+name: proc_creation_win_provlaunch_potential_abuse
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

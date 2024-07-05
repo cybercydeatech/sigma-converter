@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects execution of the Impersonate tool. Which can be used to manipulate
+  tokens on a Windows computers remotely (PsExec/WmiExec) or interactively
+filter:
+- query:
+    query_string:
+      query: ((process_command_line.keyword:*impersonate.exe* AND process_command_line.keyword:(*\
+        list\ * OR *\ exec\ * OR *\ adduser\ *)) OR (Hashes.keyword:(*MD5\=9520714AB576B0ED01D1513691377D01*
+        OR *SHA256\=E81CC96E2118DC4FBFE5BAD1604E0AC7681960143E2101E1A024D52264BB0A8A*
+        OR *IMPHASH\=0A358FFC1697B7A07D0E817AC740DF62*) OR md5:"9520714AB576B0ED01D1513691377D01"
+        OR sha256:"E81CC96E2118DC4FBFE5BAD1604E0AC7681960143E2101E1A024D52264BB0A8A"
+        OR hash_imphash:"0A358FFC1697B7A07D0E817AC740DF62"))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_impersonate
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

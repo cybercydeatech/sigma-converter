@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects usage of wsudo (Windows Sudo Utility). Which is a tool that let
+  the user execute programs with different permissions (System, Trusted Installer,
+  Administrator...etc)
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\wsudo.exe OR file_name_original:"wsudo.exe"
+        OR file_description:"Windows\ sudo\ utility" OR process_parent_path.keyword:*\\wsudo\-bridge.exe
+        OR process_command_line.keyword:(*\-u\ System* OR *\-uSystem* OR *\-u\ TrustedInstaller*
+        OR *\-uTrustedInstaller* OR *\ \-\-ti\ *))
+index: wazuh-alerts*
+name: proc_creation_win_pua_wsudo_susp_execution
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

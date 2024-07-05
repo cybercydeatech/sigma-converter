@@ -1,0 +1,18 @@
+alert:
+- debug
+description: "Detects process access request to uncommon target images with a \"PROCESS_ALL_ACCESS\"\
+  \ access mask.\n"
+filter:
+- query:
+    query_string:
+      query: (target_process_path.keyword:(*\\calc.exe OR *\\calculator.exe OR *\\mspaint.exe
+        OR *\\notepad.exe OR *\\ping.exe OR *\\wordpad.exe OR *\\write.exe) AND process_granted_access:"0x1FFFFF")
+index: wazuh-alerts*
+name: proc_access_win_susp_all_access_uncommon_target
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

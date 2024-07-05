@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the executiob of TTDInject.exe, which is used by Windows 10 v1809
+  and newer to debug time travel (underlying call of tttracer.exe)
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*ttdinject.exe OR file_name_original:"TTDInject.EXE")
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_ttdinject
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

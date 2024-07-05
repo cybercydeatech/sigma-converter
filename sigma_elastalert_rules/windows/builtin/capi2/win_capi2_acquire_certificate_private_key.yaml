@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an application acquires a certificate private key
+filter:
+- query:
+    query_string:
+      query: event_id:"70"
+index: wazuh-alerts*
+name: win_capi2_acquire_certificate_private_key
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

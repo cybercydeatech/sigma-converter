@@ -1,0 +1,25 @@
+alert:
+- debug
+description: "Detects the creation of files with an \"LNK\" as a second extension.
+  This is sometimes used by malware as a method to abuse the fact that Windows hides
+  the \"LNK\" extension by default.\n"
+filter:
+- query:
+    query_string:
+      query: (((file_name.keyword:*.lnk AND file_name.keyword:(*.doc.* OR *.docx.*
+        OR *.jpg.* OR *.pdf.* OR *.ppt.* OR *.pptx.* OR *.xls.* OR *.xlsx.*)) AND
+        (NOT ((file_name.keyword:*\\AppData\\Roaming\\Microsoft\\Windows\\Recent\\*))))
+        AND (NOT ((process_path.keyword:(*\\excel.exe OR *\\powerpnt.exe OR *\\winword.exe)
+        AND file_name.keyword:*\\AppData\\Roaming\\Microsoft\\Office\\Recent\\*) OR
+        (process_path.keyword:*\\excel.exe AND file_name.keyword:*\\AppData\\Roaming\\Microsoft\\Excel*)
+        OR (process_path.keyword:*\\powerpnt.exe AND file_name.keyword:*\\AppData\\Roaming\\Microsoft\\PowerPoint*)
+        OR (process_path.keyword:*\\winword.exe AND file_name.keyword:*\\AppData\\Roaming\\Microsoft\\Word*))))
+index: wazuh-alerts*
+name: file_event_win_susp_lnk_double_extension
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

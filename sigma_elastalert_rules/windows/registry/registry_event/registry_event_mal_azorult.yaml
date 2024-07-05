@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the presence of a registry key created during Azorult execution
+filter:
+- query:
+    query_string:
+      query: (event_id:("12" OR "13") AND registry_key_path.keyword:*SYSTEM\\* AND
+        registry_key_path.keyword:*\\services\\localNETService)
+index: wazuh-alerts*
+name: registry_event_mal_azorult
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

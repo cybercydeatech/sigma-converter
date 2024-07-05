@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects remote access to the LSASS process via WinRM. This could be a
+  sign of credential dumping from tools like mimikatz.
+filter:
+- query:
+    query_string:
+      query: ((target_process_path.keyword:*\\lsass.exe AND process_path.keyword:*\:\\Windows\\system32\\wsmprovhost.exe)
+        AND (NOT ((process_granted_access:"0x80000000"))))
+index: wazuh-alerts*
+name: proc_access_win_lsass_remote_access_trough_winrm
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

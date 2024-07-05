@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects a ProcessHacker tool that elevated privileges to a very high
+  level
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Service\ Control\ Manager" AND event_id:"7045" AND service_name.keyword:ProcessHacker*
+        AND user_name:"LocalSystem")
+index: wazuh-alerts*
+name: win_system_service_install_pua_proceshacker
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

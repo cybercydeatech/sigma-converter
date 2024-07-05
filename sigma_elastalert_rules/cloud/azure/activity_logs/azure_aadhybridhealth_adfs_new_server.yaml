@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  This detection uses azureactivity logs (Administrative category) to identify the creation or update of a server instance in an Azure AD Hybrid health AD FS service.
+  A threat actor can create a new AD Health ADFS service and create a fake server instance to spoof AD FS signing logs. There is no need to compromise an on-prem AD FS server.
+  This can be done programmatically via HTTP requests to Azure.
+filter:
+- query:
+    query_string:
+      query: (CategoryValue:"Administrative" AND ResourceProviderValue:"Microsoft.ADHybridHealthService"
+        AND ResourceId.keyword:*AdFederationService* AND 
+        OperationNameValue:"Microsoft.ADHybridHealthService\/services\/servicemembers\/action")
+index: wazuh-alerts*
+name: azure_aadhybridhealth_adfs_new_server
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

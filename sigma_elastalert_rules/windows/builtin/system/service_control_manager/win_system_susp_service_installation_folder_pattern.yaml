@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects service installation with suspicious folder patterns
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:"7045") AND
+        (ImagePath.keyword:/[Cc]:\\[Pp]rogram[Dd]ata\\.{1,9}\.exe.*/ OR ImagePath.keyword:/[Cc]:\\.{1,9}\.exe.*/))
+index: wazuh-alerts*
+name: win_system_susp_service_installation_folder_pattern
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

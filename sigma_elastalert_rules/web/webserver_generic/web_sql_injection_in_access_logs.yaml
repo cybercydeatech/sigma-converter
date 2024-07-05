@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects potential SQL injection attempts via GET requests in access logs.
+filter:
+- query:
+    query_string:
+      query: ((cs-method:"GET" AND \*.keyword:(*@@version* OR *%271%27%3D%271* OR
+        *\=select\ * OR *\=select\(* OR *\=select%20* OR *concat_ws\(* OR *CONCAT\(0x*
+        OR *from\ mysql.innodb_table_stats* OR *from%20mysql.innodb_table_stats* OR
+        *group_concat\(* OR *information_schema.tables* OR *json_arrayagg\(* OR *or\
+        1\=1#* OR *or%201\=1#* OR *order\ by\ * OR *order%20by%20* OR *select\ *\
+        * OR *select\ database\(\)* OR *select\ version\(\)* OR *select%20*%20* OR
+        *select%20database\(\)* OR *select%20version\(\)* OR *select%28sleep%2810%29*
+        OR *SELECTCHAR\(* OR *table_schema* OR *UNION\ ALL\ SELECT* OR *UNION\ SELECT*
+        OR *UNION%20ALL%20SELECT* OR *UNION%20SELECT* OR *'1'\='1*)) AND (NOT ((sc-status:"404"))))
+index: wazuh-alerts*
+name: web_sql_injection_in_access_logs
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

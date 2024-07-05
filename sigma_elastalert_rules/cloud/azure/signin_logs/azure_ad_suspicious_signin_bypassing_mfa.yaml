@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects successful authentication from potential clients using legacy
+  authentication via user agent strings. This could be a sign of MFA bypass using
+  a password spray attack.
+filter:
+- query:
+    query_string:
+      query: (event_status:"Success" AND userAgent.keyword:(*BAV2ROPC* OR *CBAinPROD*
+        OR *CBAinTAR*))
+index: wazuh-alerts*
+name: azure_ad_suspicious_signin_bypassing_mfa
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

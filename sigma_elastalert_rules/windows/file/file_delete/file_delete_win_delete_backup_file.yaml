@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects deletion of files with extensions often used for backup files.
+  Adversaries may delete or remove built-in operating system data and turn off services
+  designed to aid in the recovery of a corrupted system to prevent recovery.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\cmd.exe OR *\\powershell.exe OR *\\pwsh.exe
+        OR *\\wt.exe OR *\\rundll32.exe OR *\\regsvr32.exe) AND file_name.keyword:(*.VHD
+        OR *.bac OR *.bak OR *.wbcat OR *.bkf OR *.set OR *.win OR *.dsk))
+index: wazuh-alerts*
+name: file_delete_win_delete_backup_file
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

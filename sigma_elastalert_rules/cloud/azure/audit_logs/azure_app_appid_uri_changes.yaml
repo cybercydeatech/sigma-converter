@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a configuration change is made to an applications AppID
+  URI.
+filter:
+- query:
+    query_string:
+      query: properties.message:("Update\ Application" OR "Update\ Service\ principal")
+index: wazuh-alerts*
+name: azure_app_appid_uri_changes
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

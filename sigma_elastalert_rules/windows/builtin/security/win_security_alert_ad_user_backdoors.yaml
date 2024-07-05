@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects scenarios where one can control another users or computers account
+  without having to use their credentials.
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4738" AND (NOT ((target_user_allowed_to_delegate:("" OR "\-"))
+        OR (NOT _exists_:target_user_allowed_to_delegate)))) OR ((event_id:"5136"
+        AND dsobject_attribute_name:"msDS\-AllowedToDelegateTo") OR (event_id:"5136"
+        AND dsobject_class:"user" AND dsobject_attribute_name:"servicePrincipalName")
+        OR (event_id:"5136" AND dsobject_attribute_name:"msDS\-AllowedToActOnBehalfOfOtherIdentity")))
+index: wazuh-alerts*
+name: win_security_alert_ad_user_backdoors
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects service installation of different remote access tools software.
+  These software are often abused by threat actors to perform
+filter:
+- query:
+    query_string:
+      query: (event_id:"4697" AND service_name.keyword:(*AmmyyAdmin* OR *Atera* OR
+        *BASupportExpressSrvcUpdater* OR *BASupportExpressStandaloneService* OR *chromoting*
+        OR *GoToAssist* OR *GoToMyPC* OR *jumpcloud* OR *LMIGuardianSvc* OR *LogMeIn*
+        OR *monblanking* OR *Parsec* OR *RManService* OR *RPCPerformanceService* OR
+        *RPCService* OR *SplashtopRemoteService* OR *SSUService* OR *TeamViewer* OR
+        *TightVNC* OR *vncserver* OR *Zoho*))
+index: wazuh-alerts*
+name: win_security_service_install_remote_access_software
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

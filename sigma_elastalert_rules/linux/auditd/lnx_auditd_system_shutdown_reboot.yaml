@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Adversaries may shutdown/reboot systems to interrupt access to, or aid
+  in the destruction of, those systems.
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND (\*.keyword:(*shutdown* OR *reboot* OR *halt* OR *poweroff*)
+        OR (\*.keyword:(*init* OR *telinit*) AND \*.keyword:(0 OR 6))))
+index: wazuh-alerts*
+name: lnx_auditd_system_shutdown_reboot
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

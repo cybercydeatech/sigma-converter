@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Identifies user activities originating from geographically distant locations
+  within a time period shorter than the time it takes to travel from the first location
+  to the second.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"impossibleTravel"
+index: wazuh-alerts*
+name: azure_identity_protection_impossible_travel
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

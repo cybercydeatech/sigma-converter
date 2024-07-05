@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a suspicious curl process start the adds a file to a web request
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\/curl AND (process_command_line.keyword:(*\
+        \-\-form* OR *\ \-\-upload\-file\ * OR *\ \-\-data\ * OR *\ \-\-data\-*) OR
+        process_command_line.keyword:/\s-[FTd]\s/)) AND (NOT ((process_command_line.keyword:(*\:\/\/localhost*
+        OR *\:\/\/127.0.0.1*)))))
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_curl_fileupload
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

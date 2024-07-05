@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the use of Windows Credential Editor (WCE)
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*Services\\WCESERVICE\\Start*
+index: wazuh-alerts*
+name: registry_event_hack_wce_reg
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

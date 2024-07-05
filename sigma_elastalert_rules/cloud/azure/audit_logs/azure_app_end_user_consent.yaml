@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an end user consents to an application
+filter:
+- query:
+    query_string:
+      query: ConsentContext.IsAdminConsent:"false"
+index: wazuh-alerts*
+name: azure_app_end_user_consent
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

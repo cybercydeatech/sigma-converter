@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when S3 bucket versioning is disabled. Threat actors use this
+  technique during AWS ransomware incidents prior to deleting S3 objects.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"s3.amazonaws.com" AND eventName:"PutBucketVersioning" AND
+        requestParameters.keyword:*Suspended*)
+index: wazuh-alerts*
+name: aws_disable_bucket_versioning
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

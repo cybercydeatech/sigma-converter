@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects invocation of Microsoft Workflow Compiler, which may permit the
+  execution of arbitrary unsigned code.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\Microsoft.Workflow.Compiler.exe OR file_name_original:"Microsoft.Workflow.Compiler.exe")
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_workflow_compiler
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

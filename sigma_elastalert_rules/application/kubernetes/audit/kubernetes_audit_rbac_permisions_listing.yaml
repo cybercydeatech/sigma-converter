@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects identities attempting to enumerate their Kubernetes RBAC permissions.
+  In the early stages of a breach, attackers will aim to list the permissions they have within the compromised environment.
+  In a Kubernetes cluster, this can be achieved by interacting with the API server, and querying the SelfSubjectAccessReview API via e.g. a "kubectl auth can-i --list" command.
+  This will enumerate the Role-Based Access Controls (RBAC) rules defining the compromised user's authorization.
+filter:
+- query:
+    query_string:
+      query: (verb:"create" AND apiGroup:"authorization.k8s.io" AND objectRef.resource:"selfsubjectrulesreviews")
+index: wazuh-alerts*
+name: kubernetes_audit_rbac_permisions_listing
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

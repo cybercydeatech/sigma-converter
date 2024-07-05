@@ -1,0 +1,22 @@
+alert:
+- debug
+description: |
+  Detects windows utilities loading an unsigned or untrusted DLL.
+  Adversaries often abuse those programs to proxy execution of malicious code.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\InstallUtil.exe OR *\\RegAsm.exe OR *\\RegSvcs.exe
+        OR *\\regsvr32.exe OR *\\rundll32.exe) AND (NOT ((signed:"true") OR (signature_status:("errorChaining"
+        OR "errorCode_endpoint" OR "errorExpired" OR "trusted")) OR (NOT _exists_:signed)
+        OR (signed:("" OR "\-")) OR (NOT _exists_:signature_status) OR (signature_status:(""
+        OR "\-")))))
+index: wazuh-alerts*
+name: image_load_susp_unsigned_dll
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

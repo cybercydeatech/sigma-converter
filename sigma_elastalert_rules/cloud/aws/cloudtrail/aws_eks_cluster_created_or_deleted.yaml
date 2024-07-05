@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when an EKS cluster is created or deleted.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"eks.amazonaws.com" AND eventName:("CreateCluster" OR "DeleteCluster"))
+index: wazuh-alerts*
+name: aws_eks_cluster_created_or_deleted
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

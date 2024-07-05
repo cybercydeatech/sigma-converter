@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a service installed by a client which has PID 0 or whose parent
+  has PID 0
+filter:
+- query:
+    query_string:
+      query: (event_id:"4697" AND (ClientProcessId:"0" OR ParentProcessId:"0"))
+index: wazuh-alerts*
+name: win_security_service_installation_by_unusal_client
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects when a Microsoft Cloud App Security reported when a user or IP
+  address uses an app that is not sanctioned to perform an activity that resembles
+  an attempt to exfiltrate information from your organization.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"SecurityComplianceCenter" AND eventName:"Data\ exfiltration\
+        to\ unsanctioned\ apps" AND status:"success")
+index: wazuh-alerts*
+name: microsoft365_data_exfiltration_to_unsanctioned_app
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

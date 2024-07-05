@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects direct modification of autostart extensibility point (ASEP) in
+  registry using reg.exe.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\reg.exe AND process_command_line.keyword:*add*
+        AND 
+        process_command_line.keyword:(*\\software\\Microsoft\\Windows\\CurrentVersion\\Run*
+        OR *\\software\\Microsoft\\Windows\ NT\\CurrentVersion\\Winlogon\\Userinit*
+        OR *\\software\\Microsoft\\Windows\ NT\\CurrentVersion\\Winlogon\\Shell* OR
+        *\\software\\Microsoft\\Windows\ NT\\CurrentVersion\\Windows* OR *\\software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User\
+        Shell\ Folders* OR *\\system\\CurrentControlSet\\Control\\SafeBoot\\AlternateShell*))
+index: wazuh-alerts*
+name: proc_creation_win_reg_direct_asep_registry_keys_modification
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

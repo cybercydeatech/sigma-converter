@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when the MSSQL "xp_cmdshell" stored procedure setting is changed
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"MSSQLSERVER" AND event_id:"15457" AND Data.keyword:*xp_cmdshell*)
+index: wazuh-alerts*
+name: win_mssql_xp_cmdshell_change
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

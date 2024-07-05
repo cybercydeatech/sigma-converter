@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects attempts to inject a sidecar container into a running deployment.
+  A sidecar container is an additional container within a pod, that resides alongside the main container.
+  One way to add containers to running resources like Deployments/DeamonSets/StatefulSets, is via a "kubectl patch" operation.
+  By injecting a new container within a legitimate pod, an attacker can run their code and hide their activity, instead of running their own separated pod in the cluster.
+filter:
+- query:
+    query_string:
+      query: (verb:"patch" AND apiGroup:"apps" AND objectRef.resource:"deployments")
+index: wazuh-alerts*
+name: kubernetes_audit_sidecar_injection
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

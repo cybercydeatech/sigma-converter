@@ -1,0 +1,23 @@
+alert:
+- debug
+description: "Detects uncommon outbound network activity via Kerberos default port
+  indicating possible lateral movement or first stage PrivEsc via delegation.\n"
+filter:
+- query:
+    query_string:
+      query: (((event_id:"5156" AND DestPort:"88") AND (NOT ((Application.keyword:(\\device\\harddiskvolume*
+        OR C\:*) AND Application.keyword:*\\Windows\\System32\\lsass.exe)))) AND (NOT
+        ((Application.keyword:(\\device\\harddiskvolume* OR C\:*) AND Application.keyword:(*\\Program\
+        Files\ \(x86\)\\Google\\Chrome\\Application\\chrome.exe OR *\\Program\ Files\\Google\\Chrome\\Application\\chrome.exe))
+        OR (Application.keyword:(\\device\\harddiskvolume* OR C\:*) AND Application.keyword:(*\\Program\
+        Files\ \(x86\)\\Mozilla\ Firefox\\firefox.exe OR *\\Program\ Files\\Mozilla\
+        Firefox\\firefox.exe)) OR (Application.keyword:*\\tomcat\\bin\\tomcat8.exe))))
+index: wazuh-alerts*
+name: win_security_susp_outbound_kerberos_connection
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

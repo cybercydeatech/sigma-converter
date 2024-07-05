@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects an appx package deployment that was blocked by AppLocker policy
+filter:
+- query:
+    query_string:
+      query: event_id:"412"
+index: wazuh-alerts*
+name: win_appxdeployment_server_applocker_block
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Adversaries may attempt to take screen captures of the desktop to gather information over the course of an operation.
+  Screen capturing functionality may be included as a feature of a remote access tool used in post-compromise operations
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:*.CopyFromScreen*
+index: wazuh-alerts*
+name: posh_ps_capture_screenshots
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

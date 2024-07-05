@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when administrator grants either application permissions (app
+  roles) or highly privileged delegated permissions
+filter:
+- query:
+    query_string:
+      query: properties.message:"Add\ app\ role\ assignment\ to\ service\ principal"
+index: wazuh-alerts*
+name: azure_app_privileged_permissions
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

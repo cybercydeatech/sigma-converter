@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a possible remote connections to Silenttrinity c2
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\msbuild.exe AND dst_port:("80" OR "443") AND
+        Initiated:"true")
+index: wazuh-alerts*
+name: net_connection_win_silenttrinity_stager_msbuild_activity
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

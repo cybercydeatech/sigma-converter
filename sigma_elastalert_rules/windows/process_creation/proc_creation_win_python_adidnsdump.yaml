@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  This tool enables enumeration and exporting of all DNS records in the zone for recon purposes of internal networks Python 3 and python.exe must be installed,
+  Usee to Query/modify DNS records for Active Directory integrated DNS via LDAP
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\python.exe AND process_command_line.keyword:*adidnsdump*)
+index: wazuh-alerts*
+name: proc_creation_win_python_adidnsdump
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

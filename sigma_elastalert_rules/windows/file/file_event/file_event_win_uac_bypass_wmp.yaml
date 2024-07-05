@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the pattern of UAC Bypass using Windows Media Player osksupport.dll
+  (UACMe 32)
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:C\:\\Users\\* AND file_name.keyword:*\\AppData\\Local\\Temp\\OskSupport.dll)
+        OR (process_path:"C\:\\Windows\\system32\\DllHost.exe" AND file_name:"C\:\\Program\
+        Files\\Windows\ Media\ Player\\osk.exe"))
+index: wazuh-alerts*
+name: file_event_win_uac_bypass_wmp
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

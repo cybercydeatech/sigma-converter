@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the use of PSAsyncShell an Asynchronous TCP Reverse Shell written
+  in powershell
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:*PSAsyncShell*
+index: wazuh-alerts*
+name: posh_ps_psasyncshell
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

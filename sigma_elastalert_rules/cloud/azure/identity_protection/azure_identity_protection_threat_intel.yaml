@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Indicates user activity that is unusual for the user or consistent with
+  known attack patterns.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"investigationsThreatIntelligence"
+index: wazuh-alerts*
+name: azure_identity_protection_threat_intel
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

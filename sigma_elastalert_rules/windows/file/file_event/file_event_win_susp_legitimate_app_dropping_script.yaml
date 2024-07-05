@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects programs on a Windows system that should not write scripts to
+  disk
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\eqnedt32.exe OR *\\wordpad.exe OR *\\wordview.exe
+        OR *\\certutil.exe OR *\\certoc.exe OR *\\CertReq.exe OR *\\Desktopimgdownldr.exe
+        OR *\\esentutl.exe OR *\\mshta.exe OR *\\AcroRd32.exe OR *\\RdrCEF.exe OR
+        *\\hh.exe OR *\\finger.exe) AND file_name.keyword:(*.ps1 OR *.bat OR *.vbs
+        OR *.scf OR *.wsf OR *.wsh))
+index: wazuh-alerts*
+name: file_event_win_susp_legitimate_app_dropping_script
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

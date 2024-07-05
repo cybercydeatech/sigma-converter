@@ -1,0 +1,18 @@
+alert:
+- debug
+description: This rule detects that the path to the DLL written in the registry is
+  different from the default one. Launched WAB.exe tries to load the DLL from Registry.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Software\\Microsoft\\WAB\\DLLPath AND (NOT
+        (Details:"%CommonProgramFiles%\\System\\wab32.dll")))
+index: wazuh-alerts*
+name: registry_set_wab_dllpath_reg_change
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

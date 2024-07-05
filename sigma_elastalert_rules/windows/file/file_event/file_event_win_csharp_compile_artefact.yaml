@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  When C# is compiled dynamically, a .cmdline file will be created as a part of the process.
+  Certain processes are not typically observed compiling C# code, but can do so without touching disk.
+  This can be used to unpack a payload for execution
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*.cmdline
+index: wazuh-alerts*
+name: file_event_win_csharp_compile_artefact
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

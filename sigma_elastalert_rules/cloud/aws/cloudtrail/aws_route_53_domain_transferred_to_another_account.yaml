@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a request has been made to transfer a Route 53 domain to
+  another AWS account.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"route53.amazonaws.com" AND eventName:"TransferDomainToAnotherAwsAccount")
+index: wazuh-alerts*
+name: aws_route_53_domain_transferred_to_another_account
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

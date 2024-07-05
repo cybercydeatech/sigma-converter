@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects both of CVE-2022-30190 (Follina) and DogWalk vulnerabilities
+  exploiting msdt.exe binary to load the "sdiageng.dll" library
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\msdt.exe AND ImageLoaded.keyword:*\\sdiageng.dll)
+index: wazuh-alerts*
+name: image_load_dll_sdiageng_load_by_msdt
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

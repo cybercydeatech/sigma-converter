@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects changes to the PowerShell execution policy in order to bypass
+  signing requirements for script execution
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:(*\\ShellIds\\Microsoft.PowerShell\\ExecutionPolicy
+        OR *\\Policies\\Microsoft\\Windows\\PowerShell\\ExecutionPolicy) AND Details.keyword:(*Bypass*
+        OR *Unrestricted*)) AND (NOT ((process_path.keyword:(*\:\\Windows\\System32\\*
+        OR *\:\\Windows\\SysWOW64\\*)))))
+index: wazuh-alerts*
+name: registry_set_powershell_execution_policy
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

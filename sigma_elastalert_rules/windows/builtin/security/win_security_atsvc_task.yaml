@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects remote task creation via at.exe or API interacting with ATSVC
+  namedpipe
+filter:
+- query:
+    query_string:
+      query: (event_id:"5145" AND share_name.keyword:\\\\\*\\IPC$ AND share_relative_target_name:"atsvc"
+        AND Accesses.keyword:*WriteData*)
+index: wazuh-alerts*
+name: win_security_atsvc_task
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

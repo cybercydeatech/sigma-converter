@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects command line parameter very often used with coin miners
+filter:
+- query:
+    query_string:
+      query: (a1.keyword:\-\-cpu\-priority* OR a2.keyword:\-\-cpu\-priority* OR a3.keyword:\-\-cpu\-priority*
+        OR a4.keyword:\-\-cpu\-priority* OR a5.keyword:\-\-cpu\-priority* OR a6.keyword:\-\-cpu\-priority*
+        OR a7.keyword:\-\-cpu\-priority*)
+index: wazuh-alerts*
+name: lnx_auditd_coinminer
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

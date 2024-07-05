@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the usage of the "sftp.exe" binary as a LOLBIN by abusing the
+  "-D" flag
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\sftp.exe AND process_command_line.keyword:(*\
+        \-D\ ..* OR *\ \-D\ C\:\\*))
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_sftp
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

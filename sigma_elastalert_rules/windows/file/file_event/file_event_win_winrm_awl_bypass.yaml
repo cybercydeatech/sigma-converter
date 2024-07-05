@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of attacker-controlled WsmPty.xsl or WsmTxt.xsl via
+  winrm.vbs and copied cscript.exe (can be renamed)
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*WsmPty.xsl OR *WsmTxt.xsl) AND (NOT (file_name.keyword:(C\:\\Windows\\System32\\*
+        OR C\:\\Windows\\SysWOW64\\*))))
+index: wazuh-alerts*
+name: file_event_win_winrm_awl_bypass
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects Certify a tool for Active Directory certificate abuse based on
+  PE metadata characteristics and common command line arguments.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\Certify.exe OR file_name_original:"Certify.exe"
+        OR file_description.keyword:*Certify*) OR (process_command_line.keyword:(*.exe\
+        cas\ * OR *.exe\ find\ * OR *.exe\ pkiobjects\ * OR *.exe\ request\ * OR *.exe\
+        download\ *) AND process_command_line.keyword:(*\ \/vulnerable* OR *\ \/template\:*
+        OR *\ \/altname\:* OR *\ \/domain\:* OR *\ \/path\:* OR *\ \/ca\:*)))
+index: wazuh-alerts*
+name: proc_creation_win_hktl_certify
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects failed logon attempts from clients to MSSQL server.
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"MSSQLSERVER" AND event_id:"18456")
+index: wazuh-alerts*
+name: win_mssql_failed_logon
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

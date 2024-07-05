@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects enumeration of local or remote network services.
+filter:
+- query:
+    query_string:
+      query: (type:"SYSCALL" AND exe.keyword:(*\/telnet OR *\/nmap OR *\/netcat OR
+        *\/nc OR *\/ncat OR *\/nc.openbsd) AND key:"network_connect_4")
+index: wazuh-alerts*
+name: lnx_auditd_network_service_scanning
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

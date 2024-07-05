@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Detects the execution of "ConfigSecurityPolicy.EXE", a binary part of Windows Defender used to manage settings in Windows Defender.
+  Users can configure different pilot collections for each of the co-management workloads.
+  It can be abused by attackers in order to upload or download files.
+filter:
+- query:
+    query_string:
+      query: ((process_command_line.keyword:*ConfigSecurityPolicy.exe* OR process_path.keyword:*\\ConfigSecurityPolicy.exe
+        OR file_name_original:"ConfigSecurityPolicy.exe") AND process_command_line.keyword:(*ftp\:\/\/*
+        OR *http\:\/\/* OR *https\:\/\/*))
+index: wazuh-alerts*
+name: proc_creation_win_configsecuritypolicy_download_file
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

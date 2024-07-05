@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects calls to "LoadAssemblyFromPath" or "LoadAssemblyFromNS" that
+  are part of the "CL_LoadAssembly.ps1" script. This can be abused to load different
+  assemblies and bypass App locker controls.
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*LoadAssemblyFromPath\ * OR *LoadAssemblyFromNS\
+        *)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_cl_loadassembly
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

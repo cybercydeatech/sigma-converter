@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies when an user or application modified the federation settings
+  on the domain.
+filter:
+- query:
+    query_string:
+      query: ActivityDisplayName:"Set\ federation\ settings\ on\ domain"
+index: wazuh-alerts*
+name: azure_federation_modified
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

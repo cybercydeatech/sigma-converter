@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects suspicious child processes of the Veeam service process. This
+  could indicate potential RCE or SQL Injection.
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:*\\sqlservr.exe AND process_parent_command_line.keyword:*VEEAMSQL*)
+        AND ((process_path.keyword:(*\\cmd.exe OR *\\powershell.exe OR *\\pwsh.exe
+        OR *\\wsl.exe OR *\\wt.exe) AND process_command_line.keyword:(*\-ex\ * OR
+        *bypass* OR *cscript* OR *DownloadString* OR *http\:\/\/* OR *https\:\/\/*
+        OR *mshta* OR *regsvr32* OR *rundll32* OR *wscript* OR *copy\ *)) OR process_path.keyword:(*\\net.exe
+        OR *\\net1.exe OR *\\netstat.exe OR *\\nltest.exe OR *\\ping.exe OR *\\tasklist.exe
+        OR *\\whoami.exe)))
+index: wazuh-alerts*
+name: proc_creation_win_mssql_veaam_susp_child_processes
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

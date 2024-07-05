@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects when an Elastic Container Service (ECS) Task Definition includes a command to query the credential endpoint.
+  This can indicate a potential adversary adding a backdoor to establish persistence or escalate privileges.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"ecs.amazonaws.com" AND eventName:("DescribeTaskDefinition"
+        OR "RegisterTaskDefinition" OR "RunTask") AND 
+        requestParameters.containerDefinitions.command.keyword:*$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI*)
+index: wazuh-alerts*
+name: aws_ecs_task_definition_cred_endpoint_query
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

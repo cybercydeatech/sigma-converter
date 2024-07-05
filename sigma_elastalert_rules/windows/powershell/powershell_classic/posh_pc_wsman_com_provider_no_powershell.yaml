@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects suspicious use of the WSMAN provider without PowerShell.exe as
+  the host application.
+filter:
+- query:
+    query_string:
+      query: (Data.keyword:*ProviderName\=WSMan* AND (NOT ((Data.keyword:(*HostApplication\=powershell*
+        OR *HostApplication\=C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell*
+        OR *HostApplication\=C\:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell*
+        OR *HostApplication\=C\:\/Windows\/System32\/WindowsPowerShell\/v1.0\/powershell*
+        OR 
+        *HostApplication\=C\:\/Windows\/SysWOW64\/WindowsPowerShell\/v1.0\/powershell*)))))
+index: wazuh-alerts*
+name: posh_pc_wsman_com_provider_no_powershell
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

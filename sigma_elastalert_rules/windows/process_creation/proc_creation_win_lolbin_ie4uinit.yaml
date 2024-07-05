@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detect use of ie4uinit.exe to execute commands from a specially prepared
+  ie4uinit.inf file from a directory other than the usual directories
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\ie4uinit.exe OR file_name_original:"IE4UINIT.EXE")
+        AND (NOT ((process_current_directory:("c\:\\windows\\system32\\" OR "c\:\\windows\\sysWOW64\\"))
+        OR (NOT _exists_:process_current_directory))))
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_ie4uinit
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

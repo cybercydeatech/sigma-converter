@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when a application is deleted in Azure.
+filter:
+- query:
+    query_string:
+      query: properties.message:("Delete\ application" OR "Hard\ Delete\ application")
+index: wazuh-alerts*
+name: azure_application_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

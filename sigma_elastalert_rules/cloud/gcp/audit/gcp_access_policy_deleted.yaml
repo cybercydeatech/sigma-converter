@@ -1,0 +1,22 @@
+alert:
+- debug
+description: |
+  Detects when an access policy that is applied to a GCP cloud resource is deleted.
+  An adversary would be able to remove access policies to gain access to a GCP cloud resource.
+filter:
+- query:
+    query_string:
+      query: 
+        (data.protoPayload.authorizationInfo.permission:("accesscontextmanager.accessPolicies.delete"
+        OR "accesscontextmanager.accessPolicies.accessLevels.delete" OR "accesscontextmanager.accessPolicies.accessZones.delete"
+        OR "accesscontextmanager.accessPolicies.authorizedOrgsDescs.delete") AND data.protoPayload.authorizationInfo.granted:"true"
+        AND data.protoPayload.serviceName:"accesscontextmanager.googleapis.com")
+index: wazuh-alerts*
+name: gcp_access_policy_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a failed installation of a Exchange Transport Agent
+filter:
+- query:
+    query_string:
+      query: (event_id:"6" AND Data.keyword:*Install\-TransportAgent*)
+index: wazuh-alerts*
+name: win_exchange_transportagent_failed
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detect change of the user account associated with the FAX service to
+  avoid the escalation problem.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path:"HKLM\\System\\CurrentControlSet\\Services\\Fax\\ObjectName"
+        AND (NOT (Details.keyword:*NetworkService*)))
+index: wazuh-alerts*
+name: registry_set_fax_change_service_user
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

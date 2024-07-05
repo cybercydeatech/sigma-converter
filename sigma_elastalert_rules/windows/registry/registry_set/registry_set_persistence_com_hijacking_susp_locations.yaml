@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potential COM object hijacking where the "Server" (In/Out) is
+  pointing to a suspicious or unsuale location
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\CLSID\\* AND registry_key_path.keyword:(*\\InprocServer32\\\(Default\)
+        OR *\\LocalServer32\\\(Default\)) AND Details.keyword:(*\\AppData\\Local\\Temp\\*
+        OR *\\Desktop\\* OR *\\Downloads\\* OR *\\Microsoft\\Windows\\Start\ Menu\\Programs\\Startup\\*
+        OR *\\System32\\spool\\drivers\\color\\* OR *\\Users\\Public\\* OR *\\Windows\\Temp\\*
+        OR *%appdata%* OR *%temp%* OR *%tmp%*))
+index: wazuh-alerts*
+name: registry_set_persistence_com_hijacking_susp_locations
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect failed attempts to sign in to disabled accounts.
+filter:
+- query:
+    query_string:
+      query: (ResultType:"50057" AND ResultDescription:"User\ account\ is\ disabled.\
+        The\ account\ has\ been\ disabled\ by\ an\ administrator.")
+index: wazuh-alerts*
+name: azure_login_to_disabled_account
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

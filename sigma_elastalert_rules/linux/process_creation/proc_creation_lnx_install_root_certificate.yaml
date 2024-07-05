@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects installation of new certificate on the system which attackers
+  may use to avoid warnings when connecting to controlled web servers or C2s
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:(*\/update\-ca\-certificates OR *\/update\-ca\-trust)
+index: wazuh-alerts*
+name: proc_creation_lnx_install_root_certificate
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

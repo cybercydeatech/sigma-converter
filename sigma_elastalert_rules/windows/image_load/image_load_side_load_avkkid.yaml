@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "AVKkid.dll"
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\AVKkid.dll AND (NOT ((process_path.keyword:(*C\:\\Program\
+        Files\ \(x86\)\\G\ DATA\\* OR *C\:\\Program\ Files\\G\ DATA\\*) AND process_path.keyword:*\\AVKKid.exe
+        AND ImageLoaded.keyword:(C\:\\Program\ Files\ \(x86\)\\G\ DATA\\* OR C\:\\Program\
+        Files\\G\ DATA\\*)))))
+index: wazuh-alerts*
+name: image_load_side_load_avkkid
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the execution of powershell scripts with calls to the "Start-NetEventSession" cmdlet. Which allows an attacker to start event and packet capture for a network event session.
+  Adversaries may attempt to capture network to gather information over the course of an operation.
+  Data captured via this technique may include user credentials, especially those sent over an insecure, unencrypted protocol.
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:*Start\-NetEventSession*
+index: wazuh-alerts*
+name: posh_ps_packet_capture
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

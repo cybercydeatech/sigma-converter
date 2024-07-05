@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects that a powershell code is written to the registry as a service.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Services\\* AND registry_key_path.keyword:*\\ImagePath
+        AND Details.keyword:(*powershell* OR *pwsh*))
+index: wazuh-alerts*
+name: registry_set_powershell_as_service
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

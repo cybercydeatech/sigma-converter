@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when a Container Registry is created or deleted.
+filter:
+- query:
+    query_string:
+      query: operationName:("MICROSOFT.CONTAINERREGISTRY\/REGISTRIES\/WRITE" OR "MICROSOFT.CONTAINERREGISTRY\/REGISTRIES\/DELETE")
+index: wazuh-alerts*
+name: azure_container_registry_created_or_deleted
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

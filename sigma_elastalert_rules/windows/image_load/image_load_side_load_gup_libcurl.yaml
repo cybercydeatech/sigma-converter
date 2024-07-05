@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "libcurl.dll" by the "gup.exe" process
+  from an uncommon location
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\gup.exe AND ImageLoaded.keyword:*\\libcurl.dll)
+        AND (NOT ((process_path.keyword:*\\Notepad\+\+\\updater\\GUP.exe))))
+index: wazuh-alerts*
+name: image_load_side_load_gup_libcurl
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

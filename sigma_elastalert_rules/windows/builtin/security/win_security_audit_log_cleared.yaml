@@ -1,0 +1,18 @@
+alert:
+- debug
+description: One of the Windows Eventlogs has been cleared. e.g. caused by "wevtutil
+  cl" command execution
+filter:
+- query:
+    query_string:
+      query: ((event_id:"517" AND Provider_Name:"Security") OR (event_id:"1102" AND
+        Provider_Name:"Microsoft\-Windows\-Eventlog"))
+index: wazuh-alerts*
+name: win_security_audit_log_cleared
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detect set Notification_Suppress to 1 to disable the Windows security
+  center notification
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*SOFTWARE\\Policies\\Microsoft\\Windows\ Defender\\UX\
+        Configuration\\Notification_Suppress AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_suppress_defender_notifications
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

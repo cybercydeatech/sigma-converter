@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of the file "rootlog" which is used by the TripleCross
+  rootkit as a way to check if the backdoor is already running.
+filter:
+- query:
+    query_string:
+      query: file_name:"\/tmp\/rootlog"
+index: wazuh-alerts*
+name: file_event_lnx_triple_cross_rootkit_lock_file
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

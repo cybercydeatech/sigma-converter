@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of a local hidden user account which should not
+  happen for event ID 4720.
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4720" AND TargetUserName.keyword:*$) AND (NOT ((TargetUserName:"HomeGroupUser$"))))
+index: wazuh-alerts*
+name: win_security_hidden_user_creation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

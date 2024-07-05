@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the creation of a "privileged" container, an action which could be indicative of a threat actor mounting a container breakout attacks.
+  A privileged container is a container that can access the host with all of the root capabilities of the host machine. This allows it to view, interact and modify processes, network operations, IPC calls, the file system, mount points, SELinux configurations etc. as the root user on the host.
+  Various versions of "privileged" containers can be specified, e.g. by setting the securityContext.privileged flag in the resource specification, setting non-standard Linux capabilities, or configuring the hostNetwork/hostPID fields
+filter:
+- query:
+    query_string:
+      query: (verb:"create" AND objectRef.resource:"pods" AND capabilities.keyword:*)
+index: wazuh-alerts*
+name: kubernetes_audit_privileged_pod_creation
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

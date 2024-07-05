@@ -1,0 +1,25 @@
+alert:
+- debug
+description: Detects the addition of new root, CA or AuthRoot certificates to the
+  Windows registry
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:(*\\SOFTWARE\\Microsoft\\SystemCertificates\\Root\\Certificates\\*
+        OR *\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\Root\\Certificates\\*
+        OR *\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\Root\\Certificates\\* OR
+        *\\SOFTWARE\\Microsoft\\SystemCertificates\\CA\\Certificates\\* OR *\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\CA\\Certificates\\*
+        OR *\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\CA\\Certificates\\* OR
+        *\\SOFTWARE\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\* OR *\\SOFTWARE\\Policies\\Microsoft\\SystemCertificates\\AuthRoot\\Certificates\\*
+        OR *\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\AuthRoot\\Certificates\\*)
+        AND registry_key_path.keyword:*\\Blob AND Details:"Binary\ Data")
+index: wazuh-alerts*
+name: registry_set_install_root_or_ca_certificat
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

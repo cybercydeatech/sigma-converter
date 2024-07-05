@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Look for non-system accounts SMB accessing a file with write (0x2) access
+  mask via administrative share (i.e C$).
+filter:
+- query:
+    query_string:
+      query: ((event_id:"5145" AND share_name.keyword:*C$ AND share_access_mask:"0x2")
+        AND (NOT (user_name.keyword:*$)))
+index: wazuh-alerts*
+name: win_security_smb_file_creation_admin_shares
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

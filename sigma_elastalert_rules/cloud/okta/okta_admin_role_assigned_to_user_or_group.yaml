@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an the Administrator role is assigned to an user or group.
+filter:
+- query:
+    query_string:
+      query: eventtype:("group.privilege.grant" OR "user.account.privilege.grant")
+index: wazuh-alerts*
+name: okta_admin_role_assigned_to_user_or_group
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

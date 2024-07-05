@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Windows DCE-RPC functions which indicate an execution techniques on the
+  remote system. All credit for the Zeek mapping of the suspicious endpoint/operation
+  field goes to MITRE
+filter:
+- query:
+    query_string:
+      query: ((endpoint:"JobAdd" AND operation:"atsvc") OR (endpoint:"ITaskSchedulerService"
+        AND operation:"SchRpcEnableTask") OR (endpoint:"ITaskSchedulerService" AND
+        operation:"SchRpcRegisterTask") OR (endpoint:"ITaskSchedulerService" AND operation:"SchRpcRun")
+        OR (endpoint:"IWbemServices" AND operation:"ExecMethod") OR (endpoint:"IWbemServices"
+        AND operation:"ExecMethodAsync") OR (endpoint:"svcctl" AND operation:"CreateServiceA")
+        OR (endpoint:"svcctl" AND operation:"CreateServiceW") OR (endpoint:"svcctl"
+        AND operation:"StartServiceA") OR (endpoint:"svcctl" AND operation:"StartServiceW"))
+index: wazuh-alerts*
+name: zeek_dce_rpc_mitre_bzar_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

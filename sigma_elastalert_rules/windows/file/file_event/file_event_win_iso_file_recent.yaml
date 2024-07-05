@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the creation of recent element file that points to an .ISO, .IMG, .VHD or .VHDX file as often used in phishing attacks.
+  This can be a false positive on server systems but on workstations users should rarely mount .iso or .img files.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*.iso.lnk OR *.img.lnk OR *.vhd.lnk OR *.vhdx.lnk)
+        AND file_name.keyword:*\\Microsoft\\Windows\\Recent\\*)
+index: wazuh-alerts*
+name: file_event_win_iso_file_recent
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

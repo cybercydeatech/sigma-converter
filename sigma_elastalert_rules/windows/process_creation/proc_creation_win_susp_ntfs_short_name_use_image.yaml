@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detect use of the Windows 8.3 short name. Which could be used as a method
+  to avoid Image based detection
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\~1.bat* OR *\~1.dll* OR *\~1.exe* OR *\~1.hta*
+        OR *\~1.js* OR *\~1.msi* OR *\~1.ps1* OR *\~1.tmp* OR *\~1.vbe* OR *\~1.vbs*
+        OR *\~2.bat* OR *\~2.dll* OR *\~2.exe* OR *\~2.hta* OR *\~2.js* OR *\~2.msi*
+        OR *\~2.ps1* OR *\~2.tmp* OR *\~2.vbe* OR *\~2.vbs*) AND (NOT ((process_parent_path:"C\:\\Windows\\explorer.exe"))))
+        AND (NOT ((process_parent_path.keyword:*\\WebEx\\WebexHost.exe) OR (process_parent_path.keyword:*\\thor\\thor64.exe)
+        OR (process_path:"C\:\\PROGRA\~1\\WinZip\\WZPREL\~1.EXE") OR (process_path.keyword:*\\VCREDI\~1.EXE))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_ntfs_short_name_use_image
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

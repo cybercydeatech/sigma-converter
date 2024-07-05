@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects execution of the "mshta" utility with an argument containing
+  the "http" keyword, which could indicate that an attacker is executing a remotely
+  hosted malicious hta file
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\mshta.exe OR file_name_original:"MSHTA.EXE")
+        AND process_command_line.keyword:(*http\:\/\/* OR *https\:\/\/* OR *ftp\:\/\/*))
+index: wazuh-alerts*
+name: proc_creation_win_mshta_http
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

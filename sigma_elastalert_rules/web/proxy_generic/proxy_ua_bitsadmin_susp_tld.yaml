@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Bitsadmin connections to domains with uncommon TLDs
+filter:
+- query:
+    query_string:
+      query: (c-useragent.keyword:Microsoft\ BITS\/* AND (NOT (cs-host.keyword:(*.com
+        OR *.net OR *.org OR *.scdn.co OR *.sfx.ms))))
+index: wazuh-alerts*
+name: proxy_ua_bitsadmin_susp_tld
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

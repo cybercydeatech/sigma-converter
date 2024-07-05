@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when when a mounted share is removed. Adversaries may remove
+  share connections that are no longer useful in order to clean up traces of their
+  operation
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*Remove\-SmbShare* OR *Remove\-FileShare*)
+index: wazuh-alerts*
+name: posh_ps_susp_mounted_share_deletion
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

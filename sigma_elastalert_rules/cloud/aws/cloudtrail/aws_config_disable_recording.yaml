@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects AWS Config Service disabling
+filter:
+- query:
+    query_string:
+      query: (eventSource:"config.amazonaws.com" AND eventName:("DeleteDeliveryChannel"
+        OR "StopConfigurationRecorder"))
+index: wazuh-alerts*
+name: aws_config_disable_recording
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

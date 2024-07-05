@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect adversaries enumerate sensitive files
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:(*ls* OR *get\-childitem* OR *gci*) AND ScriptBlockText.keyword:*\-recurse*
+        AND ScriptBlockText.keyword:(*.pass* OR *.kdbx* OR *.kdb*))
+index: wazuh-alerts*
+name: posh_ps_sensitive_file_discovery
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

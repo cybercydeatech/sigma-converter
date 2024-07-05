@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects application popup reporting a failure of the Sysmon service
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Application\ Popup" AND event_id:"26" AND Caption:("sysmon64.exe\
+        \-\ Application\ Error" OR "sysmon.exe\ \-\ Application\ Error"))
+index: wazuh-alerts*
+name: win_system_application_sysmon_crash
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

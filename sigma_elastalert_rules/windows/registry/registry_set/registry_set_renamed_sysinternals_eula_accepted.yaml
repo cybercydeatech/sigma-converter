@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects non-sysinternals tools setting the "accepteula" key which normally
+  is set on sysinternals tool execution
+filter:
+- query:
+    query_string:
+      query: (((registry_key_path.keyword:(*\\PsExec* OR *\\ProcDump* OR *\\Handle*
+        OR *\\LiveKd* OR *\\Process\ Explorer* OR *\\PsLoglist* OR *\\PsPasswd* OR
+        *\\Active\ Directory\ Explorer*) AND registry_key_path.keyword:*\\EulaAccepted)
+        AND (NOT ((process_path.keyword:(*\\PsExec.exe OR *\\PsExec64.exe OR *\\procdump.exe
+        OR *\\procdump64.exe OR *\\handle.exe OR *\\handle64.exe OR *\\livekd.exe
+        OR *\\livekd64.exe OR *\\procexp.exe OR *\\procexp64.exe OR *\\psloglist.exe
+        OR *\\psloglist64.exe OR *\\pspasswd.exe OR *\\pspasswd64.exe OR *\\ADExplorer.exe
+        OR *\\ADExplorer64.exe))))) AND (NOT ((NOT _exists_:process_path))))
+index: wazuh-alerts*
+name: registry_set_renamed_sysinternals_eula_accepted
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

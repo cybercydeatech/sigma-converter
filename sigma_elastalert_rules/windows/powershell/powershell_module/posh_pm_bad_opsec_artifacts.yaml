@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  focuses on trivial artifacts observed in variants of prevalent offensive ps1 payloads, including
+  Cobalt Strike Beacon, PoshC2, Powerview, Letmein, Empire, Powersploit, and other attack payloads
+  that often undergo minimal changes by attackers due to bad opsec.
+filter:
+- query:
+    query_string:
+      query: Payload.keyword:(*$DoIt* OR *harmj0y* OR *mattifestation* OR *_RastaMouse*
+        OR *tifkin_* OR *0xdeadbeef*)
+index: wazuh-alerts*
+name: posh_pm_bad_opsec_artifacts
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

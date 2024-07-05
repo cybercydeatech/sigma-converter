@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when an attacker or tool disables the  Windows Defender service
+  (WinDefend) via the registry
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Services\\WinDefend\\Start AND Details:"DWORD\
+        \(0x00000004\)")
+index: wazuh-alerts*
+name: registry_set_disable_windows_defender_service
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

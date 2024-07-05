@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects creation of the Process Monitor driver by processes other than
+  Process Monitor (procmon) itself.
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:*\\procmon* AND file_name.keyword:*.sys) AND (NOT
+        ((process_path.keyword:(*\\procmon.exe OR *\\procmon64.exe)))))
+index: wazuh-alerts*
+name: file_event_win_sysinternals_procmon_driver_susp_creation
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

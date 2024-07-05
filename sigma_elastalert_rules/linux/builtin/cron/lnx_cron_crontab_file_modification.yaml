@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious modification of crontab file.
+filter:
+- query:
+    query_string:
+      query: REPLACE
+index: wazuh-alerts*
+name: lnx_cron_crontab_file_modification
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

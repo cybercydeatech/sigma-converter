@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the use of "DumpMinitool.exe" a tool that allows the dump of
+  process memory via the use of the "MiniDumpWriteDump"
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\DumpMinitool.exe OR *\\DumpMinitool.x86.exe
+        OR *\\DumpMinitool.arm64.exe) OR file_name_original:("DumpMinitool.exe" OR
+        "DumpMinitool.x86.exe" OR "DumpMinitool.arm64.exe")) AND process_command_line.keyword:(*\
+        Full* OR *\ Mini* OR *\ WithHeap*))
+index: wazuh-alerts*
+name: proc_creation_win_dumpminitool_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

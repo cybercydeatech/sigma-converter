@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the creation of a new bits job by Bitsadmin
+filter:
+- query:
+    query_string:
+      query: (event_id:"3" AND process_path.keyword:*\\bitsadmin.exe)
+index: wazuh-alerts*
+name: win_bits_client_new_job_via_bitsadmin
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the WMI Event Consumer service scrcons.exe creating a named pipe
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\\scrcons.exe
+index: wazuh-alerts*
+name: pipe_created_scrcons_wmi_consumer_namedpipe
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

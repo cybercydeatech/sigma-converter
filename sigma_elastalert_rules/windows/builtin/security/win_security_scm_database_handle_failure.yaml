@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects non-system users failing to get a handle of the SCM database.
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4656" AND object_type:"SC_MANAGER\ OBJECT" AND object_name:"ServicesActive"
+        AND object_access_mask:"0xf003f") AND (NOT (SubjectLogonId:"0x3e4")))
+index: wazuh-alerts*
+name: win_security_scm_database_handle_failure
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

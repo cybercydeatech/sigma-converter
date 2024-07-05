@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a suspicious RDP session redirect using tscon.exe
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:*\ \/dest\:rdp\-tcp#*
+index: wazuh-alerts*
+name: proc_creation_win_tscon_rdp_redirect
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

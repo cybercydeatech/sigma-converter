@@ -1,0 +1,29 @@
+alert:
+- debug
+description: Detects the use of WinAPI Functions via the commandline. As seen used
+  by threat actors via the tool winapiexec
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*AddSecurityPackage* OR *AdjustTokenPrivileges*
+        OR *Advapi32* OR *CloseHandle* OR *CreateProcessWithToken* OR *CreatePseudoConsole*
+        OR *CreateRemoteThread* OR *CreateThread* OR *CreateUserThread* OR *DangerousGetHandle*
+        OR *DuplicateTokenEx* OR *EnumerateSecurityPackages* OR *FreeHGlobal* OR *FreeLibrary*
+        OR *GetDelegateForFunctionPointer* OR *GetLogonSessionData* OR *GetModuleHandle*
+        OR *GetProcAddress* OR *GetProcessHandle* OR *GetTokenInformation* OR *ImpersonateLoggedOnUser*
+        OR *kernel32* OR *LoadLibrary* OR *memcpy* OR *MiniDumpWriteDump* OR *ntdll*
+        OR *OpenDesktop* OR *OpenProcess* OR *OpenProcessToken* OR *OpenThreadToken*
+        OR *OpenWindowStation* OR *PtrToString* OR *QueueUserApc* OR *ReadProcessMemory*
+        OR *RevertToSelf* OR *RtlCreateUserThread* OR *secur32* OR *SetThreadToken*
+        OR *VirtualAlloc* OR *VirtualFree* OR *VirtualProtect* OR *WaitForSingleObject*
+        OR *WriteInt32* OR *WriteProcessMemory* OR *ZeroFreeGlobalAllocUnicode*) AND
+        (NOT ((process_path.keyword:*\\MpCmdRun.exe AND process_command_line.keyword:*GetLoadLibraryWAddress32*))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_inline_win_api_access
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

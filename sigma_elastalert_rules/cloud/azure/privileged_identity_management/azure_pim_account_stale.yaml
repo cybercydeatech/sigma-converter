@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies when an account hasn't signed in during the past n number
+  of days.
+filter:
+- query:
+    query_string:
+      query: riskEventType:"staleSignInAlertIncident"
+index: wazuh-alerts*
+name: azure_pim_account_stale
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

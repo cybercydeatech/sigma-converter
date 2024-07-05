@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a suspicious child process of userinit
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\userinit.exe AND (NOT ((process_command_line.keyword:*\\netlogon\\*)
+        OR (process_path.keyword:*\\explorer.exe OR file_name_original:"explorer.exe"))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_userinit_child
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

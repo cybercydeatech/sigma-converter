@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Detects usage of winget to install applications via manifest file. Adversaries can abuse winget to download payloads remotely and execute them.
+  The manifest option enables you to install an application by passing in a YAML file directly to the client.
+  Winget can be used to download and install exe, msi or msix files later.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\winget.exe OR file_name_original:"winget.exe")
+        AND process_command_line.keyword:(*install* OR *\ add\ *) AND process_command_line.keyword:(*\-m\
+        * OR *\-\-manifest*))
+index: wazuh-alerts*
+name: proc_creation_win_winget_local_install_via_manifest
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

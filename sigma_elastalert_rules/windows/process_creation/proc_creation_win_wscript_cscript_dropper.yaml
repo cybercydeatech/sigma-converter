@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects wscript/cscript executions of scripts located in user directories
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\wscript.exe OR *\\cscript.exe) AND process_command_line.keyword:(*\:\\Temp\\*
+        OR *\:\\Tmp\\* OR *\:\\Users\\Public\\* OR *\:\\Windows\\Temp\\* OR *\\AppData\\Local\\Temp\\*)
+        AND process_command_line.keyword:(*.js* OR *.jse* OR *.vba* OR *.vbe* OR *.vbs*
+        OR *.wsf*))
+index: wazuh-alerts*
+name: proc_creation_win_wscript_cscript_dropper
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

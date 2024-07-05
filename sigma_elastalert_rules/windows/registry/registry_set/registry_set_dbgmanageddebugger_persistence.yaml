@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the addition of the "Debugger" value to the "DbgManagedDebugger"
+  key in order to achieve persistence. Which will get invoked when an application
+  crashes
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Microsoft\\.NETFramework\\DbgManagedDebugger
+        AND (NOT (Details:"\"C\:\\Windows\\system32\\vsjitdebugger.exe\"\ PID\ %d\
+        APPDOM\ %d\ EXTEXT\ \"%s\"\ EVTHDL\ %d")))
+index: wazuh-alerts*
+name: registry_set_dbgmanageddebugger_persistence
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

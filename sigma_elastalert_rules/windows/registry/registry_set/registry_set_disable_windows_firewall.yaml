@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detect set EnableFirewall to 0 to disable the Windows firewall
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:(*\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\StandardProfile\\EnableFirewall
+        OR 
+        *\\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\DomainProfile\\EnableFirewall)
+        AND Details:"DWORD\ \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_disable_windows_firewall
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

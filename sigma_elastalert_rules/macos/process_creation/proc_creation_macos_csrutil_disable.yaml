@@ -1,0 +1,17 @@
+alert:
+- debug
+description: "Detects the use of csrutil to disable the Configure System Integrity
+  Protection (SIP). This technique is used in post-exploit scenarios.\n"
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/csrutil AND process_command_line.keyword:*disable*)
+index: wazuh-alerts*
+name: proc_creation_macos_csrutil_disable
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects installation of suspicious packages using system installation
+  utilities
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:(*\/apt OR *\/apt\-get) AND process_command_line.keyword:*install*)
+        OR (process_path.keyword:*\/yum AND process_command_line.keyword:(*localinstall*
+        OR *install*)) OR (process_path.keyword:*\/rpm AND process_command_line.keyword:*\-i*)
+        OR (process_path.keyword:*\/dpkg AND process_command_line.keyword:(*\-\-install*
+        OR *\-i*))) AND process_command_line.keyword:(*nmap* OR *\ nc* OR *netcat*
+        OR *wireshark* OR *tshark* OR *openconnect* OR *proxychains*))
+index: wazuh-alerts*
+name: proc_creation_lnx_install_suspicioua_packages
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

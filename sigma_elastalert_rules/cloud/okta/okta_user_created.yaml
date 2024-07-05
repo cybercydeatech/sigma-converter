@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects new user account creation
+filter:
+- query:
+    query_string:
+      query: eventtype:"user.lifecycle.create"
+index: wazuh-alerts*
+name: okta_user_created
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

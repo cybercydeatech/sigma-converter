@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the creation or modification of a vscode related powershell profile
+  which could indicate suspicious activity as the profile can be used as a mean of
+  persistence
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\Microsoft.VSCode_profile.ps1
+index: wazuh-alerts*
+name: file_event_win_susp_vscode_powershell_profile
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

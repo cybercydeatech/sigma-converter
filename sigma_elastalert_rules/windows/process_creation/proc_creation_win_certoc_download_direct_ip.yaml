@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects when a user downloads a file from an IP based URL using CertOC.exe
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\certoc.exe OR file_name_original:"CertOC.exe")
+        AND process_command_line.keyword:/://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/
+        AND process_command_line.keyword:*\-GetCACAPS*)
+index: wazuh-alerts*
+name: proc_creation_win_certoc_download_direct_ip
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

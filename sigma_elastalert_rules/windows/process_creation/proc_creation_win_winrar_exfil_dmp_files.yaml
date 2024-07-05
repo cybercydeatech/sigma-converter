@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of WinRAR in order to compress a file with a ".dmp"/".dump"
+  extension, which could be a step in a process of dump file exfiltration.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\rar.exe OR *\\winrar.exe) OR file_description:"Command\
+        line\ RAR") AND process_command_line.keyword:(*.dmp* OR *.dump* OR *.hdmp*))
+index: wazuh-alerts*
+name: proc_creation_win_winrar_exfil_dmp_files
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

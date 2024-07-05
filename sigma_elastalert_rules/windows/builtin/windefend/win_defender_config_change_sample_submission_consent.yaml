@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects disabling of the "Automatic Sample Submission" feature of Windows
+  Defender.
+filter:
+- query:
+    query_string:
+      query: (event_id:"5007" AND NewValue.keyword:*\\Real\-Time\ Protection\\SubmitSamplesConsent\
+        \=\ 0x0*)
+index: wazuh-alerts*
+name: win_defender_config_change_sample_submission_consent
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

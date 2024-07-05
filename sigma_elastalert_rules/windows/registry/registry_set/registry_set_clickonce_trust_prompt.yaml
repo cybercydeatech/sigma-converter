@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects changes to the ClickOnce trust prompt registry key in order to
+  enable an installation from different locations such as the Internet.
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:*\\SOFTWARE\\MICROSOFT\\.NETFramework\\Security\\TrustManager\\PromptingLevel\\*
+        AND registry_key_path.keyword:(*\\Internet OR *\\LocalIntranet OR *\\MyComputer
+        OR *\\TrustedSites OR *\\UntrustedSites) AND Details:"Enabled")
+index: wazuh-alerts*
+name: registry_set_clickonce_trust_prompt
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

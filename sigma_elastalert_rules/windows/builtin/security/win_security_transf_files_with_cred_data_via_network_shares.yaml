@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Transferring files with well-known filenames (sensitive files with credential
+  data) using network shares
+filter:
+- query:
+    query_string:
+      query: (event_id:"5145" AND share_relative_target_name.keyword:(*\\mimidrv*
+        OR *\\lsass* OR *\\windows\\minidump\\* OR *\\hiberfil* OR *\\sqldmpr* OR
+        *\\sam* OR *\\ntds.dit* OR *\\security*))
+index: wazuh-alerts*
+name: win_security_transf_files_with_cred_data_via_network_shares
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of the "wusa.exe" (Windows Update Standalone Installer)
+  utility to extract cab using the "/extract" argument which is not longer supported.
+  This could indicate an attacker using an old technique
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\wusa.exe AND process_command_line.keyword:*\/extract\:*)
+index: wazuh-alerts*
+name: proc_creation_win_wusa_cab_files_extraction
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects DNS queries to a TeamViewer domain only resolved by a TeamViewer
+  client by an image that isn't named TeamViewer (sometimes used by threat actors
+  for obfuscation)
+filter:
+- query:
+    query_string:
+      query: (QueryName:("taf.teamviewer.com" OR "udp.ping.teamviewer.com") AND (NOT
+        ((process_path.keyword:*TeamViewer*))))
+index: wazuh-alerts*
+name: dns_query_win_teamviewer_domain_query_by_uncommon_app
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

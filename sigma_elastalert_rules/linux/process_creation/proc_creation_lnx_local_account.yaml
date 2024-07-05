@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects enumeration of local systeam accounts. This information can help
+  adversaries determine which local accounts exist on a system to aid in follow-on
+  behavior.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/lastlog OR process_command_line.keyword:*'x\:0\:'*
+        OR (process_path.keyword:(*\/cat OR *\/head OR *\/tail OR *\/more) AND process_command_line.keyword:(*\/etc\/passwd*
+        OR *\/etc\/shadow* OR *\/etc\/sudoers*)) OR process_path.keyword:*\/id OR
+        (process_path.keyword:*\/lsof AND process_command_line.keyword:*\-u*))
+index: wazuh-alerts*
+name: proc_creation_lnx_local_account
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

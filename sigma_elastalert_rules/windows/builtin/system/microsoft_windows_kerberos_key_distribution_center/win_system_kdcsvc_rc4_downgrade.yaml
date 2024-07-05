@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the exploitation of a security bypass and elevation of privilege
+  vulnerability with Authentication Negotiation by using weak RC4-HMAC negotiation
+filter:
+- query:
+    query_string:
+      query: (event_id:"42" AND Provider_Name:"Kerberos\-Key\-Distribution\-Center"
+        AND Level:"2")
+index: wazuh-alerts*
+name: win_system_kdcsvc_rc4_downgrade
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

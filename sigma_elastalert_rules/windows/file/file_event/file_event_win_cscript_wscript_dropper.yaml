@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a file ending in jse, vbe, js, vba, vbs written by cscript.exe
+  or wscript.exe
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\wscript.exe OR *\\cscript.exe) AND file_name.keyword:(C\:\\Users\\*
+        OR C\:\\ProgramData*) AND file_name.keyword:(*.jse OR *.vbe OR *.js OR *.vba
+        OR *.vbs))
+index: wazuh-alerts*
+name: file_event_win_cscript_wscript_dropper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

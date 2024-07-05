@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects potential SpEL Injection exploitation, which may lead to RCE.
+filter:
+- query:
+    query_string:
+      query: org.springframework.expression.ExpressionException
+index: wazuh-alerts*
+name: spring_spel_injection
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

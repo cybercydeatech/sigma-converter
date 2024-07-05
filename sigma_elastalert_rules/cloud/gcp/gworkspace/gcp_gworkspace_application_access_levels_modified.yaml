@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects when an access level is changed for a Google workspace application.
+  An access level is part of BeyondCorp Enterprise which is Google Workspace's way of enforcing Zero Trust model.
+  An adversary would be able to remove access levels to gain easier access to Google workspace resources.
+filter:
+- query:
+    query_string:
+      query: (eventService:"admin.googleapis.com" AND eventName:"CHANGE_APPLICATION_SETTING"
+        AND setting_name.keyword:ContextAwareAccess*)
+index: wazuh-alerts*
+name: gcp_gworkspace_application_access_levels_modified
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

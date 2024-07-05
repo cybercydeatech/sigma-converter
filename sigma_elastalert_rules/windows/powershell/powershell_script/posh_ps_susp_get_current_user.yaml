@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the use of PowerShell to identify the current logged user.
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*\[System.Environment\]\:\:UserName* OR *$env\:UserName*
+        OR *\[System.Security.Principal.WindowsIdentity\]\:\:GetCurrent\(\)*)
+index: wazuh-alerts*
+name: posh_ps_susp_get_current_user
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

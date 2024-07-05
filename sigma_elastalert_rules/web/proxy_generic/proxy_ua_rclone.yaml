@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the use of rclone, a command-line program to manage files on
+  cloud storage, via its default user-agent string
+filter:
+- query:
+    query_string:
+      query: c-useragent.keyword:rclone\/v*
+index: wazuh-alerts*
+name: proxy_ua_rclone
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

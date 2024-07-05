@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects suspicious child processes of "BgInfo.exe" which could be a sign
+  of potential abuse of the binary to proxy execution via external VBScript
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:(*\\bginfo.exe OR *\\bginfo64.exe) AND (process_path.keyword:(*\\calc.exe
+        OR *\\cmd.exe OR *\\cscript.exe OR *\\mshta.exe OR *\\notepad.exe OR *\\powershell.exe
+        OR *\\pwsh.exe OR *\\wscript.exe) OR process_path.keyword:(*\\AppData\\Local\\*
+        OR *\\AppData\\Roaming\\* OR *\:\\Users\\Public\\* OR *\:\\Temp\\* OR *\:\\Windows\\Temp\\*
+        OR *\:\\PerfLogs\\*)))
+index: wazuh-alerts*
+name: proc_creation_win_bginfo_suspicious_child_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

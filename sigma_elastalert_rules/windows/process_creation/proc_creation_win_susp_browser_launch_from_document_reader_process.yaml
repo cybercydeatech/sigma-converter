@@ -1,0 +1,21 @@
+alert:
+- debug
+description: "Detects when a browser process or browser tab is launched from an application
+  that handles document files such as Adobe, Microsoft Office, etc. And connects to
+  a web application over http(s), this could indicate a possible phishing attempt.\n"
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:(*Acrobat\ Reader* OR *Microsoft\ Office*
+        OR *PDF\ Reader*) AND process_path.keyword:(*\\brave.exe OR *\\chrome.exe
+        OR *\\firefox.exe OR *\\msedge.exe OR *\\opera.exe OR *\\maxthon.exe OR *\\seamonkey.exe
+        OR *\\vivaldi.exe OR *) AND process_command_line.keyword:*http*)
+index: wazuh-alerts*
+name: proc_creation_win_susp_browser_launch_from_document_reader_process
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a potentially suspicious execution of a process located in the
+  '/tmp/' folder
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:\/tmp\/*
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_execution_tmp_folder
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

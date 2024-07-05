@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects when a user bypasses the push protection on a secret detected
+  by secret scanning.
+filter:
+- query:
+    query_string:
+      query: action.keyword:*secret_scanning_push_protection.bypass*
+index: wazuh-alerts*
+name: github_push_protection_bypass_detected
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

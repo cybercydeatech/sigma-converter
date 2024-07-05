@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects persistence registry keys for Recycle Bin
+filter:
+- query:
+    query_string:
+      query: ((event_category_type:"RenameKey" AND 
+        NewName.keyword:*\\CLSID\\\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}\\shell\\open*)
+        OR (event_category_type:"SetValue" AND 
+        registry_key_path.keyword:*\\CLSID\\\{645FF040\-5081\-101B\-9F08\-00AA002F954E\}\\shell\\open\\command\\\(Default\)*))
+index: wazuh-alerts*
+name: registry_event_persistence_recycle_bin
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

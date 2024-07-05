@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects access to ADMIN$ network share
+filter:
+- query:
+    query_string:
+      query: ((event_id:"5140" AND share_name:"Admin$") AND (NOT ((user_name.keyword:*$))))
+index: wazuh-alerts*
+name: win_security_admin_share_access
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

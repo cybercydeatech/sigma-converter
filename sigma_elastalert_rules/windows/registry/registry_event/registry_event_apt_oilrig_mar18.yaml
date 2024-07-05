@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects OilRig registry persistence as reported by Nyotron in their March
+  2018 report
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:(*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\UMe
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\UT)
+index: wazuh-alerts*
+name: registry_event_apt_oilrig_mar18
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

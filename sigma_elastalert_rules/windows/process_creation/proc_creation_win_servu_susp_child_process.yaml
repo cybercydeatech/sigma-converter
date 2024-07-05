@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects a suspicious process pattern which could be a sign of an exploited
+  Serv-U service
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\Serv\-U.exe AND process_path.keyword:(*\\cmd.exe
+        OR *\\powershell.exe OR *\\pwsh.exe OR *\\wscript.exe OR *\\cscript.exe OR
+        *\\sh.exe OR *\\bash.exe OR *\\schtasks.exe OR *\\regsvr32.exe OR *\\wmic.exe
+        OR *\\mshta.exe OR *\\rundll32.exe OR *\\msiexec.exe OR *\\forfiles.exe OR
+        *\\scriptrunner.exe))
+index: wazuh-alerts*
+name: proc_creation_win_servu_susp_child_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

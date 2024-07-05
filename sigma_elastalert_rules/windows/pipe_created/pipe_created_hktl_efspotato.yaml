@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the pattern of a pipe name as used by the hack tool EfsPotato
+filter:
+- query:
+    query_string:
+      query: (pipe_name.keyword:(*\\pipe\\* OR *\\pipe\\srvsvc*) AND (NOT ((pipe_name.keyword:*\\CtxShare*)
+        OR (pipe_name.keyword:\\pipe\\*))))
+index: wazuh-alerts*
+name: pipe_created_hktl_efspotato
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of an ADS (Alternate Data Stream) that contains
+  an executable by looking at a non-empty Imphash
+filter:
+- query:
+    query_string:
+      query: (Hash.keyword:*IMPHASH\=* AND (NOT ((Hash.keyword:*IMPHASH\=00000000000000000000000000000000*))))
+index: wazuh-alerts*
+name: create_stream_hash_ads_executable
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

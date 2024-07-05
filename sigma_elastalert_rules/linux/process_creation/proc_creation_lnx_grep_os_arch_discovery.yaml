@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects the use of grep to identify information about the operating
+  system architecture. Often combined beforehand with the execution of \"uname\" or
+  \"cat /proc/cpuinfo\"\n"
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/grep AND process_command_line.keyword:(*aarch64
+        OR *arm OR *i386 OR *i686 OR *mips OR *x86_64))
+index: wazuh-alerts*
+name: proc_creation_lnx_grep_os_arch_discovery
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

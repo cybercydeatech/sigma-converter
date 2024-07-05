@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies when a application security group is modified or deleted.
+filter:
+- query:
+    query_string:
+      query: operationName:("MICROSOFT.NETWORK\/APPLICATIONSECURITYGROUPS\/WRITE"
+        OR "MICROSOFT.NETWORK\/APPLICATIONSECURITYGROUPS\/DELETE")
+index: wazuh-alerts*
+name: azure_application_security_group_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

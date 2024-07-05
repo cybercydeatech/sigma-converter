@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects the execution of EDRSilencer, a tool that leverages Windows
+  Filtering Platform (WFP) to block Endpoint Detection and Response (EDR) agents from
+  reporting security events to the server based on PE metadata information.\n"
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\EDRSilencer.exe OR file_name_original:"EDRSilencer.exe"
+        OR file_description.keyword:*EDRSilencer*)
+index: wazuh-alerts*
+name: proc_creation_win_hktl_edrsilencer
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

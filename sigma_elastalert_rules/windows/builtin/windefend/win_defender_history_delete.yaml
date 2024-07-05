@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Windows Defender logs when the history of detected infections is deleted.
+filter:
+- query:
+    query_string:
+      query: event_id:"1013"
+index: wazuh-alerts*
+name: win_defender_history_delete
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

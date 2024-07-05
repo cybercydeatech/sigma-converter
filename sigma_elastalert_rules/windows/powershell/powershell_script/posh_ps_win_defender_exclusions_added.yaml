@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects modifications to the Windows Defender configuration settings
+  using PowerShell to add exclusions
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:(*\ \-ExclusionPath\ * OR *\ \-ExclusionExtension\
+        * OR *\ \-ExclusionProcess\ * OR *\ \-ExclusionIpAddress\ *) AND ScriptBlockText.keyword:(*Add\-MpPreference\
+        * OR *Set\-MpPreference\ *))
+index: wazuh-alerts*
+name: posh_ps_win_defender_exclusions_added
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

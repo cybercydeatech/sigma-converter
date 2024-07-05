@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects execution of "tar.exe" in order to extract compressed file.
+  Adversaries may abuse various utilities in order to decompress data to avoid detection.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\tar.exe OR file_name_original:"bsdtar") AND
+        process_command_line.keyword:*\-x*)
+index: wazuh-alerts*
+name: proc_creation_win_tar_extraction
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

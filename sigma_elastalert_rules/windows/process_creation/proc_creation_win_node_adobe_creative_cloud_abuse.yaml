@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the execution of other scripts using the Node executable packaged
+  with Adobe Creative Cloud
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\Adobe\ Creative\ Cloud\ Experience\\libs\\node.exe
+        AND (NOT (process_command_line.keyword:*Adobe\ Creative\ Cloud\ Experience\\js*)))
+index: wazuh-alerts*
+name: proc_creation_win_node_adobe_creative_cloud_abuse
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

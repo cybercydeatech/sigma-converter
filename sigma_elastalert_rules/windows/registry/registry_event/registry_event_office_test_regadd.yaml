@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the addition of office test registry that allows a user to specify
+  an arbitrary DLL that will be executed every time an Office application is started
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*\\Software\\Microsoft\\Office\ test\\Special\\Perf*
+index: wazuh-alerts*
+name: registry_event_office_test_regadd
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

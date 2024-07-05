@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects the creation of files in a specific location by ScreenConnect RMM.
+  ScreenConnect has feature to remotely execute binaries on a target machine. These binaries will be dropped to ":\Users\<username>\Documents\ConnectWiseControl\Temp\" before execution.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\ScreenConnect.WindowsClient.exe AND file_name.keyword:*\\Documents\\ConnectWiseControl\\Temp\\*)
+index: wazuh-alerts*
+name: file_event_win_remote_access_tools_screenconnect_remote_file
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

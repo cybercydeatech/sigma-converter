@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects PowerShell script execution via input stream redirect
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) AND process_command_line.keyword:/\s-\s*</)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_run_script_from_input_stream
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

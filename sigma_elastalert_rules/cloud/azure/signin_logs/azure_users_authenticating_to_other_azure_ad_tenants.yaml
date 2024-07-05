@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect when users in your Azure AD tenant are authenticating to other
+  Azure AD Tenants.
+filter:
+- query:
+    query_string:
+      query: ((event_status:"Success" AND HomeTenantId:"HomeTenantID") AND (NOT (ResourceTenantId.keyword:*HomeTenantID*)))
+index: wazuh-alerts*
+name: azure_users_authenticating_to_other_azure_ad_tenants
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects tampering with the "ChannelAccess" registry key in order to change
+  access to Windows event channel.
+filter:
+- query:
+    query_string:
+      query: 
+        ((registry_key_path.keyword:*\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Channels\\*
+        AND registry_key_path.keyword:*\\ChannelAccess AND Details.keyword:(*\(A;;0x1;;;LA\)*
+        OR *\(A;;0x1;;;SY\)* OR *\(A;;0x5;;;BA\)*)) AND (NOT ((process_path:"C\:\\Windows\\servicing\\TrustedInstaller.exe")
+        OR (process_path.keyword:C\:\\Windows\\WinSxS\\* AND process_path.keyword:*\\TiWorker.exe))))
+index: wazuh-alerts*
+name: registry_set_change_winevt_channelaccess
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

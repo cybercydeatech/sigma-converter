@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the execution of a renamed "gpg.exe". Often used by ransomware
+  and loaders to decrypt/encrypt data.
+filter:
+- query:
+    query_string:
+      query: (file_name_original:"gpg.exe" AND (NOT ((process_path.keyword:(*\\gpg.exe
+        OR *\\gpg2.exe)))))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_gpg4win
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

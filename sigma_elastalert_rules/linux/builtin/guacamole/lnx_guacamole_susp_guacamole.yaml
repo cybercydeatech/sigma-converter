@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious session with two users present
+filter:
+- query:
+    query_string:
+      query: \(2\ users\ now\ present\)
+index: wazuh-alerts*
+name: lnx_guacamole_susp_guacamole
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

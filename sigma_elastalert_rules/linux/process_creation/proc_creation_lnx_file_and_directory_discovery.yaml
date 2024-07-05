@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of system utilities to discover files and directories
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\/file AND process_command_line.keyword:/(.){200,}/)
+        OR (process_path.keyword:*\/ls AND process_command_line.keyword:*\-R*) OR
+        process_path.keyword:*\/find OR process_path.keyword:*\/tree)
+index: wazuh-alerts*
+name: proc_creation_lnx_file_and_directory_discovery
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

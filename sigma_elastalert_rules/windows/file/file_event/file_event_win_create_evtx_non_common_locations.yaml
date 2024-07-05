@@ -1,0 +1,22 @@
+alert:
+- debug
+description: |
+  Detects the creation of new files with the ".evtx" extension in non-common or non-standard location.
+  This could indicate tampering with default EVTX locations in order to evade security controls or simply exfiltration of event log to search for sensitive information within.
+  Note that backup software and legitimate administrator might perform similar actions during troubleshooting.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*.evtx AND (NOT ((file_name.keyword:C\:\\Windows\\System32\\winevt\\Logs\\*)
+        OR 
+        (file_name.keyword:C\:\\ProgramData\\Microsoft\\Windows\\Containers\\BaseImages\\*
+        AND file_name.keyword:*\\Windows\\System32\\winevt\\Logs\\))))
+index: wazuh-alerts*
+name: file_event_win_create_evtx_non_common_locations
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

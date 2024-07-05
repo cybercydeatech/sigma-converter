@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects a highly relevant Antivirus alert that reports ransomware
+filter:
+- query:
+    query_string:
+      query: signature.keyword:(*Ransom* OR *Cryptor* OR *Crypter* OR *CRYPTES* OR
+        *GandCrab* OR *BlackWorm* OR *Phobos* OR *Destructor* OR *Filecoder* OR *GrandCrab*
+        OR *Krypt* OR *Locker* OR *Ryuk* OR *Ryzerlo* OR *Tescrypt* OR *TeslaCrypt*)
+index: wazuh-alerts*
+name: av_ransomware
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

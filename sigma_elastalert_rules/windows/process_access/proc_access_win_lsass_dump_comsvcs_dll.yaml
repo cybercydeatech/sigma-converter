@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects adversaries leveraging the MiniDump export function from comsvcs.dll
+  via rundll32 to perform a memory dump from lsass.
+filter:
+- query:
+    query_string:
+      query: (target_process_path.keyword:*\\lsass.exe AND process_path.keyword:*\\rundll32.exe
+        AND process_call_trace.keyword:*comsvcs.dll*)
+index: wazuh-alerts*
+name: proc_access_win_lsass_dump_comsvcs_dll
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect use of Get-GPO to get one GPO or all the GPOs in a domain.
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:*Get\-GPO*
+index: wazuh-alerts*
+name: posh_ps_susp_get_gpo
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

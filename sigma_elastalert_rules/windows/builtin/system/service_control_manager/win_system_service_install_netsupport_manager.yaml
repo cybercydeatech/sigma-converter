@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects NetSupport Manager service installation on the target system.
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:"7045") AND
+        (ImagePath.keyword:*\\NetSupport\ Manager\\client32.exe* OR service_name:"Client32"))
+index: wazuh-alerts*
+name: win_system_service_install_netsupport_manager
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

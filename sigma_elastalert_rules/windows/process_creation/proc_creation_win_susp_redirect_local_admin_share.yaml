@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects a suspicious output redirection to the local admins share, this
+  technique is often found in malicious scripts or hacktool stagers
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*>* AND process_command_line.keyword:(*\\\\127.0.0.1\\admin$\\\*
+        OR *\\\\localhost\\admin$\\\*))
+index: wazuh-alerts*
+name: proc_creation_win_susp_redirect_local_admin_share
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

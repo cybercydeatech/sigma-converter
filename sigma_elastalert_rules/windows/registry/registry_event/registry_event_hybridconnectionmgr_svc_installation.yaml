@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the installation of the Azure Hybrid Connection Manager service
+  to allow remote code execution from Azure function.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Services\\HybridConnectionManager* OR (event_category_type:"SetValue"
+        AND Details.keyword:*Microsoft.HybridConnectionManager.Listener.exe*))
+index: wazuh-alerts*
+name: registry_event_hybridconnectionmgr_svc_installation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

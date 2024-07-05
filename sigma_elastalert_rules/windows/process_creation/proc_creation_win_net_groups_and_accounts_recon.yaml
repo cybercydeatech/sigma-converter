@@ -1,0 +1,25 @@
+alert:
+- debug
+description: |
+  Detects suspicious reconnaissance command line activity on Windows systems using Net.EXE
+  Check if the user that executed the commands is suspicious (e.g. service accounts, LOCAL_SYSTEM)
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\net.exe OR *\\net1.exe) OR file_name_original:("net.exe"
+        OR "net1.exe")) AND (((process_command_line.keyword:(*\ group\ * OR *\ localgroup\
+        *) AND process_command_line.keyword:(*domain\ admins* OR *\ administrator*
+        OR *\ administrateur* OR *enterprise\ admins* OR *Exchange\ Trusted\ Subsystem*
+        OR *Remote\ Desktop\ Users* OR *Utilisateurs\ du\ Bureau\ à\ distance* OR
+        *Usuarios\ de\ escritorio\ remoto* OR *\ \/do*)) AND (NOT (process_command_line.keyword:*\
+        \/add*))) OR (process_command_line.keyword:*\ accounts\ * AND process_command_line.keyword:*\
+        \/do*)))
+index: wazuh-alerts*
+name: proc_creation_win_net_groups_and_accounts_recon
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Bypasses User Account Control using Event Viewer and a relevant Windows
+  Registry modification
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*_Classes\\mscfile\\shell\\open\\command\\\(Default\)
+        AND (NOT (Details.keyword:%SystemRoot%\\system32\\mmc.exe\ \"%1\"\ %*)))
+index: wazuh-alerts*
+name: registry_set_bypass_uac_using_eventviewer
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

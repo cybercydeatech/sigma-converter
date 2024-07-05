@@ -1,0 +1,18 @@
+alert:
+- debug
+description: "Detects network connections to Visual Studio Code tunnel domains initiated
+  by a process on a system. Attackers can abuse that feature to establish a reverse
+  shell or persistence on a machine.\n"
+filter:
+- query:
+    query_string:
+      query: (Initiated:"true" AND dst_host_name.keyword:*.tunnels.api.visualstudio.com)
+index: wazuh-alerts*
+name: net_connection_win_domain_vscode_tunnel_connection
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

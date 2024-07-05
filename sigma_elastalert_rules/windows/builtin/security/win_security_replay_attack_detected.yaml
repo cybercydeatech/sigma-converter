@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects possible Kerberos Replay Attack on the domain controllers when
+  "KRB_AP_ERR_REPEAT" Kerberos response is sent to the client
+filter:
+- query:
+    query_string:
+      query: event_id:"4649"
+index: wazuh-alerts*
+name: win_security_replay_attack_detected
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

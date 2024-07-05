@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an user account is locked out.
+filter:
+- query:
+    query_string:
+      query: displaymessage:"Max\ sign\ in\ attempts\ exceeded"
+index: wazuh-alerts*
+name: okta_user_account_locked_out
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

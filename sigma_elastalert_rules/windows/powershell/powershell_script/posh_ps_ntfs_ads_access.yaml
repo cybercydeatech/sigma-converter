@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects writing data into NTFS alternate data streams from powershell.
+  Needs Script Block Logging.
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:(*set\-content* OR *add\-content*) AND ScriptBlockText.keyword:*\-stream*)
+index: wazuh-alerts*
+name: posh_ps_ntfs_ads_access
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

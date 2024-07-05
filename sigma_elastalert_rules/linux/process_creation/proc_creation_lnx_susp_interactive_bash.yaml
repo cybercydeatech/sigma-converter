@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects suspicious interactive bash as a parent to rather uncommon child
+  processes
+filter:
+- query:
+    query_string:
+      query: (process_parent_command_line:"bash\ \-i" AND (process_command_line.keyword:(*\-c\
+        import\ * OR *base64* OR *pty.spawn*) OR process_path.keyword:(*whoami OR
+        *iptables OR *\/ncat OR *\/nc OR *\/netcat)))
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_interactive_bash
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

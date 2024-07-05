@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects WmiPrvSE spawning a process
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\WmiPrvSe.exe AND (NOT ((LogonId:("0x3e7"
+        OR "null")) OR (user_account.keyword:(*AUTHORI* OR *AUTORI*)) OR (process_path.keyword:*\\WmiPrvSE.exe)
+        OR (process_path.keyword:*\\WerFault.exe) OR (NOT _exists_:LogonId))))
+index: wazuh-alerts*
+name: proc_creation_win_wmiprvse_spawning_process
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

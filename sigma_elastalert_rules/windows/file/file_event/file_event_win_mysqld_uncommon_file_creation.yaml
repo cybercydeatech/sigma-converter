@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects the creation of files with scripting or executable extensions by Mysql daemon.
+  Which could be an indicator of "User Defined Functions" abuse to download malware.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\mysqld.exe OR *\\mysqld\-nt.exe) AND file_name.keyword:(*.bat
+        OR *.dat OR *.dll OR *.exe OR *.ps1 OR *.psm1 OR *.vbe OR *.vbs))
+index: wazuh-alerts*
+name: file_event_win_mysqld_uncommon_file_creation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

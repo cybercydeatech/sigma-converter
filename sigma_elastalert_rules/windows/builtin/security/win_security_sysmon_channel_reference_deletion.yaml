@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Potential threat actor tampering with Sysmon manifest and eventually
+  disabling it
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4657" AND 
+        object_name.keyword:(*WINEVT\\Publishers\\\{5770385f\-c22a\-43e0\-bf4c\-06f5698ffbd9\}*
+        OR *WINEVT\\Channels\\Microsoft\-Windows\-Sysmon\/Operational*) AND object_value_name:"Enabled"
+        AND NewValue:"0") OR (event_id:"4663" AND 
+        object_name.keyword:(*WINEVT\\Publishers\\\{5770385f\-c22a\-43e0\-bf4c\-06f5698ffbd9\}*
+        OR *WINEVT\\Channels\\Microsoft\-Windows\-Sysmon\/Operational*) AND object_access_mask:"65536"))
+index: wazuh-alerts*
+name: win_security_sysmon_channel_reference_deletion
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

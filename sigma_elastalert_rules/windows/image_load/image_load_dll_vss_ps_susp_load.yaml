@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects the image load of vss_ps.dll by uncommon executables
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\vss_ps.dll AND (NOT ((process_path.keyword:C\:\\Windows\\*
+        AND process_path.keyword:(*\\clussvc.exe OR *\\dismhost.exe OR *\\dllhost.exe
+        OR *\\inetsrv\\appcmd.exe OR *\\inetsrv\\iissetup.exe OR *\\msiexec.exe OR
+        *\\rundll32.exe OR *\\searchindexer.exe OR *\\srtasks.exe OR *\\svchost.exe
+        OR *\\System32\\SystemPropertiesAdvanced.exe OR *\\taskhostw.exe OR *\\thor.exe
+        OR *\\thor64.exe OR *\\tiworker.exe OR *\\vssvc.exe OR *\\WmiPrvSE.exe OR
+        *\\wsmprovhost.exe)) OR (process_path.keyword:(C\:\\Program\ Files\\* OR C\:\\Program\
+        Files\ \(x86\)\\*)) OR (process_command_line.keyword:C\:\\$WinREAgent\\Scratch\\*
+        AND process_command_line.keyword:*\\dismhost.exe\ \{*) OR (NOT _exists_:process_path))))
+index: wazuh-alerts*
+name: image_load_dll_vss_ps_susp_load
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

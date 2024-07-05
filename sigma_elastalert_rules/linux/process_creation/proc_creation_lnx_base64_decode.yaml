@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of base64 utility to decode arbitrary base64-encoded text
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/base64 AND process_command_line.keyword:*\-d*)
+index: wazuh-alerts*
+name: proc_creation_lnx_base64_decode
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

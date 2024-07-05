@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detect potential persistence via the creation of an excel add-in (XLL)
+  file to make it run automatically when Excel is started.
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*Software\\Microsoft\\Office\\* AND registry_key_path.keyword:*\\Excel\\Options
+        AND Details.keyword:\/R\ * AND Details.keyword:*.xll)
+index: wazuh-alerts*
+name: registry_set_persistence_xll
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

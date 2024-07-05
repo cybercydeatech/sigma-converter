@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects suspicious process command line that starts with a shell that
+  executes something and finally gets piped into another shell
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(sh\ \-c\ * OR bash\ \-c\ *) AND (process_command_line.keyword:(*|\
+        bash\ * OR *|\ sh\ * OR *|bash\ * OR *|sh\ *) OR process_command_line.keyword:(*|\
+        bash OR *|\ sh OR *|bash OR *\ |sh)))
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_pipe_shell
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

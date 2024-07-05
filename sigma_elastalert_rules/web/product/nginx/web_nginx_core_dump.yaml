@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a core dump of a crashing Nginx worker process, which could be
+  a signal of a serious problem or exploitation attempts.
+filter:
+- query:
+    query_string:
+      query: exited\ on\ signal\ 6\ \(core\ dumped\)
+index: wazuh-alerts*
+name: web_nginx_core_dump
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

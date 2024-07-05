@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects dropped files with double extensions, which is often used by
+  malware as a method to abuse the fact that Windows hide default extensions by default.
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:(*.exe OR *.iso OR *.rar OR *.zip) AND file_name.keyword:(*.doc.*
+        OR *.docx.* OR *.jpg.* OR *.pdf.* OR *.ppt.* OR *.pptx.* OR *.xls.* OR *.xlsx.*))
+        OR file_name.keyword:(*.rar.exe OR *.zip.exe))
+index: wazuh-alerts*
+name: file_event_win_susp_double_extension
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

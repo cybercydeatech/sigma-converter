@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects issues with Windows Defender Real-Time Protection features
+filter:
+- query:
+    query_string:
+      query: (event_id:("3002" OR "3007") AND (NOT ((Feature_Name:"%%886" AND Reason:("%%892"
+        OR "%%858")))))
+index: wazuh-alerts*
+name: win_defender_real_time_protection_errors
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

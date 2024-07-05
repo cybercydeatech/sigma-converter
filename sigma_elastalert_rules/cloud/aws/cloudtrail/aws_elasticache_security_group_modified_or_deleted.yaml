@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Identifies when an ElastiCache security group has been modified or deleted.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"elasticache.amazonaws.com" AND eventName:("DeleteCacheSecurityGroup"
+        OR "AuthorizeCacheSecurityGroupIngress" OR "RevokeCacheSecurityGroupIngress"
+        OR "AuthorizeCacheSecurityGroupEgress" OR "RevokeCacheSecurityGroupEgress"))
+index: wazuh-alerts*
+name: aws_elasticache_security_group_modified_or_deleted
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

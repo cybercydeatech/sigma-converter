@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects default CSExec service filename which indicates CSExec service
+  installation and execution
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\csexecsvc.exe
+index: wazuh-alerts*
+name: file_event_win_csexec_service
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

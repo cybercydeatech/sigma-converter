@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects renamed powershell
+filter:
+- query:
+    query_string:
+      query: (Data.keyword:*HostName\=ConsoleHost* AND (NOT ((Data.keyword:(*HostApplication\=powershell*
+        OR *HostApplication\=C\:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell*
+        OR *HostApplication\=C\:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell*
+        OR *HostApplication\=C\:\/Windows\/System32\/WindowsPowerShell\/v1.0\/powershell*
+        OR 
+        *HostApplication\=C\:\/Windows\/SysWOW64\/WindowsPowerShell\/v1.0\/powershell*)))))
+index: wazuh-alerts*
+name: posh_pc_renamed_powershell
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: A General detection for a new application in AppCompat. This indicates
+  an application executing for the first time on an endpoint.
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*\\AppCompatFlags\\Compatibility\ Assistant\\Store\\*
+index: wazuh-alerts*
+name: registry_set_new_application_appcompat
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

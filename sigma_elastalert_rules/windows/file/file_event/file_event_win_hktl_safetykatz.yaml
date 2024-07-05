@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects default lsass dump filename from SafetyKatz
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*\\Temp\\debug.bin
+index: wazuh-alerts*
+name: file_event_win_hktl_safetykatz
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

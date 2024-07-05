@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects applications or users re-enabling old TLS versions by setting
+  the "Enabled" value to "1" for the "Protocols" registry key.
+filter:
+- query:
+    query_string:
+      query: 
+        (registry_key_path.keyword:(*\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS\
+        1.0\\* OR *\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS\ 1.1\\*)
+        AND registry_key_path.keyword:*\\Enabled AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_tls_protocol_old_version_enabled
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

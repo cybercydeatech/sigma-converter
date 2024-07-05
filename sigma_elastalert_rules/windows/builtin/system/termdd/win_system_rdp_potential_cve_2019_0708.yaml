@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detect suspicious error on protocol RDP, potential CVE-2019-0708
+filter:
+- query:
+    query_string:
+      query: (event_id:("56" OR "50") AND Provider_Name:"TermDD")
+index: wazuh-alerts*
+name: win_system_rdp_potential_cve_2019_0708
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

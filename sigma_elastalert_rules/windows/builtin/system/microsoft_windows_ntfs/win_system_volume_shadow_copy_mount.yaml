@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects volume shadow copy mount via Windows event log
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Microsoft\-Windows\-Ntfs" AND event_id:"98" AND DeviceName.keyword:*HarddiskVolumeShadowCopy*)
+index: wazuh-alerts*
+name: win_system_volume_shadow_copy_mount
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

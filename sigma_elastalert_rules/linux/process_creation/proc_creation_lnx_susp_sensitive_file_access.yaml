@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects changes of sensitive and critical files. Monitors files that
+  you don't expect to change without planning on Linux system.
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:(*\/cat OR *\/echo OR *\/grep OR *\/head OR *\/more
+        OR *\/tail) AND process_command_line.keyword:*>*) OR process_path.keyword:(*\/emacs
+        OR *\/nano OR *\/sed OR *\/vi OR *\/vim)) AND process_command_line.keyword:(*\/bin\/login*
+        OR *\/bin\/passwd* OR *\/boot\/* OR *\/etc\/*.conf* OR *\/etc\/cron.* OR *\/etc\/crontab*
+        OR *\/etc\/hosts* OR *\/etc\/init.d* OR *\/etc\/sudoers* OR *\/opt\/bin\/*
+        OR *\/sbin* OR *\/usr\/bin\/* OR *\/usr\/local\/bin\/*))
+index: wazuh-alerts*
+name: proc_creation_lnx_susp_sensitive_file_access
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

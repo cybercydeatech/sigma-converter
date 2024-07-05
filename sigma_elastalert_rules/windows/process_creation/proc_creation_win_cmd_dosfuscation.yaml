@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects possible payload obfuscation via the commandline
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*\^\^* OR *\^|\^* OR *,;,* OR *;;;;* OR
+        *;;\ ;;* OR *\(,\(,* OR *%COMSPEC\:\~* OR *\ c\^m\^d* OR *\^c\^m\^d* OR *\
+        c\^md* OR *\ cm\^d* OR *\^cm\^d* OR *\ s\^et\ * OR *\ s\^e\^t\ * OR *\ se\^t\
+        *)
+index: wazuh-alerts*
+name: proc_creation_win_cmd_dosfuscation
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

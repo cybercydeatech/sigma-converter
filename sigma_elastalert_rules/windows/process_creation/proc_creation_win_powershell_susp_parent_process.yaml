@@ -1,0 +1,24 @@
+alert:
+- debug
+description: Detects a suspicious or uncommon parent processes of PowerShell
+filter:
+- query:
+    query_string:
+      query: ((process_parent_path.keyword:*tomcat* OR process_parent_path.keyword:(*\\amigo.exe
+        OR *\\browser.exe OR *\\chrome.exe OR *\\firefox.exe OR *\\httpd.exe OR *\\iexplore.exe
+        OR *\\jbosssvc.exe OR *\\microsoftedge.exe OR *\\microsoftedgecp.exe OR *\\MicrosoftEdgeSH.exe
+        OR *\\mshta.exe OR *\\nginx.exe OR *\\outlook.exe OR *\\php\-cgi.exe OR *\\regsvr32.exe
+        OR *\\rundll32.exe OR *\\safari.exe OR *\\services.exe OR *\\sqlagent.exe
+        OR *\\sqlserver.exe OR *\\sqlservr.exe OR *\\vivaldi.exe OR *\\w3wp.exe))
+        AND (process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) OR process_command_line.keyword:(*\/c\
+        powershell* OR *\/c\ pwsh*) OR file_description:"Windows\ PowerShell" OR file_product:"PowerShell\
+        Core\ 6" OR file_name_original:("PowerShell.EXE" OR "pwsh.dll")))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_susp_parent_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

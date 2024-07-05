@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potentially suspicious child processes of a ClickOnce deployment
+  application
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\AppData\\Local\\Apps\\2.0\\* AND process_path.keyword:(*\\calc.exe
+        OR *\\cmd.exe OR *\\cscript.exe OR *\\explorer.exe OR *\\mshta.exe OR *\\net.exe
+        OR *\\net1.exe OR *\\nltest.exe OR *\\notepad.exe OR *\\powershell.exe OR
+        *\\pwsh.exe OR *\\reg.exe OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\schtasks.exe
+        OR *\\werfault.exe OR *\\wscript.exe))
+index: wazuh-alerts*
+name: proc_creation_win_dfsvc_suspicious_child_processes
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

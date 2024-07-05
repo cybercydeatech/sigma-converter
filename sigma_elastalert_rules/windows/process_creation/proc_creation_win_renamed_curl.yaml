@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the execution of a renamed "CURL.exe" binary based on the PE
+  metadata fields
+filter:
+- query:
+    query_string:
+      query: ((file_name_original:"curl.exe" OR file_description:"The\ curl\ executable")
+        AND (NOT ((process_path.keyword:*\\curl*))))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_curl
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects known sensitive file extensions via Zeek
+filter:
+- query:
+    query_string:
+      query: name.keyword:(*.pst OR *.ost OR *.msg OR *.nst OR *.oab OR *.edb OR *.nsf
+        OR *.bak OR *.dmp OR *.kirbi OR *\\groups.xml OR *.rdp)
+index: wazuh-alerts*
+name: zeek_smb_converted_win_susp_raccess_sensitive_fext
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

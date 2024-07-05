@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects the usage of the "Accesschk" utility, an access and privilege
+  audit tool developed by SysInternal and often being abused by attacker to verify
+  process privileges
+filter:
+- query:
+    query_string:
+      query: ((file_product.keyword:*AccessChk OR file_description.keyword:*Reports\
+        effective\ permissions* OR process_path.keyword:(*\\accesschk.exe OR *\\accesschk64.exe)
+        OR file_name_original:"accesschk.exe") AND process_command_line.keyword:(*uwcqv\
+        * OR *kwsu\ * OR *qwsu\ * OR *uwdqs\ *))
+index: wazuh-alerts*
+name: proc_creation_win_sysinternals_accesschk_check_permissions
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

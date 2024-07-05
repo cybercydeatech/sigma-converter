@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects disabling the CrashDump per registry (as used by HermeticWiper)
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*SYSTEM\\CurrentControlSet\\Control\\CrashControl*
+        AND Details:"DWORD\ \(0x00000000\)")
+index: wazuh-alerts*
+name: registry_set_crashdump_disabled
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

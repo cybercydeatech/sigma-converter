@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects files written by the different tools that exploit HiveNightmare
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\\hive_sam_* OR *\\SAM\-2021\-* OR *\\SAM\-2022\-*
+        OR *\\SAM\-2023\-* OR *\\SAM\-haxx* OR *\\Sam.save*) OR file_name:"C\:\\windows\\temp\\sam")
+index: wazuh-alerts*
+name: file_event_win_hktl_hivenightmare_file_exports
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

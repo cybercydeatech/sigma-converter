@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects user permission data export attempt.
+filter:
+- query:
+    query_string:
+      query: (auditType.category:"Users\ and\ groups" AND auditType.action:("User\
+        details\ export\ failed" OR "User\ details\ export\ started" OR "User\ details\
+        exported"))
+index: wazuh-alerts*
+name: bitbucket_audit_user_permissions_export_attempt_detected
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

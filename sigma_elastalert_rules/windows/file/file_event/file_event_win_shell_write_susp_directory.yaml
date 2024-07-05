@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects Windows shells and scripting applications that write files to
+  suspicious folders
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\bash.exe OR *\\cmd.exe OR *\\cscript.exe OR
+        *\\msbuild.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\sh.exe OR *\\wscript.exe)
+        AND file_name.keyword:(C\:\\PerfLogs\\* OR C\:\\Users\\Public\\*)) OR (process_path.keyword:(*\\certutil.exe
+        OR *\\forfiles.exe OR *\\mshta.exe OR *\\schtasks.exe OR *\\scriptrunner.exe
+        OR *\\wmic.exe) AND file_name.keyword:(*C\:\\PerfLogs\\* OR *C\:\\Users\\Public\\*
+        OR *C\:\\Windows\\Temp\\*)))
+index: wazuh-alerts*
+name: file_event_win_shell_write_susp_directory
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

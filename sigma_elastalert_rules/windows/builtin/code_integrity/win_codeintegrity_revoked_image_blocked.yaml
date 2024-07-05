@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects blocked image load events with revoked certificates by code integrity.
+filter:
+- query:
+    query_string:
+      query: event_id:"3036"
+index: wazuh-alerts*
+name: win_codeintegrity_revoked_image_blocked
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

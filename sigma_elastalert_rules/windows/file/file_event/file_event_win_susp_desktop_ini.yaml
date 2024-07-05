@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects unusual processes accessing desktop.ini, which can be leveraged
+  to alter how Explorer displays a folder's content (i.e. renaming files) without
+  changing them on disk.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\\desktop.ini AND (NOT ((process_path.keyword:(C\:\\Windows\\*
+        OR C\:\\Program\ Files\\* OR C\:\\Program\ Files\ \(x86\)\\*)) OR (process_path.keyword:*\\AppData\\Local\\JetBrains\\Toolbox\\bin\\7z.exe
+        AND file_name.keyword:*\\JetBrains\\apps\\*) OR (file_name.keyword:C\:\\$WINDOWS.\~BT\\NewOS\\*))))
+index: wazuh-alerts*
+name: file_event_win_susp_desktop_ini
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

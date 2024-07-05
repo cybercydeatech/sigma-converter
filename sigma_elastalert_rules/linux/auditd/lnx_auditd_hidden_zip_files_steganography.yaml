@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects appending of zip file to image
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0:"cat" AND a1.keyword:(*.jpg OR *.png) AND a2.keyword:*.zip)
+index: wazuh-alerts*
+name: lnx_auditd_hidden_zip_files_steganography
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

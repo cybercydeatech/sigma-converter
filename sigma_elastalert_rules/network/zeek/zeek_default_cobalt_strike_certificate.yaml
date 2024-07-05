@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the presence of default Cobalt Strike certificate in the HTTPS
+  traffic
+filter:
+- query:
+    query_string:
+      query: certificate.serial:"8BB00EE"
+index: wazuh-alerts*
+name: zeek_default_cobalt_strike_certificate
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

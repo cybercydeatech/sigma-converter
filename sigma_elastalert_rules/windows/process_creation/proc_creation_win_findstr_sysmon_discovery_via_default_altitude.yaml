@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects usage of "findstr" with the argument "385201". Which could indicate
+  potential discovery of an installed Sysinternals Sysmon service using the default
+  driver altitude (even if the name is changed).
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\find.exe OR *\\findstr.exe) OR file_name_original:("FIND.EXE"
+        OR "FINDSTR.EXE")) AND process_command_line.keyword:*\ 385201*)
+index: wazuh-alerts*
+name: proc_creation_win_findstr_sysmon_discovery_via_default_altitude
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

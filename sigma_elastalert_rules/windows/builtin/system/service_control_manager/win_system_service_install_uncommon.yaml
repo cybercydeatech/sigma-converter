@@ -1,0 +1,23 @@
+alert:
+- debug
+description: "Detects uncommon service installation commands by looking at suspicious
+  or uncommon image path values containing references to encoded powershell commands,
+  temporary paths, etc.\n"
+filter:
+- query:
+    query_string:
+      query: ((((Provider_Name:"Service\ Control\ Manager" AND event_id:"7045") AND
+        (ImagePath.keyword:(*\\\\.\\pipe* OR *\\Users\\Public\\* OR *\\Windows\\Temp\\*)
+        OR (ImagePath.keyword:*\ \-e* AND ImagePath.keyword:(*\ aQBlAHgA* OR *\ aWV4I*
+        OR *\ IAB* OR *\ JAB* OR *\ PAA* OR *\ SQBFAFgA* OR *\ SUVYI*)))) AND (NOT
+        ((ImagePath.keyword:C\:\\ProgramData\\Microsoft\\Windows\ Defender\\Definition\
+        Updates\\*)))) AND (NOT ((ImagePath.keyword:C\:\\WINDOWS\\TEMP\\thor10\-remote\\thor64.exe*))))
+index: wazuh-alerts*
+name: win_system_service_install_uncommon
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

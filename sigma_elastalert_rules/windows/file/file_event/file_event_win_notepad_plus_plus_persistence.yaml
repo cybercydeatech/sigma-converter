@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects creation of new ".dll" files inside the plugins directory of
+  a notepad++ installation by a process other than "gup.exe". Which could indicates
+  possible persistence
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:*\\Notepad\+\+\\plugins\\* AND file_name.keyword:*.dll)
+        AND (NOT ((process_path.keyword:*\\Notepad\+\+\\updater\\gup.exe) OR (process_path.keyword:C\:\\Users\\*
+        AND process_path.keyword:*\\AppData\\Local\\Temp\\* AND process_path.keyword:(*\\target.exe
+        OR *Installer.x64.exe)))))
+index: wazuh-alerts*
+name: file_event_win_notepad_plus_plus_persistence
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

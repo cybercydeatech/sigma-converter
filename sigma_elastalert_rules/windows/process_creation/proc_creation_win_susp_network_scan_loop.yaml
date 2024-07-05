@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Adversaries may attempt to get a listing of other systems by IP address,
+  hostname, or other logical identifier on a network that may be used for Lateral
+  Movement from the current system
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*for\ * OR *foreach\ *) AND process_command_line.keyword:(*nslookup*
+        OR *ping*))
+index: wazuh-alerts*
+name: proc_creation_win_susp_network_scan_loop
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

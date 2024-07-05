@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "libvlc.dll", a DLL that is legitimately
+  used by "VLC.exe"
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\libvlc.dll AND (NOT ((ImageLoaded.keyword:(C\:\\Program\
+        Files\ \(x86\)\\VideoLAN\\VLC\\* OR C\:\\Program\ Files\\VideoLAN\\VLC\\*)))))
+index: wazuh-alerts*
+name: image_load_side_load_libvlc
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

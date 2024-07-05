@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects remote thread creation by PowerShell processes into "lsass.exe"
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) AND target_process_path.keyword:*\\lsass.exe)
+index: wazuh-alerts*
+name: create_remote_thread_win_powershell_lsass
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

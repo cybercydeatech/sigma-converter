@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects plugged/unplugged USB devices
+filter:
+- query:
+    query_string:
+      query: event_id:("2003" OR "2100" OR "2102")
+index: wazuh-alerts*
+name: win_usb_device_plugged
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

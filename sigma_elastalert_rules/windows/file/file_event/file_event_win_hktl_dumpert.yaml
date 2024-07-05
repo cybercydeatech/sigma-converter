@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of the default dump file used by Outflank Dumpert
+  tool. A process dumper, which dumps the lsass process memory
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:*dumpert.dmp
+index: wazuh-alerts*
+name: file_event_win_hktl_dumpert
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

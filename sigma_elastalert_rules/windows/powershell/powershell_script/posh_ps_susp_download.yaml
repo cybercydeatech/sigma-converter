@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious PowerShell download command
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:*System.Net.WebClient* AND ScriptBlockText.keyword:(*.DownloadFile\(*
+        OR *.DownloadFileAsync\(* OR *.DownloadString\(* OR *.DownloadStringAsync\(*))
+index: wazuh-alerts*
+name: posh_ps_susp_download
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

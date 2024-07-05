@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects MSI package installation from suspicious locations
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"MsiInstaller" AND event_id:("1040" OR "1042") AND Data.keyword:(*\:\\Windows\\TEMP\\*
+        OR *\\\\\* OR *\\Desktop\\* OR *\\PerfLogs\\* OR *\\Users\\Public\\*)) AND
+        (NOT ((Data.keyword:*\\AppData\\Local\\Temp\\WinGet\\*) OR (Data.keyword:*C\:\\Windows\\TEMP\\UpdHealthTools.msi*))))
+index: wazuh-alerts*
+name: win_msi_install_from_susp_locations
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

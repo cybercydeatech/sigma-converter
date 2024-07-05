@@ -1,0 +1,17 @@
+alert:
+- debug
+description: This rule detects suspicious files created by Microsoft Sync Center (mobsync)
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\mobsync.exe AND file_name.keyword:(*.dll OR
+        *.exe))
+index: wazuh-alerts*
+name: file_event_win_susp_creation_by_mobsync
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

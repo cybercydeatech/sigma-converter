@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detect enable rdp feature to allow specific user to rdp connect on the
+  targeted machine
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*System\\CurrentControlSet\\Control\\Terminal\
+        Server\\fAllowToGetHelp AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_allow_rdp_remote_assistance_feature
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

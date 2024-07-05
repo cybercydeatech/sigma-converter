@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when a VPN Tunnel Modified or Deleted in Google Cloud.
+filter:
+- query:
+    query_string:
+      query: gcp.audit.method_name:("compute.vpnTunnels.insert" OR "compute.vpnTunnels.delete")
+index: wazuh-alerts*
+name: gcp_vpn_tunnel_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

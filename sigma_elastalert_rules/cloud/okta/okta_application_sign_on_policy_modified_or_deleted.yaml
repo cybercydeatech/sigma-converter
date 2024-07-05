@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an application Sign-on Policy is modified or deleted.
+filter:
+- query:
+    query_string:
+      query: eventtype:("application.policy.sign_on.update" OR "application.policy.sign_on.rule.delete")
+index: wazuh-alerts*
+name: okta_application_sign_on_policy_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

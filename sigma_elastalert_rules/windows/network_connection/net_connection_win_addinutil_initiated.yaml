@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects a network connection initiated by the Add-In deployment cache updating utility "AddInutil.exe".
+  This could indicate a potential command and control communication as this tool doesn't usually initiate network activity.
+filter:
+- query:
+    query_string:
+      query: (Initiated:"true" AND process_path.keyword:*\\addinutil.exe)
+index: wazuh-alerts*
+name: net_connection_win_addinutil_initiated
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects Obfuscated Powershell via use Clip.exe in Scripts
+filter:
+- query:
+    query_string:
+      query: (event_id:"4697" AND service_image_path.keyword:*\(Clipboard|i*)
+index: wazuh-alerts*
+name: win_security_invoke_obfuscation_via_use_clip_services_security
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects S3 Browser utility creating IAM User or AccessKey.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"iam.amazonaws.com" AND eventName:("CreateUser" OR "CreateAccessKey")
+        AND userAgent.keyword:*S3\ Browser*)
+index: wazuh-alerts*
+name: aws_iam_s3browser_user_or_accesskey_creation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

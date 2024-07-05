@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects renamed vmnat.exe or portable version that can be used for DLL
+  side-loading
+filter:
+- query:
+    query_string:
+      query: (file_name_original:"vmnat.exe" AND (NOT ((process_path.keyword:*vmnat.exe))))
+index: wazuh-alerts*
+name: proc_creation_win_renamed_vmnat
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

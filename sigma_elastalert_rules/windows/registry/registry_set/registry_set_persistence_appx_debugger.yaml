@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential persistence using Appx DebugPath
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:*Classes\\ActivatableClasses\\Package\\Microsoft.*
+        AND registry_key_path.keyword:*\\DebugPath) OR 
+        (registry_key_path.keyword:*\\Software\\Microsoft\\Windows\\CurrentVersion\\PackagedAppXDebug\\Microsoft.*
+        AND registry_key_path.keyword:*\\\(Default\)))
+index: wazuh-alerts*
+name: registry_set_persistence_appx_debugger
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

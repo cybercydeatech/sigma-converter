@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects suspicious SSH / SSHD error messages that indicate a fatal or
+  suspicious error that could be caused by exploiting attempts
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*unexpected\ internal\ error* OR *unknown\ or\ unsupported\
+        key\ type* OR *invalid\ certificate\ signing\ key* OR *invalid\ elliptic\
+        curve\ value* OR *incorrect\ signature* OR *error\ in\ libcrypto* OR *unexpected\
+        bytes\ remain\ after\ decoding* OR *fatal\:\ buffer_get_string\:\ bad\ string*
+        OR *Local\:\ crc32\ compensation\ attack* OR *bad\ client\ public\ DH\ value*
+        OR *Corrupted\ MAC\ on\ input*)
+index: wazuh-alerts*
+name: lnx_sshd_susp_ssh
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

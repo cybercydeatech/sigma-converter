@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects DNS queries for subdomains related to MEGA sharing website
+filter:
+- query:
+    query_string:
+      query: (event_id:"3008" AND QueryName.keyword:*userstorage.mega.co.nz*)
+index: wazuh-alerts*
+name: win_dns_client_mega_nz
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

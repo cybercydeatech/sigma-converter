@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detect priv users or groups recon based on 4661 eventid and known privileged
+  users or groups SIDs
+filter:
+- query:
+    query_string:
+      query: (((event_id:"4661" AND object_type:("SAM_USER" OR "SAM_GROUP")) AND (object_name.keyword:(*\-512
+        OR *\-502 OR *\-500 OR *\-505 OR *\-519 OR *\-520 OR *\-544 OR *\-551 OR *\-555)
+        OR object_name.keyword:*admin*)) AND (NOT (user_name.keyword:*$)))
+index: wazuh-alerts*
+name: win_security_account_discovery
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

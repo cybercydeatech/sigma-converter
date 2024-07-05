@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects a change in the AWS Identity Center (FKA AWS SSO) identity provider.
+  A change in identity provider allows an attacker to establish persistent access or escalate privileges via user impersonation.
+filter:
+- query:
+    query_string:
+      query: (eventSource:("sso\-directory.amazonaws.com" OR "sso.amazonaws.com")
+        AND eventName:("AssociateDirectory" OR "DisableExternalIdPConfigurationForDirectory"
+        OR "DisassociateDirectory" OR "EnableExternalIdPConfigurationForDirectory"))
+index: wazuh-alerts*
+name: aws_sso_idp_change
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

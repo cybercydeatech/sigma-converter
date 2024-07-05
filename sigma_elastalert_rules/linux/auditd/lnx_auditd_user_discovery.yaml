@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Adversaries may use the information from System Owner/User Discovery
+  during automated discovery to shape follow-on behaviors, including whether or not
+  the adversary fully infects the target and/or attempts specific actions.
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0:("users" OR "w" OR "who"))
+index: wazuh-alerts*
+name: lnx_auditd_user_discovery
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

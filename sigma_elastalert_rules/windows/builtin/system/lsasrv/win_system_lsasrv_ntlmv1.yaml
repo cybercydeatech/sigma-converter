@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the reporting of NTLMv1 being used between a client and server.
+  NTLMv1 is insecure as the underlying encryption algorithms can be brute-forced by
+  modern hardware.
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"LsaSrv" AND event_id:("6038" OR "6039"))
+index: wazuh-alerts*
+name: win_system_lsasrv_ntlmv1
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

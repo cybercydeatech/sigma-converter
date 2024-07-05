@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects the creation or patching of potential malicious RoleBinding.
+  This includes RoleBindings and ClusterRoleBinding.
+filter:
+- query:
+    query_string:
+      query: 
+        gcp.audit.method_name.keyword:(io.k8s.authorization.rbac.v*.clusterrolebindings.create
+        OR io.k8s.authorization.rbac.v*.rolebindings.create OR io.k8s.authorization.rbac.v*.clusterrolebindings.patch
+        OR io.k8s.authorization.rbac.v*.rolebindings.patch OR io.k8s.authorization.rbac.v*.clusterrolebindings.update
+        OR io.k8s.authorization.rbac.v*.rolebindings.update OR io.k8s.authorization.rbac.v*.clusterrolebindings.delete
+        OR io.k8s.authorization.rbac.v*.rolebindings.delete)
+index: wazuh-alerts*
+name: gcp_kubernetes_rolebinding
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

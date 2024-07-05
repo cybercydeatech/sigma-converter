@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Identifies when a device or device configuration in azure is modified
+  or deleted.
+filter:
+- query:
+    query_string:
+      query: properties.message:("Delete\ device" OR "Delete\ device\ configuration"
+        OR "Update\ device" OR "Update\ device\ configuration")
+index: wazuh-alerts*
+name: azure_device_or_configuration_modified_or_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

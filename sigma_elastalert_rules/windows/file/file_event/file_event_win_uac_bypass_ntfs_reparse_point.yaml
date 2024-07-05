@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the pattern of UAC Bypass using NTFS reparse point and wusa.exe
+  DLL hijacking (UACMe 36)
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:C\:\\Users\\* AND 
+        file_name.keyword:*\\AppData\\Local\\Temp\\api\-ms\-win\-core\-kernel32\-legacy\-l1.DLL)
+index: wazuh-alerts*
+name: file_event_win_uac_bypass_ntfs_reparse_point
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the creation of a office macro file from a a suspicious process
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\cscript.exe OR *\\mshta.exe OR *\\regsvr32.exe
+        OR *\\rundll32.exe OR *\\wscript.exe) OR process_parent_path.keyword:(*\\cscript.exe
+        OR *\\mshta.exe OR *\\regsvr32.exe OR *\\rundll32.exe OR *\\wscript.exe))
+        AND file_name.keyword:(*.docm OR *.dotm OR *.xlsm OR *.xltm OR *.potm OR *.pptm))
+index: wazuh-alerts*
+name: file_event_win_office_macro_files_from_susp_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

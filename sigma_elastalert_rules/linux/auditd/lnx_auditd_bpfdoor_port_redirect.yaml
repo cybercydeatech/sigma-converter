@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  All TCP traffic on particular port from attacker is routed to different port. ex. '/sbin/iptables -t nat -D PREROUTING -p tcp -s 192.168.1.1 --dport 22 -j REDIRECT --to-ports 42392'
+  The traffic looks like encrypted SSH communications going to TCP port 22, but in reality is being directed to the shell port once it hits the iptables rule for the attacker host only.
+filter:
+- query:
+    query_string:
+      query: ((type:"EXECVE" AND a0.keyword:*iptables AND a1:"\-t" AND a2:"nat") AND
+        \*.keyword:(*\-\-to\-ports\ 42* OR *\-\-to\-ports\ 43*))
+index: wazuh-alerts*
+name: lnx_auditd_bpfdoor_port_redirect
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

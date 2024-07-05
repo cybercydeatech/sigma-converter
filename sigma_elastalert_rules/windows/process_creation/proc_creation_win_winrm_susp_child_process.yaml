@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects suspicious processes including shells spawnd from WinRM host
+  process
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\wsmprovhost.exe AND process_path.keyword:(*\\cmd.exe
+        OR *\\sh.exe OR *\\bash.exe OR *\\powershell.exe OR *\\pwsh.exe OR *\\wsl.exe
+        OR *\\schtasks.exe OR *\\certutil.exe OR *\\whoami.exe OR *\\bitsadmin.exe))
+index: wazuh-alerts*
+name: proc_creation_win_winrm_susp_child_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

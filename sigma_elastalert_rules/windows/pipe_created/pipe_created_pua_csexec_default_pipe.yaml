@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects default CSExec pipe creation
+filter:
+- query:
+    query_string:
+      query: pipe_name.keyword:*\\csexecsvc*
+index: wazuh-alerts*
+name: pipe_created_pua_csexec_default_pipe
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

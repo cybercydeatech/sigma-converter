@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects user agent and URI paths used by empire agents
+filter:
+- query:
+    query_string:
+      query: (c-useragent:"Mozilla\/5.0\ \(Windows\ NT\ 6.1;\ WOW64;\ Trident\/7.0;\
+        rv\:11.0\)\ like\ Gecko" AND cs-uri:("\/admin\/get.php" OR "\/news.php" OR
+        "\/login\/process.php") AND cs-method:"POST")
+index: wazuh-alerts*
+name: proxy_hktl_empire_ua_uri_patterns
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

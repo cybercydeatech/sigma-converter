@@ -1,0 +1,35 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of DLLs that are part of antivirus
+  software suchas McAfee, Symantec...etc
+filter:
+- query:
+    query_string:
+      query: (((((((ImageLoaded.keyword:*\\log.dll AND (NOT ((ImageLoaded.keyword:(C\:\\Program\
+        Files\\Bitdefender\ Antivirus\ Free\\* OR C\:\\Program\ Files\ \(x86\)\\Bitdefender\
+        Antivirus\ Free\\*)) OR (process_path:"C\:\\Program\ Files\\Dell\\SARemediation\\audit\\TelemetryUtility.exe"
+        AND ImageLoaded:("C\:\\Program\ Files\\Dell\\SARemediation\\plugin\\log.dll"
+        OR "C\:\\Program\ Files\\Dell\\SARemediation\\audit\\log.dll")) OR (ImageLoaded.keyword:C\:\\Program\
+        Files\\Canon\\MyPrinter\\*)))) OR (ImageLoaded.keyword:*\\qrt.dll AND (NOT
+        (ImageLoaded.keyword:(C\:\\Program\ Files\\F\-Secure\\Anti\-Virus\\* OR C\:\\Program\
+        Files\ \(x86\)\\F\-Secure\\Anti\-Virus\\*))))) OR (ImageLoaded.keyword:(*\\ashldres.dll
+        OR *\\lockdown.dll OR *\\vsodscpl.dll) AND (NOT (ImageLoaded.keyword:(C\:\\Program\
+        Files\\McAfee\\* OR C\:\\Program\ Files\ \(x86\)\\McAfee\\*))))) OR (ImageLoaded.keyword:*\\vftrace.dll
+        AND (NOT (ImageLoaded.keyword:(C\:\\Program\ Files\\CyberArk\\Endpoint\ Privilege\
+        Manager\\Agent\\x32\\* OR C\:\\Program\ Files\ \(x86\)\\CyberArk\\Endpoint\
+        Privilege\ Manager\\Agent\\x32\\*))))) OR (ImageLoaded.keyword:*\\wsc.dll
+        AND (NOT (ImageLoaded.keyword:(C\:\\program\ Files\\AVAST\ Software\\Avast\\*
+        OR C\:\\program\ Files\ \(x86\)\\AVAST\ Software\\Avast\\*))))) OR (ImageLoaded.keyword:*\\tmdbglog.dll
+        AND (NOT (ImageLoaded.keyword:(C\:\\program\ Files\\Trend\ Micro\\Titanium\\*
+        OR C\:\\program\ Files\ \(x86\)\\Trend\ Micro\\Titanium\\*))))) OR (ImageLoaded.keyword:*\\DLPPREM32.dll
+        AND (NOT (ImageLoaded.keyword:(C\:\\program\ Files\\ESET* OR C\:\\program\
+        Files\ \(x86\)\\ESET*)))))
+index: wazuh-alerts*
+name: image_load_side_load_antivirus
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

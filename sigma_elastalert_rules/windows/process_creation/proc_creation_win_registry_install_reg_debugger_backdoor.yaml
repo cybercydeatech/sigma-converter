@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the registration of a debugger for a program that is available
+  in the logon screen (sticky key backdoor).
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:*\\CurrentVersion\\Image\ File\ Execution\
+        Options\\* AND process_command_line.keyword:(*sethc.exe* OR *utilman.exe*
+        OR *osk.exe* OR *magnify.exe* OR *narrator.exe* OR *displayswitch.exe* OR
+        *atbroker.exe* OR *HelpPane.exe*))
+index: wazuh-alerts*
+name: proc_creation_win_registry_install_reg_debugger_backdoor
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

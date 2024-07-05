@@ -1,0 +1,18 @@
+alert:
+- debug
+description: A General detection for files being created in the Windows startup directory.
+  This could be an indicator of persistence.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:*\\Microsoft\\Windows\\Start\ Menu\\Programs\\StartUp*
+        AND (NOT (process_path:"C\:\\Windows\\System32\\wuauclt.exe" OR file_name.keyword:C\:\\$WINDOWS.\~BT\\NewOS\\*)))
+index: wazuh-alerts*
+name: file_event_win_startup_folder_file_write
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

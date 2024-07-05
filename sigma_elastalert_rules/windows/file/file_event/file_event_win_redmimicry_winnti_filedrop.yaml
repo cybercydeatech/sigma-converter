@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects files dropped by Winnti as described in RedMimicry Winnti playbook
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:(*\\gthread\-3.6.dll OR *\\sigcmm\-2.4.dll OR *\\Windows\\Temp\\tmp.bat)
+index: wazuh-alerts*
+name: file_event_win_redmimicry_winnti_filedrop
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

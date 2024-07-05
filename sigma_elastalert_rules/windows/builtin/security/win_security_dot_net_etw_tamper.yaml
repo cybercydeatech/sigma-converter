@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Potential adversaries stopping ETW providers recording loaded .NET assemblies.
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4657" AND object_name.keyword:*\\SOFTWARE\\Microsoft\\.NETFramework
+        AND object_value_name:"ETWEnabled" AND NewValue:"0") OR (event_id:"4657" AND
+        object_name.keyword:*\\Environment* AND object_value_name:("COMPlus_ETWEnabled"
+        OR "COMPlus_ETWFlags") AND NewValue:"0"))
+index: wazuh-alerts*
+name: win_security_dot_net_etw_tamper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

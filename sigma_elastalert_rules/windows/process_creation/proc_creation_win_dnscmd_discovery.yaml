@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects an attempt to leverage dnscmd.exe to enumerate the DNS zones
+  of a domain. DNS zones used to host the DNS records for a particular domain.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\dnscmd.exe AND process_command_line.keyword:(*\/enumrecords*
+        OR *\/enumzones* OR *\/ZonePrint* OR *\/info*))
+index: wazuh-alerts*
+name: proc_creation_win_dnscmd_discovery
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

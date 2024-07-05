@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Adversaries may manipulate accounts to maintain access to victim systems.
+  Account manipulation may consist of any action that preserves adversary access to a compromised account, such as modifying credentials or permission groups
+filter:
+- query:
+    query_string:
+      query: ScriptBlockText.keyword:(*Disable\-LocalUser* OR *Enable\-LocalUser*
+        OR *Get\-LocalUser* OR *Set\-LocalUser* OR *New\-LocalUser* OR *Rename\-LocalUser*
+        OR *Remove\-LocalUser*)
+index: wazuh-alerts*
+name: posh_ps_localuser
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

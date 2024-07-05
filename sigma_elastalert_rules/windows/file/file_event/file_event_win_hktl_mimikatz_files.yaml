@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of files created by mimikatz such as ".kirbi", "mimilsa.log",
+  etc.
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:(*.kirbi OR *mimilsa.log)
+index: wazuh-alerts*
+name: file_event_win_hktl_mimikatz_files
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

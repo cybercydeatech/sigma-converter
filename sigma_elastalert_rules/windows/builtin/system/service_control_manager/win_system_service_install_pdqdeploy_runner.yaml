@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects PDQDeploy service installation on the target system.
+  When a package is deployed via PDQDeploy it installs a remote service on the target machine with the name "PDQDeployRunner-X" where "X" is an integer starting from 1
+filter:
+- query:
+    query_string:
+      query: ((Provider_Name:"Service\ Control\ Manager" AND event_id:"7045") AND
+        (ImagePath.keyword:*PDQDeployRunner\-* OR service_name.keyword:PDQDeployRunner\-*))
+index: wazuh-alerts*
+name: win_system_service_install_pdqdeploy_runner
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

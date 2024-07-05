@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects a "regsvr32" execution where the DLL doesn't contain a common
+  file extension.
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\regsvr32.exe OR file_name_original:"REGSVR32.EXE")
+        AND (NOT ((process_command_line.keyword:(*.ax* OR *.cpl* OR *.dll* OR *.ocx*))
+        OR (NOT _exists_:process_command_line) OR (process_command_line:"")))) AND
+        (NOT ((process_command_line.keyword:*.ppl*) OR (process_command_line.keyword:*.bav*))))
+index: wazuh-alerts*
+name: proc_creation_win_regsvr32_uncommon_extension
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

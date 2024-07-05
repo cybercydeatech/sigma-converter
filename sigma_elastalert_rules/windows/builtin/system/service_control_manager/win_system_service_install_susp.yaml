@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects suspicious service installation commands
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Service\ Control\ Manager" AND event_id:"7045" AND ImagePath.keyword:(*\
+        \-nop\ * OR *\ \-sta\ * OR *\ \-w\ hidden\ * OR *\:\\Temp\\* OR *.downloadfile\(*
+        OR *.downloadstring\(* OR *\\ADMIN$\\* OR *\\Perflogs\\* OR *\&&*))
+index: wazuh-alerts*
+name: win_system_service_install_susp
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

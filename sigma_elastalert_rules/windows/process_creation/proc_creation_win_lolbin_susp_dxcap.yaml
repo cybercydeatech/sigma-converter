@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of of Dxcap.exe
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\DXCap.exe OR file_name_original:"DXCap.exe")
+        AND process_command_line.keyword:*\ \-c\ *)
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_susp_dxcap
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

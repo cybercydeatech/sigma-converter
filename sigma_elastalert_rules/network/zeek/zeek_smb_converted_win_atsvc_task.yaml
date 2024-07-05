@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects remote task creation via at.exe or API interacting with ATSVC
+  namedpipe
+filter:
+- query:
+    query_string:
+      query: (path.keyword:\\\*\\IPC$ AND name:"atsvc")
+index: wazuh-alerts*
+name: zeek_smb_converted_win_atsvc_task
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

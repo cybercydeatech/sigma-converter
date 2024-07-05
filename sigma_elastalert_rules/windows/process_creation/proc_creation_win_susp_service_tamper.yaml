@@ -1,0 +1,62 @@
+alert:
+- debug
+description: Detects the usage of binaries such as 'net', 'sc' or 'powershell' in
+  order to stop, pause or delete critical or important Windows services such as AV,
+  Backup, etc. As seen being used in some ransomware scripts
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*143Svc* OR *Acronis\ VSS\ Provider* OR
+        *AcronisAgent* OR *AcrSch2Svc* OR *Antivirus* OR *ARSM* OR *aswBcc* OR *Avast\
+        Business\ Console\ Client\ Antivirus\ Service* OR *avast\!\ Antivirus* OR
+        *AVG\ Antivirus* OR *avgAdminClient* OR *AvgAdminServer* OR *AVP1* OR *BackupExec*
+        OR *bedbg* OR *BITS* OR *BrokerInfrastructure* OR *Client\ Agent\ 7.60* OR
+        *Core\ Browsing\ Protection* OR *Core\ Mail\ Protection* OR *Core\ Scanning\
+        Server* OR *DCAgent* OR *EhttpSr* OR *ekrn* OR *Enterprise\ Client\ Service*
+        OR *epag* OR *EPIntegrationService* OR *EPProtectedService* OR *EPRedline*
+        OR *EPSecurityService* OR *EPUpdateService* OR *EraserSvc11710* OR *EsgShKernel*
+        OR *ESHASRV* OR *FA_Scheduler* OR *FirebirdGuardianDefaultInstance* OR *FirebirdServerDefaultInstance*
+        OR *HealthTLService* OR *MSSQLFDLauncher$* OR *hmpalertsvc* OR *HMS* OR *IISAdmin*
+        OR *IMANSVC* OR *IMAP4Svc* OR *KAVFS* OR *KAVFSGT* OR *kavfsslp* OR *klbackupdisk*
+        OR *klbackupflt* OR *klflt* OR *klhk* OR *KLIF* OR *klim6* OR *klkbdflt* OR
+        *klmouflt* OR *klnagent* OR *klpd* OR *kltap* OR *KSDE1.0.0* OR *LogProcessorService*
+        OR *M8EndpointAgent* OR *macmnsvc* OR *masvc* OR *MBAMService* OR *MBCloudEA*
+        OR *MBEndpointAgent* OR *McAfeeDLPAgentService* OR *McAfeeEngineService* OR
+        *MCAFEEEVENTPARSERSRV* OR *McAfeeFramework* OR *MCAFEETOMCATSRV530* OR *McShield*
+        OR *McTaskManager* OR *mfefire* OR *mfemms* OR *mfevto* OR *mfevtp* OR *mfewc*
+        OR *MMS* OR *mozyprobackup* OR *MsDtsServer* OR *MSExchange* OR *msftesq1SPROO*
+        OR *msftesql$PROD* OR *MSOLAP$SQL_2008* OR *MSOLAP$SYSTEM_BGC* OR *MSOLAP$TPS*
+        OR *MSOLAP$TPSAMA* OR *MSOLAPSTPS* OR *MSOLAPSTPSAMA* OR *mssecflt* OR *MSSQ\!I.SPROFXENGAGEMEHT*
+        OR *MSSQ0SHAREPOINT* OR *MSSQ0SOPHOS* OR *MSSQL* OR *MySQL* OR *NanoServiceMain*
+        OR *NetMsmqActivator* OR *ntrtscan* OR *ofcservice* OR *Online\ Protection\
+        System* OR *OracleClientCache80* OR *PandaAetherAgent* OR *PccNTUpd* OR *PDVFSService*
+        OR *POP3Svc* OR *POVFSService* OR *PSUAService* OR *Quick\ Update\ Service*
+        OR *RepairService* OR *ReportServer* OR *ReportServer$* OR *RESvc* OR *RpcEptMapper*
+        OR *sacsvr* OR *SamSs* OR *SAVAdminService* OR *SAVService* OR *ScSecSvc*
+        OR *SDRSVC* OR *sense* OR *SentinelAgent* OR *SentinelHelperService* OR *SepMasterService*
+        OR *ShMonitor* OR *Smcinst* OR *SmcService* OR *SMTPSvc* OR *SNAC* OR *SntpService*
+        OR *Sophos* OR *SQ1SafeOLRService* OR *SQL\ Backups* OR *SQL\ Server* OR *SQLAgent*
+        OR *SQLBrowser* OR *SQLsafe* OR *SQLSERVERAGENT* OR *SQLTELEMETRY* OR *SQLWriter*
+        OR *SSISTELEMETRY130* OR *SstpSvc* OR *svcGenericHost* OR *swc_service* OR
+        *swi_filter* OR *swi_service* OR *swi_update* OR *Symantec* OR *Telemetryserver*
+        OR *ThreatLockerService* OR *TMBMServer* OR *TmCCSF* OR *TmFilter* OR *TMiCRCScanService*
+        OR *tmlisten* OR *TMLWCSService* OR *TmPfw* OR *TmPreFilter* OR *TmProxy*
+        OR *TMSmartRelayService* OR *tmusa* OR *Trend\ Micro\ Deep\ Security\ Manager*
+        OR *TrueKey* OR *UI0Detect* OR *UTODetect* OR *Veeam* OR *VeeamDeploySvc*
+        OR *Veritas\ System\ Recovery* OR *VSApiNt* OR *VSS* OR *W3Svc* OR *wbengine*
+        OR *WdNisSvc* OR *WeanClOudSve* OR *Weems\ JY* OR *WinDefend* OR *wozyprobackup*
+        OR *WRSVC* OR *Zoolz\ 2\ Service*) AND ((((file_name_original:("net.exe" OR
+        "net1.exe") OR process_path.keyword:(*\\net.exe OR *\\net1.exe)) AND process_command_line.keyword:*\
+        stop\ *) OR ((file_name_original:("PowerShell.EXE" OR "pwsh.dll") OR process_path.keyword:(*\\powershell.exe
+        OR *\\pwsh.exe)) AND process_command_line.keyword:(*Stop\-Service\ * OR *Remove\-Service\
+        *))) OR ((file_name_original:"sc.exe" OR process_path.keyword:*\\sc.exe) AND
+        process_command_line.keyword:(*\ stop\ * OR *\ delete\ * OR *\ pause\ *))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_service_tamper
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

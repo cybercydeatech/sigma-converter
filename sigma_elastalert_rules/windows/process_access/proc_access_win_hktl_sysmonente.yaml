@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the use of SysmonEnte, a tool to attack the integrity of Sysmon
+filter:
+- query:
+    query_string:
+      query: (((target_process_path.keyword:(*\:\\Windows\\Sysmon.exe* OR *\:\\Windows\\Sysmon64.exe*)
+        AND process_granted_access:"0x1400") AND (NOT ((process_path.keyword:(*\:\\Program\
+        Files\ \(x86\)\\* OR *\:\\Program\ Files\\* OR *\:\\Windows\\System32\\* OR
+        *\:\\Windows\\SysWOW64\\*)) OR (process_path.keyword:*\:\\ProgramData\\Microsoft\\Windows\
+        Defender\\Platform\\* AND process_path.keyword:*\\MsMpEng.exe)))) OR process_call_trace:"Ente")
+index: wazuh-alerts*
+name: proc_access_win_hktl_sysmonente
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

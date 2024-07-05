@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects suspicious Django web application framework exceptions that could
+  indicate exploitation attempts
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*SuspiciousOperation* OR *DisallowedHost* OR *DisallowedModelAdminLookup*
+        OR *DisallowedModelAdminToField* OR *DisallowedRedirect* OR *InvalidSessionKey*
+        OR *RequestDataTooBig* OR *SuspiciousFileOperation* OR *SuspiciousMultipartForm*
+        OR *SuspiciousSession* OR *TooManyFieldsSent* OR *PermissionDenied*)
+index: wazuh-alerts*
+name: appframework_django_exceptions
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

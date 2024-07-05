@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects presence of a potentially xor encoded powershell command
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) OR file_name_original:("PowerShell.EXE"
+        OR "pwsh.dll") OR file_description:"Windows\ PowerShell" OR file_product:"PowerShell\
+        Core\ 6") AND process_command_line.keyword:*bxor* AND process_command_line.keyword:(*ForEach*
+        OR *for\(* OR *for\ * OR *\-join\ * OR *\-join'* OR *\-join\"* OR *\-join`*
+        OR *\:\:Join* OR *\[char\]*))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_xor_commandline
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

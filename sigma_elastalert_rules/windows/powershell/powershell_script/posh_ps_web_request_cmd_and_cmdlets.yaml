@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects the use of various web request commands with commandline tools
+  and Windows PowerShell cmdlets (including aliases) via PowerShell scriptblock logs
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:(*\[System.Net.WebRequest\]\:\:create* OR *curl\
+        * OR *Invoke\-RestMethod* OR *Invoke\-WebRequest* OR *iwr\ * OR *Net.WebClient*
+        OR *Resume\-BitsTransfer* OR *Start\-BitsTransfer* OR *wget\ * OR *WinHttp.WinHttpRequest*)
+        AND (NOT 
+        (process_path.keyword:C\:\\Packages\\Plugins\\Microsoft.GuestConfiguration.ConfigurationforWindows\\*)))
+index: wazuh-alerts*
+name: posh_ps_web_request_cmd_and_cmdlets
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

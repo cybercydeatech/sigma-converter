@@ -1,0 +1,29 @@
+alert:
+- debug
+description: Detects registry modifications that hide internal tools or functions
+  from the user (malware like Agent Tesla, Hermetic Wiper uses this technique)
+filter:
+- query:
+    query_string:
+      query: 
+        ((registry_key_path.keyword:(*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideClock
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAHealth
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCANetwork
+        OR *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAPower
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\HideSCAVolume)
+        AND Details:"DWORD\ \(0x00000001\)") OR 
+        (registry_key_path.keyword:(*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowInfoTip
+        OR 
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\ShowCompColor)
+        AND Details:"DWORD\ \(0x00000000\)"))
+index: wazuh-alerts*
+name: registry_set_hide_function_user
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

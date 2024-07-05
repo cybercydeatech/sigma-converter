@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of php using the "-r" flag. This is could be used as
+  a way to launch a reverse shell or execute live php code.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\php.exe OR file_name_original:"php.exe") AND
+        process_command_line.keyword:*\ \-r*)
+index: wazuh-alerts*
+name: proc_creation_win_php_inline_command_execution
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,27 @@
+alert:
+- debug
+description: Detects the creation of a named pipe with a pattern found in CobaltStrike
+  malleable C2 profiles
+filter:
+- query:
+    query_string:
+      query: ((((pipe_name.keyword:(\\DserNamePipe* OR \\f4c3* OR \\f53f* OR \\fullduplex_*
+        OR \\mojo.5688.8052.183894939787088877* OR \\mojo.5688.8052.35780273329370473*
+        OR \\MsFteWds* OR \\msrpc_* OR \\mypipe\-f* OR \\mypipe\-h* OR \\ntsvcs* OR
+        \\PGMessagePipe* OR \\rpc_* OR \\scerpc* OR \\SearchTextHarvester* OR \\spoolss*
+        OR \\win_svc* OR \\win\\msrpc_* OR \\windows.update.manager* OR \\wkssvc*)
+        OR pipe_name:("\\demoagent_11" OR "\\demoagent_22")) OR (pipe_name.keyword:\\Winsock2\\CatalogChangeListener\-*
+        AND pipe_name.keyword:*\-0,)) AND (NOT ((pipe_name:("\\wkssvc" OR "\\spoolss"
+        OR "\\scerpc" OR "\\ntsvcs" OR "\\SearchTextHarvester" OR "\\PGMessagePipe"
+        OR "\\MsFteWds"))))) AND (NOT ((process_path.keyword:(*\:\\Program\ Files\\Websense\\*
+        OR *\:\\Program\ Files\ \(x86\)\\Websense\\*) AND pipe_name.keyword:(\\DserNamePipeR*
+        OR \\DserNamePipeW*)))))
+index: wazuh-alerts*
+name: pipe_created_hktl_cobaltstrike_susp_pipe_patterns
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

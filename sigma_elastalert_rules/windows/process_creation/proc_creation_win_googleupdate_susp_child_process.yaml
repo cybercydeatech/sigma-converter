@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects potentially suspicious child processes of "GoogleUpdate.exe"
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\GoogleUpdate.exe AND (NOT ((process_path.keyword:*\\Google*
+        OR process_path.keyword:(*\\setup.exe OR *chrome_updater.exe OR *chrome_installer.exe))
+        OR (NOT _exists_:process_path))))
+index: wazuh-alerts*
+name: proc_creation_win_googleupdate_susp_child_process
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

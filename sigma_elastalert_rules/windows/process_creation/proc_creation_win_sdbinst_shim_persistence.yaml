@@ -1,0 +1,21 @@
+alert:
+- debug
+description: |
+  Detects installation of a new shim using sdbinst.exe.
+  Adversaries may establish persistence and/or elevate privileges by executing malicious content triggered by application shims
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\sdbinst.exe OR file_name_original:"sdbinst.exe")
+        AND process_command_line.keyword:*.sdb*) AND (NOT ((process_parent_path.keyword:*\\msiexec.exe
+        AND process_command_line.keyword:(*\:\\Program\ Files\ \(x86\)\\IIS\ Express\\iisexpressshim.sdb*
+        OR *\:\\Program\ Files\\IIS\ Express\\iisexpressshim.sdb*)))))
+index: wazuh-alerts*
+name: proc_creation_win_sdbinst_shim_persistence
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

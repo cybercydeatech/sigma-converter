@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects encoded base64 MZ header in the commandline
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*TVqQAAMAAAAEAAAA* OR *TVpQAAIAAAAEAA8A*
+        OR *TVqAAAEAAAAEABAA* OR *TVoAAAAAAAAAAAAA* OR *TVpTAQEAAAAEAAAA*)
+index: wazuh-alerts*
+name: proc_creation_win_susp_inline_base64_mz_header
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Various protocols maybe used to put data on the device for exfil or infil
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*tftp* OR *rcp* OR *puts* OR *copy* OR *configure\ replace*
+        OR *archive\ tar*)
+index: wazuh-alerts*
+name: cisco_cli_moving_data
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

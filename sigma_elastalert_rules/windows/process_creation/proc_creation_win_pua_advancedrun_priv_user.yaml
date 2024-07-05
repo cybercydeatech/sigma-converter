@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects the execution of AdvancedRun utility in the context of the TrustedInstaller,
+  SYSTEM, Local Service or Network Service accounts
+filter:
+- query:
+    query_string:
+      query: (process_command_line.keyword:(*\/EXEFilename* OR *\/CommandLine*) AND
+        (process_command_line.keyword:(*\ \/RunAs\ 8\ * OR *\ \/RunAs\ 4\ * OR *\
+        \/RunAs\ 10\ * OR *\ \/RunAs\ 11\ *) OR process_command_line.keyword:(*\/RunAs\
+        8 OR *\/RunAs\ 4 OR *\/RunAs\ 10 OR *\/RunAs\ 11)))
+index: wazuh-alerts*
+name: proc_creation_win_pua_advancedrun_priv_user
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,24 @@
+alert:
+- debug
+description: |
+  Detects when a user enables DNS-over-HTTPS.
+  This can be used to hide internet activity or be used to hide the process of exfiltrating data.
+  With this enabled organization will lose visibility into data such as query type, response and originating IP that are used to determine bad actors.
+filter:
+- query:
+    query_string:
+      query: 
+        ((registry_key_path.keyword:*\\SOFTWARE\\Policies\\Microsoft\\Edge\\BuiltInDnsClientEnabled
+        AND Details:"DWORD\ \(0x00000001\)") OR (registry_key_path.keyword:*\\SOFTWARE\\Google\\Chrome\\DnsOverHttpsMode
+        AND Details:"secure") OR 
+        (registry_key_path.keyword:*\\SOFTWARE\\Policies\\Mozilla\\Firefox\\DNSOverHTTPS\\Enabled
+        AND Details:"DWORD\ \(0x00000001\)"))
+index: wazuh-alerts*
+name: registry_set_dns_over_https_enabled
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

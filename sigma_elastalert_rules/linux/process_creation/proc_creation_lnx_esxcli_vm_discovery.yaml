@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of the "esxcli" command with the "vm" flag in order
+  to retrieve information about the installed VMs.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\/esxcli AND process_command_line.keyword:*vm\
+        process* AND process_command_line.keyword:*\ list)
+index: wazuh-alerts*
+name: proc_creation_lnx_esxcli_vm_discovery
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

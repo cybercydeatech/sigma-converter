@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects a command that accesses the VolumeShadowCopy in order to extract
+  sensitive files such as the Security or SAM registry hives or the AD database (ntds.dit)\n"
+filter:
+- query:
+    query_string:
+      query: 
+        (process_command_line.keyword:*\\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy*
+        AND process_command_line.keyword:(*\\NTDS.dit* OR *\\SYSTEM* OR *\\SECURITY*))
+index: wazuh-alerts*
+name: proc_creation_win_susp_sensitive_file_access_shadowcopy
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

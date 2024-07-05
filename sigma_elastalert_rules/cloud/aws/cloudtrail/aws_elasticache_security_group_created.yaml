@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects when an ElastiCache security group has been created.
+filter:
+- query:
+    query_string:
+      query: (eventSource:"elasticache.amazonaws.com" AND eventName:"CreateCacheSecurityGroup")
+index: wazuh-alerts*
+name: aws_elasticache_security_group_created
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the stopping of a Windows service via the "sc.exe" utility
+filter:
+- query:
+    query_string:
+      query: ((file_name_original:"sc.exe" OR process_path.keyword:*\\sc.exe) AND
+        process_command_line.keyword:*\ stop\ *)
+index: wazuh-alerts*
+name: proc_creation_win_sc_stop_service
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

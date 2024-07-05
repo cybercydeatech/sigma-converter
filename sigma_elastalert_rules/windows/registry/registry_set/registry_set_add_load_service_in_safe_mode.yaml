@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects the modification of the registry to allow a driver or service
+  to persist in Safe Mode.
+filter:
+- query:
+    query_string:
+      query: ((registry_key_path.keyword:(*\\Control\\SafeBoot\\Minimal\\* OR *\\Control\\SafeBoot\\Network\\*)
+        AND registry_key_path.keyword:*\\\(Default\) AND Details:"Service") AND (NOT
+        ((process_path:"C\:\\WINDOWS\\system32\\msiexec.exe" AND 
+        registry_key_path.keyword:(*\\Control\\SafeBoot\\Minimal\\SAVService\\\(Default\)
+        OR *\\Control\\SafeBoot\\Network\\SAVService\\\(Default\))))))
+index: wazuh-alerts*
+name: registry_set_add_load_service_in_safe_mode
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

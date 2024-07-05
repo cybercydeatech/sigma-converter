@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential abuse of ntdsutil to dump ntds.dit database to a suspicious
+  location
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"ESENT" AND event_id:"325" AND Data.keyword:*ntds.dit*
+        AND Data.keyword:(*\:\\ntds.dit* OR *\\Appdata\\* OR *\\Desktop\\* OR *\\Downloads\\*
+        OR *\\Perflogs\\* OR *\\Temp\\* OR *\\Users\\Public\\*))
+index: wazuh-alerts*
+name: win_esent_ntdsutil_abuse_susp_location
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

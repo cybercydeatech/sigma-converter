@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects using WorkFolders.exe to execute an arbitrary control.exe
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\control.exe AND process_parent_path.keyword:*\\WorkFolders.exe)
+        AND (NOT (process_path:"C\:\\Windows\\System32\\control.exe")))
+index: wazuh-alerts*
+name: proc_creation_win_susp_workfolders
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

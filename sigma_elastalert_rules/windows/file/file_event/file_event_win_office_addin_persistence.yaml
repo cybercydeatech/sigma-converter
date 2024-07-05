@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potential persistence activity via startup add-ins that load
+  when Microsoft Office starts (.wll/.xll are simply .dll fit for Word or Excel).
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:*\\Microsoft\\Word\\Startup\\* AND file_name.keyword:*.wll)
+        OR (file_name.keyword:*\\Microsoft\\Excel\\Startup\\* AND file_name.keyword:*.xll)
+        OR (file_name.keyword:*Microsoft\\Excel\\XLSTART\\* AND file_name.keyword:*.xlam)
+        OR (file_name.keyword:*\\Microsoft\\Addins\\* AND file_name.keyword:(*.xlam
+        OR *.xla OR *.ppam)))
+index: wazuh-alerts*
+name: file_event_win_office_addin_persistence
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: An adversary may use legitimate desktop support and remote access software,to
+  establish an interactive command and control channel to target systems within networks
+filter:
+- query:
+    query_string:
+      query: (file_description:"VNCViewer" OR file_product:"UltraVNC\ VNCViewer" OR
+        file_company:"UltraVNC" OR file_name_original:"VNCViewer.exe")
+index: wazuh-alerts*
+name: proc_creation_win_ultravnc
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

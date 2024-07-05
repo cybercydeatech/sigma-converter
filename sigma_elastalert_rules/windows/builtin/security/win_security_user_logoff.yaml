@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a user log-off activity. Could be used for example to correlate
+  information during forensic investigations
+filter:
+- query:
+    query_string:
+      query: event_id:("4634" OR "4647")
+index: wazuh-alerts*
+name: win_security_user_logoff
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

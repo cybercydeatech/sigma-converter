@@ -1,0 +1,45 @@
+alert:
+- debug
+description: Detects suspicious PowerShell invocation with a parameter substring
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) AND process_command_line.keyword:(*\
+        \-windowstyle\ h\ * OR *\ \-windowstyl\ h* OR *\ \-windowsty\ h* OR *\ \-windowst\
+        h* OR *\ \-windows\ h* OR *\ \-windo\ h* OR *\ \-wind\ h* OR *\ \-win\ h*
+        OR *\ \-wi\ h* OR *\ \-win\ h\ * OR *\ \-win\ hi\ * OR *\ \-win\ hid\ * OR
+        *\ \-win\ hidd\ * OR *\ \-win\ hidde\ * OR *\ \-NoPr\ * OR *\ \-NoPro\ * OR
+        *\ \-NoProf\ * OR *\ \-NoProfi\ * OR *\ \-NoProfil\ * OR *\ \-nonin\ * OR
+        *\ \-nonint\ * OR *\ \-noninte\ * OR *\ \-noninter\ * OR *\ \-nonintera\ *
+        OR *\ \-noninterac\ * OR *\ \-noninteract\ * OR *\ \-noninteracti\ * OR *\
+        \-noninteractiv\ * OR *\ \-ec\ * OR *\ \-encodedComman\ * OR *\ \-encodedComma\
+        * OR *\ \-encodedComm\ * OR *\ \-encodedCom\ * OR *\ \-encodedCo\ * OR *\
+        \-encodedC\ * OR *\ \-encoded\ * OR *\ \-encode\ * OR *\ \-encod\ * OR *\
+        \-enco\ * OR *\ \-en\ * OR *\ \-executionpolic\ * OR *\ \-executionpoli\ *
+        OR *\ \-executionpol\ * OR *\ \-executionpo\ * OR *\ \-executionp\ * OR *\
+        \-execution\ bypass* OR *\ \-executio\ bypass* OR *\ \-executi\ bypass* OR
+        *\ \-execut\ bypass* OR *\ \-execu\ bypass* OR *\ \-exec\ bypass* OR *\ \-exe\
+        bypass* OR *\ \-ex\ bypass* OR *\ \-ep\ bypass* OR *\ \/windowstyle\ h\ *
+        OR *\ \/windowstyl\ h* OR *\ \/windowsty\ h* OR *\ \/windowst\ h* OR *\ \/windows\
+        h* OR *\ \/windo\ h* OR *\ \/wind\ h* OR *\ \/win\ h* OR *\ \/wi\ h* OR *\
+        \/win\ h\ * OR *\ \/win\ hi\ * OR *\ \/win\ hid\ * OR *\ \/win\ hidd\ * OR
+        *\ \/win\ hidde\ * OR *\ \/NoPr\ * OR *\ \/NoPro\ * OR *\ \/NoProf\ * OR *\
+        \/NoProfi\ * OR *\ \/NoProfil\ * OR *\ \/nonin\ * OR *\ \/nonint\ * OR *\
+        \/noninte\ * OR *\ \/noninter\ * OR *\ \/nonintera\ * OR *\ \/noninterac\
+        * OR *\ \/noninteract\ * OR *\ \/noninteracti\ * OR *\ \/noninteractiv\ *
+        OR *\ \/ec\ * OR *\ \/encodedComman\ * OR *\ \/encodedComma\ * OR *\ \/encodedComm\
+        * OR *\ \/encodedCom\ * OR *\ \/encodedCo\ * OR *\ \/encodedC\ * OR *\ \/encoded\
+        * OR *\ \/encode\ * OR *\ \/encod\ * OR *\ \/enco\ * OR *\ \/en\ * OR *\ \/executionpolic\
+        * OR *\ \/executionpoli\ * OR *\ \/executionpol\ * OR *\ \/executionpo\ *
+        OR *\ \/executionp\ * OR *\ \/execution\ bypass* OR *\ \/executio\ bypass*
+        OR *\ \/executi\ bypass* OR *\ \/execut\ bypass* OR *\ \/execu\ bypass* OR
+        *\ \/exec\ bypass* OR *\ \/exe\ bypass* OR *\ \/ex\ bypass* OR *\ \/ep\ bypass*))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_susp_parameter_variation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

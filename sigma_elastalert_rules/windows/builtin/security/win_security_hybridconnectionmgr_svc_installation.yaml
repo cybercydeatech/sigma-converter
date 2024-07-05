@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Rule to detect the Hybrid Connection Manager service installation.
+filter:
+- query:
+    query_string:
+      query: (event_id:"4697" AND service_name:"HybridConnectionManager" AND service_image_path.keyword:*HybridConnectionManager*)
+index: wazuh-alerts*
+name: win_security_hybridconnectionmgr_svc_installation
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

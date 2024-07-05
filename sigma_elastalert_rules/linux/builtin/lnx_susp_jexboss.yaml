@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious command sequence that JexBoss
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*bash\ \-c\ \/bin\/bash* AND *&\/dev\/tcp\/*)
+index: wazuh-alerts*
+name: lnx_susp_jexboss
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Host Without Firewall. Alert means not complied. Sigma for Qualys vulnerability
+  scanner. Scan type - Vulnerability Management.
+filter:
+- query:
+    query_string:
+      query: (event.category:"Security\ Policy" AND host.scan.vuln_name.keyword:*Firewall\
+        Product\ Not\ Detected*)
+index: wazuh-alerts*
+name: host_without_firewall
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

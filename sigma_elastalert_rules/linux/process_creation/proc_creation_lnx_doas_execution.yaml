@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the doas tool execution in linux host platform. This utility
+  tool allow standard users to perform tasks as root, the same way sudo does.
+filter:
+- query:
+    query_string:
+      query: process_path.keyword:*\/doas
+index: wazuh-alerts*
+name: proc_creation_lnx_doas_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

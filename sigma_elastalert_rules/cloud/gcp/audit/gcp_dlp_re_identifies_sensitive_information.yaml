@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Identifies when sensitive information is re-identified in google Cloud.
+filter:
+- query:
+    query_string:
+      query: gcp.audit.method_name:"projects.content.reidentify"
+index: wazuh-alerts*
+name: gcp_dlp_re_identifies_sensitive_information
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

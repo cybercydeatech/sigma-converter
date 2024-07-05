@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Collect pertinent data from the configuration files
+filter:
+- query:
+    query_string:
+      query: \*.keyword:(*show\ running\-config* OR *show\ startup\-config* OR *show\
+        archive\ config* OR *more*)
+index: wazuh-alerts*
+name: cisco_cli_collect_data
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

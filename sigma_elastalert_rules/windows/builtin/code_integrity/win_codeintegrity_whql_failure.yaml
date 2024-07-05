@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects loaded kernel modules that did not meet the WHQL signing requirements.
+filter:
+- query:
+    query_string:
+      query: (event_id:("3082" OR "3083") AND (NOT ((FileNameBuffer:("system32\\drivers\\vsock.sys"
+        OR "System32\\drivers\\vmci.sys")))))
+index: wazuh-alerts*
+name: win_codeintegrity_whql_failure
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

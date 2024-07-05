@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects powershell scripts that import modules from suspicious directories
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*Import\-Module\ \"$Env\:Temp\\* OR *Import\-Module\
+        '$Env\:Temp\\* OR *Import\-Module\ $Env\:Temp\\* OR *Import\-Module\ \"$Env\:Appdata\\*
+        OR *Import\-Module\ '$Env\:Appdata\\* OR *Import\-Module\ $Env\:Appdata\\*
+        OR *Import\-Module\ C\:\\Users\\Public\\* OR *ipmo\ \"$Env\:Temp\\* OR *ipmo\
+        '$Env\:Temp\\* OR *ipmo\ $Env\:Temp\\* OR *ipmo\ \"$Env\:Appdata\\* OR *ipmo\
+        '$Env\:Appdata\\* OR *ipmo\ $Env\:Appdata\\* OR *ipmo\ C\:\\Users\\Public\\*)
+index: wazuh-alerts*
+name: proc_creation_win_powershell_import_module_susp_dirs
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

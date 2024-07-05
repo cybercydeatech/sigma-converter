@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects VB DLL's loaded by an office application. Which could indicate
+  the presence of VBA Macros.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:(*\\excel.exe OR *\\mspub.exe OR *\\onenote.exe
+        OR *\\onenoteim.exe OR *\\outlook.exe OR *\\powerpnt.exe OR *\\winword.exe)
+        AND ImageLoaded.keyword:(*\\VBE7.DLL OR *\\VBEUI.DLL OR *\\VBE7INTL.DLL))
+index: wazuh-alerts*
+name: image_load_office_vbadll_load
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

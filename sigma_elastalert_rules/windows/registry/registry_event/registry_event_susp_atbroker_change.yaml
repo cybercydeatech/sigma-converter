@@ -1,0 +1,22 @@
+alert:
+- debug
+description: Detects creation/modification of Assistive Technology applications and
+  persistence with usage of 'at'
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:(*Software\\Microsoft\\Windows\ NT\\CurrentVersion\\Accessibility\\ATs*
+        OR *Software\\Microsoft\\Windows\ NT\\CurrentVersion\\Accessibility\\Configuration*)
+        AND (NOT ((process_path:"C\:\\Windows\\system32\\atbroker.exe" AND registry_key_path.keyword:*\\Microsoft\\Windows\
+        NT\\CurrentVersion\\Accessibility\\Configuration* AND Details:"\(Empty\)")
+        OR (process_path.keyword:C\:\\Windows\\Installer\\MSI* AND registry_key_path.keyword:*Software\\Microsoft\\Windows\
+        NT\\CurrentVersion\\Accessibility\\ATs*))))
+index: wazuh-alerts*
+name: registry_event_susp_atbroker_change
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

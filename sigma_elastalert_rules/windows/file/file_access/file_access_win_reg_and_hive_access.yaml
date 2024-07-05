@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects file access requests to files ending with either the ".hive"/".reg"
+  extension, usually associated with Windows Registry backups.
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*.hive OR *.reg) AND (NOT ((process_path.keyword:(*\:\\Program\
+        Files\ \(x86\)\\* OR *\:\\Program\ Files\\* OR *\:\\Windows\\System32\\* OR
+        *\:\\Windows\\SysWOW64\\*)))))
+index: wazuh-alerts*
+name: file_access_win_reg_and_hive_access
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

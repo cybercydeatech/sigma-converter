@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects when events are deleted in Kubernetes.
+  An adversary may delete Kubernetes events in an attempt to evade detection.
+filter:
+- query:
+    query_string:
+      query: (verb:"delete" AND objectRef.resource:"events")
+index: wazuh-alerts*
+name: kubernetes_audit_events_deleted
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

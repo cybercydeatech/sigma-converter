@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects adding and using Exchange PowerShell snap-ins to export mailbox
+  data. As seen used by HAFNIUM and APT27
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:(*\\powershell.exe OR *\\pwsh.exe) OR file_name_original:("PowerShell.EXE"
+        OR "pwsh.dll")) AND process_command_line.keyword:*Add\-PSSnapin* AND process_command_line.keyword:(*Microsoft.Exchange.Powershell.Snapin*
+        OR *Microsoft.Exchange.Management.PowerShell.SnapIn*)) AND (NOT ((process_parent_path:"C\:\\Windows\\System32\\msiexec.exe"
+        AND process_command_line.keyword:*$exserver\=Get\-ExchangeServer\ \(\[Environment\]\:\:MachineName\)\
+        \-ErrorVariable\ exerr\ 2>\ $null*))))
+index: wazuh-alerts*
+name: proc_creation_win_powershell_snapins_hafnium
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

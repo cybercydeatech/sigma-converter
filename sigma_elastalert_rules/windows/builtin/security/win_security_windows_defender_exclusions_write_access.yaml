@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects write access requests to the Windows Defender exclusions registry
+  keys. This could be an indication of an attacker trying to request a handle or access
+  the object to write new exclusions in order to bypass security.\n"
+filter:
+- query:
+    query_string:
+      query: (AccessList.keyword:(*%%4417* OR *%%4418*) AND event_id:("4656" OR "4663")
+        AND object_name.keyword:*\\Microsoft\\Windows\ Defender\\Exclusions\\*)
+index: wazuh-alerts*
+name: win_security_windows_defender_exclusions_write_access
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

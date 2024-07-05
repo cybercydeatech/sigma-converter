@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects a network connection initiated by "wordpad.exe" over uncommon destination ports.
+  This might indicate potential process injection activity from a beacon or similar mechanisms.
+filter:
+- query:
+    query_string:
+      query: ((Initiated:"true" AND process_path.keyword:*\\wordpad.exe) AND (NOT
+        ((dst_port:("80" OR "139" OR "443" OR "445" OR "465" OR "587" OR "993" OR
+        "995")))))
+index: wazuh-alerts*
+name: net_connection_win_wordpad_uncommon_ports
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

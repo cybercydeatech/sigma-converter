@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of "curl.exe" with the "insecure" flag over proxy or
+  DOH.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\curl.exe OR file_name_original:"curl.exe")
+        AND process_command_line.keyword:(*\-\-doh\-insecure* OR *\-\-proxy\-insecure*))
+index: wazuh-alerts*
+name: proc_creation_win_curl_insecure_porxy_or_doh
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

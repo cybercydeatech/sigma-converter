@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects denied requests by Active Directory Certificate Services.
+  Example of these requests denial include issues with permissions on the certificate template or invalid signatures.
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Microsoft\-Windows\-CertificationAuthority" AND event_id:"53")
+index: wazuh-alerts*
+name: win_system_adcs_enrollment_request_denied
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

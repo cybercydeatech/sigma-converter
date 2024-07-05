@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "wwlib.dll"
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\wwlib.dll AND (NOT ((process_path.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Microsoft\ Office\\* OR C\:\\Program\ Files\\Microsoft\ Office\\*)
+        AND process_path.keyword:*\\winword.exe AND ImageLoaded.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Microsoft\ Office\\* OR C\:\\Program\ Files\\Microsoft\ Office\\*)))))
+index: wazuh-alerts*
+name: image_load_side_load_wwlib
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

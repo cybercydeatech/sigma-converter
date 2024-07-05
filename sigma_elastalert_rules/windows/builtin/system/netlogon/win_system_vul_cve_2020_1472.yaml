@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects that a vulnerable Netlogon secure channel connection was allowed,
+  which could be an indicator of CVE-2020-1472.
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"NetLogon" AND event_id:"5829")
+index: wazuh-alerts*
+name: win_system_vul_cve_2020_1472
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

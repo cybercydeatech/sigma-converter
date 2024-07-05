@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects loading of diagcab packages from a remote path, as seen in DogWalk
+  vulnerability
+filter:
+- query:
+    query_string:
+      query: (event_id:"101" AND PackagePath.keyword:*\\\\\*)
+index: wazuh-alerts*
+name: win_diagnosis_scripted_load_remote_diagcab
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

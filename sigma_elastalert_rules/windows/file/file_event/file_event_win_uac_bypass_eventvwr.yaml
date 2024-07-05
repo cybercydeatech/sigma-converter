@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the pattern of a UAC bypass using Windows Event Viewer
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:(*\\Microsoft\\Event\ Viewer\\RecentViews OR *\\Microsoft\\EventV\~1\\RecentViews)
+        AND (NOT (process_path.keyword:(C\:\\Windows\\System32\\* OR C\:\\Windows\\SysWOW64\\*))))
+index: wazuh-alerts*
+name: file_event_win_uac_bypass_eventvwr
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

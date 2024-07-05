@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects an attacker trying to enable the outlook security setting "EnableUnsafeClientMailRules"
+  which allows outlook to run applications or execute macros
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Outlook\\Security\\EnableUnsafeClientMailRules
+        AND Details:"DWORD\ \(0x00000001\)")
+index: wazuh-alerts*
+name: registry_set_office_outlook_enable_unsafe_client_mail_rules
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

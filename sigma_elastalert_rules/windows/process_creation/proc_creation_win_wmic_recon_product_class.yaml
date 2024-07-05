@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the execution of WMIC in order to get a list of firewall and
+  antivirus products
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\wmic.exe OR file_name_original:"wmic.exe")
+        AND process_command_line.keyword:(*AntiVirusProduct* OR *FirewallProduct*))
+index: wazuh-alerts*
+name: proc_creation_win_wmic_recon_product_class
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

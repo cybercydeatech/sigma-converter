@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the execution of "csvde.exe" in order to export organizational
+  Active Directory structure.
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\csvde.exe OR file_name_original:"csvde.exe")
+        AND process_command_line.keyword:*\ \-f*) AND (NOT ((process_command_line.keyword:*\
+        \-i*))))
+index: wazuh-alerts*
+name: proc_creation_win_csvde_export
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

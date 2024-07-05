@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a certain command line flag combination used by mpiexec.exe LOLBIN
+  from HPC pack that can be used to execute any other binary
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\mpiexec.exe OR hash_imphash:"d8b52ef6aaa3a81501bdfff9dbb96217"
+        OR Hashes.keyword:*IMPHASH\=d8b52ef6aaa3a81501bdfff9dbb96217*) AND process_command_line.keyword:(*\
+        \/n\ 1\ * OR *\ \-n\ 1\ *))
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_mpiexec
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

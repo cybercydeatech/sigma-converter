@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a suspicious call to the user32.dll function that locks the user
+  workstation
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\rundll32.exe OR file_name_original:"RUNDLL32.EXE")
+        AND process_parent_path.keyword:*\\cmd.exe AND process_command_line.keyword:*user32.dll,*
+        AND process_command_line.keyword:*LockWorkStation*)
+index: wazuh-alerts*
+name: proc_creation_win_rundll32_user32_dll
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

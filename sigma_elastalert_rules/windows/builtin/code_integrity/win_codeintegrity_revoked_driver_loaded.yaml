@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the load of a revoked kernel driver
+filter:
+- query:
+    query_string:
+      query: event_id:("3021" OR "3022")
+index: wazuh-alerts*
+name: win_codeintegrity_revoked_driver_loaded
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects AWS API key creation for a user by another user.
+  Backdoored users can be used to obtain persistence in the AWS environment.
+  Also with this alert, you can detect a flow of AWS keys in your org.
+filter:
+- query:
+    query_string:
+      query: ((eventSource:"iam.amazonaws.com" AND eventName:"CreateAccessKey") AND
+        (NOT (userIdentity.arn.keyword:*responseElements.accessKey.userName*)))
+index: wazuh-alerts*
+name: aws_iam_backdoor_users_keys
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

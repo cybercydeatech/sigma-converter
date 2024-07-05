@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects execution of Sysinternals tools via an AppX package. Attackers
+  could install the Sysinternals Suite to get access to tools such as psexec and procdump
+  to avoid detection based on System paths
+filter:
+- query:
+    query_string:
+      query: (event_id:"201" AND ImageName:("procdump.exe" OR "psloglist.exe" OR "psexec.exe"
+        OR "livekd.exe" OR "ADExplorer.exe"))
+index: wazuh-alerts*
+name: win_appmodel_runtime_sysinternals_tools_appx_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects common NTLM brute force device names
+filter:
+- query:
+    query_string:
+      query: (event_id:"8004" AND src_host_name:("Rdesktop" OR "Remmina" OR "Freerdp"
+        OR "Windows7" OR "Windows8" OR "Windows2012" OR "Windows2016" OR "Windows2019"))
+index: wazuh-alerts*
+name: win_susp_ntlm_brute_force
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

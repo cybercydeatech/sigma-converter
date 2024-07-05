@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects UAC bypass method using Windows event viewer
+filter:
+- query:
+    query_string:
+      query: registry_key_path.keyword:*\\mscfile\\shell\\open\\command
+index: wazuh-alerts*
+name: registry_set_uac_bypass_eventvwr
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

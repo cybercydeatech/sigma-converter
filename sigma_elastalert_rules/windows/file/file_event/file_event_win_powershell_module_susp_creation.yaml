@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the creation of a new PowerShell module in the first folder of
+  the module directory structure "\WindowsPowerShell\Modules\malware\malware.psm1".
+  This is somewhat an uncommon practice as legitimate modules often includes a version
+  folder.
+filter:
+- query:
+    query_string:
+      query: file_name.keyword:(*\\WindowsPowerShell\\Modules\\*\\.ps OR *\\WindowsPowerShell\\Modules\\*\\.dll)
+index: wazuh-alerts*
+name: file_event_win_powershell_module_susp_creation
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

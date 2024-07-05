@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects attempts to remove Windows Defender configuration using the 'MpPreference'
+  cmdlet
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:*Remove\-MpPreference* AND ScriptBlockText.keyword:(*\-ControlledFolderAccessProtectedFolders\
+        * OR *\-AttackSurfaceReductionRules_Ids\ * OR *\-AttackSurfaceReductionRules_Actions\
+        * OR *\-CheckForSignaturesBeforeRunningScan\ *))
+index: wazuh-alerts*
+name: posh_ps_tamper_windows_defender_rem_mp
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

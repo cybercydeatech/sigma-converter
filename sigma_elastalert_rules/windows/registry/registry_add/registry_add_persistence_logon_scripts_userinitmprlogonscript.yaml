@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects creation of "UserInitMprLogonScript" registry value which can
+  be used as a persistence method by malicious actors
+filter:
+- query:
+    query_string:
+      query: (event_category_type:"CreateKey" AND registry_key_path.keyword:*UserInitMprLogonScript*)
+index: wazuh-alerts*
+name: registry_add_persistence_logon_scripts_userinitmprlogonscript
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

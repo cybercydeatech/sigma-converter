@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the pattern of UAC Bypass using a path parsing issue in winsat.exe
+  (UACMe 52)
+filter:
+- query:
+    query_string:
+      query: (file_name.keyword:C\:\\Users\\* AND file_name.keyword:(*\\AppData\\Local\\Temp\\system32\\winsat.exe
+        OR *\\AppData\\Local\\Temp\\system32\\winmm.dll))
+index: wazuh-alerts*
+name: file_event_win_uac_bypass_winsat
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

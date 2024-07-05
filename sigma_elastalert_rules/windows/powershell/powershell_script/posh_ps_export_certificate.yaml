@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects calls to cmdlets inside of PowerShell scripts that are used to
+  export certificates from the local certificate store. Threat actors were seen abusing
+  this to steal private keys from compromised machines.
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:(*Export\-PfxCertificate* OR *Export\-Certificate*)
+        AND (NOT ((ScriptBlockText.keyword:*CmdletsToExport\ \=\ @\(*))))
+index: wazuh-alerts*
+name: posh_ps_export_certificate
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

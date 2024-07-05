@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Detects the creation of suspicious files and folders inside the user's
+  AppData folder but not inside any of the common and well known directories (Local,
+  Romaing, LocalLow). This method could be used as a method to bypass detection who
+  exclude the AppData folder in fear of FPs
+filter:
+- query:
+    query_string:
+      query: ((file_name.keyword:C\:\\Users\\* AND file_name.keyword:*\\AppData\\*
+        AND file_name.keyword:(*.bat OR *.cmd OR *.cpl OR *.dll OR *.exe OR *.hta
+        OR *.iso OR *.lnk OR *.msi OR *.ps1 OR *.psm1 OR *.scr OR *.vbe OR *.vbs))
+        AND (NOT (file_name.keyword:C\:\\Users\\* AND file_name.keyword:(*\\AppData\\Local\\*
+        OR *\\AppData\\LocalLow\\* OR *\\AppData\\Roaming\\*))))
+index: wazuh-alerts*
+name: file_event_win_new_files_in_uncommon_appdata_folder
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

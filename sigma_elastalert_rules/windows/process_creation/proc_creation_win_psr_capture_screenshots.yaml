@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects execution of Windows Problem Steps Recorder (psr.exe), a utility
+  used to record the user screen and clicks.
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\Psr.exe AND process_command_line.keyword:(*\/start*
+        OR *\-start*))
+index: wazuh-alerts*
+name: proc_creation_win_psr_capture_screenshots
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

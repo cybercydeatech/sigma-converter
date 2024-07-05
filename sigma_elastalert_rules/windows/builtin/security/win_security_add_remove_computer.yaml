@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation or removal of a computer. Can be used to detect
+  attacks such as DCShadow via the creation of a new SPN.
+filter:
+- query:
+    query_string:
+      query: event_id:("4741" OR "4743")
+index: wazuh-alerts*
+name: win_security_add_remove_computer
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

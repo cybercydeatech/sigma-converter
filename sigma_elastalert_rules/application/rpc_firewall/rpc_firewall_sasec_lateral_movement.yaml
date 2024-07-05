@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects remote RPC calls to create or execute a scheduled task via SASec
+filter:
+- query:
+    query_string:
+      query: (EventLog:"RPCFW" AND event_id:"3" AND InterfaceUuid:"378e52b0\-c0a9\-11cf\-822d\-00aa0051e40f"
+        AND OpNum:("0" OR "1"))
+index: wazuh-alerts*
+name: rpc_firewall_sasec_lateral_movement
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects potential evasion or obfuscation attempts using bogus path traversal
+  via the commandline
+filter:
+- query:
+    query_string:
+      query: (((process_path.keyword:*\\Windows\\* AND process_command_line.keyword:(*\\..\\Windows\\*
+        OR *\\..\\System32\\* OR *\\..\\..\\*)) OR process_command_line.keyword:*.exe\\..\\*)
+        AND (NOT ((process_command_line.keyword:*\\Google\\Drive\\googledrivesync.exe\\..\\*)
+        OR (process_command_line.keyword:*\\Citrix\\Virtual\ Smart\ Card\\Citrix.Authentication.VirtualSmartcard.Launcher.exe\\..\\*))))
+index: wazuh-alerts*
+name: proc_creation_win_susp_commandline_path_traversal_evasion
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,22 @@
+alert:
+- debug
+description: |
+  Detects the use of "ioreg" which will show I/O Kit registry information.
+  This process is used for system information discovery.
+  It has been observed in-the-wild by calling this process directly or using bash and grep to look for specific strings.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\/ioreg OR process_command_line.keyword:*ioreg*)
+        AND process_command_line.keyword:(*\-l* OR *\-c*) AND process_command_line.keyword:(*AppleAHCIDiskDriver*
+        OR *IOPlatformExpertDevice* OR *Oracle* OR *Parallels* OR *USB\ Vendor\ Name*
+        OR *VirtualBox* OR *VMware*))
+index: wazuh-alerts*
+name: proc_creation_macos_ioreg_discovery
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

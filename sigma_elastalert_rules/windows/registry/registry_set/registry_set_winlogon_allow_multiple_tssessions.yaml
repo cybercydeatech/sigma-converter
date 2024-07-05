@@ -1,0 +1,20 @@
+alert:
+- debug
+description: |
+  Detects when the 'AllowMultipleTSSessions' value is enabled.
+  Which allows for multiple Remote Desktop connection sessions to be opened at once.
+  This is often used by attacker as a way to connect to an RDP session without disconnecting the other users
+filter:
+- query:
+    query_string:
+      query: (registry_key_path.keyword:*\\Microsoft\\Windows\ NT\\CurrentVersion\\Winlogon\\AllowMultipleTSSessions
+        AND Details.keyword:*DWORD\ \(0x00000001\))
+index: wazuh-alerts*
+name: registry_set_winlogon_allow_multiple_tssessions
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

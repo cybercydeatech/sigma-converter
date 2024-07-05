@@ -1,0 +1,34 @@
+alert:
+- debug
+description: "Detects the excution of a potential recon command where the results
+  are piped to \"findstr\". This is meant to trigger on inline calls of \"cmd.exe\"\
+  \ via the \"/c\" or \"/k\" for example. Attackers often time use this to extract
+  specific information they require in their chain.\n"
+filter:
+- query:
+    query_string:
+      query: process_command_line.keyword:(*ipconfig\ \/all\ |\ find\ * OR *ipconfig\
+        \/all\ |\ findstr\ * OR *ipconfig\ |\ find\ * OR *ipconfig\ |\ findstr\ *
+        OR *ipconfig.exe\ \/all\ |\ find\ * OR *ipconfig.exe\ \/all\ |\ findstr\ *
+        OR *ipconfig.exe\ |\ find\ * OR *ipconfig.exe\ |\ findstr\ * OR *net\ start\
+        |\ find* OR *net\ start\ |\ findstr* OR *net.exe\ start\ |\ find* OR *net.exe\
+        start\ |\ findstr* OR *net1\ start\ |\ find* OR *net1\ start\ |\ findstr*
+        OR *net1.exe\ start\ |\ find* OR *net1.exe\ start\ |\ findstr* OR *netstat\
+        \-ano\ |\ find* OR *netstat\ \-ano\ |\ findstr* OR *netstat\ |\ find* OR *netstat\
+        |\ findstr* OR *netstat.exe\ \-ano\ |\ find* OR *netstat.exe\ \-ano\ |\ findstr*
+        OR *netstat.exe\ |\ find* OR *netstat.exe\ |\ findstr* OR *ping\ |\ find*
+        OR *ping\ |\ findstr* OR *ping.exe\ |\ find* OR *ping.exe\ |\ findstr* OR
+        *systeminfo\ |\ find\ * OR *systeminfo\ |\ findstr\ * OR *systeminfo.exe\
+        |\ find\ * OR *systeminfo.exe\ |\ findstr\ * OR *tasklist\ |\ find\ * OR *tasklist\
+        |\ findstr\ * OR *tasklist.exe\ |\ find\ * OR *tasklist.exe\ |\ findstr\ *
+        OR *whoami\ \/all\ |\ find\ * OR *whoami\ \/all\ |\ findstr\ * OR *whoami.exe\
+        \/all\ |\ find\ * OR *whoami.exe\ \/all\ |\ findstr\ *)
+index: wazuh-alerts*
+name: proc_creation_win_findstr_recon_pipe_output
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

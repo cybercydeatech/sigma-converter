@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects user authentication failure events.
+  Please note that this rule can be noisy and it is recommended to use with correlation based on "author.name" field.
+filter:
+- query:
+    query_string:
+      query: (auditType.category:"Authentication" AND auditType.action:"User\ login\
+        failed")
+index: wazuh-alerts*
+name: bitbucket_audit_user_login_failure_detected
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

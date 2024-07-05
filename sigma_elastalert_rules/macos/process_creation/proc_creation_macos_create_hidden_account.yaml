@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects creation of a hidden user account on macOS (UserID < 500) or
+  with IsHidden option
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\/dscl AND process_command_line.keyword:*create*
+        AND process_command_line.keyword:*UniqueID* AND process_command_line.keyword:/([0-9]|[1-9][0-9]|[1-4][0-9]{2})/)
+        OR (process_path.keyword:*\/dscl AND process_command_line.keyword:*create*
+        AND process_command_line.keyword:*IsHidden* AND process_command_line.keyword:(*true*
+        OR *yes* OR *1*)))
+index: wazuh-alerts*
+name: proc_creation_macos_create_hidden_account
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

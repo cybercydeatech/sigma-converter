@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of the "systeminfo" command to retrieve information
+filter:
+- query:
+    query_string:
+      query: (process_path.keyword:*\\systeminfo.exe OR file_name_original:"sysinfo.exe")
+index: wazuh-alerts*
+name: proc_creation_win_systeminfo_execution
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

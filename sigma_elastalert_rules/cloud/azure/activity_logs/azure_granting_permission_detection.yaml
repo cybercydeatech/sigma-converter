@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Identifies IPs from which users grant access to other users on azure
+  resources and alerts when a previously unseen source IP address is used.
+filter:
+- query:
+    query_string:
+      query: Microsoft.Authorization\/roleAssignments\/write
+index: wazuh-alerts*
+name: azure_granting_permission_detection
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

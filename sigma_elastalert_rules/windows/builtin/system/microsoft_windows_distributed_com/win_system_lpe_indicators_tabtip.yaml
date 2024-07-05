@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the invocation of TabTip via CLSID as seen when JuicyPotatoNG
+  is used on a system in brute force mode
+filter:
+- query:
+    query_string:
+      query: (Provider_Name:"Microsoft\-Windows\-DistributedCOM" AND event_id:"10001"
+        AND param1:"C\:\\Program\ Files\\Common\ Files\\microsoft\ shared\\ink\\TabTip.exe"
+        AND param2:"2147943140" AND param3:"\{054AAE20\-4BEA\-4347\-8A35\-64A533254A9D\}")
+index: wazuh-alerts*
+name: win_system_lpe_indicators_tabtip
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

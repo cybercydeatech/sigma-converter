@@ -1,0 +1,23 @@
+alert:
+- debug
+description: Identifies IPs performing DNS lookups associated with common Tor proxies.
+filter:
+- query:
+    query_string:
+      query: query:("tor2web.org" OR "tor2web.com" OR "torlink.co" OR "onion.to" OR
+        "onion.ink" OR "onion.cab" OR "onion.nu" OR "onion.link" OR "onion.it" OR
+        "onion.city" OR "onion.direct" OR "onion.top" OR "onion.casa" OR "onion.plus"
+        OR "onion.rip" OR "onion.dog" OR "tor2web.fi" OR "tor2web.blutmagie.de" OR
+        "onion.sh" OR "onion.lu" OR "onion.pet" OR "t2w.pw" OR "tor2web.ae.org" OR
+        "tor2web.io" OR "tor2web.xyz" OR "onion.lt" OR "s1.tor\-gateways.de" OR "s2.tor\-gateways.de"
+        OR "s3.tor\-gateways.de" OR "s4.tor\-gateways.de" OR "s5.tor\-gateways.de"
+        OR "hiddenservice.net")
+index: wazuh-alerts*
+name: zeek_dns_torproxy
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects execution of "AdPlus.exe", a binary that is part of the Windows
+  SDK that can be used as a LOLBIN in order to dump process memory and execute arbitrary
+  commands.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\adplus.exe OR file_name_original:"Adplus.exe")
+        AND process_command_line.keyword:(*\ \-hang\ * OR *\ \-pn\ * OR *\ \-pmn\
+        * OR *\ \-p\ * OR *\ \-po\ * OR *\ \-c\ * OR *\ \-sc\ *))
+index: wazuh-alerts*
+name: proc_creation_win_adplus_memory_dump
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

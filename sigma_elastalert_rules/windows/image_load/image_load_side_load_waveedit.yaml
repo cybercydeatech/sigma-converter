@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects potential DLL sideloading of "waveedit.dll", which is part of
+  the Nero WaveEditor audio editing software.
+filter:
+- query:
+    query_string:
+      query: (ImageLoaded.keyword:*\\waveedit.dll AND (NOT ((process_path:("C\:\\Program\
+        Files\ \(x86\)\\Nero\\Nero\ Apps\\Nero\ WaveEditor\\waveedit.exe" OR "C\:\\Program\
+        Files\\Nero\\Nero\ Apps\\Nero\ WaveEditor\\waveedit.exe") AND ImageLoaded.keyword:(C\:\\Program\
+        Files\ \(x86\)\\Nero\\Nero\ Apps\\Nero\ WaveEditor\\* OR C\:\\Program\ Files\\Nero\\Nero\
+        Apps\\Nero\ WaveEditor\\*)))))
+index: wazuh-alerts*
+name: image_load_side_load_waveedit
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

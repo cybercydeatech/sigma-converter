@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Triggers on any Sysmon "FileBlockShredding" event, which indicates a
+  violation of the configured shredding policy.
+filter:
+- query:
+    query_string:
+      query: event_id:"28"
+index: wazuh-alerts*
+name: sysmon_file_block_shredding
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

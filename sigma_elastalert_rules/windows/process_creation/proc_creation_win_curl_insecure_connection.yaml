@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects execution of "curl.exe" with the "--insecure" flag.
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\curl.exe OR file_name_original:"curl.exe")
+        AND (process_command_line.keyword:/\s-k\s/ OR process_command_line.keyword:*\-\-insecure*))
+index: wazuh-alerts*
+name: proc_creation_win_curl_insecure_connection
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

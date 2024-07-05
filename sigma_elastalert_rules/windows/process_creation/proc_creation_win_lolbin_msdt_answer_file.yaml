@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects execution of "msdt.exe" using an answer file which is simulating
+  the legitimate way of calling msdt via "pcwrun.exe" (For example from the compatibility
+  tab)
+filter:
+- query:
+    query_string:
+      query: ((process_path.keyword:*\\msdt.exe AND process_command_line.keyword:*\\WINDOWS\\diagnostics\\index\\PCWDiagnostic.xml*
+        AND process_command_line.keyword:(*\ \-af\ * OR *\ \/af\ *)) AND (NOT (process_parent_path.keyword:*\\pcwrun.exe)))
+index: wazuh-alerts*
+name: proc_creation_win_lolbin_msdt_answer_file
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

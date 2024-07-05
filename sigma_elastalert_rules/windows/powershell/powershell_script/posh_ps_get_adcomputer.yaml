@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects usage of the "Get-AdComputer" to enumerate Computers or properties
+  within Active Directory.
+filter:
+- query:
+    query_string:
+      query: (ScriptBlockText.keyword:*Get\-AdComputer\ * AND ScriptBlockText.keyword:(*\-Filter\
+        * OR *\-LDAPFilter\ * OR *\-Properties\ *))
+index: wazuh-alerts*
+name: posh_ps_get_adcomputer
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

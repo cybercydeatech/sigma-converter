@@ -1,0 +1,19 @@
+alert:
+- debug
+description: |
+  Detects loading of kernel modules with insmod command.
+  Loadable Kernel Modules (LKMs) are pieces of code that can be loaded and unloaded into the kernel upon demand.
+  Adversaries may use LKMs to obtain persistence within the system or elevate the privileges.
+filter:
+- query:
+    query_string:
+      query: (type:"SYSCALL" AND comm:"insmod" AND exe:"\/usr\/bin\/kmod")
+index: wazuh-alerts*
+name: lnx_auditd_load_module_insmod
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

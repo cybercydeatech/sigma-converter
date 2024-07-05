@@ -1,0 +1,19 @@
+alert:
+- debug
+description: "Detects suspicious child processes of Excel which could be an indicator
+  of lateral movement leveraging the \"ActivateMicrosoftApp\" Excel DCOM object.\n"
+filter:
+- query:
+    query_string:
+      query: (process_parent_path.keyword:*\\excel.exe AND (file_name_original:("foxprow.exe"
+        OR "schdplus.exe" OR "winproj.exe") OR process_path.keyword:(*\\foxprow.exe
+        OR *\\schdplus.exe OR *\\winproj.exe)))
+index: wazuh-alerts*
+name: proc_creation_win_office_excel_dcom_lateral_movement
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

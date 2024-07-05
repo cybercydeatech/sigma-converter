@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects embedding of files with usage of steghide binary, the adversaries
+  may use this technique to prevent the detection of hidden information.
+filter:
+- query:
+    query_string:
+      query: (type:"EXECVE" AND a0:"steghide" AND a1:"embed" AND a2:("\-cf" OR "\-ef")
+        AND a4:("\-cf" OR "\-ef"))
+index: wazuh-alerts*
+name: lnx_auditd_steghide_embed_steganography
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'

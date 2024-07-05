@@ -1,0 +1,18 @@
+alert:
+- debug
+description: |
+  Detects a potentially suspicious empty user agent strings in proxy log.
+  Could potentially indicate an uncommon request method.
+filter:
+- query:
+    query_string:
+      query: c-useragent:""
+index: wazuh-alerts*
+name: proxy_ua_empty
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+is_enabled: false
+timestamp_type: '@timestamp'
