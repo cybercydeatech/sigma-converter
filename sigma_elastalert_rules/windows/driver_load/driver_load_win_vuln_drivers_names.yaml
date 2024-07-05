@@ -79,3 +79,4 @@ realert:
 type: any
 
 is_enabled: false
+timestamp_type: '@timestamp'
