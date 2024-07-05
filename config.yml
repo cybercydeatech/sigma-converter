@@ -1,0 +1,6 @@
+SIGMA_REPO_URL: 'https://github.com/SigmaHQ/sigma.git'
+SIGMA_REPO_DIR: 'sigma_repo'
+ELASTALERT_RULES_DIR: 'sigma_elastalert_rules'
+MODIFIED_RULES_DIR: 'modified_rules'
+ENABLE_ELASTALERT_CONVERSION: true  # or false
+UPDATE_INTERVAL_HOURS: 24
