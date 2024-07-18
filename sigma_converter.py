@@ -103,7 +103,16 @@ def modify_elastalert_rules(elastalert_rules_dir, modified_rules_dir):
                 
                 if 'is_enabled' not in data:
                     data['is_enabled'] = False
-                data['timestamp_type'] = '@timestamp'
+                else:
+                    data['is_enabled'] = True   
+                if 'timestamp_field' not in data:
+                    data['timestamp_field'] = "@timestamp"
+                else:
+                    data['timestamp_field'] = "@timestamp" 
+                if 'timestamp_type' not in data:
+                    data['timestamp_type'] = "iso"
+                else:
+                    data['timestamp_type'] = "iso"        
                 modified_rule_path = os.path.join(root, f"{rule_name}.yaml")
                 try:
                     with open(modified_rule_path, 'w') as f:
