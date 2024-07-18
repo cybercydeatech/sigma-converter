@@ -75,5 +75,6 @@ realert:
   minutes: 0
 type: any
 
-is_enabled: false
-timestamp_type: '@timestamp'
+is_enabled: true
+timestamp_type: iso
+timestamp_field: '@timestamp'
